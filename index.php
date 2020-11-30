@@ -6,11 +6,11 @@ use GuzzleHttp\Client;
 
 require_once realpath("vendor/autoload.php");
 
-$db = new Database();
+// $db = new Database();
 $index = new Template(realpath("templates/index.php"));
 
-$index->set('title', 'wordQuizzer');
-$index->set('heading', 'Welcome to wordQuizzer!');
+$index->set('title', 'wordRiddler');
+$index->set('heading', 'Welcome to wordRiddler!');
 
 echo $index->output();
  
