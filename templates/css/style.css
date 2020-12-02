@@ -173,7 +173,12 @@ footer p {
     max-width: 100%;
     transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
     position: relative;
+    cursor: pointer;
     /* overflow: hidden; */
+}
+
+.btn-invert {
+    background-color: var(--color-ghost-white);
 }
 
 .btn::before {
@@ -203,6 +208,10 @@ footer p {
 .side-btn {
     color: var(--color-ghost-white);
     position: relative;
+}
+
+.btn-invert span {
+    color: var(--color-smoky-black);
 }
 
 /* Frontpage logo animation */
@@ -356,6 +365,7 @@ footer p {
 }
 
 #front-page-main-content-wrapper {
+    transform: scale(1);
     max-height: 10000px;
     transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
 }
@@ -401,4 +411,173 @@ footer p {
     right: 0;
     height: 100%;
     width: 100%;
+}
+
+#options-wrapper {
+    position: absolute;
+    z-index: 100;
+    top: 72px;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: calc(100% - 72px - 68px);
+    width: 100%;
+    /* padding: 2rem; */
+    background-color: var(--color-ghost-white);
+    max-height: 10000px;
+    transition: all .5s cubic-bezier(.175,.885,.32,1.275);
+}
+
+#options-wrapper.hidden-options {
+    overflow: hidden;
+    padding: 0 !important;
+    max-height: 0;
+    transition: all .5s cubic-bezier(.175,.885,.32,1.275);
+}
+
+.shrink {
+    transform: scale(0) !important;
+    transition: all .5s cubic-bezier(.175,.885,.32,1.275) !important;
+}
+
+/* #register-wrapper {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+} */
+
+#register-wrapper {
+    max-height: 10000px;
+    height: calc(100% - 72px - 68px);
+    transition: all 0.5s ease-out;
+}
+
+#register-wrapper.hidden-options {
+    overflow: hidden;
+    padding: 0 !important;
+    max-height: 0;
+    transition: all 0.5s ease-out;
+}
+
+#main-section-wrapper {
+    max-height: 10000px;
+    overflow: hidden;
+    transition: all 0.5s ease-out;
+}
+
+#main-section-wrapper.hidden-options {
+    padding: 0 !important;
+    max-height: 0;
+    transition: all 0.5s ease-out;
+}
+
+#front-page-footer {
+    /* display: none; */
+    position: absolute;
+    top: calc(100% - 68px);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+}
+
+#register-wrapper .form-header {
+    font-family: 'chiller', Arial, Helvetica, sans-serif !important;
+    color: var(--color-ghost-white);
+    text-align: center;
+    /* font-size: 2rem; */
+}
+
+input {
+    appearance: none;
+    outline: none;
+    margin: 0;
+    border: none;
+    width: 100%;
+    padding: 0.5rem 2.5rem;
+    background-color: var(--color-ghost-white);
+    color: var(--color-smoky-black);
+    height: 2.5rem;
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 1rem;
+    line-height: 1em;
+    transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
+}
+
+input:active,
+input:focus,
+input:hover {
+    background-color: var(--color-black-coral);
+    color: var(--color-ghost-white);
+    transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
+}
+
+.input-wrapper {
+    position: relative;
+}
+
+.icon-left {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 2.5rem;
+    width: 2.5rem;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-smoky-black);
+    transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
+}
+
+input:active + .icon-left,
+input:focus + .icon-left,
+input:hover + .icon-left {
+    color: var(--color-ghost-white);
+}
+
+.icon-validation {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 2.5rem;
+    width: 2.5rem;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-smoky-black);
+    transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
+}
+
+input:active + .icon-validation,
+input:focus + .icon-validation,
+input:hover + .icon-validation {
+    color: var(--color-ghost-white);
+}
+
+.icon-valid {
+    color: green;
+}
+
+.icon-invalid {
+    color: red;
+}
+
+input[type="text"] {
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+}
+
+input[name="confirm-password"] {
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+}
+
+button {
+    border: none;
 }

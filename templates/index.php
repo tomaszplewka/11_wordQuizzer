@@ -9,28 +9,21 @@
     <link rel="stylesheet" href="templates/css/style.css">
     <title>[@title]</title>
 </head>
-<body>
+<body class="is-relative">
     <nav class="" role="navigation" aria-label="main navigation">
         <div class="background-ghost-white has-text-white is-relative" id="navbar">
             <div class="columns is-mobile m-0 has-text-centered is-vcentered is-multiline">
                 <div class="column is-10-mobile is-10" id="navbar-logo">
-                    <!-- <span class="icon">
-                        <i class="fas fa-map-marker-alt is-clickable"></i>
-                    </span>
-                    <span class="icon hide">
-                        <i class="fas fa-arrow-left is-clickable"></i>
-                    </span> -->
                     <span class="logo is-flex is-justify-content-flex-start is-align-items-center">
                         <img src="imgs/wordRiddler_logo_shadow_x3.png" alt="" class="logo-img mr-1">
                         <span class="logo-text text-smoky-black">WordRiddler</span>
                     </span>
                 </div>
-                <!-- <div class="column is-8-mobile is-8 has-text-centered" id="city"></div> -->
-                <div class="column is-2-mobile is-2 is-flex" id="menu-plus-icon">
-                    <span class="icon">
+                <div class="column is-2-mobile is-2 is-flex">
+                    <span class="icon" id="burger">
                         <i class="fas fa-bars fa-2x is-clickable text-smoky-black"></i>
                     </span>
-                    <span class="icon hide">
+                    <span class="icon hide" id="times">
                         <i class="fas fa-times fa-2x is-clickable text-smoky-black"></i>
                     </span>
                 </div>
@@ -38,7 +31,7 @@
         </div>
     </nav>
 
-    <section class="section background-space-cadet-gradient is-flex is-flex-direction-column is-justify-content-center py-2">
+    <section class="section background-space-cadet-gradient is-flex is-flex-direction-column is-justify-content-center py-2 is-relative" id="main-section-wrapper">
         <!-- <h1 class="text-ghost-white">[@heading]</h1>
     
         <i class="fas fa-database text-ghost-white"></i>
@@ -89,8 +82,89 @@
             </div>
         </div>
 
+        
     </section>
-    <footer class="background-ghost-white is-vcentered">
+    
+    <div class="background-smoky-black is-flex is-flex-direction-column is-justify-content-center p-5 hidden-options" id="register-wrapper">
+        <h2 class="is-size-1 form-header">SIGN UP</h2>
+        <form action="">
+            <div class="input-wrapper">
+                <input type="text" name="nickname" placeholder="Name*">
+                <span class="icon-left">
+                    <i class="fas fa-user"></i>
+                </span>
+                <span class="icon-validation">
+                    <i class="fas fa-check icon-valid hide"></i>
+                    <i class="fas fa-times icon-invalid hide"></i>
+                </span>
+            </div>
+            <div class="input-wrapper">
+                <input type="email" name="email" placeholder="Email*">
+                <span class="icon-left">
+                    <i class="fas fa-at"></i>
+                </span>
+                <span class="icon-validation">
+                    <i class="fas fa-check icon-valid hide"></i>
+                    <i class="fas fa-times icon-invalid hide"></i>
+                </span>
+            </div>
+            <div class="input-wrapper">
+                <input type="password" name="password" placeholder="Password*">
+                <span class="icon-left">
+                    <i class="fas fa-key"></i>
+                </span>
+                <span class="icon-validation">
+                    <i class="fas fa-check icon-valid hide"></i>
+                    <i class="fas fa-times icon-invalid hide"></i>
+                </span>
+            </div>
+            <div class="input-wrapper">
+                <input type="password" name="confirm-password" placeholder="Confirm Password*">
+                <span class="icon-left">
+                    <i class="fas fa-key"></i>
+                </span>
+                <span class="icon-validation">
+                    <i class="fas fa-check icon-valid hide"></i>
+                    <i class="fas fa-times icon-invalid hide"></i>
+                </span>
+            </div>
+            <div class="submit-btn-wrapper mt-4">
+                <button type="submit" name="register-submit" class="btn btn-invert">
+                    <span>
+                        submit
+                    </span>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <section class="section background-ghost-white is-flex is-flex-direction-column is-justify-content-center p-5 hidden-options" id="options-wrapper">
+        <ul>
+            <li>
+                <a id="options-settings-btn" class="btn">
+                    <span>
+                        settings
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a id="options-rate-us-btn" class="btn">
+                    <span>
+                        rate us
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a id="options-donate-btn" class="btn">
+                    <span>
+                        donate
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </section>
+
+    <footer id="front-page-footer" class="background-ghost-white is-vcentered">
         <div class="content has-text-centered py-4 px-3">
             <p>
                 &copy; 2020 Tomoko. All rights reserved.
