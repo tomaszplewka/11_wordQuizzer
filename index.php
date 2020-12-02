@@ -1,10 +1,20 @@
 <?php
-
+// Start session
+session_start();
+// Load config
+// require_once("config/config.php");
+// Load helper functions
+// require_once("helpers/system_helper.php");
+// require_once("helpers/format_helper.php");
+// require_once("helpers/db_helper.php");
+// Use namespaces
 use WordQuizzer\Database;
 use WordQuizzer\Template;
 use GuzzleHttp\Client;
+// Load dependencies
+require_once(realpath("vendor/autoload.php"));
 
-require_once realpath("vendor/autoload.php");
+
 
 // $db = new Database();
 $index = new Template(realpath("templates/index.php"));

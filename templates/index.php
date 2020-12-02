@@ -38,16 +38,16 @@
         </div>
     </nav>
 
-    <section class="background-space-cadet-gradient is-flex is-flex-direction-column is-justify-content-center">
+    <section class="section background-space-cadet-gradient is-flex is-flex-direction-column is-justify-content-center py-2">
         <!-- <h1 class="text-ghost-white">[@heading]</h1>
     
         <i class="fas fa-database text-ghost-white"></i>
         <i class="fas fa-plus-circle text-ghost-white"></i> -->
 
 
-        <div class="columns is-mobile m-0 has-text-centered is-vcentered is-multiline">
-            <div class="column is-12-mobile is-12">
-                <div class="perspective-box-far">
+        <div class="columns is-mobile m-0 has-text-centered is-vcentered is-multiline" id="front-page-main-content-wrapper">
+            <div class="column is-12-mobile is-12 pt-0 mb-5">
+                <div class="perspective-box-far" id="front-page-logo">
                     <div class="face front">
                         <img src="imgs/wordRiddler_logo_shadow_x3.png" alt="">
                     </div>
@@ -59,16 +59,44 @@
                     </div>
                 </div>
             </div>
-            <div class="column is-12-mobile is-12 my-5">
-                <a>
-                    <span>
-                        start
-                    </span>
-                </a>
+            <div class="column is-12-mobile is-12 mt-5 px-0 pb-5 is-relative buttons-wrapper">
+                <div class="button-wrapper-primary">
+                    <a id="front-page-start-btn" class="btn">
+                        <span>
+                            start
+                        </span>
+                    </a>
+                </div>
+                <div class="hide button-wrapper-secondary">
+                    <a id="front-page-demo-btn" class="btn hidden">
+                        <span>
+                            demo
+                        </span>
+                    </a>
+                    <a id="front-page-login-btn" class="btn hidden mb-0">
+                        <span>
+                            log in
+                        </span>
+                    </a>
+                    <div class="is-flex is-justify-content-end hidden">
+                        <a id="front-page-register-btn" class="side-btn">
+                            <span>
+                                register
+                            </span>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
 
     </section>
-
+    <footer class="background-ghost-white is-vcentered">
+        <div class="content has-text-centered py-4 px-3">
+            <p>
+                &copy; 2020 Tomoko. All rights reserved.
+            </p>
+        </div>
+    </footer>
+    <script src="templates/js/app.js"></script>
 </body>
 </html>

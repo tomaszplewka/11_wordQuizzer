@@ -29,10 +29,16 @@ html {
 
 body {
     height: 100%;
+    overflow: hidden;
 }
 
 section {
-    height: 100%;
+    height: calc(100% - 72px - 68px);
+}
+
+footer p {
+    font-family: 'chiller', Arial, Helvetica, sans-serif !important;
+    font-size: 1.5rem;
 }
 
 /* .logo {
@@ -143,7 +149,16 @@ section {
 }
 
 /* Buttons */
-a {
+.side-btn {
+    text-decoration: none;
+    font-size: 1.25rem;
+    font-family: 'chiller', Arial, Helvetica, sans-serif !important;
+    text-transform: uppercase;
+    transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
+    position: relative;
+}
+
+.btn {
     text-decoration: none;
     font-size: 2rem;
     display: inline-flex;
@@ -154,12 +169,14 @@ a {
     margin-bottom: 0.5rem;
     font-family: 'chiller', Arial, Helvetica, sans-serif !important;
     text-transform: uppercase;
-    width: 75%;
+    width: 100%;
+    max-width: 100%;
     transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
     position: relative;
+    /* overflow: hidden; */
 }
 
-a::before {
+.btn::before {
     content: "";
     position: absolute;
     top: 0;
@@ -171,7 +188,9 @@ a::before {
     transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
 }
 
-a:hover::before {
+.btn:active::before,
+.btn:focus::before,
+.btn:hover::before {
     transform: scaleX(1);
     transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
 }
@@ -180,26 +199,28 @@ a:hover::before {
     color: var(--color-ghost-white);
 } */
 
-a span {
+.btn span,
+.side-btn {
     color: var(--color-ghost-white);
     position: relative;
 }
 
 /* Frontpage logo animation */
 .face {
-  position: absolute;
-  width: 100px;
-  height: 100px;
-  line-height: 100px;
-  font-size: 100px;
-  text-align: center;
+    position: absolute;
+    width: 125px;
+    height: 125px;
+    line-height: 125px;
+    font-size: 125px;
+    text-align: center;
 }
 
 .perspective-box-far {
-    width: 100px;
-    height: 100px;
+    width: 125px;
+    height: 125px;
     transform-style: preserve-3d;
-    margin-left: 100px;
+    margin: auto;
+    transition: all 0.3s ease-in;
     transform: perspective(10cm) rotateX(-30deg) rotateY(45deg);
     animation: floating 1.5s alternate backwards infinite ease-in-out;
 }
@@ -207,21 +228,21 @@ a span {
 .top {
     background-color: var(--color-corn);
     border: 1px solid black;
-    transform: rotateX(90deg) translate3d(0, 0, 50px);
+    transform: rotateX(90deg) translate3d(0, 0, 62.5px);
     animation: floating-top 1.5s alternate backwards infinite ease-in-out;
 }
 
 .left {
     background-color: var(--color-corn);
     border: 1px solid black;
-    transform: rotateY(-90deg) translate3d(0, 0, 50px);
+    transform: rotateY(-90deg) translate3d(0, 0, 62.5px);
     animation: floating-left 1.5s alternate backwards infinite ease-in-out;
 }
 
 .front {
     background-color: var(--color-corn);
     border: 1px solid black;
-    transform: translate3d(0, 0, 50px);
+    transform: translate3d(0, 0, 62.5px);
     animation: floating-front 1.5s alternate backwards infinite ease-in-out;
 }
 
@@ -235,25 +256,149 @@ a span {
 }
 @keyframes floating-top {
     0%   {
-        transform: rotateX(90deg) translate3d(0, 0, 50px);
+        transform: rotateX(90deg) translate3d(0, 0, 62.5px);
     }
     100% {
-        transform: rotateX(90deg) translate3d(0, 0, 55px);
+        transform: rotateX(90deg) translate3d(0, 0, 67.5px);
     }
 }
 @keyframes floating-left {
     0%   {
-        transform: rotateY(-90deg) translate3d(0, 0, 50px);
+        transform: rotateY(-90deg) translate3d(0, 0, 62.5px);
     }
     100% {
-        transform: rotateY(-90deg) translate3d(-5px, 5px, 55px);
+        transform: rotateY(-90deg) translate3d(-5px, 5px, 67.5px);
     }
 }
 @keyframes floating-front {
     0%   {
-        transform: translate3d(0, 0, 50px);
+        transform: translate3d(0, 0, 62.5px);
     }
     100% {
-        transform: translate3d(5px, 5px, 55px);
+        transform: translate3d(5px, 5px, 67.5px);
     }
+}
+
+.loader-wrapper {
+    animation: loader 1.5s forwards ease-in-out;
+}
+
+.loader-face-front {
+    animation: loader-front 1.5s forwards ease-in-out;
+}
+
+.loader-face-top {
+    animation: loader-top 1.5s forwards ease-in-out;
+}
+
+.loader-face-left {
+    animation: loader-left 1.5s forwards ease-in-out;
+}
+
+@keyframes loader {
+    0%   {
+        transform: perspective(10cm) rotateX(-30deg) rotateY(45deg);
+    }
+    100% {
+        transform: perspective(0) rotateX(0) rotateY(0) translateY(0);
+    }
+}
+@keyframes loader-top {
+    0%   {
+        transform: rotateX(90deg) translate3d(0, 0, 62.5px);
+    }
+    100% {
+        transform: rotateX(0) translate3d(0, 0, 0);
+    }
+}
+@keyframes loader-left {
+    0%   {
+        transform: rotateY(-90deg) translate3d(0, 0, 62.5px);
+    }
+    100% {
+        transform: rotateY(0) translate3d(0, 0, 0);
+    }
+}
+@keyframes loader-front {
+    0%   {
+        transform: translate3d(0, 0, 62.5px);
+    }
+    100% {
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.strip-background-border {
+    background: none;
+    border: none;
+    transition: all 0.1s cubic-bezier(.175,.885,.32,1.275);
+}
+
+.start-loader {
+    animation: loader-start 1.5s alternate backwards infinite cubic-bezier(.175,.885,.32,1.275);
+}
+
+@keyframes loader-start {
+    0%   {
+        transform: rotate3d(0, 0, 0, 0);
+    }
+    100% {
+        transform: rotate3d(1, 0, 0, 360deg);
+    }
+}
+
+.button-dissapear {
+    overflow: hidden;
+    padding-left: 0;
+    padding-right: 0;
+    max-width: 0;
+    transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
+}
+
+#front-page-main-content-wrapper {
+    max-height: 10000px;
+    transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
+}
+
+.roll-up {
+    max-height: 0px;
+    transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
+}
+
+.logo-disappear {
+    animation: none;
+    transform: scale(0);
+    transition: all 0.3s ease-in;
+}
+
+.logo-enlarge {
+    transform: scale(1.75);
+    transition: all 0.5s cubic-bezier(.87,2.5,.81,.35);
+}
+
+.hidden {
+    overflow: hidden;
+    padding-left: 0;
+    padding-right: 0;
+    max-width: 0;
+    transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
+}
+
+.buttons-wrapper {
+    height: 100%;
+    max-height: 175px;
+}
+
+.button-wrapper-primary {
+    height: 100%;
+}
+
+.button-wrapper-secondary {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
 }
