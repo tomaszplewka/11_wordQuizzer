@@ -1,36 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-    <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-    <link rel="stylesheet" href="templates/css/style.css">
-    <title>[@title]</title>
-</head>
-<body class="is-relative">
-    <!-- Navbar -->
-    <nav class="" role="navigation" aria-label="main navigation">
-        <div class="background-ghost-white has-text-white is-relative" id="navbar">
-            <div class="columns is-mobile m-0 has-text-centered is-vcentered is-multiline">
-                <div class="column is-10-mobile is-10" id="navbar-logo">
-                    <span class="logo is-flex is-justify-content-flex-start is-align-items-center">
-                        <img src="imgs/wordRiddler_logo_shadow_x3.png" alt="" class="logo-img mr-1">
-                        <span class="logo-text text-smoky-black">WordRiddler</span>
-                    </span>
-                </div>
-                <div class="column is-2-mobile is-2 is-flex is-justify-content-end">
-                    <span class="icon" id="burger">
-                        <i class="fas fa-bars fa-2x is-clickable text-smoky-black"></i>
-                    </span>
-                    <span class="icon hide" id="times">
-                        <i class="fas fa-times fa-2x is-clickable text-smoky-black"></i>
-                    </span>
-                </div>
-            </div>
-        </div>
-    </nav>
+<?php include('templates/includes/header.php'); ?>
     <!-- Main screen -->
     <section class="section background-space-cadet-gradient is-flex is-flex-direction-column is-justify-content-center py-2 is-relative" id="main-section-wrapper">
         <div class="columns is-mobile m-0 has-text-centered is-vcentered is-multiline" id="front-page-main-content-wrapper">
@@ -87,23 +55,23 @@
             </a>
         </div>
         <h2 class="is-size-1 form-header">SIGN UP</h2>
-        <form action="">
+        <form action="index.php" method="POST" id="register-form">
             <div class="input-wrapper">
-                <input type="text" name="username" placeholder="Username*">
+                <input type="text" name="username" placeholder="e.g. tomoko666*">
                 <span class="icon-left">
                     <i class="fas fa-user"></i>
                 </span>
-                <span class="icon-validation">
+                <span class="icon-validation" id="username-validation">
                     <i class="fas fa-check icon-valid hide"></i>
                     <i class="fas fa-times icon-invalid hide"></i>
                 </span>
             </div>
             <div class="input-wrapper">
-                <input type="email" name="email" placeholder="Email*">
+                <input type="email" name="email" placeholder="e.g. tomoko666@gmail.com*">
                 <span class="icon-left">
                     <i class="fas fa-at"></i>
                 </span>
-                <span class="icon-validation">
+                <span class="icon-validation" id="email-validation">
                     <i class="fas fa-check icon-valid hide"></i>
                     <i class="fas fa-times icon-invalid hide"></i>
                 </span>
@@ -113,7 +81,7 @@
                 <span class="icon-left">
                     <i class="fas fa-key"></i>
                 </span>
-                <span class="icon-validation">
+                <span class="icon-validation" id="password-validation">
                     <i class="fas fa-check icon-valid hide"></i>
                     <i class="fas fa-times icon-invalid hide"></i>
                 </span>
@@ -123,11 +91,13 @@
                 <span class="icon-left">
                     <i class="fas fa-key"></i>
                 </span>
-                <span class="icon-validation">
+                <span class="icon-validation" id="confirm-password-validation">
                     <i class="fas fa-check icon-valid hide"></i>
                     <i class="fas fa-times icon-invalid hide"></i>
                 </span>
             </div>
+            <p role="alert" class="status-failure" hidden>Connection failure, please try again.</p>
+            <p role="alert" class="status-busy" hidden>Busy sending data, please wait.</p>
             <div class="submit-btn-wrapper mt-4">
                 <button type="submit" name="register-submit" class="btn btn-invert">
                     <span>
@@ -203,15 +173,4 @@
             </li>
         </ul>
     </section>
-    <!-- Footer -->
-    <footer id="front-page-footer" class="background-ghost-white is-vcentered">
-        <div class="content has-text-centered py-4 px-3">
-            <p>
-                &copy; 2020 Tomoko. All rights reserved.
-            </p>
-        </div>
-    </footer>
-    <!-- Scripts -->
-    <script src="templates/js/app.js"></script>
-</body>
-</html>
+<?php include('templates/includes/footer.php'); ?>

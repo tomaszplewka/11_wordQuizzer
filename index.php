@@ -2,7 +2,7 @@
 // Start session
 session_start();
 // Load config
-// require_once("config/config.php");
+require_once("config/config.php");
 // Load helper functions
 // require_once("helpers/system_helper.php");
 // require_once("helpers/format_helper.php");
@@ -14,13 +14,16 @@ use GuzzleHttp\Client;
 // Load dependencies
 require_once(realpath("vendor/autoload.php"));
 
-
+// 
+if (isset($_POST['register-submit'])) {
+    echo 'register buttn clicked';
+}
 
 // $db = new Database();
 $index = new Template(realpath("templates/index.php"));
 
-$index->set('title', 'wordRiddler');
-$index->set('heading', 'Welcome to wordRiddler!');
+// $index->title = 'wordRiddler';
+// $index->heading = 'Welcome to wordRiddler!';
 
 echo $index->output();
  

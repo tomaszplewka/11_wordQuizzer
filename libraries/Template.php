@@ -12,9 +12,14 @@ class Template {
         $this->file = $file;
     }
 
-    public function set($key, $value)
+    public function __set($key, $value)
     {
         $this->vars[$key] = $value;
+    }
+
+    public function __get($key)
+    {
+        $this->vars[$key];
     }
 
     public function output()
@@ -22,25 +27,22 @@ class Template {
         if (!file_exists($this->file)) {
             return "Error: $this->file template does not exist";
         }
-        $output = file_get_contents($this->file);
-        foreach ($this->vars as $key => $value) {
-            $toReplace = "[@$key]";
-            $output = str_replace($toReplace, $value, $output);
-        }
+        //Extracts vars to current view scope
+        extract($this->vars);
+        //Starts output buffering
+        ob_start();
+        //Includes contents
+        include($this->file);
+        $buffer = ob_get_contents();
+        @ob_end_clean();
+        // $output = file_get_contents($this->file);
+        // foreach ($this->vars as $key => $value) {
+        //     $toReplace = "[@$key]";
+        //     $output = str_replace($toReplace, $value, $output);
+        // }
 
-        return $output;
-    }
-
-    static public function merge($templates, $separator = "n")
-    {
-        $output = '';
-
-        foreach ($templates as $template) {
-            $content = (get_class($template) !== "Template") ? "Error: incorect type (expected Template)" : $template->output();
-            $content .= $content . $separator;
-        }
-
-        return $output;
+        // return $output;
+        return $buffer;
     }
 
 }

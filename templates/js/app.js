@@ -96,3 +96,129 @@ loginBackBtn.addEventListener('click', () => {
         mainSectionWrapper.firstElementChild.classList.remove('shrink');
     }, 600);
 });
+// 
+const registerForm = document.querySelector('#register-form');
+const usernamePattern = /^\w{1,15}$/;
+const emailPattern = /^([a-zA-Z]{1}[\w\.]{0,20})@([a-zA-Z]{2,15})\.([a-zA-Z]{2,5})(\.[a-zA-Z]{2,5})?$/;
+const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?!.*[\s])(?=.{8,15})/;
+const usernameValidationIcons = document.querySelector('#username-validation');
+const emailValidationIcons = document.querySelector('#email-validation');
+const passwordValidationIcons = document.querySelector('#password-validation');
+const confirmPasswordValidationIcons = document.querySelector('#confirm-password-validation');
+// 
+// client-side form validation
+// Check Username
+registerForm.username.addEventListener('keyup', () => {
+	if (usernamePattern.test(registerForm.username.value)) {
+        if (!usernameValidationIcons.lastElementChild.classList.contains('hide')) {
+            usernameValidationIcons.lastElementChild.classList.add('hide');
+            registerForm.username.classList.remove('input-invalid');
+            registerForm.username.classList.add('input-valid');
+        }
+        usernameValidationIcons.firstElementChild.classList.remove('hide');
+        registerForm.username.classList.add('input-valid');
+		//
+	} else {
+        if (!usernameValidationIcons.firstElementChild.classList.contains('hide')) {
+            usernameValidationIcons.firstElementChild.classList.add('hide');
+            registerForm.username.classList.remove('input-valid');
+            registerForm.username.classList.add('input-invalid');
+        }
+        usernameValidationIcons.lastElementChild.classList.remove('hide');
+        registerForm.username.classList.add('input-invalid');
+		//
+	}
+	//
+	// if (
+	// 	username.classList.contains('valid') &&
+	// 	email.classList.contains('valid') &&
+	// 	password.classList.contains('valid')
+	// ) {
+	// 	//
+	// 	loginAddCreateBtn.disabled = false;
+	// 	//
+	// } else {
+	// 	//
+	// 	loginAddCreateBtn.disabled = true;
+	// 	//
+	// }
+	//
+});
+// submit register form
+registerForm.addEventListener('submit', e => {
+    
+    // get status message references
+    const statusBusy = registerForm.querySelector('.status-busy');
+    const statusFailure = registerForm.querySelector('.status-failure');
+
+    
+
+   
+    // Store reference to form to make later code easier to read
+    // const form = e.target;
+
+    // Post data using the Fetch API
+    fetch(registerForm.action, {
+            method: registerForm.method,
+            body: new FormData(registerForm)
+        })
+        // We turn the response into text as we expect HTML
+        .then(res => res.text())
+        .then(doc => {
+            console.log(doc);
+        });
+        // Let's turn it into an HTML document
+        // .then(text => new DOMParser().parseFromString(text, 'text/html'))
+
+        // // Now we have a document to work with let's replace the <form>
+        // .then(doc => {
+        //     console.log(doc);
+        //     // Create result message container and copy HTML from doc
+        //     const result = document.createElement('div');
+        //     result.innerHTML = doc.body.innerHTML;
+        //     console.log(result);
+
+        //     // // Allow focussing this element with JavaScript
+        //     // result.tabIndex = -1;
+
+        //     // // And replace the form with the response children
+        //     // form.parentNode.replaceChild(result, form);
+
+        //     // // Move focus to the status message
+        //     // result.focus();
+
+        // })
+        // .catch(err => {
+
+        //     // Unlock form elements
+        //     Array.from(form.elements).forEach(field => field.disabled = false);
+
+        //     // Return focus to active element
+        //     lastActive.focus();
+
+        //     // Hide the busy state
+        //     statusBusy.hidden = false;
+
+        //     // Show error message
+        //     statusFailure.hidden = false;
+
+        // });
+
+    // // Before we disable all the fields, remember the last active field
+    // const lastActive = document.activeElement;
+
+    // // Show busy state and move focus to it
+    // statusBusy.hidden = false;
+    // statusBusy.tabIndex = -1;
+    // statusBusy.focus();
+
+    // // Disable all form elements to prevent further input
+    // Array.from(form.elements).forEach(field => field.disabled = true);
+
+    // // Make sure connection failure message is hidden
+    // statusFailure.hidden = true;
+
+    // Prevent the default form submit
+    e.preventDefault();
+
+});
