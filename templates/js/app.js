@@ -63,3 +63,36 @@ registerBtn.addEventListener('click', () => {
         registerWrapper.classList.toggle('hidden-options');
     }, 600);
 });
+// 
+const registerBackBtn = document.querySelector('#register-back-btn');
+// 
+registerBackBtn.addEventListener('click', () => {
+    mainSectionWrapper.classList.toggle('hidden-options');
+    registerWrapper.classList.toggle('hidden-options');
+    // 
+    setTimeout(() => {
+        mainSectionWrapper.firstElementChild.classList.remove('shrink');
+    }, 600);
+});
+// 
+const loginWrapper = document.querySelector('#login-wrapper');
+// 
+loginBtn.addEventListener('click', () => {
+    mainSectionWrapper.firstElementChild.classList.add('shrink');
+    // 
+    setTimeout(() => {
+        mainSectionWrapper.classList.toggle('hidden-options');
+        loginWrapper.classList.toggle('hidden-options');
+    }, 600);
+});
+// 
+const loginBackBtn = document.querySelector('#login-back-btn');
+// 
+loginBackBtn.addEventListener('click', () => {
+    mainSectionWrapper.classList.toggle('hidden-options');
+    loginWrapper.classList.toggle('hidden-options');
+    // 
+    setTimeout(() => {
+        mainSectionWrapper.firstElementChild.classList.remove('shrink');
+    }, 600);
+});
