@@ -55,9 +55,9 @@
             </a>
         </div>
         <h2 class="is-size-1 form-header">SIGN UP</h2>
-        <form action="index.php" method="POST" id="register-form">
+        <form action="register.php" method="POST" id="register-form">
             <div class="input-wrapper">
-                <input type="text" name="username" placeholder="e.g. tomoko666*">
+                <input class="register-tabindex" type="text" name="username" placeholder="e.g. tomoko666*" tabindex="-1">
                 <span class="icon-left">
                     <i class="fas fa-user"></i>
                 </span>
@@ -67,7 +67,7 @@
                 </span>
             </div>
             <div class="input-wrapper">
-                <input type="email" name="email" placeholder="e.g. tomoko666@gmail.com*">
+                <input class="register-tabindex" type="email" name="email" placeholder="e.g. tomoko666@gmail.com*" tabindex="-1">
                 <span class="icon-left">
                     <i class="fas fa-at"></i>
                 </span>
@@ -77,7 +77,7 @@
                 </span>
             </div>
             <div class="input-wrapper">
-                <input type="password" name="password" placeholder="Password*">
+                <input class="register-tabindex" type="password" name="password" placeholder="Password*" tabindex="-1">
                 <span class="icon-left">
                     <i class="fas fa-key"></i>
                 </span>
@@ -87,7 +87,7 @@
                 </span>
             </div>
             <div class="input-wrapper">
-                <input type="password" name="confirm-password" placeholder="Confirm Password*">
+                <input class="register-tabindex" type="password" name="confirm-password" placeholder="Confirm Password*" tabindex="-1">
                 <span class="icon-left">
                     <i class="fas fa-key"></i>
                 </span>
@@ -99,7 +99,7 @@
             <p role="alert" class="status-failure" hidden>Connection failure, please try again.</p>
             <p role="alert" class="status-busy" hidden>Busy sending data, please wait.</p>
             <div class="submit-btn-wrapper mt-4">
-                <button type="submit" name="register-submit" class="btn btn-invert">
+                <button type="submit" name="register-submit" class="btn btn-invert disabled register-tabindex" tabindex="-1">
                     <span>
                         submit
                     </span>
@@ -117,29 +117,29 @@
             </a>
         </div>
         <h2 class="is-size-1 form-header">LOG IN</h2>
-        <form action="">
+        <form action="login.php" method="POST" id="login-form">
             <div class="input-wrapper">
-                <input type="text" name="username" placeholder="Username">
+                <input class="login-tabindex" type="text" name="username" placeholder="Username" tabindex="-1">
                 <span class="icon-left">
                     <i class="fas fa-user"></i>
                 </span>
-                <span class="icon-validation">
+                <span class="icon-validation" id="login-username-validation">
                     <i class="fas fa-check icon-valid hide"></i>
                     <i class="fas fa-times icon-invalid hide"></i>
                 </span>
             </div>
             <div class="input-wrapper">
-                <input type="password" name="password" placeholder="Password">
+                <input class="login-tabindex" type="password" name="password" placeholder="Password" tabindex="-1">
                 <span class="icon-left">
                     <i class="fas fa-key"></i>
                 </span>
-                <span class="icon-validation">
+                <span class="icon-validation" id="login-password-validation">
                     <i class="fas fa-check icon-valid hide"></i>
                     <i class="fas fa-times icon-invalid hide"></i>
                 </span>
             </div>
             <div class="submit-btn-wrapper mt-4">
-                <button type="submit" name="register-submit" class="btn btn-invert">
+                <button type="submit" name="login-submit" class="btn btn-invert disabled login-tabindex" tabindex="-1">
                     <span>
                         submit
                     </span>

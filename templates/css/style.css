@@ -1,7 +1,8 @@
 /* CSS Variables */
 :root {
     --color-ghost-white: #F7F7FF;
-    --color-redwood: #9F6156;
+    --color-copper-red: rgb(207, 95, 58);
+    --color-mountain-meadow: rgb(34, 191, 149);
     --color-carolina-blue: #279AF1;
     --color-black-coral: #60656F;
     --color-smoky-black: #131112;
@@ -73,7 +74,11 @@ footer p {
 }
 
 .background-redwood {
-    background-color: var(--color-redwood);
+    background-color: var(--color-copper-red);
+}
+
+.background-redwood {
+    background-color: var(--color-mountain-meadow);
 }
 
 .background-carolina-blue {
@@ -121,7 +126,11 @@ footer p {
 }
 
 .text-redwood {
-    color: var(--color-redwood);
+    color: var(--color-copper-red);
+}
+
+.text-redwood {
+    color: var(--color-mountain-meadow);
 }
 
 .text-carolina-blue {
@@ -199,7 +208,7 @@ footer p {
 .btn::before {
     content: "";
     position: absolute;
-    top: 0;
+    top: -1px;
     left: 0;
     right: 0;
     bottom: -1px;
@@ -215,6 +224,10 @@ footer p {
     transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
 }
 
+
+
+
+
 /* a:hover {
     color: var(--color-ghost-white);
 } */
@@ -223,20 +236,42 @@ footer p {
 .side-btn {
     color: var(--color-ghost-white);
     position: relative;
+    transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
 }
 
 .btn-invert span {
     color: var(--color-smoky-black);
+    transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
 }
 
 .control-btn span {
     color: var(--color-ghost-white);
+    transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
 }
 
 .control-btn:active span,
 .control-btn:focus span,
 .control-btn:hover span {
     color: var(--color-carolina-blue);
+    transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
+}
+
+.btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: var(--color-black-coral);
+    transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
+}
+
+.btn.disabled span {
+    color: var(--color-ghost-white);
+    transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
+}
+
+.btn.disabled:active::before,
+.btn.disabled:focus::before,
+.btn.disabled:hover::before {
+    transform: scaleX(0);
     transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
 }
 
@@ -612,11 +647,14 @@ input:hover + .icon-validation {
 }
 
 .icon-valid {
-    color: green;
+    color: var(--color-mountain-meadow);
+    transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
 }
 
 .icon-invalid {
-    color: red;
+    color: var(--color-copper-red);
+    transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
+
 }
 
 #register-wrapper input[type="text"],
@@ -651,11 +689,11 @@ button {
 }
 
 .input-valid {
-    background-color: rgb(160, 255, 160) !important;
+    background-color: rgb(168, 255, 232) !important;
     color: var(--color-smoky-black) !important;
 }
 
 .input-invalid {
-    background-color:rgb(255, 139, 139) !important;
+    background-color:rgb(255, 143, 106) !important;
     color: var(--color-smoky-black) !important;
 }
