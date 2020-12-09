@@ -1,6 +1,6 @@
 <?php include('templates/includes/header.php'); ?>
     <!-- Main screen -->
-    <section class="section background-space-cadet-gradient is-flex is-flex-direction-column is-justify-content-center py-2 is-relative" id="main-section-wrapper">
+    <!-- <section class="section background-space-cadet-gradient is-flex is-flex-direction-column is-justify-content-center py-2 is-relative" id="main-section-wrapper">
         <div class="columns is-mobile m-0 has-text-centered is-vcentered is-multiline" id="front-page-main-content-wrapper">
             <div class="column is-12-mobile is-12 pt-0 mb-5">
                 <div class="perspective-box-far" id="front-page-logo">
@@ -44,9 +44,9 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
     <!-- Sign Up screen -->
-    <div class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 hidden-options" id="register-wrapper">
+    <div class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 " id="register-wrapper"><!--hidden-options-->
         <div class="is-flex is-justify-content-start">
             <a id="register-back-btn" class="control-btn">
                 <span class="">
@@ -108,7 +108,7 @@
         </form>
     </div>
     <!-- Log In screen -->
-    <div class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 hidden-options" id="login-wrapper">
+    <!-- <div class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 hidden-options" id="login-wrapper">
         <div class="is-flex is-justify-content-start">
             <a id="login-back-btn" class="control-btn">
                 <span class="">
@@ -146,7 +146,7 @@
                 </button>
             </div>
         </form>
-    </div>
+    </div> -->
     <!-- Options -->
     <section class="section background-ghost-white is-flex is-flex-direction-column is-justify-content-center p-5 hidden-options" id="options-wrapper">
         <ul>

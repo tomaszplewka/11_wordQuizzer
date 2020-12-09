@@ -1,38 +1,38 @@
-const startBtn = document.querySelector('#front-page-start-btn');
-const demoBtn = document.querySelector('#front-page-demo-btn');
-const loginBtn = document.querySelector('#front-page-login-btn');
-const registerBtn = document.querySelector('#front-page-register-btn');
-const logo = document.querySelector('#front-page-logo');
-const logoFaceFront = document.querySelector('.face.front');
-const logoFaceTop = document.querySelector('.face.top');
-const logoFaceLeft = document.querySelector('.face.left');
-// 
-startBtn.addEventListener('click', () => {
-    logo.classList.add('loader-wrapper');
-    logoFaceFront.classList.add('loader-face-front');
-    logoFaceTop.classList.add('loader-face-top');
-    logoFaceLeft.classList.add('loader-face-left');
-    // 
-    startBtn.classList.add('button-dissapear');
-    // 
-    setTimeout(() => {
-        logoFaceFront.classList.add('strip-background-border');
-        logoFaceTop.classList.add('strip-background-border');
-        logoFaceLeft.classList.add('strip-background-border');
-        // 
-        setTimeout(() => {
-            logo.parentElement.classList.add('logo-enlarge');
-            // 
-            setTimeout(() => {
-                demoBtn.parentElement.classList.remove('hide');
-                demoBtn.classList.remove('hidden');
-                loginBtn.classList.remove('hidden');
-                registerBtn.parentElement.classList.remove('hidden');
+// const startBtn = document.querySelector('#front-page-start-btn');
+// const demoBtn = document.querySelector('#front-page-demo-btn');
+// const loginBtn = document.querySelector('#front-page-login-btn');
+// const registerBtn = document.querySelector('#front-page-register-btn');
+// const logo = document.querySelector('#front-page-logo');
+// const logoFaceFront = document.querySelector('.face.front');
+// const logoFaceTop = document.querySelector('.face.top');
+// const logoFaceLeft = document.querySelector('.face.left');
+// // 
+// startBtn.addEventListener('click', () => {
+//     logo.classList.add('loader-wrapper');
+//     logoFaceFront.classList.add('loader-face-front');
+//     logoFaceTop.classList.add('loader-face-top');
+//     logoFaceLeft.classList.add('loader-face-left');
+//     // 
+//     startBtn.classList.add('button-dissapear');
+//     // 
+//     setTimeout(() => {
+//         logoFaceFront.classList.add('strip-background-border');
+//         logoFaceTop.classList.add('strip-background-border');
+//         logoFaceLeft.classList.add('strip-background-border');
+//         // 
+//         setTimeout(() => {
+//             logo.parentElement.classList.add('logo-enlarge');
+//             // 
+//             setTimeout(() => {
+//                 demoBtn.parentElement.classList.remove('hide');
+//                 demoBtn.classList.remove('hidden');
+//                 loginBtn.classList.remove('hidden');
+//                 registerBtn.parentElement.classList.remove('hidden');
                 
-            }, 750);
-        }, 500);
-    }, 1500);
-});
+//             }, 750);
+//         }, 500);
+//     }, 1500);
+// });
 // 
 const burger = document.querySelector('#burger');
 const times = document.querySelector('#times');
@@ -52,23 +52,23 @@ times.addEventListener('click', () => {
     optionsWrapper.classList.toggle('hidden-options');
 });
 // 
-const mainSectionWrapper = document.querySelector('#main-section-wrapper');
-const registerWrapper = document.querySelector('#register-wrapper');
-// 
-registerBtn.addEventListener('click', () => {
-    mainSectionWrapper.firstElementChild.classList.add('shrink');
-    // 
-    setTimeout(() => {
-        mainSectionWrapper.classList.toggle('hidden-options');
-        registerWrapper.classList.toggle('hidden-options');
-        // remove tabindex="-1"
-        removeTabindex('register-tabindex');
-        // set focus on first input
-        setTimeout(() => {
-            registerForm.username.focus();
-        }, 500);
-    }, 600);
-});
+// const mainSectionWrapper = document.querySelector('#main-section-wrapper');
+// const registerWrapper = document.querySelector('#register-wrapper');
+// // 
+// registerBtn.addEventListener('click', () => {
+//     mainSectionWrapper.firstElementChild.classList.add('shrink');
+//     // 
+//     setTimeout(() => {
+//         mainSectionWrapper.classList.toggle('hidden-options');
+//         registerWrapper.classList.toggle('hidden-options');
+//         // remove tabindex="-1"
+//         removeTabindex('register-tabindex');
+//         // set focus on first input
+//         setTimeout(() => {
+//             registerForm.username.focus();
+//         }, 500);
+//     }, 600);
+// });
 // 
 const registerBackBtn = document.querySelector('#register-back-btn');
 // 
@@ -85,40 +85,40 @@ registerBackBtn.addEventListener('click', () => {
     }, 600);
 });
 // 
-const loginWrapper = document.querySelector('#login-wrapper');
-// 
-loginBtn.addEventListener('click', () => {
-    mainSectionWrapper.firstElementChild.classList.add('shrink');
-    // 
-    setTimeout(() => {
-        mainSectionWrapper.classList.toggle('hidden-options');
-        loginWrapper.classList.toggle('hidden-options');
-        // remove tabindex="-1"
-        removeTabindex('login-tabindex');
-        // set focus on first input
-        setTimeout(() => {
-            loginForm.username.focus();
-        }, 500);
-    }, 600);
-});
-// 
-const loginBackBtn = document.querySelector('#login-back-btn');
-// 
-loginBackBtn.addEventListener('click', () => {
-    mainSectionWrapper.classList.toggle('hidden-options');
-    loginWrapper.classList.toggle('hidden-options');
-    // 
-    setTimeout(() => {
-        mainSectionWrapper.firstElementChild.classList.remove('shrink');
-        // set tabindex="-1"
-        addTabindex('login-tabindex');
-        // reset form
-        resetForm('#login-form input', loginForm['login-submit']);
-    }, 600);
-});
+// const loginWrapper = document.querySelector('#login-wrapper');
+// // 
+// loginBtn.addEventListener('click', () => {
+//     mainSectionWrapper.firstElementChild.classList.add('shrink');
+//     // 
+//     setTimeout(() => {
+//         mainSectionWrapper.classList.toggle('hidden-options');
+//         loginWrapper.classList.toggle('hidden-options');
+//         // remove tabindex="-1"
+//         removeTabindex('login-tabindex');
+//         // set focus on first input
+//         setTimeout(() => {
+//             loginForm.username.focus();
+//         }, 500);
+//     }, 600);
+// });
+// // 
+// const loginBackBtn = document.querySelector('#login-back-btn');
+// // 
+// loginBackBtn.addEventListener('click', () => {
+//     mainSectionWrapper.classList.toggle('hidden-options');
+//     loginWrapper.classList.toggle('hidden-options');
+//     // 
+//     setTimeout(() => {
+//         mainSectionWrapper.firstElementChild.classList.remove('shrink');
+//         // set tabindex="-1"
+//         addTabindex('login-tabindex');
+//         // reset form
+//         resetForm('#login-form input', loginForm['login-submit']);
+//     }, 600);
+// });
 // 
 const registerForm = document.querySelector('#register-form');
-const usernamePattern = /^\w{1,15}$/;
+const usernamePattern = /^(\w+( \w+)*){6,20}$/;
 const emailPattern = /^([a-zA-Z]{1}[\w\.]{0,20})@([a-zA-Z]{2,15})\.([a-zA-Z]{2,5})(\.[a-zA-Z]{2,5})?$/;
 // const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?!.*[\s])(?=.{8,15})/;
 const passwordPattern = /^[a-zA-Z]{4,}$/;
@@ -239,17 +239,35 @@ registerForm.email.addEventListener('blur', () => {
 // Check Password
 registerForm.password.addEventListener('keyup', () => {
     formFeedback(passwordPattern, registerForm.password, passwordValidationIcons);
+    // 
+    if (registerForm.password.classList.contains('input-valid') && registerForm.password.value !== '' && (registerForm['confirm-password'].value === registerForm.password.value)) {
+        inputValid(registerForm['confirm-password'], confirmPasswordValidationIcons);
+		//
+	} else {
+		inputInvalid(registerForm['confirm-password'], confirmPasswordValidationIcons);
+		//
+    }
+    // 
 	checkIfAllValid();
 	//
 });
 registerForm.password.addEventListener('blur', () => {
     formFeedback(passwordPattern, registerForm.password, passwordValidationIcons);
+    // 
+    if (registerForm.password.classList.contains('input-valid') && registerForm.password.value !== '' && (registerForm['confirm-password'].value === registerForm.password.value)) {
+        inputValid(registerForm['confirm-password'], confirmPasswordValidationIcons);
+		//
+	} else {
+		inputInvalid(registerForm['confirm-password'], confirmPasswordValidationIcons);
+		//
+    }
+    // 
 	checkIfAllValid();
 	//
 });
 // Check Confirm Password
 registerForm['confirm-password'].addEventListener('keyup', () => {
-	if (registerForm.password.value !== '' && (registerForm['confirm-password'].value === registerForm.password.value)) {
+	if (registerForm.password.classList.contains('input-valid') && registerForm.password.value !== '' && (registerForm['confirm-password'].value === registerForm.password.value)) {
         inputValid(registerForm['confirm-password'], confirmPasswordValidationIcons);
 		//
 	} else {
@@ -261,7 +279,7 @@ registerForm['confirm-password'].addEventListener('keyup', () => {
 	//
 });
 registerForm['confirm-password'].addEventListener('blur', () => {
-	if (registerForm.password.value !== '' && (registerForm['confirm-password'].value === registerForm.password.value)) {
+	if (registerForm.password.classList.contains('input-valid') && registerForm.password.value !== '' && (registerForm['confirm-password'].value === registerForm.password.value)) {
         inputValid(registerForm['confirm-password'], confirmPasswordValidationIcons);
 		//
 	} else {
@@ -285,17 +303,43 @@ registerForm.addEventListener('submit', e => {
        
         // Store reference to form to make later code easier to read
         // const form = e.target;
-    
         // Post data using the Fetch API
         fetch(registerForm.action, {
                 method: registerForm.method,
                 body: new FormData(registerForm)
             })
             // We turn the response into text as we expect HTML
-            .then(res => res.text())
+            .then(res => {
+                // Check if response ok
+                if (!res.ok) {
+                    // Throw an exception
+                    throw new Error('Network problem.');
+                }
+                return res.json();
+            })
             .then(doc => {
                 console.log(doc);
+                // Handle when resolved
+                // Fetch promise rejects only when there is network error
+                // Handle input data
+                // if (doc.php_error) {
+                //     console.log(doc.error_msg);
+                // } else {
+                //     console.log(doc.msg);
+                // }
+                // code
+            })
+            .catch(err => {
+                console.log(err);
+                // Handle when rejected (only network exceptions)
+                // code
             });
+            // .then(doc => {
+            //     // console.log(doc);
+            // })
+            // .catch(err => {
+            //     console.log(err);
+            // });
             // Let's turn it into an HTML document
             // .then(text => new DOMParser().parseFromString(text, 'text/html'))
     

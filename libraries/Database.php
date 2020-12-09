@@ -18,8 +18,6 @@ class Database {
 
     public function __construct()
     {
-        echo "made a db";
-        // 
         // set DSN
         $dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->dbname;
         // set options
@@ -37,7 +35,7 @@ class Database {
     }
 
     public function queryDB($dbQuery) {
-        $this->sqlQuery = $this->dbhandler->prepare($dbQuery);
+        return $this->sqlQuery = $this->dbhandler->prepare($dbQuery);
     }
 
     public function bind($parameter, $value, $type = null) {
@@ -76,6 +74,14 @@ class Database {
     public function countRows() {
         $this->execute();
         return $this->sqlQuery->rowCount();
+    }
+
+    public function errInfo() {
+        return $this->sqlQuery->errorInfo();
+    }
+
+    public function dbError() {
+        return $this->error;
     }
 
 }
