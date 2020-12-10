@@ -82,6 +82,8 @@ registerBackBtn.addEventListener('click', () => {
         addTabindex('register-tabindex');
         // reset form
         resetForm('#register-form input', registerForm['register-submit']);
+        // hide submit feedback div
+        hideSubmitFeedback(submitFeedback);
     }, 600);
 });
 // 
@@ -97,7 +99,7 @@ loginBtn.addEventListener('click', () => {
         removeTabindex('login-tabindex');
         // set focus on first input
         setTimeout(() => {
-            loginForm.username.focus();
+            loginForm.email.focus();
         }, 500);
     }, 600);
 });
@@ -114,13 +116,15 @@ loginBackBtn.addEventListener('click', () => {
         addTabindex('login-tabindex');
         // reset form
         resetForm('#login-form input', loginForm['login-submit']);
+        // hide submit feedback div
+        hideSubmitFeedback(submitLoginFeedback);
     }, 600);
 });
 // 
 const registerForm = document.querySelector('#register-form');
 const usernamePattern = /^(\w+( \w+)*){6,20}$/;
 const emailPattern = /^([a-zA-Z]{1}[\w\.]{0,20})@([a-zA-Z]{2,15})\.([a-zA-Z]{2,5})(\.[a-zA-Z]{2,5})?$/;
-// const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?!.*[\s])(?=.{8,15})/;
+// const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?!.*[\s])(?=.{8,})/;
 const passwordPattern = /^[a-zA-Z]{4,}$/;
 const usernameValidationIcons = document.querySelector('#username-validation');
 const emailValidationIcons = document.querySelector('#email-validation');
@@ -185,6 +189,10 @@ const inputInvalid = function(target, feedback) {
     feedback.lastElementChild.classList.remove('hide');
     target.classList.add('input-invalid');
 }
+const inputInvalidRemove = function(target, feedback) {
+    feedback.lastElementChild.classList.add('hide');
+    target.classList.remove('input-invalid');
+}
 const formFeedback = function(pattern, target, feedback, checkArr = false) {
     if (checkArr === 'username') {
         if (pattern.test(target.value) && !invalidUsernameArr.includes(target.value)) {
@@ -219,7 +227,7 @@ const resetForm = function(targetSelector, submitBtn) {
         submitBtn.classList.add('disabled');
     }
 }
-const hideFeedbackDiv = function() {
+const hideLoginFeedbackDiv = function() {
     if (
 		registerForm.username.classList.contains('input-valid') &&
 		registerForm.email.classList.contains('input-valid') &&
@@ -350,6 +358,38 @@ const handleFormData = function(data) {
     
     return err_count;
 }
+const handleFormDataLogin = function(data) {
+    // Count errors
+    let err_count = 0;
+    // Check username
+    if (checkField(data.email)) { 
+        err_count ++;
+        inputInvalid(loginForm.email, loginEmailValidationIcons);
+        // 
+        setTimeout(() => {
+            inputInvalidRemove(loginForm.email, loginEmailValidationIcons);
+        }, 2000);
+        // 
+        return err_count;
+    } else {
+        inputValid(loginForm.email, loginEmailValidationIcons);
+    }
+    // Check password
+    if (checkField(data.password)) {
+        err_count ++;
+        inputInvalid(loginForm.password, loginPasswordValidationIcons);
+        // 
+        setTimeout(() => {
+            inputInvalidRemove(loginForm.password, loginPasswordValidationIcons);
+        }, 2000);
+    } else {
+        inputValid(loginForm.password, loginPasswordValidationIcons);
+    }
+    // Check db
+    err_count += checkField(data.db);
+    
+    return err_count;
+}
 const checkField = function(field) {
     // console.log(field);
     // Check for error & adjust UI
@@ -369,14 +409,15 @@ const checkField = function(field) {
 }
 // 
 const registerFormInputs = document.querySelectorAll('#register-form input');
+const loginFormInputs = document.querySelectorAll('#login-form input');
 // 
-const lockInputFields = function() { 
-    Array.from(registerFormInputs).forEach(input => {
+const lockInputFields = function(target) { 
+    Array.from(target).forEach(input => {
         input.setAttribute("readonly", true);
     });
 }
-const unlockInputFields = function() { 
-    Array.from(registerFormInputs).forEach(input => {
+const unlockInputFields = function(target) { 
+    Array.from(target).forEach(input => {
         input.removeAttribute("readonly");
     });
 }
@@ -406,8 +447,9 @@ registerForm.addEventListener('submit', e => {
         submitFeedback.lastElementChild.classList.remove('hide');
     } 
     // Lock input fields
-    lockInputFields();
-
+    lockInputFields(registerFormInputs);
+    // Clear feedback div
+    clearFeedbackDiv(feedbackWrapper);
     if (checkIfAllValid()) {
         // 
         let err_count = 0;
@@ -415,9 +457,6 @@ registerForm.addEventListener('submit', e => {
         if (!registerForm["register-submit"].classList.contains('disabled')) {
             registerForm["register-submit"].classList.add('disabled');
         }
-       
-        // Store reference to form to make later code easier to read
-        // const form = e.target;
         // Post data using the Fetch API
         fetch(registerForm.action, {
                 method: registerForm.method,
@@ -443,12 +482,12 @@ registerForm.addEventListener('submit', e => {
                         submitFeedback.lastElementChild.classList.add('hide');
                         submitFeedback.firstElementChild.classList.remove('hide');
                         // Unlock fields
-                        unlockInputFields();
+                        unlockInputFields(registerFormInputs);
                     }, 500);
                 } else { // no errors
                     setTimeout(() => {
                         // Unlock fields
-                        unlockInputFields();
+                        unlockInputFields(registerFormInputs);
                         // Hide submit feedback div
                         submitFeedback.classList.add('hide');
                         submitFeedback.firstElementChild.classList.add('hide');
@@ -495,7 +534,7 @@ registerForm.addEventListener('submit', e => {
                         submitFeedback.lastElementChild.classList.add('hide');
                         submitFeedback.firstElementChild.classList.remove('hide');
                         // Unlock fields
-                        unlockInputFields();
+                        unlockInputFields(registerFormInputs);
                     }, 500);
                 }
             });        
@@ -505,6 +544,160 @@ registerForm.addEventListener('submit', e => {
 });
 // 
 const loginForm = document.querySelector('#login-form');
-const loginUsernameValidationIcons = document.querySelector('#login-username-validation');
+const loginEmailValidationIcons = document.querySelector('#login-email-validation');
 const loginPasswordValidationIcons = document.querySelector('#login-password-validation');
-// validate username and password against data in db --> if valid/invalid, add classes/or messages and show icons
+// 
+const checkIfEmpty = function() {
+    if (loginForm.email.value !== '' && emailPattern.test(loginForm.email.value) && loginForm.password.value !== '') {
+        loginForm["login-submit"].classList.remove('disabled');
+    } else {
+        loginForm["login-submit"].classList.add('disabled');
+    }
+}
+// Check Email
+loginForm.email.addEventListener('keyup', () => {
+    checkIfEmpty();
+});
+loginForm.email.addEventListener('blur', () => {
+    checkIfEmpty();
+});
+// Check Password
+loginForm.password.addEventListener('keyup', () => {
+    checkIfEmpty();
+});
+loginForm.password.addEventListener('blur', () => {
+    checkIfEmpty();
+});
+// Show/hide errors
+const showLoginErrors = document.querySelector('#submit-login-feedback .error-icon-wrapper');
+const loginFeedbackWrapper = document.querySelector('#login-feedback-wrapper');
+const loginFeedbackBackBtn = document.querySelector('#login-feedback-back-btn');
+// 
+showLoginErrors.addEventListener('click', () => {
+    loginFeedbackWrapper.classList.toggle('hidden-options');
+})
+// 
+loginFeedbackBackBtn.addEventListener('click', () => {
+    loginFeedbackWrapper.classList.toggle('hidden-options');
+})
+const clearFeedbackDiv = function(target) {
+    Array.from(target.lastElementChild.children).forEach(childDiv => {
+        if (!childDiv.firstElementChild.classList.contains('hide')) {
+            childDiv.firstElementChild.classList.add('hide');
+        }
+    });
+}
+const hideSubmitFeedback = function(target) {
+    if (!target.classList.contains('hide')) {
+        if (!target.firstElementChild.classList.contains('hide')) {
+            target.firstElementChild.classList.add('hide');
+        }
+        if (!target.lastElementChild.classList.contains('hide')) {
+            target.lastElementChild.classList.add('hide');
+        }
+        target.classList.add('hide');
+    }
+}
+// 
+const submitLoginFeedback = document.querySelector('#submit-login-feedback');
+const loginConfirmation = document.querySelector('#login-confirmation');
+// submit register form
+loginForm.addEventListener('submit', e => {
+    // Check if there is anything in inputs
+    if (loginForm.email.value !== '' && emailPattern.test(loginForm.email.value) && loginForm.password.value !== '') {
+        // Adjust UI
+        if (submitLoginFeedback.classList.contains('hide')) {
+            submitLoginFeedback.classList.remove('hide');
+            submitLoginFeedback.lastElementChild.classList.remove('hide');
+        } else {
+            submitLoginFeedback.firstElementChild.classList.add('hide');
+            submitLoginFeedback.lastElementChild.classList.remove('hide');
+        } 
+        // Lock input fields
+        lockInputFields(loginFormInputs);
+        // Clear feedback div
+        clearFeedbackDiv(loginFeedbackWrapper);
+        // 
+        let err_count = 0;
+        // Post data using the Fetch API
+        fetch(loginForm.action, {
+                method: loginForm.method,
+                body: new FormData(loginForm)
+            })
+            // We turn the response into text as we expect HTML
+            .then(res => {
+                // Check if response ok
+                if (!res.ok) {
+                    // Throw an exception
+                    throw new Error('Network problem.');
+                }
+                return res.json();
+            })
+            .then(docs => {
+                // console.log(docs);
+                // Handle when resolved
+                // Fetch promise rejects only when there is network error
+                // Handle input data
+                err_count = handleFormDataLogin(docs);
+                if (err_count) { // errors found
+                    setTimeout(() => {
+                        submitLoginFeedback.lastElementChild.classList.add('hide');
+                        submitLoginFeedback.firstElementChild.classList.remove('hide');
+                        // Unlock fields
+                        unlockInputFields(loginFormInputs);
+                    }, 500);
+                } else { // no errors
+                    setTimeout(() => {
+                        // Unlock fields
+                        unlockInputFields(loginFormInputs);
+                        // Hide submit feedback div
+                        submitLoginFeedback.classList.add('hide');
+                        submitLoginFeedback.firstElementChild.classList.add('hide');
+                        setTimeout(() => {
+                            // Show confirmation
+                            loginConfirmation.classList.remove('hidden-options');
+                            // Clear form
+                            resetForm('#login-form input', loginForm['login-submit']);
+                            // 
+                            setTimeout(() => {
+                                mainSectionWrapper.classList.toggle('hidden-options');
+                                loginWrapper.classList.toggle('hidden-options');
+                                // set tabindex="-1"
+                                addTabindex('login-tabindex');
+                                // 
+                                setTimeout(() => {
+                                    // Hide confirmation
+                                    loginConfirmation.classList.add('hidden-options');
+                                    // Show welcome screen
+                                    mainSectionWrapper.classList.toggle('hidden-options');
+                                    // here show welcome screen
+                                    // loginWrapper.classList.toggle('hidden-options');
+                                    // 
+                                    console.log('Now, you should see welcome screen');
+                                }, 1500);
+                            }, 1000);
+                        }, 500);
+                    }, 1000);
+                }
+            })
+            .catch(err => {
+                // here you can handle also error from php
+                // they come in a js form: JSON.parse blah blah
+                console.log(err);
+                // Handle when rejected (only network exceptions)
+                if (err_count) {
+                    setTimeout(() => {
+                        submitLoginFeedback.lastElementChild.classList.add('hide');
+                        submitLoginFeedback.firstElementChild.classList.remove('hide');
+                        // Unlock fields
+                        unlockInputFields();
+                    }, 500);
+                }
+            });
+    } else {
+        // tutaj pokaz ERRORS FOUND i zmien feedback
+    }
+    // Prevent the default form submit
+    e.preventDefault();
+});
+// 

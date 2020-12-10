@@ -515,7 +515,9 @@ footer p {
 #register-wrapper,
 #login-wrapper,
 #feedback-wrapper,
-#registration-confirmation {
+#registration-confirmation,
+#login-confirmation,
+#login-feedback-wrapper {
     max-height: 10000px;
     height: calc(100% - 72px - 68px);
     transition: all 0.5s ease;
@@ -524,7 +526,9 @@ footer p {
 #register-wrapper > *,
 #login-wrapper > *,
 #feedback-wrapper > *,
-#registration-confirmation > * {
+#registration-confirmation > *,
+#login-confirmation > *,
+#login-feedback-wrapper > * {
     opacity: 1;
     transition: all 0.5s ease;
 }
@@ -532,7 +536,9 @@ footer p {
 #register-wrapper.hidden-options,
 #login-wrapper.hidden-options,
 #feedback-wrapper.hidden-options,
-#registration-confirmation.hidden-options {
+#registration-confirmation.hidden-options,
+#login-confirmation.hidden-options,
+#login-feedback-wrapper.hidden-options {
     overflow: hidden;
     padding: 0 !important;
     max-height: 0;
@@ -542,7 +548,9 @@ footer p {
 #register-wrapper.hidden-options > *,
 #login-wrapper.hidden-options > *,
 #feedback-wrapper.hidden-options > *,
-#registration-confirmation.hidden-options > * {
+#registration-confirmation.hidden-options > *,
+#login-confirmation.hidden-options > *,
+#login-feedback-wrapper.hidden-options > * {
     opacity: 0;
     transition: all 0.5s ease;
 }
@@ -666,7 +674,7 @@ input:hover + .icon-validation {
 }
 
 #register-wrapper input[type="text"],
-#login-wrapper input[type="text"] {
+#login-wrapper input[type="email"] {
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
 }
@@ -692,7 +700,8 @@ button {
 
 
 .status-ok,
-.registration-cofirmation-text {
+.registration-cofirmation-text,
+.login-confirmation-text {
     color: var(--color-mountain-meadow);
     font-size: 1.1rem;
     font-family: 'chiller', Arial, Helvetica, sans-serif !important;
@@ -701,7 +710,8 @@ button {
     font-weight: bold;
 }
 
-.registration-cofirmation-text {
+.registration-cofirmation-text,
+.login-confirmation-text {
     font-size: 1.25rem;
 }
 
@@ -738,7 +748,8 @@ button {
 }
 
 .feedback-wrapper,
-#registration-confirmation {
+#registration-confirmation,
+#login-confirmation {
     position: absolute;
     top: 0;
     left: 0;
@@ -748,7 +759,8 @@ button {
     overflow-y: scroll;
 }
 
-#registration-confirmation {
+#registration-confirmation,
+#login-confirmation {
     overflow: hidden;
     border-radius: 1rem;
 }

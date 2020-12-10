@@ -10,13 +10,6 @@ require_once(realpath("vendor/autoload.php"));
 // Initialize db
 $db = new Database();
 // 
-// echo $_POST['username'];
-// echo $_POST['email'];
-// echo $_POST['password'];
-// Helper functions
-// function filled_out() {
-
-// }
 // Define and initialize vars
 $username = $email = $password = $confirm_password = '';
 $username_err = $email_err = $password_err = $confirm_password_err = $db_err ='';
@@ -44,19 +37,20 @@ $output =   [
             ]];
 // 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Validate username - check if empty and against regex expression
-    if (empty(trim($_POST["username"]))) { // username invalid -- username is empty
+    // Sanitize and validate username - check if empty and against regex expression
+    $username = filter_var($_POST["username"], FILTER_SANITIZE_STRING);
+    if (empty(trim($username))) { // username invalid -- username is empty
         $username_err = "Please fill in username field.";
         // Send error msg to front end
         $output["username"]["php_error"] = true;
         $output["username"]["msg"] = $username_err;
-    } elseif (preg_match("/^(\w+( \w+)*){6,20}$/", $_POST["username"]) === 0) {  // username invalid -- username does not pass regex match
+    } elseif (preg_match("/^(\w+( \w+)*){6,20}$/", $username) === 0) {  // username invalid -- username does not pass regex match
         $username_err = "Username field must be 6-20 characters long, contain letters or numbers only.";
         // Send error msg to front end
         $output["username"]["php_error"] = true;
         $output["username"]["msg"] = $username_err;
     } else { // username valid
-        $username = htmlspecialchars(trim($_POST["username"]));
+        $username = htmlentities(trim($username), ENT_QUOTES, 'UTF-8');
         // Check if username is already taken
         $sql = "SELECT user_id FROM users WHERE user_name = :username";
         // Prepare the query
@@ -83,19 +77,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $output["username"]["msg"] = $username_err;
         }
     }
-    // Validate email
-    if (empty(trim($_POST["email"]))) { // email invalid -- email is empty
+    // Sanitize and validate email
+    $email = filter_var($_POST["email"], FILTER_SANITIZE_EMAIL);
+    if (empty(trim($email))) { // email invalid -- email is empty
         $email_err = "Please fill in email field.";
         // Send err msg to front end
         $output["email"]["php_error"] = true;
         $output["email"]["msg"] = $email_err;
-    } elseif (preg_match('/^([a-zA-Z]{1}[\w\.]{0,20})@([a-zA-Z]{2,15})\.([a-zA-Z]{2,5})(\.[a-zA-Z]{2,5})?$/', $_POST["email"]) === 0) {  // email invalid -- email does not pass regex match
+    } elseif (preg_match('/^([a-zA-Z]{1}[\w\.]{0,20})@([a-zA-Z]{2,15})\.([a-zA-Z]{2,5})(\.[a-zA-Z]{2,5})?$/', $email) === 0) {  // email invalid -- email does not pass regex match
         $email_err = "Email field must be a valid email address.";
         // Send error msg to front end
         $output["email"]["php_error"] = true;
         $output["email"]["msg"] = $email_err;
     } else { // email valid
-        $email = htmlspecialchars(trim($_POST["email"]));
+        $email = htmlentities(trim($email), ENT_QUOTES, 'UTF-8');
         // Check if email is already taken
         $sql = "SELECT user_id FROM users WHERE user_email = :email";
         // Prepare the query
@@ -179,5 +174,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 // 
 echo json_encode($output);
-
-?>

@@ -46,7 +46,7 @@
         </div>
     </section>
     <!-- Sign Up screen -->
-    <div class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 is-relative hidden-options" id="register-wrapper"><!--hidden-options-->
+    <div class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 is-relative hidden-options" id="register-wrapper">
         <div class="is-flex is-justify-content-start">
             <a id="register-back-btn" class="control-btn">
                 <span class="">
@@ -167,7 +167,7 @@
                             <i class="fas fa-exclamation fa-2x"></i>
                         </div>
                         <div class="column is-12-mobile is-12 text-copper-red has-text-centered p-0">
-                            <p class="confirm-password-error-text"></p>
+                            <p class="db-error-text"></p>
                         </div>
                     </div>
                 </div>
@@ -257,7 +257,7 @@
         </form>
     </div>
     <!-- Log In screen -->
-    <div class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 hidden-options" id="login-wrapper">
+    <div class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 is-relative hidden-options" id="login-wrapper">
         <div class="is-flex is-justify-content-start">
             <a id="login-back-btn" class="control-btn">
                 <span class="">
@@ -265,27 +265,132 @@
                 </span>
             </a>
         </div>
+        <div class="feedback-wrapper background-smoky-black p-5 hidden-options" id="login-feedback-wrapper">
+            <div class="is-flex is-justify-content-start">
+                <a id="login-feedback-back-btn" class="control-btn">
+                    <span class="">
+                        Go Back
+                    </span>
+                </a>
+            </div>
+            <div class="feedback-header">
+                <h2 class="is-size-1 form-header">FEEDBACK</h2>
+            </div>
+            <div class="feedback-body mb-5">
+                <div class="login-email-wrapper-if-error">
+                    <div class="columns is-mobile m-0 is-vcentered is-multiline hide">
+                        <div class="column is-10-mobile is-10 p-2">
+                            <p role="alert" class="status-failure has-text-left" >email</p>
+                        </div>
+                        <div class="column is-2-mobile is-2 text-copper-red has-text-centered p-0 px-2">
+                            <i class="fas fa-exclamation fa-2x"></i>
+                        </div>
+                        <div class="column is-12-mobile is-12 text-copper-red has-text-centered p-0">
+                            <p class="login-email-error-text"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="login-email-wrapper-if-ok">
+                    <div class="columns is-mobile m-0 is-vcentered is-multiline hide">
+                        <div class="column is-10-mobile is-10 p-2">
+                            <p role="alert" class="status-ok has-text-left" >email</p>
+                        </div>
+                        <div class="column is-2-mobile is-2 text-mountain-meadow has-text-centered p-0 px-2">
+                            <i class="fas fa-check fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="login-password-wrapper-if-error">
+                    <div class="columns is-mobile m-0 is-vcentered is-multiline hide">
+                        <div class="column is-10-mobile is-10 p-2">
+                            <p role="alert" class="status-failure has-text-left" >password</p>
+                        </div>
+                        <div class="column is-2-mobile is-2 text-copper-red has-text-centered p-0 px-2">
+                            <i class="fas fa-exclamation fa-2x"></i>
+                        </div>
+                        <div class="column is-12-mobile is-12 text-copper-red has-text-centered p-0">
+                            <p class="login-password-error-text"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="login-password-wrapper-if-ok">
+                    <div class="columns is-mobile m-0 is-vcentered is-multiline hide">
+                        <div class="column is-10-mobile is-10 p-2">
+                            <p role="alert" class="status-ok has-text-left" >password</p>
+                        </div>
+                        <div class="column is-2-mobile is-2 text-mountain-meadow has-text-centered p-0 px-2">
+                            <i class="fas fa-check fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="login-db-wrapper-if-error">
+                    <div class="columns is-mobile m-0 is-vcentered is-multiline hide">
+                        <div class="column is-10-mobile is-10 p-2">
+                            <p role="alert" class="status-failure has-text-left" >database</p>
+                        </div>
+                        <div class="column is-2-mobile is-2 text-copper-red has-text-centered p-0 px-2">
+                            <i class="fas fa-exclamation fa-2x"></i>
+                        </div>
+                        <div class="column is-12-mobile is-12 text-copper-red has-text-centered p-0">
+                            <p class="login-db-error-text"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="login-db-wrapper-if-ok">
+                    <div class="columns is-mobile m-0 is-vcentered is-multiline hide">
+                        <div class="column is-10-mobile is-10 p-2">
+                            <p role="alert" class="status-ok has-text-left" >db</p>
+                        </div>
+                        <div class="column is-2-mobile is-2 text-mountain-meadow has-text-centered p-0 px-2">
+                            <i class="fas fa-check fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <h2 class="is-size-1 form-header">LOG IN</h2>
         <form action="login.php" method="POST" id="login-form">
-            <div class="input-wrapper">
-                <input class="login-tabindex" type="text" name="username" placeholder="Username" tabindex="-1">
-                <span class="icon-left">
-                    <i class="fas fa-user"></i>
-                </span>
-                <span class="icon-validation" id="login-username-validation">
-                    <i class="fas fa-check icon-valid hide"></i>
-                    <i class="fas fa-times icon-invalid hide"></i>
-                </span>
+            <div class="is-relative is-clipped">
+                <div class="login-confirmation is-flex is-justify-content-center is-align-items-center hidden-options background-mountain-meadow" id="login-confirmation">
+                    <p class="login-confirmation-text text-ghost-white p-2">
+                        You are now logged in!
+                    </p>
+                </div>
+                <div class="input-wrapper">
+                    <input class="register-tabindex" type="email" name="email" placeholder="e.g. tomoko666@gmail.com*" tabindex="-1">
+                    <span class="icon-left">
+                        <i class="fas fa-at"></i>
+                    </span>
+                    <span class="icon-validation" id="login-email-validation">
+                        <i class="fas fa-check icon-valid hide"></i>
+                        <i class="fas fa-times icon-invalid hide"></i>
+                    </span>
+                </div>
+                <div class="input-wrapper">
+                    <input class="login-tabindex" type="password" name="password" placeholder="Password" tabindex="-1">
+                    <span class="icon-left">
+                        <i class="fas fa-key"></i>
+                    </span>
+                    <span class="icon-validation" id="login-password-validation">
+                        <i class="fas fa-check icon-valid hide"></i>
+                        <i class="fas fa-times icon-invalid hide"></i>
+                    </span>
+                </div>
             </div>
-            <div class="input-wrapper">
-                <input class="login-tabindex" type="password" name="password" placeholder="Password" tabindex="-1">
-                <span class="icon-left">
-                    <i class="fas fa-key"></i>
-                </span>
-                <span class="icon-validation" id="login-password-validation">
-                    <i class="fas fa-check icon-valid hide"></i>
-                    <i class="fas fa-times icon-invalid hide"></i>
-                </span>
+            <div class="submit-feedback mt-4 hide" id="submit-login-feedback">
+                <div class="columns is-mobile m-0 has-text-centered is-vcentered is-multiline error-status hide">
+                    <div class="column is-10-mobile is-10">
+                        <p role="alert" class="status-failure" >Errors found</p>
+                    </div>
+                    <div class="column is-2-mobile is-2 background-copper-red error-icon-wrapper">
+                        <i class="fas fa-exclamation"></i>
+                    </div>
+                </div>
+                <div class="columns is-mobile m-0 has-text-centered is-vcentered is-multiline data-status hide">
+                    <div class="column is-12-mobile is-12">
+                        <p role="alert" class="status-ok" >Busy sending data.</p>
+                    </div>
+                </div>
             </div>
             <div class="submit-btn-wrapper mt-4">
                 <button type="submit" name="login-submit" class="btn btn-invert disabled login-tabindex" tabindex="-1">
