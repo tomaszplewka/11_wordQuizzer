@@ -73,11 +73,11 @@ footer p {
     background-color: var(--color-ghost-white);
 }
 
-.background-redwood {
+.background-copper-red {
     background-color: var(--color-copper-red);
 }
 
-.background-redwood {
+.background-mountain-meadow {
     background-color: var(--color-mountain-meadow);
 }
 
@@ -122,14 +122,14 @@ footer p {
 }
 
 .text-ghost-white {
-    color: var(--color-ghost-white);
+    color: var(--color-ghost-white) !important;
 }
 
-.text-redwood {
+.text-copper-red {
     color: var(--color-copper-red);
 }
 
-.text-redwood {
+.text-mountain-meadow {
     color: var(--color-mountain-meadow);
 }
 
@@ -142,7 +142,7 @@ footer p {
 }
 
 .text-smoky-black {
-    color: var(--color-smoky-black);
+    color: var(--color-smoky-black) !important;
 }
 
 .text-black-olive {
@@ -513,20 +513,26 @@ footer p {
 }
 
 #register-wrapper,
-#login-wrapper {
+#login-wrapper,
+#feedback-wrapper,
+#registration-confirmation {
     max-height: 10000px;
     height: calc(100% - 72px - 68px);
     transition: all 0.5s ease;
 }
 
 #register-wrapper > *,
-#login-wrapper > * {
+#login-wrapper > *,
+#feedback-wrapper > *,
+#registration-confirmation > * {
     opacity: 1;
     transition: all 0.5s ease;
 }
 
 #register-wrapper.hidden-options,
-#login-wrapper.hidden-options {
+#login-wrapper.hidden-options,
+#feedback-wrapper.hidden-options,
+#registration-confirmation.hidden-options {
     overflow: hidden;
     padding: 0 !important;
     max-height: 0;
@@ -534,7 +540,9 @@ footer p {
 }
 
 #register-wrapper.hidden-options > *,
-#login-wrapper.hidden-options > * {
+#login-wrapper.hidden-options > *,
+#feedback-wrapper.hidden-options > *,
+#registration-confirmation.hidden-options > * {
     opacity: 0;
     transition: all 0.5s ease;
 }
@@ -674,18 +682,27 @@ button {
 }
 
 .status-failure {
-    color: red;
-    font-size: 1.5rem;
+    color: var(--color-copper-red);
+    font-size: 1.1rem;
     font-family: 'chiller', Arial, Helvetica, sans-serif !important;
     text-transform: uppercase;
+    text-align: center;
+    font-weight: bold;
 }
 
 
-.status-failure {
-    color: green;
-    font-size: 1.5rem;
+.status-ok,
+.registration-cofirmation-text {
+    color: var(--color-mountain-meadow);
+    font-size: 1.1rem;
     font-family: 'chiller', Arial, Helvetica, sans-serif !important;
     text-transform: uppercase;
+    text-align: center;
+    font-weight: bold;
+}
+
+.registration-cofirmation-text {
+    font-size: 1.25rem;
 }
 
 .input-valid {
@@ -696,4 +713,42 @@ button {
 .input-invalid {
     background-color:rgb(255, 143, 106) !important;
     color: var(--color-smoky-black) !important;
+}
+
+.submit-feedback {
+    background-color: var(--color-ghost-white);
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+/* .registration-feedback svg {
+} */
+
+.error-icon-wrapper {
+    color: var(--color-smoky-black);
+    font-size: 1.25rem;
+    transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
+    cursor: pointer;
+}
+
+.error-icon-wrapper:hover {
+    color: var(--color-ghost-white);
+    background-color: rgb(250, 62, 0);
+    transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
+}
+
+.feedback-wrapper,
+#registration-confirmation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100% !important;
+    z-index: 1;
+    overflow-y: scroll;
+}
+
+#registration-confirmation {
+    overflow: hidden;
+    border-radius: 1rem;
 }

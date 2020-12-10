@@ -23,19 +23,24 @@ $username_err = $email_err = $password_err = $confirm_password_err = $db_err =''
 $output =   [
                 "username" => [
                     "php_error" => false,
-                    "msg" => ''
+                    "msg" => '',
+                    "field" => "username"
             ],  "email" => [
                     "php_error" => false,
-                    "msg" => ''
+                    "msg" => '',
+                    "field" => "email"
             ],  "password" => [
                     "php_error" => false,
-                    "msg" => ''
+                    "msg" => '',
+                    "field" => "password"
             ],  "confirm_password" => [
                     "php_error" => false,
-                    "msg" => ''
+                    "msg" => '',
+                    "field" => "confirm_password"
             ],  "db" => [
                     "php_error" => false,
-                    "msg" => ''
+                    "msg" => '',
+                    "field" => "db"
             ]];
 // 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
