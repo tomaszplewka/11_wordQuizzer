@@ -29,9 +29,9 @@ startBtn.addEventListener('click', () => {
                 loginBtn.classList.remove('hidden');
                 registerBtn.parentElement.classList.remove('hidden');
                 
-            }, 750);
-        }, 500);
-    }, 1500);
+            }, 500);
+        }, 250);
+    }, 750);
 });
 // 
 const burger = document.querySelector('#burger');
@@ -604,7 +604,7 @@ const loginConfirmation = document.querySelector('#login-confirmation');
 // submit register form
 loginForm.addEventListener('submit', e => {
     // Check if there is anything in inputs
-    if (loginForm.email.value !== '' && emailPattern.test(loginForm.email.value) && loginForm.password.value !== '') {
+    if (loginForm.email.value !== '' && emailPattern.test(loginForm.email.value) && loginForm.password.value !== '' && !loginForm.email.hasAttribute('readonly') && !loginForm.password.hasAttribute('readonly')) {
         // Adjust UI
         if (submitLoginFeedback.classList.contains('hide')) {
             submitLoginFeedback.classList.remove('hide');
@@ -670,12 +670,10 @@ loginForm.addEventListener('submit', e => {
                                     loginConfirmation.classList.add('hidden-options');
                                     // Show welcome screen
                                     mainSectionWrapper.classList.toggle('hidden-options');
-                                    // here show welcome screen
-                                    // loginWrapper.classList.toggle('hidden-options');
-                                    // 
-                                    console.log('Now, you should see welcome screen');
-                                }, 1500);
-                            }, 1000);
+                                    // Redirect
+                                    window.location = './welcome.php';
+                                }, 500);
+                            }, 1500);
                         }, 500);
                     }, 1000);
                 }

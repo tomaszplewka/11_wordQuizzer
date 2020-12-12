@@ -1,12 +1,12 @@
 /* CSS Variables */
 :root {
-    --color-ghost-white: #F7F7FF;
+    --color-ghost-white: rgb(247, 247, 255);
     --color-copper-red: rgb(207, 95, 58);
     --color-mountain-meadow: rgb(34, 191, 149);
     --color-carolina-blue: #279AF1;
     --color-black-coral: #60656F;
     --color-smoky-black: #131112;
-    --color-black-olive: #343633;
+    --color-black-olive: rgb(52, 54, 51);
     --color-space-cadet: rgb(32, 30, 80);
     --color-corn: #F5E960;
     /* --color-xiketic: #1C0B19; */
@@ -73,8 +73,18 @@ footer p {
     background-color: var(--color-ghost-white);
 }
 
+.background-ghost-white-gradient {
+    background:  rgb(247, 247, 255);
+    background: linear-gradient(rgb(247, 247, 255) 0%,  rgb(52, 54, 51) 100%);
+}
+
 .background-copper-red {
     background-color: var(--color-copper-red);
+}
+
+.background-copper-red-gradient {
+    background: rgb(207, 95, 58);
+    background: linear-gradient(rgb(207, 95, 58) 0%,  rgb(255, 166, 136) 100%);
 }
 
 .background-mountain-meadow {
@@ -296,6 +306,15 @@ footer p {
     animation: floating 1.5s alternate backwards infinite ease-in-out;
 }
 
+.box-floating {
+    width: 125px;
+    height: 125px;
+    margin: auto;
+    transition: all 0.3s ease-in;
+    position: relative;
+    animation: floating-browse 1.5s alternate backwards infinite ease-in-out;
+}
+
 .top {
     background-color: var(--color-corn);
     border: 1px solid black;
@@ -317,12 +336,40 @@ footer p {
     animation: floating-front 1.5s alternate backwards infinite ease-in-out;
 }
 
+.db-disc-top,
+.db-disc-middle,
+.db-disc-bottom {
+    margin: -1rem auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 2;
+}
+
+.db-disc-middle {
+    top: 35px;
+    z-index: 1;
+}
+
+.db-disc-bottom {
+    top: 70px;
+    z-index: 0;
+}
+
 @keyframes floating {
     0%   {
         transform: perspective(10cm) rotateX(-30deg) rotateY(45deg);
     }
     100% {
         transform: perspective(10cm) rotateX(-30deg) rotateY(45deg) translateY(-15px);
+    }
+}
+@keyframes floating-browse {
+    0%   {
+        transform: none;
+    }
+    100% {
+        transform: translateY(-15px);
     }
 }
 @keyframes floating-top {
@@ -351,19 +398,19 @@ footer p {
 }
 
 .loader-wrapper {
-    animation: loader 1.5s forwards ease-in-out;
+    animation: loader 1s forwards ease-in-out;
 }
 
 .loader-face-front {
-    animation: loader-front 1.5s forwards ease-in-out;
+    animation: loader-front 1s forwards ease-in-out;
 }
 
 .loader-face-top {
-    animation: loader-top 1.5s forwards ease-in-out;
+    animation: loader-top 1s forwards ease-in-out;
 }
 
 .loader-face-left {
-    animation: loader-left 1.5s forwards ease-in-out;
+    animation: loader-left 1s forwards ease-in-out;
 }
 
 @keyframes loader {
@@ -475,7 +522,8 @@ footer p {
     width: 100%;
 }
 
-#options-wrapper {
+#options-wrapper,
+#options-wrapper-welcome {
     position: absolute;
     z-index: 100;
     top: 72px;
@@ -490,19 +538,38 @@ footer p {
     transition: all .5s ease;
 }
 
-#options-wrapper ul {
+#options-wrapper-welcome {
+    height: calc(100% - 72px);
+}
+
+#options-wrapper ul,
+#options-wrapper-welcome ul,
+.logout-confirmation-wrapper > * {
     opacity: 1;
     transition: all .5s ease;
 }
 
-#options-wrapper.hidden-options {
+.logout-confirmation-wrapper {
+    max-height: 150px;
+    transition: all .5s ease;
+}
+
+.logout-confirmation-wrapper .btn {
+    width: auto;
+}
+
+#options-wrapper.hidden-options,
+#options-wrapper-welcome.hidden-options,
+.logout-confirmation-wrapper.hidden-options {
     overflow: hidden;
     padding: 0 !important;
     max-height: 0;
     transition: all .5s ease;
 }
 
-#options-wrapper.hidden-options ul {
+#options-wrapper.hidden-options ul,
+#options-wrapper-welcome.hidden-options ul,
+.logout-confirmation-wrapper.hidden-options > * {
     opacity: 0;
     transition: all .5s ease;
 }
@@ -517,10 +584,15 @@ footer p {
 #feedback-wrapper,
 #registration-confirmation,
 #login-confirmation,
-#login-feedback-wrapper {
+#login-feedback-wrapper,
+#welcome-wrapper {
     max-height: 10000px;
     height: calc(100% - 72px - 68px);
     transition: all 0.5s ease;
+}
+
+#welcome-wrapper {
+    height: calc(100% - 72px);
 }
 
 #register-wrapper > *,
@@ -528,7 +600,8 @@ footer p {
 #feedback-wrapper > *,
 #registration-confirmation > *,
 #login-confirmation > *,
-#login-feedback-wrapper > * {
+#login-feedback-wrapper > *,
+#welcome-wrapper > * {
     opacity: 1;
     transition: all 0.5s ease;
 }
@@ -538,7 +611,8 @@ footer p {
 #feedback-wrapper.hidden-options,
 #registration-confirmation.hidden-options,
 #login-confirmation.hidden-options,
-#login-feedback-wrapper.hidden-options {
+#login-feedback-wrapper.hidden-options,
+#welcome-wrapper.hidden-options {
     overflow: hidden;
     padding: 0 !important;
     max-height: 0;
@@ -550,7 +624,8 @@ footer p {
 #feedback-wrapper.hidden-options > *,
 #registration-confirmation.hidden-options > *,
 #login-confirmation.hidden-options > *,
-#login-feedback-wrapper.hidden-options > * {
+#login-feedback-wrapper.hidden-options > *,
+#welcome-wrapper.hidden-options > * {
     opacity: 0;
     transition: all 0.5s ease;
 }
@@ -701,7 +776,9 @@ button {
 
 .status-ok,
 .registration-cofirmation-text,
-.login-confirmation-text {
+.login-confirmation-text,
+.username-info-text,
+.logout-confirmation-text {
     color: var(--color-mountain-meadow);
     font-size: 1.1rem;
     font-family: 'chiller', Arial, Helvetica, sans-serif !important;
@@ -710,7 +787,18 @@ button {
     font-weight: bold;
 }
 
-.registration-cofirmation-text,
+.username-info-text,
+.logout-confirmation-text {
+    color: var(--color-smoky-black);
+    font-size: 1.25rem;
+    padding: 1rem 0;
+}
+
+.logout-confirmation-text {
+    padding: 0.5rem 0;
+}
+
+.registration-confirmation-text,
 .login-confirmation-text {
     font-size: 1.25rem;
 }
@@ -730,9 +818,6 @@ button {
     border-radius: 1rem;
     overflow: hidden;
 }
-
-/* .registration-feedback svg {
-} */
 
 .error-icon-wrapper {
     color: var(--color-smoky-black);

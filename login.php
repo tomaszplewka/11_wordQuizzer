@@ -31,7 +31,7 @@ $output =   [
                     "msg" => ''
             ]];
 // 
-session_unset();
+// session_unset();
 // Check if user is already logged in, if so redirect to welcome screen
 if (isset($_SESSION["user_loggedIn"]) && $_SESSION["user_loggedIn"] === true) {
     $output["session"]["loggedIn"] = true;
@@ -62,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     // Check credentials against db data
     if (empty($email_err) && empty($password_err)) {
-        $sql = "SELECT user_email, user_password FROM users WHERE user_email = :email";
+        $sql = "SELECT user_email, user_name, user_password FROM users WHERE user_email = :email";
         if ($db->queryDB($sql)) {
             // Bind params
             $db->bind(":email", $email);
@@ -72,12 +72,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if ($db->countRows() === 1) {
                     if ($user_result = $db->resultSingle()) {
                         $email = $user_result["user_email"];
+                        $username = $user_result["user_name"];
                         $password_hashed = $user_result["user_password"];
                         // Verify hashed passwords
                         if (password_verify($password, $password_hashed)) {
                             // Data validated and verified, user is now logged in
                             $_SESSION["user_loggedIn"] = true;
                             $_SESSION["user_email"] = $email;
+                            $_SESSION["user_name"] = $username;
                             $output["db"]["msg"] = "User has been logged in.";
                         } else {
                             $password_err = "Password is not valid.";

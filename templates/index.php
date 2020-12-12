@@ -46,7 +46,7 @@
         </div>
     </section>
     <!-- Sign Up screen -->
-    <div class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 is-relative hidden-options" id="register-wrapper">
+    <section class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 is-relative hidden-options" id="register-wrapper">
         <div class="is-flex is-justify-content-start">
             <a id="register-back-btn" class="control-btn">
                 <span class="">
@@ -255,9 +255,9 @@
                 </button>
             </div>
         </form>
-    </div>
+    </section>
     <!-- Log In screen -->
-    <div class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 is-relative hidden-options" id="login-wrapper">
+    <section class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 is-relative hidden-options" id="login-wrapper">
         <div class="is-flex is-justify-content-start">
             <a id="login-back-btn" class="control-btn">
                 <span class="">
@@ -400,7 +400,7 @@
                 </button>
             </div>
         </form>
-    </div>
+    </section>
     <!-- Options -->
     <section class="section background-ghost-white is-flex is-flex-direction-column is-justify-content-center p-5 hidden-options" id="options-wrapper">
         <ul>
