@@ -40,7 +40,7 @@
             </div>
             <div class="column is-12-mobile is-12 px-0 pt-0 pb-5 is-relative">
                 <div class="button-wrapper-primary">
-                    <a id="welcome-browse-btn" class="btn btn-invert">
+                    <a id="welcome-add-new-quiz-btn" class="btn btn-invert">
                         <span>
                             add new quiz
                         </span>
@@ -48,6 +48,141 @@
                 </div>
             </div>
         </div>
+    </section>
+    <!-- Browse screen -->
+    <section class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 is-relative hidden-options" id="browse-wrapper">
+        <div class="is-flex is-justify-content-space-between">
+            <a id="browse-back-btn" class="control-btn">
+                <span class="">
+                    Go Back
+                </span>
+            </a>
+            <div class="is-flex is-justify-content-center">
+                <a id="filter-back-btn" class="control-btn mx-1">
+                    <span class="">
+                        <i class="fas fa-filter"></i>
+                    </span>
+                </a>
+                <a id="search-back-btn" class="control-btn mx-1">
+                    <span class="">
+                        <i class="fas fa-search"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+        <div class="quiz-display-wrapper is-flex is-flex-direction-column is-justify-content-start">
+            <div class="quiz text-ghost-white my-4">
+                <div class="quiz-header acronym columns is-mobile m-0 is-vcentered has-text-centered py-2">
+                    <div class="column is-3-mobile is-3 py-0">
+                        <span class="quiz-header-icon text-smoky-black">
+                            A
+                        </span>
+                    </div>
+                    <div class="quiz-header-name column is-9-mobile is-9 py-0">
+                        Name goes here!
+                    </div>
+                </div>
+                <div class="quiz-body columns is-mobile m-0 is-vcentered has-text-centered p-0">
+                    <div class="quiz-body-more-info column is-6-mobile is-6 p-0">
+                        <a id="" class="btn btn-invert btn-small btn-vertical m-0">
+                            <span>
+                                more info
+                            </span>
+                        </a>
+                    </div>
+                    <div class="quiz-body-play column is-6-mobile is-6 p-0">
+                        <a id="" class="btn btn-invert btn-small btn-vertical m-0">
+                            <span>
+                                play
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="quiz text-ghost-white my-4">
+                <div class="quiz-header acronym columns is-mobile m-0 is-vcentered has-text-centered py-2">
+                    <div class="column is-3-mobile is-3 py-0">
+                        <span class="quiz-header-icon text-smoky-black">
+                            A
+                        </span>
+                    </div>
+                    <div class="quiz-header-name column is-9-mobile is-9 py-0">
+                        Name goes here!
+                    </div>
+                </div>
+                <div class="quiz-body columns is-mobile m-0 is-vcentered has-text-centered p-0">
+                    <div class="quiz-body-more-info column is-6-mobile is-6 p-0">
+                        <a id="" class="btn btn-invert btn-small btn-vertical m-0">
+                            <span>
+                                more info
+                            </span>
+                        </a>
+                    </div>
+                    <div class="quiz-body-play column is-6-mobile is-6 p-0">
+                        <a id="" class="btn btn-invert btn-small btn-vertical m-0">
+                            <span>
+                                play
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="quiz text-ghost-white my-4">
+                <div class="quiz-header acronym columns is-mobile m-0 is-vcentered has-text-centered py-2">
+                    <div class="column is-3-mobile is-3 py-0">
+                        <span class="quiz-header-icon text-smoky-black">
+                            A
+                        </span>
+                    </div>
+                    <div class="quiz-header-name column is-9-mobile is-9 py-0">
+                        Name goes here!
+                    </div>
+                </div>
+                <div class="quiz-body columns is-mobile m-0 is-vcentered has-text-centered p-0">
+                    <div class="quiz-body-more-info column is-6-mobile is-6 p-0">
+                        <a id="" class="btn btn-invert btn-small btn-vertical m-0">
+                            <span>
+                                more info
+                            </span>
+                        </a>
+                    </div>
+                    <div class="quiz-body-play column is-6-mobile is-6 p-0">
+                        <a id="" class="btn btn-invert btn-small btn-vertical m-0">
+                            <span>
+                                play
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+                    <!-- <div class="quiz-footer columns is-mobile m-0 is-vcentered has-text-centered text-ghost-white py-2">
+                        <div class="quiz-footer-date column is-6-mobile is-6 py-0">
+                            <i class="far fa-clock"></i> 4-Dec-20
+                        </div>
+                        <div class="quiz-footer-score column is-6-mobile is-6 py-0">
+                            <i class="fas fa-percentage"></i> 80%
+                        </div>
+                    </div> -->
+        </div>
+        <!-- <div id="test" style="width: 100%;">scroll to understand</div> -->
+        <!-- <div id="content"> </div> -->
+        <div class="quiz-info-wrapper background-smoky-black p-5 hidden-options" id="quiz-info-wrapper">
+            <div class="is-flex is-justify-content-start">
+                <a id="quiz-info-back-btn" class="control-btn">
+                    <span class="">
+                        Go Back
+                    </span>
+                </a>
+            </div>
+            <div class="quiz-info-header">
+                <h2 class="is-size-1 form-header">DETAILS</h2>
+            </div>
+            <div class="quiz-info-body mb-5">
+
+            </div>
+        </div>
+        <!-- <h2 class="is-size-1 form-header">LOG IN</h2> -->
+        
     </section>
     <!-- Options -->
     <section class="section background-ghost-white is-flex is-flex-direction-column is-justify-content-center p-5 hidden-options" id="options-wrapper-welcome">
@@ -188,5 +323,57 @@
             });
             // 
             e.preventDefault();
+        });
+        // 
+        // we will add this content, replace for anything you want to add
+        // var wrapper, content, test;
+        // var more = '<div style="height:1000px; background:green;"></div>';
+
+        // // this is the scroll event handler
+        // function scroller() {
+        //     // print relevant scroll info
+        //     test.innerHTML = wrapper.scrollTop + " + " + wrapper.offsetHeight + " + 100 > " + content.offsetHeight;
+        //     console.log(test.innerHTML);
+
+        //     // add more contents if user scrolled down enough
+        //     if (wrapper.scrollTop + wrapper.offsetHeight + 100 > content.offsetHeight) {
+        //         content.innerHTML += more; // NK: Here you can make an Ajax call and fetch content to append to content.innerHTML
+        //     }
+        // }
+
+        // wrapper = document.getElementById("browse-wrapper");
+        // content = document.getElementById("content");
+        // test = document.getElementById("test");
+
+        // content.innerHTML = more;
+
+        // wrapper.addEventListener("scroll", () => {
+        //     scroller();
+        //     console.log('scrolling');
+        // });
+        // 
+        const browseBtn = document.querySelector('#welcome-browse-btn');
+        const addQuizBtn = document.querySelector('#welcome-add-new-quiz-btn');
+        const browseWrapper = document.querySelector('#browse-wrapper');
+        const welcomeWrapper = document.querySelector('#welcome-wrapper');
+        // 
+        browseBtn.addEventListener('click', () => {
+            welcomeWrapper.firstElementChild.classList.add('shrink');
+            // 
+            setTimeout(() => {
+                welcomeWrapper.classList.toggle('hidden-options');
+                browseWrapper.classList.toggle('hidden-options');
+            }, 600);
+        });
+        // 
+        const browseBackBtn = document.querySelector('#browse-back-btn');
+        // 
+        browseBackBtn.addEventListener('click', () => {
+            welcomeWrapper.classList.toggle('hidden-options');
+            browseWrapper.classList.toggle('hidden-options');
+            // 
+            setTimeout(() => {
+                welcomeWrapper.firstElementChild.classList.remove('shrink');
+            }, 600);
         });
     </script>

@@ -186,7 +186,15 @@ footer p {
     transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
     position: relative;
     cursor: pointer;
-    /* overflow: hidden; */
+}
+
+.btn-small {
+    font-size: 1.25rem;
+}
+
+.btn-vertical {
+    height: 100%;
+    max-height: 100%;
 }
 
 .side-btn {
@@ -227,11 +235,21 @@ footer p {
     transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
 }
 
+.btn-vertical::before {
+    transform: scaleY(0);
+}
+
 .btn:active::before,
 .btn:focus::before,
 .btn:hover::before {
     transform: scaleX(1);
     transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
+}
+
+.btn-vertical:active::before,
+.btn-vertical:focus::before,
+.btn-vertical:hover::before {
+    transform: scaleY(1);
 }
 
 
@@ -585,14 +603,28 @@ footer p {
 #registration-confirmation,
 #login-confirmation,
 #login-feedback-wrapper,
-#welcome-wrapper {
+#welcome-wrapper,
+#browse-wrapper,
+#quiz-info-wrapper {
     max-height: 10000px;
     height: calc(100% - 72px - 68px);
     transition: all 0.5s ease;
 }
 
-#welcome-wrapper {
+#welcome-wrapper,
+#browse-wrapper,
+#quiz-info-wrapper {
     height: calc(100% - 72px);
+}
+
+#browse-wrapper {
+    overflow: auto;
+}
+
+#browse-wrapper > div:first-child {
+    position: sticky;
+    top: 0;
+    left: 0;
 }
 
 #register-wrapper > *,
@@ -601,7 +633,9 @@ footer p {
 #registration-confirmation > *,
 #login-confirmation > *,
 #login-feedback-wrapper > *,
-#welcome-wrapper > * {
+#welcome-wrapper > *,
+#browse-wrapper > *,
+#quiz-info-wrapper > * {
     opacity: 1;
     transition: all 0.5s ease;
 }
@@ -612,7 +646,9 @@ footer p {
 #registration-confirmation.hidden-options,
 #login-confirmation.hidden-options,
 #login-feedback-wrapper.hidden-options,
-#welcome-wrapper.hidden-options {
+#welcome-wrapper.hidden-options,
+#browse-wrapper.hidden-options,
+#quiz-info-wrapper.hidden-options {
     overflow: hidden;
     padding: 0 !important;
     max-height: 0;
@@ -625,7 +661,9 @@ footer p {
 #registration-confirmation.hidden-options > *,
 #login-confirmation.hidden-options > *,
 #login-feedback-wrapper.hidden-options > *,
-#welcome-wrapper.hidden-options > * {
+#welcome-wrapper.hidden-options > *,
+#browse-wrapper.hidden-options > *,
+#quiz-info-wrapper.hidden-options > * {
     opacity: 0;
     transition: all 0.5s ease;
 }
@@ -834,7 +872,8 @@ button {
 
 .feedback-wrapper,
 #registration-confirmation,
-#login-confirmation {
+#login-confirmation,
+#quiz-info-wrapper {
     position: absolute;
     top: 0;
     left: 0;
@@ -848,4 +887,32 @@ button {
 #login-confirmation {
     overflow: hidden;
     border-radius: 1rem;
+}
+
+.quiz-display-wrapper {
+    height: 100%;
+}
+
+.quiz {
+    font-size: 1.25rem;
+    font-family: 'chiller', Arial, Helvetica, sans-serif !important;
+    text-transform: uppercase;
+    transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
+    border-radius: 1rem;
+    border: 0.5rem solid var(--color-corn);
+}
+
+.acronym {
+    font-size: 1.5rem;
+    background-color: var(--color-space-cadet);
+    color: var(--color-ghost-white);
+}
+
+.quiz-header-icon {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    background-color: var(--color-corn);
+    border-radius: 50%;
+    border: 1px solid var(--color-smoky-black);
 }
