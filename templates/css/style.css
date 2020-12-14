@@ -605,7 +605,8 @@ footer p {
 #login-feedback-wrapper,
 #welcome-wrapper,
 #browse-wrapper,
-#quiz-info-wrapper {
+#quiz-info-wrapper,
+#add-new-quiz-wrapper {
     max-height: 10000px;
     height: calc(100% - 72px - 68px);
     transition: all 0.5s ease;
@@ -613,7 +614,8 @@ footer p {
 
 #welcome-wrapper,
 #browse-wrapper,
-#quiz-info-wrapper {
+#quiz-info-wrapper,
+#add-new-quiz-wrapper {
     height: calc(100% - 72px);
 }
 
@@ -635,7 +637,8 @@ footer p {
 #login-feedback-wrapper > *,
 #welcome-wrapper > *,
 #browse-wrapper > *,
-#quiz-info-wrapper > * {
+#quiz-info-wrapper > *,
+#add-new-quiz-wrapper > * {
     opacity: 1;
     transition: all 0.5s ease;
 }
@@ -648,7 +651,8 @@ footer p {
 #login-feedback-wrapper.hidden-options,
 #welcome-wrapper.hidden-options,
 #browse-wrapper.hidden-options,
-#quiz-info-wrapper.hidden-options {
+#quiz-info-wrapper.hidden-options,
+#add-new-quiz-wrapper.hidden-options {
     overflow: hidden;
     padding: 0 !important;
     max-height: 0;
@@ -663,7 +667,8 @@ footer p {
 #login-feedback-wrapper.hidden-options > *,
 #welcome-wrapper.hidden-options > *,
 #browse-wrapper.hidden-options > *,
-#quiz-info-wrapper.hidden-options > * {
+#quiz-info-wrapper.hidden-options > *,
+#add-new-quiz-wrapper.hidden-options > * {
     opacity: 0;
     transition: all 0.5s ease;
 }
@@ -700,7 +705,9 @@ footer p {
 }
 
 #register-wrapper .form-header,
-#login-wrapper .form-header {
+#login-wrapper .form-header,
+#filter-quiz-wrapper .form-header,
+#search-quiz-wrapper .form-header {
     font-family: 'chiller', Arial, Helvetica, sans-serif !important;
     color: var(--color-ghost-white);
     text-align: center;
@@ -870,6 +877,43 @@ button {
     transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
 }
 
+#more-info-wrapper,
+#filter-quiz-wrapper,
+#search-quiz-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+    height: calc(100%);
+    transform: scaleY(1);
+    overflow: hidden;
+    transition: all 0.5s ease;
+}
+
+#more-info-wrapper > *,
+#filter-quiz-wrapper > *,
+#search-quiz-wrapper > * {
+    opacity: 1;
+    transition: all 0.5s ease;
+}
+
+#more-info-wrapper.scaleY,
+#filter-quiz-wrapper.scaleY,
+#search-quiz-wrapper.scaleY {
+    padding: 0 !important;
+    transform: scaleY(0);
+    z-index: 0;
+    transition: all 0.5s ease;
+}
+
+#more-info-wrapper.scaleY > *,
+#filter-quiz-wrapper.scaleY > *,
+#search-quiz-wrapper.scaleY > * {
+    opacity: 0;
+    transition: all 0.5s ease;
+}
+
 .feedback-wrapper,
 #registration-confirmation,
 #login-confirmation,
@@ -915,4 +959,142 @@ button {
     background-color: var(--color-corn);
     border-radius: 50%;
     border: 1px solid var(--color-smoky-black);
+}
+
+.swiped-right,
+.swiped-left,
+.more-info-quiz-info {
+    height: 100%;
+}
+
+.filter-label {
+    font-size: 1.25rem;
+    font-family: 'chiller', Arial, Helvetica, sans-serif !important;
+    text-transform: uppercase;
+    transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
+}
+
+/* Custom Select, Input, Textarea, Pagination, Link Styling */
+select:focus,
+select:hover,
+select:active,
+input:focus,
+input:hover,
+input:active {
+	box-shadow: none !important;
+	outline: 2px solid var(--color-carolina-blue) !important;
+    transition: all 0.1s cubic-bezier(.175,.885,.32,1.275);
+}
+
+.select {
+    width: 100%;
+    height: auto;
+}
+
+select,
+input {
+    border: none !important;
+	border-radius: 0 !important;
+    transition: all 0.1s cubic-bezier(.175,.885,.32,1.275);
+    width: 100%;
+    background-color: var(--color-smoky-black) !important;
+    color: var(--color-ghost-white) !important;
+    text-align: center !important;
+    height: auto !important;
+}
+
+select::after {
+    color: var(--color-smoky-black) !important;
+}
+
+.select:not(.is-multiple):not(.is-loading)::after,
+.select:not(.is-multiple):not(.is-loading):hover::after {
+    border-color: var(--color-ghost-white);
+}
+
+input::placeholder {
+    color: var(--color-ghost-white) !important;
+    opacity: 1 !important;
+}
+
+#filter-quiz-wrapper > div:first-child {
+    height: 100%;
+}
+
+/* input[type="number"] */
+input[type="number"] {
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.number-input {
+    border: 0;
+    display: inline-flex;
+}
+
+.number-input,
+.number-input * {
+    box-sizing: border-box;
+}
+
+.number-input button {
+    outline:none;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: var(--color-smoky-black);
+    color: var(--color-ghost-white);
+    border: none;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    cursor: pointer;
+    margin: 0;
+    position: relative;
+    box-shadow: 0px 0px 5px var(--color-ghost-white);
+    border-radius: 50%;
+}
+
+.number-input button:before,
+.number-input button:after {
+    display: inline-block;
+    position: absolute;
+    content: '';
+    width: 2rem;
+    height: 0.25rem;
+    background-color: var(--color-ghost-white);
+    transform: translate(-50%, -50%);
+}
+.number-input button.plus:after {
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.number-input input[type=number] {
+  font-family: 'chiller', Arial, Helvetica, sans-serif !important;
+  max-width: 7rem;
+  padding: .5rem;
+  border: none;
+  border-width: 0 2px;
+  font-size: 2rem;
+  height: 3rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.select select,
+select option,
+input[type=text] {
+    font-family: 'chiller', Arial, Helvetica, sans-serif !important;
+    font-size: 1.5rem;
+}
+
+.select:not(.is-multiple) {
+    height: auto;
 }
