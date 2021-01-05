@@ -978,9 +978,9 @@ button {
 select:focus,
 select:hover,
 select:active,
-input:focus,
-input:hover,
-input:active {
+#add-new-quiz-wrapper input:focus,
+#add-new-quiz-wrapper input:hover,
+#add-new-quiz-wrapper input:active {
 	box-shadow: none !important;
 	outline: 2px solid var(--color-carolina-blue) !important;
     transition: all 0.1s cubic-bezier(.175,.885,.32,1.275);
@@ -992,7 +992,7 @@ input:active {
 }
 
 select,
-input {
+#add-new-quiz-wrapper input {
     border: none !important;
 	border-radius: 0 !important;
     transition: all 0.1s cubic-bezier(.175,.885,.32,1.275);
@@ -1012,7 +1012,7 @@ select::after {
     border-color: var(--color-ghost-white);
 }
 
-input::placeholder {
+#add-new-quiz-wrapper input::placeholder {
     color: var(--color-ghost-white) !important;
     opacity: 1 !important;
 }
@@ -1090,7 +1090,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 .select select,
 select option,
-input[type=text] {
+#add-new-quiz-wrapper input[type=text] {
     font-family: 'chiller', Arial, Helvetica, sans-serif !important;
     font-size: 1.5rem;
 }

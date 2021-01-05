@@ -10,6 +10,7 @@ require_once("config/config.php");
 // Use namespaces
 use WordQuizzer\Database;
 use WordQuizzer\Template;
+use GuzzleHttp\Client;
 // Load dependencies
 require_once(realpath("vendor/autoload.php"));
 
@@ -27,3 +28,67 @@ $welcome->username = $_SESSION["user_name"];
 // $index->heading = 'Welcome to wordRiddler!';
 
 echo $welcome->output();
+
+// use Psr\Http\Message\ResponseInterface;
+// use GuzzleHttp\Exception\RequestException;
+
+// $client = new Client();
+  
+// $response = $client->request("GET", "https://wordsapiv1.p.mashape.com/words/example", [
+//     "headers" => [
+//         "x-rapidapi-host" => "wordsapiv1.p.rapidapi.com",
+// 		"x-rapidapi-key" => "f8a63bbfd2mshc496f00dfd1b54cp168d18jsn749a1f9f4065"
+//     ]
+// ]);
+ 
+// //get status code using $response->getStatusCode();
+ 
+// $body = $response->getBody();
+// $arr_body = json_decode($body);
+// print_r($arr_body);
+
+// $promise = $client->requestAsync('GET', 'https://wordsapiv1.p.mashape.com/words/example', [
+//     "headers" => [
+//         "x-rapidapi-host" => "wordsapiv1.p.rapidapi.com",
+// 		"x-rapidapi-key" => "f8a63bbfd2mshc496f00dfd1b54cp168d18jsn749a1f9f4065"
+//     ]
+// ]);
+// $promise->then(
+//     function (ResponseInterface $res) {
+//         echo $res->getStatusCode() . "\n";
+//     },
+//     function (RequestException $e) {
+//         echo $e->getMessage() . "\n";
+//         echo $e->getRequest()->getMethod();
+//     }
+// );
+
+// $promise->wait();
+
+// $curl = curl_init();
+
+// curl_setopt_array($curl, [
+// 	CURLOPT_URL => "https://wordsapiv1.p.rapidapi.com/words/watch",
+// 	CURLOPT_RETURNTRANSFER => true,
+// 	CURLOPT_FOLLOWLOCATION => true,
+// 	CURLOPT_ENCODING => "",
+// 	CURLOPT_MAXREDIRS => 10,
+// 	CURLOPT_TIMEOUT => 30,
+// 	CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+// 	CURLOPT_CUSTOMREQUEST => "GET",
+// 	CURLOPT_HTTPHEADER => [
+// 		"x-rapidapi-host: wordsapiv1.p.rapidapi.com",
+// 		"x-rapidapi-key: f8a63bbfd2mshc496f00dfd1b54cp168d18jsn749a1f9f4065"
+// 	],
+// ]);
+
+// $response = curl_exec($curl);
+// $err = curl_error($curl);
+
+// curl_close($curl);
+
+// if ($err) {
+// 	echo "cURL Error #:" . $err;
+// } else {
+// 	echo $response;
+// }

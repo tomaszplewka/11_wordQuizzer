@@ -516,7 +516,7 @@ registerForm.addEventListener('submit', e => {
                                         // remove tabindex="-1"
                                         removeTabindex('login-tabindex');
                                         // set focus on first input
-                                        loginForm.username.focus();
+                                        loginForm.email.focus();
                                     }, 600);
                                 }, 1500);
                             }, 1000);

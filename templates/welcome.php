@@ -60,7 +60,7 @@
         </div>
         <div id="add-quiz-form-wrapper" class="columns is-mobile m-0 has-text-centered is-multiline">
             <div class="column is-12-mobile is-12 p-0">
-                <form action="">
+                <form action="" id="add-quiz-form">
                     <div class="columns is-mobile m-0 is-vcentered is-multiline">
                         <div class="column is-12-mobile is-12 p-0 has-text-centered my-2">
                             <input class="input py-1" type="text" name="quiz-name" placeholder="Name">
@@ -619,26 +619,49 @@
         const decrement = document.querySelectorAll('.decrement');
         // const quizOptions = document.querySelector('#quiz-options');
         // 
-        increment.forEach(incrBtn => {
-            console.log(incrBtn);
-            incrBtn.addEventListener('click', e => {
-                console.log(e.target);
-                if (!(e.target.previousElementSibling.value >= e.target.previousElementSibling.max)) {
+        // increment.forEach(incrBtn => {
+        //     console.log(incrBtn);
+        //     incrBtn.addEventListener('click', e => {
+        //         console.log(e.target);
+        //         if (!(e.target.previousElementSibling.value >= e.target.previousElementSibling.max)) {
+        //             e.target.previousElementSibling.value ++;
+        //         }
+        //         // 
+        //         e.preventDefault();
+        //     });
+        // });
+        // decrement.forEach(decrBtn => {
+        //     console.log(decrBtn);
+        //     decrBtn.addEventListener('click', e => {
+        //         console.log(e.target);
+        //         if (e.target.nextElementSibling.value > e.target.nextElementSibling.min) {
+        //             e.target.nextElementSibling.value --;
+        //         }
+        //         // 
+        //         e.preventDefault();
+        //     });
+        // });
+        // 
+        const addQuizForm = document.querySelector('#add-quiz-form');
+        // 
+        addQuizForm.addEventListener('click', e => {
+            if (e.target.classList.contains('increment')) {
+                if (!(Number(e.target.previousElementSibling.value) >= Number(e.target.previousElementSibling.max))) {
                     e.target.previousElementSibling.value ++;
                 }
                 // 
                 e.preventDefault();
-            });
-        });
-        decrement.forEach(decrBtn => {
-            console.log(decrBtn);
-            decrBtn.addEventListener('click', e => {
-                console.log(e.target);
-                if (e.target.nextElementSibling.value > e.target.nextElementSibling.min) {
+            }
+            if (e.target.classList.contains('decrement')) {
+                if ((Number(e.target.nextElementSibling.value) > Number(e.target.nextElementSibling.min))) {
                     e.target.nextElementSibling.value --;
                 }
                 // 
                 e.preventDefault();
-            });
+            }
         });
+
+
+        
+
     </script>
