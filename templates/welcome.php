@@ -662,6 +662,186 @@
         });
 
 
-        
 
+
+
+
+
+
+
+
+
+
+
+
+        const getAllWordsByPage = async function(pageNum = 1) {
+            return await fetch('https://wordsapiv1.p.rapidapi.com/words/?' + new URLSearchParams({
+                letterPattern: '^[A-z]{2,}$',
+                page: pageNum
+            }), {
+                "method": "GET",
+                "headers": {
+                    "x-rapidapi-key": "yourKey",
+                    "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
+                }
+            })
+            .then(response => response.json());
+        }
+        const getWordsByRandomPages = async function(numberOfQuestions) {
+            // Get all words
+            let pages = '', data = [], randomPages = [];
+            return await getAllWordsByPage()
+            .then(doc => {
+                // No errors -- proceed in a regular fashion
+                // Total number of pages
+                pages = doc.results.total;
+                console.log(pages);
+                console.log(Math.ceil(pages / 100));
+                // Generate random pages
+                while (randomPages.length < numberOfQuestions * 3) {
+                    const r = Math.floor(Math.random() * Math.ceil(pages / 100));
+                    if (randomPages.indexOf(r) === -1) { randomPages.push(r); }
+                }
+                console.log(randomPages);
+                // Get all words by randomPages
+                let promises = [];
+                // Add promises in a loop
+                for (let i = 0; i < randomPages.length; i++) {
+                    promises.push(getAllWordsByPage(randomPages[i]));
+                }
+                return Promise.all(promises);
+            })
+            .catch(error => {
+                // Errors -- handle those in here
+                console.log(error);
+            });
+        }
+        const getRandomWordDefinitions = async function(missingWords, oldWordDefinitions) {
+            let wordsDefinitions = {};
+            console.log(missingWords);
+            // Loop till word with definition is found
+            while(true) {
+                // Fetch random word
+                const response = await fetch('https://wordsapiv1.p.rapidapi.com/words/?' + new URLSearchParams({
+                    random: 'true'
+                }), {
+                    "method": "GET",
+                    "headers": {
+                        "x-rapidapi-key": "yourKey",
+                        "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
+                    }
+                });
+                // Convert to json
+                const doc = await response.json();
+                // Get word field
+                const word = doc.word;
+                console.log(word);
+                // Check if fetched word is unique
+                if (!Object.keys(oldWordDefinitions).includes(word)) {
+                    // Fetch definition for this word
+                    const response = await fetch('https://wordsapiv1.p.rapidapi.com/words/' + word + '/definitions', {
+                        "method": "GET",
+                        "headers": {
+                            "x-rapidapi-key": "yourKey",
+                            "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
+                        }
+                    });
+                    // Convert to json
+                    const doc = await response.json();
+                    console.log(doc);
+                    // If fetched word has definition, add it to wordDefinitions object
+                    if (doc.definitions.length) {
+                        wordsDefinitions[word] = doc.definitions;
+                    }
+                    // If wordDefinitions has specified length, break from the loop
+                    console.log(Object.keys(wordsDefinitions).length);
+                    if (Object.keys(wordsDefinitions).length === missingWords) {
+                        break;
+                    }
+                }
+            }
+            console.log('skonczylem drugi raz');
+            return wordsDefinitions;
+        }
+        const getSpecifiedWordDefinitions = async function(words) {
+            let i = 0, wordsDefinitions = {};
+            // Loop to get all words specified in words array
+            while(i < words.length) {
+                console.log(i);
+                const word = words[i];
+                // Fetch word
+                const response = await fetch('https://wordsapiv1.p.rapidapi.com/words/' + word + '/definitions', {
+                    "method": "GET",
+                    "headers": {
+                        "x-rapidapi-key": "yourKey",
+                        "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
+                    }
+                });
+                // Convert to json
+                const doc = await response.json();
+                // If fetched word has definition, add it to wordDefinitions object
+                if (doc.definitions.length) {
+                    console.log('jestem tutaaaaaaj');
+                    wordsDefinitions[word] = doc.definitions;
+                }
+                console.log(wordsDefinitions);
+                // If wordDefinitions has specified length, break from the loop
+                // console.log(Object.keys(wordsDefinitions).length);
+                // if (Object.keys(wordsDefinitions).length === 2) {
+                //     break;
+                // }
+                i++;
+            }
+            console.log('skonczylem');
+            return wordsDefinitions;
+        }
+        // let words = ["scandalised", "destalinize"];
+        getWordsByRandomPages(2)
+        .then(docs => {
+            console.log(docs);
+            // Generate random word indexes
+            let randomIndexes = [], randomWords = [];
+            while (randomIndexes.length < 2 * 3) {
+                const r = Math.floor(Math.random() * 100) + 1;
+                if (randomIndexes.indexOf(r) === -1) { randomIndexes.push(r); }
+            }
+            console.log(randomIndexes);
+            // Get random words based on randomIndexes
+            docs.forEach((doc, index) => {
+                randomWords.push(doc.results.data[randomIndexes[index]]);
+            });
+            console.log(randomWords);
+            // Get all words definitions
+            let wordDefinitions = [];
+            getSpecifiedWordDefinitions(randomWords)
+            .then(definitions => {
+                wordDefinitions = definitions;
+                console.log(wordDefinitions);
+                console.log('DONE');
+                // Check if length of wordDefinitions is greater than or equal to length of numOfQuestions
+                if (Object.keys(wordDefinitions).length >= 2) {
+                    // Yes - ok
+                    console.log('jest ok');
+                    // Here check if there is enough word to create answers
+                    // Yes -- 
+                    return undefined;
+                    // No -- fetch more word definitions -- you can do it in one if statement!!!
+                    // const missingWords = 2 - Object.keys(wordDefinitions).length;
+                    // return getRandomWordDefinitions(missingWords, wordDefinitions);
+                } else {
+                    // No - show user a message that generator found that many words (is that ok?) + if not ok -- add async function that searches for random word within a while loop till it finds appropriate amount of words with definitions
+                    const missingWords = 2 - Object.keys(wordDefinitions).length;
+                    return getRandomWordDefinitions(missingWords, wordDefinitions);
+
+                }
+            })
+            .then(definition => {
+                if (definition === undefined) {
+                    console.log('jest ok, znowu');
+                } else {
+                    console.log(definition);
+                    console.log({...wordDefinitions, ...definition});
+                }
+            });
+        });
     </script>
