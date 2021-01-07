@@ -51,6 +51,11 @@
     </section>
     <!-- Add new quiz screen -->
     <section class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 is-relative hidden-options" id="add-new-quiz-wrapper">
+        <div class="generate-confirmation is-flex is-justify-content-center is-align-items-center hidden-options background-mountain-meadow" id="login-confirmation">
+            <p class="login-confirmation-text text-ghost-white p-2">
+                Your quiz is being generated. Hold on! This may take a while.
+            </p>
+        </div>
         <div class="is-flex is-justify-content-space-between">
             <a id="add-new-quiz-back-btn" class="control-btn">
                 <span class="">
@@ -58,37 +63,161 @@
                 </span>
             </a>
         </div>
+        <div class="feedback-wrapper background-smoky-black p-5 hidden-options" id="generate-feedback-wrapper">
+            <div class="is-flex is-justify-content-start">
+                <a id="generate-feedback-back-btn" class="control-btn">
+                    <span class="">
+                        Go Back
+                    </span>
+                </a>
+            </div>
+            <div class="feedback-header">
+                <h2 class="is-size-1 form-header">FEEDBACK</h2>
+            </div>
+            <div class="feedback-body mb-5">
+                <div class="generate-name-wrapper-if-error">
+                    <div class="columns is-mobile m-0 is-vcentered is-multiline hide">
+                        <div class="column is-10-mobile is-10 p-2">
+                            <p role="alert" class="status-failure has-text-left" >name</p>
+                        </div>
+                        <div class="column is-2-mobile is-2 text-copper-red has-text-centered p-0 px-2">
+                            <i class="fas fa-exclamation fa-2x"></i>
+                        </div>
+                        <div class="column is-12-mobile is-12 text-copper-red has-text-centered p-0">
+                            <p class="generate-name-error-text"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="generate-name-wrapper-if-ok">
+                    <div class="columns is-mobile m-0 is-vcentered is-multiline hide">
+                        <div class="column is-10-mobile is-10 p-2">
+                            <p role="alert" class="status-ok has-text-left" >name</p>
+                        </div>
+                        <div class="column is-2-mobile is-2 text-mountain-meadow has-text-centered p-0 px-2">
+                            <i class="fas fa-check fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="generate-type-wrapper-if-error">
+                    <div class="columns is-mobile m-0 is-vcentered is-multiline hide">
+                        <div class="column is-10-mobile is-10 p-2">
+                            <p role="alert" class="status-failure has-text-left" >type</p>
+                        </div>
+                        <div class="column is-2-mobile is-2 text-copper-red has-text-centered p-0 px-2">
+                            <i class="fas fa-exclamation fa-2x"></i>
+                        </div>
+                        <div class="column is-12-mobile is-12 text-copper-red has-text-centered p-0">
+                            <p class="generate-type-error-text"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="generate-type-wrapper-if-ok">
+                    <div class="columns is-mobile m-0 is-vcentered is-multiline hide">
+                        <div class="column is-10-mobile is-10 p-2">
+                            <p role="alert" class="status-ok has-text-left" >type</p>
+                        </div>
+                        <div class="column is-2-mobile is-2 text-mountain-meadow has-text-centered p-0 px-2">
+                            <i class="fas fa-check fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="generate-answers-wrapper-if-error">
+                    <div class="columns is-mobile m-0 is-vcentered is-multiline hide">
+                        <div class="column is-10-mobile is-10 p-2">
+                            <p role="alert" class="status-failure has-text-left" >answers</p>
+                        </div>
+                        <div class="column is-2-mobile is-2 text-copper-red has-text-centered p-0 px-2">
+                            <i class="fas fa-exclamation fa-2x"></i>
+                        </div>
+                        <div class="column is-12-mobile is-12 text-copper-red has-text-centered p-0">
+                            <p class="generate-answers-error-text"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="generate-answers-wrapper-if-ok">
+                    <div class="columns is-mobile m-0 is-vcentered is-multiline hide">
+                        <div class="column is-10-mobile is-10 p-2">
+                            <p role="alert" class="status-ok has-text-left" >answers</p>
+                        </div>
+                        <div class="column is-2-mobile is-2 text-mountain-meadow has-text-centered p-0 px-2">
+                            <i class="fas fa-check fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="generate-questions-wrapper-if-error">
+                    <div class="columns is-mobile m-0 is-vcentered is-multiline hide">
+                        <div class="column is-10-mobile is-10 p-2">
+                            <p role="alert" class="status-failure has-text-left" >questions</p>
+                        </div>
+                        <div class="column is-2-mobile is-2 text-copper-red has-text-centered p-0 px-2">
+                            <i class="fas fa-exclamation fa-2x"></i>
+                        </div>
+                        <div class="column is-12-mobile is-12 text-copper-red has-text-centered p-0">
+                            <p class="generate-questions-error-text"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="generate-questions-wrapper-if-ok">
+                    <div class="columns is-mobile m-0 is-vcentered is-multiline hide">
+                        <div class="column is-10-mobile is-10 p-2">
+                            <p role="alert" class="status-ok has-text-left" >questions</p>
+                        </div>
+                        <div class="column is-2-mobile is-2 text-mountain-meadow has-text-centered p-0 px-2">
+                            <i class="fas fa-check fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id="add-quiz-form-wrapper" class="columns is-mobile m-0 has-text-centered is-multiline">
             <div class="column is-12-mobile is-12 p-0">
-                <form action="" id="add-quiz-form">
+                <form action="generate.php" method="POST" id="add-quiz-form">
                     <div class="columns is-mobile m-0 is-vcentered is-multiline">
                         <div class="column is-12-mobile is-12 p-0 has-text-centered my-2">
-                            <input class="input py-1" type="text" name="quiz-name" placeholder="Name">
+                            <input class="input py-1" type="text" name="quiz-name" placeholder="NAME">
                         </div>
                         <div class="column is-12-mobile is-12 p-0 has-text-centered my-2">
                             <div class="select text-ghost-white">
-                                <select class="py-1">
-                                    <option>Quiz type</option>
-                                    <option>With options</option>
+                                <select class="py-1" name="quiz-type">
+                                    <option selected disabled>Quiz Type</option>
+                                    <option>Definitions</option>
                                 </select>
                             </div>
+                        </div>
+                        <div class="column is-12-mobile is-12 p-0 has-text-centered my-2">
+                            <input class="input py-1" type="hidden" name="quiz-select">
                         </div>
                         <div class="column is-12-mobile is-12 p-0 has-text-centered my-2 number-input-wrapper">
                             <div class="number-input">
                                 <button class="decrement"></button>
-                                <input id="quiz-options" class="quantity input mx-3" name="quiz-options" min="2" max="6" step="1" value="2" type="number">
+                                <input id="quiz-answers" class="quantity input mx-3" name="quiz-answers" min="2" max="6" step="1" value="2" type="number">
                                 <button class="increment plus"></button>
                             </div>
                         </div>
-                        <div class="column is-12-mobile is-12 p-0 has-text-centered mt-2 mb-5 number-input-wrapper">
+                        <div class="column is-12-mobile is-12 p-0 has-text-centered mt-2 mb-0 number-input-wrapper">
                             <div class="number-input">
                                 <button class="decrement"></button>
-                                <input id="quiz-questions" class="quantity input mx-3" name="quiz-options" min="4" max="10" step="1" value="4" type="number">
+                                <input id="quiz-questions" class="quantity input mx-3" name="quiz-questions" min="4" max="10" step="1" value="4" type="number">
                                 <button class="increment plus"></button>
                             </div>
                         </div>
-                        <div class="column is-12-mobile is-12 p-0">
-                            <button type="submit" name="quiz-generate" id="" class="btn btn-invert m-0">
+                        <div class="submit-feedback mt-4 hide column is-12-mobile is-12" id="submit-generate-feedback">
+                            <div class="columns is-mobile m-0 has-text-centered is-vcentered is-multiline error-status hide">
+                                <div class="column is-10-mobile is-10">
+                                    <p role="alert" class="status-failure">Errors found</p>
+                                </div>
+                                <div class="column is-2-mobile is-2 background-copper-red error-icon-wrapper">
+                                    <i class="fas fa-exclamation"></i>
+                                </div>
+                            </div>
+                            <div class="columns is-mobile m-0 has-text-centered is-vcentered is-multiline data-status hide">
+                                <div class="column is-12-mobile is-12">
+                                    <p role="alert" class="status-ok" >Busy sending data.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-12-mobile is-12 p-0 mt-4">
+                            <button type="submit" name="quiz-generate" id="generate-quiz" class="btn btn-invert m-0 disabled">
                                 <span>
                                     generate
                                 </span>
@@ -606,9 +735,41 @@
                 addQuizWrapper.classList.toggle('hidden-options');
             }, 600);
         });
+        // reset form
+        const resetForm = function(targetSelector, submitBtn) {
+            const inputElements = document.querySelectorAll(targetSelector);
+            Array.from(inputElements).forEach(input => {
+                input.value = '';
+                input.classList.remove('input-valid');
+                input.classList.remove('input-invalid');
+                if (!input.parentElement.lastElementChild.firstElementChild.classList.contains('hide')) {
+                    input.parentElement.lastElementChild.firstElementChild.classList.add('hide');
+                }
+                if (!input.parentElement.lastElementChild.lastElementChild.classList.contains('hide')) {
+                    input.parentElement.lastElementChild.lastElementChild.classList.add('hide');
+                }
+            });
+            // disable submit btn
+            if (!submitBtn.classList.contains('disabled')) {
+                submitBtn.classList.add('disabled');
+            }
+        }
         addQuizBackBtn.addEventListener('click', () => {
             welcomeWrapper.classList.toggle('hidden-options');
             addQuizWrapper.classList.toggle('hidden-options');
+            // 
+            // RESET FORM
+            addQuizForm["quiz-name"].value = '';
+            addQuizForm["quiz-type"].value = 'Quiz Type';
+            addQuizForm["quiz-answers"].value = 2;
+            addQuizForm["quiz-questions"].value = 4;
+            // disable submit btn
+            if (!addQuizForm["quiz-generate"].classList.contains('disabled')) {
+                addQuizForm["quiz-generate"].classList.add('disabled');
+            }
+            // Hide submit feedback
+            hideSubmitFeedback(submitGenerateFeedback);
+            // Reenable inputs & select !
             // 
             setTimeout(() => {
                 welcomeWrapper.firstElementChild.classList.remove('shrink');
@@ -617,30 +778,6 @@
         // 
         const increment = document.querySelectorAll('.increment');
         const decrement = document.querySelectorAll('.decrement');
-        // const quizOptions = document.querySelector('#quiz-options');
-        // 
-        // increment.forEach(incrBtn => {
-        //     console.log(incrBtn);
-        //     incrBtn.addEventListener('click', e => {
-        //         console.log(e.target);
-        //         if (!(e.target.previousElementSibling.value >= e.target.previousElementSibling.max)) {
-        //             e.target.previousElementSibling.value ++;
-        //         }
-        //         // 
-        //         e.preventDefault();
-        //     });
-        // });
-        // decrement.forEach(decrBtn => {
-        //     console.log(decrBtn);
-        //     decrBtn.addEventListener('click', e => {
-        //         console.log(e.target);
-        //         if (e.target.nextElementSibling.value > e.target.nextElementSibling.min) {
-        //             e.target.nextElementSibling.value --;
-        //         }
-        //         // 
-        //         e.preventDefault();
-        //     });
-        // });
         // 
         const addQuizForm = document.querySelector('#add-quiz-form');
         // 
@@ -648,6 +785,8 @@
             if (e.target.classList.contains('increment')) {
                 if (!(Number(e.target.previousElementSibling.value) >= Number(e.target.previousElementSibling.max))) {
                     e.target.previousElementSibling.value ++;
+                    console.log('jestem tutaj');
+                    checkIfEmpty();
                 }
                 // 
                 e.preventDefault();
@@ -655,6 +794,8 @@
             if (e.target.classList.contains('decrement')) {
                 if ((Number(e.target.nextElementSibling.value) > Number(e.target.nextElementSibling.min))) {
                     e.target.nextElementSibling.value --;
+                    console.log('jestem tutaj tez');
+                    checkIfEmpty();
                 }
                 // 
                 e.preventDefault();
@@ -681,13 +822,13 @@
             }), {
                 "method": "GET",
                 "headers": {
-                    "x-rapidapi-key": "yourKey",
+                    "x-rapidapi-key": "",
                     "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
                 }
             })
             .then(response => response.json());
         }
-        const getWordsByRandomPages = async function(numberOfQuestions) {
+        const getWordsByRandomPages = async function(numberOfQuestions, numOfAnswers) {
             // Get all words
             let pages = '', data = [], randomPages = [];
             return await getAllWordsByPage()
@@ -698,7 +839,7 @@
                 console.log(pages);
                 console.log(Math.ceil(pages / 100));
                 // Generate random pages
-                while (randomPages.length < numberOfQuestions * 3) {
+                while (randomPages.length < numberOfQuestions * numOfAnswers) {
                     const r = Math.floor(Math.random() * Math.ceil(pages / 100));
                     if (randomPages.indexOf(r) === -1) { randomPages.push(r); }
                 }
@@ -727,7 +868,7 @@
                 }), {
                     "method": "GET",
                     "headers": {
-                        "x-rapidapi-key": "yourKey",
+                        "x-rapidapi-key": "",
                         "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
                     }
                 });
@@ -742,7 +883,7 @@
                     const response = await fetch('https://wordsapiv1.p.rapidapi.com/words/' + word + '/definitions', {
                         "method": "GET",
                         "headers": {
-                            "x-rapidapi-key": "yourKey",
+                            "x-rapidapi-key": "",
                             "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
                         }
                     });
@@ -773,7 +914,7 @@
                 const response = await fetch('https://wordsapiv1.p.rapidapi.com/words/' + word + '/definitions', {
                     "method": "GET",
                     "headers": {
-                        "x-rapidapi-key": "yourKey",
+                        "x-rapidapi-key": "",
                         "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
                     }
                 });
@@ -796,52 +937,328 @@
             return wordsDefinitions;
         }
         // let words = ["scandalised", "destalinize"];
-        getWordsByRandomPages(2)
-        .then(docs => {
-            console.log(docs);
-            // Generate random word indexes
-            let randomIndexes = [], randomWords = [];
-            while (randomIndexes.length < 2 * 3) {
-                const r = Math.floor(Math.random() * 100) + 1;
-                if (randomIndexes.indexOf(r) === -1) { randomIndexes.push(r); }
-            }
-            console.log(randomIndexes);
-            // Get random words based on randomIndexes
-            docs.forEach((doc, index) => {
-                randomWords.push(doc.results.data[randomIndexes[index]]);
-            });
-            console.log(randomWords);
-            // Get all words definitions
-            let wordDefinitions = [];
-            getSpecifiedWordDefinitions(randomWords)
-            .then(definitions => {
-                wordDefinitions = definitions;
-                console.log(wordDefinitions);
-                console.log('DONE');
-                // Check if length of wordDefinitions is greater than or equal to length of numOfQuestions
-                if (Object.keys(wordDefinitions).length >= 2) {
-                    // Yes - ok
-                    console.log('jest ok');
-                    // Here check if there is enough word to create answers
-                    // Yes -- 
-                    return undefined;
-                    // No -- fetch more word definitions -- you can do it in one if statement!!!
-                    // const missingWords = 2 - Object.keys(wordDefinitions).length;
-                    // return getRandomWordDefinitions(missingWords, wordDefinitions);
-                } else {
-                    // No - show user a message that generator found that many words (is that ok?) + if not ok -- add async function that searches for random word within a while loop till it finds appropriate amount of words with definitions
-                    const missingWords = 2 - Object.keys(wordDefinitions).length;
-                    return getRandomWordDefinitions(missingWords, wordDefinitions);
+        const numOfQuestion = 2;
+        const numOfAnswers = 4;
+        // getWordsByRandomPages(numOfQuestion, numOfAnswers)
+        // .then(docs => {
+        //     console.log(docs);
+        //     // Generate random word indexes
+        //     let randomIndexes = [], randomWords = [];
+        //     while (randomIndexes.length < numOfQuestion * numOfAnswers) {
+        //         const r = Math.floor(Math.random() * 100) + 1;
+        //         if (randomIndexes.indexOf(r) === -1) { randomIndexes.push(r); }
+        //     }
+        //     console.log(randomIndexes);
+        //     // Get random words based on randomIndexes
+        //     docs.forEach((doc, index) => {
+        //         randomWords.push(doc.results.data[randomIndexes[index]]);
+        //     });
+        //     console.log(randomWords);
+        //     // Get all words definitions
+        //     let wordDefinitions = [];
+        //     getSpecifiedWordDefinitions(randomWords)
+        //     .then(definitions => {
+        //         wordDefinitions = definitions;
+        //         console.log(wordDefinitions);
+        //         console.log('DONE');
+        //         // Check if length of wordDefinitions is greater than or equal to length of numOfQuestions
+        //         if (Object.keys(wordDefinitions).length === numOfQuestion * numOfAnswers) {
+        //             // Yes - ok
+        //             console.log('jest ok');
+        //             // Here check if there is enough word to create answers
+        //             // Yes -- 
+        //             return undefined;
+        //             // No -- fetch more word definitions -- you can do it in one if statement!!!
+        //             // const missingWords = 2 - Object.keys(wordDefinitions).length;
+        //             // return getRandomWordDefinitions(missingWords, wordDefinitions);
+        //         } else {
+        //             // No - show user a message that generator found that many words (is that ok?) + if not ok -- add async function that searches for random word within a while loop till it finds appropriate amount of words with definitions
+        //             const missingWords = numOfQuestion * numOfAnswers - Object.keys(wordDefinitions).length;
+        //             return getRandomWordDefinitions(missingWords, wordDefinitions);
 
-                }
-            })
-            .then(definition => {
-                if (definition === undefined) {
-                    console.log('jest ok, znowu');
-                } else {
-                    console.log(definition);
-                    console.log({...wordDefinitions, ...definition});
+        //         }
+        //     })
+        //     .then(definition => {
+        //         if (definition === undefined) {
+        //             console.log('jest ok, znowu');
+        //         } else {
+        //             console.log(definition);
+        //             console.log({...wordDefinitions, ...definition});
+        //         }
+        //     });
+        // });
+
+        // Generate new quiz
+        // addQuizForm.addEventListener('submit', e => {
+        //     const quizName = addQuizForm["quiz-name"].value;
+        //     const quizType = addQuizForm["quiz-type"].value;
+        //     const quizAnswers = addQuizForm["quiz-answers"].value;
+        //     const quizQuestions = addQuizForm["quiz-questions"].value;
+        //     console.log(quizName);
+        //     console.log(quizType);
+        //     console.log(quizAnswers);
+        //     console.log(quizQuestions);
+
+        //     e.preventDefault();
+        // });
+        // 
+        const checkIfEmpty = function() {
+            if (addQuizForm["quiz-name"].value !== '' && addQuizForm["quiz-type"].value !== 'Quiz Type' && addQuizForm["quiz-answers"].value !== '' && addQuizForm["quiz-questions"].value !== '' && (addQuizForm["quiz-answers"].value >= 2 && addQuizForm["quiz-answers"].value <= 6) && (addQuizForm["quiz-questions"].value >= 4 && addQuizForm["quiz-questions"].value <= 10)) {
+                addQuizForm["quiz-generate"].classList.remove('disabled');
+            } else {
+                addQuizForm["quiz-generate"].classList.add('disabled');
+            }
+        }
+        // Check Name
+        addQuizForm["quiz-name"].addEventListener('keyup', () => {
+            console.log('jestem w name');
+            checkIfEmpty();
+        });
+        addQuizForm["quiz-name"].addEventListener('blur', () => {
+            console.log('jestem w name');
+            checkIfEmpty();
+        });
+        // Check Type
+        addQuizForm["quiz-type"].addEventListener('change', () => {
+            console.log('jestem w type');
+            checkIfEmpty();
+        });
+        // Check Answers
+        addQuizForm["quiz-answers"].addEventListener('keyup', () => {
+            console.log('jestem w type');
+            checkIfEmpty();
+        });
+        // Check Answers
+        addQuizForm["quiz-answers"].addEventListener('blur', () => {
+            console.log('jestem w type');
+            checkIfEmpty();
+        });
+        // Check Questions
+        addQuizForm["quiz-questions"].addEventListener('keyup', () => {
+            console.log('jestem w type');
+            checkIfEmpty();
+        });
+        // Check Questions
+        addQuizForm["quiz-questions"].addEventListener('blur', () => {
+            console.log('jestem w type');
+            checkIfEmpty();
+        });
+        // Show/hide errors
+        const showGenerateErrors = document.querySelector('#submit-generate-feedback .error-icon-wrapper');
+        const generateFeedbackWrapper = document.querySelector('#generate-feedback-wrapper');
+        const generateFeedbackBackBtn = document.querySelector('#generate-feedback-back-btn');
+        // 
+        showGenerateErrors.addEventListener('click', () => {
+            generateFeedbackWrapper.classList.toggle('hidden-options');
+        })
+        // 
+        generateFeedbackBackBtn.addEventListener('click', () => {
+            generateFeedbackWrapper.classList.toggle('hidden-options');
+        })
+        const clearFeedbackDiv = function(target) {
+            Array.from(target.lastElementChild.children).forEach(childDiv => {
+                if (!childDiv.firstElementChild.classList.contains('hide')) {
+                    childDiv.firstElementChild.classList.add('hide');
                 }
             });
+        }
+        const hideSubmitFeedback = function(target) {
+            if (!target.classList.contains('hide')) {
+                if (!target.firstElementChild.classList.contains('hide')) {
+                    target.firstElementChild.classList.add('hide');
+                }
+                if (!target.lastElementChild.classList.contains('hide')) {
+                    target.lastElementChild.classList.add('hide');
+                }
+                target.classList.add('hide');
+            }
+        }
+        const inputValid = function(target, feedback) {
+            if (!feedback.lastElementChild.classList.contains('hide')) {
+                feedback.lastElementChild.classList.add('hide');
+                target.classList.remove('input-invalid');
+                target.classList.add('input-valid');
+            }
+            feedback.firstElementChild.classList.remove('hide');
+            target.classList.add('input-valid');
+        }
+        const inputInvalid = function(target, feedback) {
+            if (!feedback.firstElementChild.classList.contains('hide')) {
+                feedback.firstElementChild.classList.add('hide');
+                target.classList.remove('input-valid');
+                target.classList.add('input-invalid');
+            }
+            feedback.lastElementChild.classList.remove('hide');
+            target.classList.add('input-invalid');
+        }
+        const handleFormDataLogin = function(data) {
+            // Count errors
+            let err_count = 0;
+            // Check username
+            if (checkField(data.email)) { 
+                err_count ++;
+                inputInvalid(loginForm.email, loginEmailValidationIcons);
+                // 
+                setTimeout(() => {
+                    inputInvalidRemove(loginForm.email, loginEmailValidationIcons);
+                }, 2000);
+                // 
+                return err_count;
+            } else {
+                inputValid(loginForm.email, loginEmailValidationIcons);
+            }
+            // Check password
+            if (checkField(data.password)) {
+                err_count ++;
+                inputInvalid(loginForm.password, loginPasswordValidationIcons);
+                // 
+                setTimeout(() => {
+                    inputInvalidRemove(loginForm.password, loginPasswordValidationIcons);
+                }, 2000);
+            } else {
+                inputValid(loginForm.password, loginPasswordValidationIcons);
+            }
+            // Check db
+            err_count += checkField(data.db);
+            
+            return err_count;
+        }
+        const checkField = function(field) {
+            // console.log(field);
+            // Check for error & adjust UI
+            if (field.php_error) {
+                const feedbacIfError = document.querySelector(`.${field.field}-wrapper-if-error`);
+                feedbacIfError.firstElementChild.classList.remove('hide');
+                const feedbackMsg = feedbacIfError.querySelector(`.${field.field}-error-text`);
+                feedbackMsg.textContent = field.msg;
+
+                return 1;
+            } else {
+                const feedbacIfOk = document.querySelector(`.${field.field}-wrapper-if-ok`);
+                feedbacIfOk.firstElementChild.classList.remove('hide');
+
+                return 0;
+            }
+        }
+        const submitGenerateFeedback = document.querySelector('#submit-generate-feedback');
+        const generateConfirmation = document.querySelector('#generate-confirmation');
+        const unlockInputFields = function(target) { 
+            Array.from(target).forEach(input => {
+                input.removeAttribute("readonly");
+            });
+        }
+        // submit generate form
+        addQuizForm.addEventListener('submit', e => {
+
+            const quizName = addQuizForm["quiz-name"].value;
+            const quizType = addQuizForm["quiz-type"].value;
+            const quizAnswers = addQuizForm["quiz-answers"].value;
+            const quizQuestions = addQuizForm["quiz-questions"].value;
+            console.log(quizName);
+            console.log(quizType);
+            console.log(quizAnswers);
+            console.log(quizQuestions);
+
+            // Check if there is anything in inputs
+            if (addQuizForm["quiz-name"].value !== '' && addQuizForm["quiz-type"].value !== 'Quiz Type' && addQuizForm["quiz-answers"].value !== '' && addQuizForm["quiz-questions"].value !== '' && (addQuizForm["quiz-answers"].value >= 2 && addQuizForm["quiz-answers"].value <= 6) && (addQuizForm["quiz-questions"].value >= 4 && addQuizForm["quiz-questions"].value <= 10) && !addQuizForm["quiz-name"].hasAttribute('readonly') && !addQuizForm["quiz-type"].hasAttribute('disabled') && !addQuizForm["quiz-answers"].hasAttribute('readonly') && !addQuizForm["quiz-questions"].hasAttribute('readonly')) {
+                // Adjust UI
+                if (submitGenerateFeedback.classList.contains('hide')) {
+                    submitGenerateFeedback.classList.remove('hide');
+                    submitGenerateFeedback.lastElementChild.classList.remove('hide');
+                } else {
+                    submitGenerateFeedback.firstElementChild.classList.add('hide');
+                    submitGenerateFeedback.lastElementChild.classList.remove('hide');
+                } 
+                // Lock input fields
+                addQuizForm["quiz-name"].setAttribute("readonly", true);
+                addQuizForm["quiz-type"].setAttribute("disabled", true);
+                addQuizForm["quiz-select"].value = addQuizForm["quiz-type"].value;
+                addQuizForm["quiz-answers"].setAttribute("readonly", true);
+                addQuizForm["quiz-questions"].setAttribute("readonly", true);
+                // Clear feedback div
+                clearFeedbackDiv(generateFeedbackWrapper);
+                // 
+                let err_count = 0;
+                // Post data using the Fetch API
+                fetch(addQuizForm.action, {
+                        method: addQuizForm.method,
+                        body: new FormData(addQuizForm)
+                    })
+                    // We turn the response into text as we expect HTML
+                    .then(res => {
+                        // Check if response ok
+                        if (!res.ok) {
+                            // Throw an exception
+                            throw new Error('Network problem.');
+                        }
+                        return res.json();
+                    })
+                    .then(docs => {
+                        console.log(docs);
+                        // Handle when resolved
+                        // Fetch promise rejects only when there is network error
+                        // Handle input data
+                        err_count = handleFormDataLogin(docs);
+                        // if (err_count) { // errors found
+                        //     setTimeout(() => {
+                        //         submitLoginFeedback.lastElementChild.classList.add('hide');
+                        //         submitLoginFeedback.firstElementChild.classList.remove('hide');
+                        //         // Unlock fields
+                        //         unlockInputFields(loginFormInputs);
+                        //     }, 500);
+                        // } else { // no errors
+                        //     setTimeout(() => {
+                        //         // Unlock fields
+                        //         unlockInputFields(loginFormInputs);
+                        //         // Hide submit feedback div
+                        //         submitLoginFeedback.classList.add('hide');
+                        //         submitLoginFeedback.firstElementChild.classList.add('hide');
+                        //         setTimeout(() => {
+                        //             // Show confirmation
+                        //             loginConfirmation.classList.remove('hidden-options');
+                        //             // Clear form
+                        //             resetForm('#login-form input', loginForm['login-submit']);
+                        //             // 
+                        //             setTimeout(() => {
+                        //                 mainSectionWrapper.classList.toggle('hidden-options');
+                        //                 loginWrapper.classList.toggle('hidden-options');
+                        //                 // set tabindex="-1"
+                        //                 addTabindex('login-tabindex');
+                        //                 // 
+                        //                 setTimeout(() => {
+                        //                     // Hide confirmation
+                        //                     loginConfirmation.classList.add('hidden-options');
+                        //                     // Show welcome screen
+                        //                     mainSectionWrapper.classList.toggle('hidden-options');
+                        //                     // Redirect
+                        //                     window.location = './welcome.php';
+                        //                 }, 500);
+                        //             }, 1500);
+                        //         }, 500);
+                        //     }, 1000);
+                        // }
+                    })
+                    .catch(err => {
+                        // here you can handle also error from php
+                        // they come in a js form: JSON.parse blah blah
+                        console.log(err);
+                        // Handle when rejected (only network exceptions)
+                        if (err_count) {
+                            setTimeout(() => {
+                                submitGenerateFeedback.lastElementChild.classList.add('hide');
+                                submitGenerateFeedback.firstElementChild.classList.remove('hide');
+                                // Unlock input fields
+                                addQuizForm["quiz-name"].removeAttribute("readonly");
+                                addQuizForm["quiz-type"].removeAttribute("disabled");
+                                addQuizForm["quiz-answers"].removeAttribute("readonly");
+                                addQuizForm["quiz-questions"].removeAttribute("readonly");
+                            }, 500);
+                        }
+                    });
+            } else {
+                // tutaj pokaz ERRORS FOUND i zmien feedback
+            }
+            // Prevent the default form submit
+            e.preventDefault();
         });
     </script>

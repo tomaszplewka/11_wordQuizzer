@@ -186,6 +186,11 @@ footer p {
     transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
     position: relative;
     cursor: pointer;
+    /* GENERALIZE FOR ALL BUTTONS!!! */
+    appearance: none;
+    outline: none;
+    outline-offset: 0;
+    box-shadow: none;
 }
 
 .btn-small {
@@ -602,7 +607,9 @@ footer p {
 #feedback-wrapper,
 #registration-confirmation,
 #login-confirmation,
+#generate-confirmation,
 #login-feedback-wrapper,
+#generate-feedback-wrapper,
 #welcome-wrapper,
 #browse-wrapper,
 #quiz-info-wrapper,
@@ -634,7 +641,9 @@ footer p {
 #feedback-wrapper > *,
 #registration-confirmation > *,
 #login-confirmation > *,
+#generate-confirmation > *,
 #login-feedback-wrapper > *,
+#generate-feedback-wrapper > *,
 #welcome-wrapper > *,
 #browse-wrapper > *,
 #quiz-info-wrapper > *,
@@ -648,7 +657,9 @@ footer p {
 #feedback-wrapper.hidden-options,
 #registration-confirmation.hidden-options,
 #login-confirmation.hidden-options,
+#generate-confirmation.hidden-options,
 #login-feedback-wrapper.hidden-options,
+#generate-feedback-wrapper.hidden-options,
 #welcome-wrapper.hidden-options,
 #browse-wrapper.hidden-options,
 #quiz-info-wrapper.hidden-options,
@@ -664,7 +675,9 @@ footer p {
 #feedback-wrapper.hidden-options > *,
 #registration-confirmation.hidden-options > *,
 #login-confirmation.hidden-options > *,
+#generate-confirmation.hidden-options > *,
 #login-feedback-wrapper.hidden-options > *,
+#generate-feedback-wrapper.hidden-options > *,
 #welcome-wrapper.hidden-options > *,
 #browse-wrapper.hidden-options > *,
 #quiz-info-wrapper.hidden-options > *,
@@ -822,6 +835,7 @@ button {
 .status-ok,
 .registration-cofirmation-text,
 .login-confirmation-text,
+.generate-confirmation-text,
 .username-info-text,
 .logout-confirmation-text {
     color: var(--color-mountain-meadow);
@@ -844,7 +858,8 @@ button {
 }
 
 .registration-confirmation-text,
-.login-confirmation-text {
+.login-confirmation-text,
+.generate-confirmation-text {
     font-size: 1.25rem;
 }
 
@@ -917,6 +932,7 @@ button {
 .feedback-wrapper,
 #registration-confirmation,
 #login-confirmation,
+#generate-confirmation,
 #quiz-info-wrapper {
     position: absolute;
     top: 0;
@@ -931,6 +947,9 @@ button {
 #login-confirmation {
     overflow: hidden;
     border-radius: 1rem;
+}
+#generate-confirmation {
+    overflow: hidden;
 }
 
 .quiz-display-wrapper {
@@ -980,7 +999,11 @@ select:hover,
 select:active,
 #add-new-quiz-wrapper input:focus,
 #add-new-quiz-wrapper input:hover,
-#add-new-quiz-wrapper input:active {
+#add-new-quiz-wrapper input:active,
+#add-new-quiz-wrapper input:focus::placeholder,
+#add-new-quiz-wrapper input:hover::placeholder,
+#add-new-quiz-wrapper input:active::placeholder {
+    color: var(--color-black-coral) !important;
 	box-shadow: none !important;
 	outline: 2px solid var(--color-carolina-blue) !important;
     transition: all 0.1s cubic-bezier(.175,.885,.32,1.275);
@@ -1001,6 +1024,13 @@ select,
     color: var(--color-ghost-white) !important;
     text-align: center !important;
     height: auto !important;
+}
+
+input:invalid {
+    appearance: none;
+    outline: none;
+    border: none;
+    box-shadow: none;
 }
 
 select::after {
