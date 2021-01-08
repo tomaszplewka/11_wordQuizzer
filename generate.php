@@ -1,4 +1,4 @@
-<?php 
+<?php
 // Start session
 session_start();
 // Load config
@@ -13,31 +13,33 @@ $db = new Database();
 // Define and initialize vars
 $quizName = $quizType = $quizAnswers = $quizQuestions = '';
 $quizName_err = $quizType_err = $quizAnswers_err = $quizQuestions_err = $db_err = '';
-$output =   [
-                "quizName" => [
-                    "php_error" => false,
-                    "msg" => '',
-                    "field" => "generate-name"
-            ],  "quizType" => [
-                    "php_error" => false,
-                    "msg" => '',
-                    "field" => "generate-type"
-            ],   "quizAnswers" => [
-                    "php_error" => false,
-                    "msg" => '',
-                    "field" => "generate-answers"
-            ],  "quizQuestions" => [
-                    "php_error" => false,
-                    "msg" => '',
-                    "field" => "generate-questions"
-            ],  "db" => [
-                    "php_error" => false,
-                    "msg" => '',
-                    "field" => "generate-db"
-            ],  "session" => [
-                    "loggedIn" => true,
-                    "msg" => ''
-            ]];
+$output =
+    [
+        "quiz-name" => [
+            "php_error" => false,
+            "msg" => '',
+            "field" => "generate-name"
+        ],  "quiz-type" => [
+            "php_error" => false,
+            "msg" => '',
+            "field" => "generate-type"
+        ],   "quiz-answers" => [
+            "php_error" => false,
+            "msg" => '',
+            "field" => "generate-answers"
+        ],  "quiz-questions" => [
+            "php_error" => false,
+            "msg" => '',
+            "field" => "generate-questions"
+        ],  "db" => [
+            "php_error" => false,
+            "msg" => '',
+            "field" => "generate-db"
+        ],  "session" => [
+            "loggedIn" => true,
+            "msg" => ''
+        ]
+    ];
 // 
 // session_unset();
 // Check if user is logged in, if not redirect to login page
@@ -54,8 +56,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty(trim($quizName))) {
         $quizName_err = "Please give a name to your quiz.";
         // Send error msg to front end
-        $output["quizName"]["php_error"] = true;
-        $output["quizName"]["msg"] = $quizName_err;
+        $output["quiz-name"]["php_error"] = true;
+        $output["quiz-name"]["msg"] = $quizName_err;
     } else {
         $quizName = htmlentities(trim($quizName), ENT_QUOTES, 'UTF-8');
         // Check if quiz name is already taken
@@ -68,20 +70,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($db->execute()) {
                 if ($db->countRows() === 1) {
                     $quizName_err = "This name is already taken.";
-                    $output["quizName"]["php_error"] = true;
-                    $output["quizName"]["msg"] = $quizName_err;
+                    $output["quiz-name"]["php_error"] = true;
+                    $output["quiz-name"]["msg"] = $quizName_err;
                 } else {
-                    $output["quizName"]["msg"] = "Name is valid.";
+                    $output["quiz-name"]["msg"] = "Name is valid.";
                 }
             } else {
                 $quizName_err = "Database error. Please try again later.";
-                $output["quizName"]["php_error"] = true;
-                $output["quizName"]["msg"] = $quizName_err;
+                $output["quiz-name"]["php_error"] = true;
+                $output["quiz-name"]["msg"] = $quizName_err;
             }
         } else {
             $quizName_err = "Database error. Please try again later.";
-            $output["quizName"]["php_error"] = true;
-            $output["quizName"]["msg"] = $quizName_err;
+            $output["quiz-name"]["php_error"] = true;
+            $output["quiz-name"]["msg"] = $quizName_err;
         }
     }
     // Sanitize and validate quiz type
@@ -89,8 +91,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty(trim($_POST["quiz-select"])) || trim($_POST["quiz-select"]) === "Quiz Type") {
         $quizType_err = "Please select valid quiz type.";
         // Send err msg to front end
-        $output["quizType"]["php_error"] = true;
-        $output["quizType"]["msg"] = $quizType_err;
+        $output["quiz-type"]["php_error"] = true;
+        $output["quiz-type"]["msg"] = $quizType_err;
     } else {
         $quizType = strtolower(htmlspecialchars(trim($_POST["quiz-select"])));
     }
@@ -99,8 +101,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty(trim($_POST["quiz-answers"])) || trim($_POST["quiz-answers"]) < 2  || trim($_POST["quiz-answers"]) > 6) {
         $quizAnswers_err = "Please select valid number of quiz answers.";
         // Send err msg to front end
-        $output["quizAnswers"]["php_error"] = true;
-        $output["quizAnswers"]["msg"] = $quizAnswers_err;
+        $output["quiz-answers"]["php_error"] = true;
+        $output["quiz-answers"]["msg"] = $quizAnswers_err;
     } else {
         $quizAnswers = htmlspecialchars(trim($_POST["quiz-answers"]));
     }
@@ -109,8 +111,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty(trim($_POST["quiz-questions"])) || trim($_POST["quiz-questions"]) < 4  || trim($_POST["quiz-questions"]) > 10) {
         $quizQuestions_err = "Please select valid number of quiz questions.";
         // Send err msg to front end
-        $output["quizQuestions"]["php_error"] = true;
-        $output["quizQuestions"]["msg"] = $quizQuestions_err;
+        $output["quiz-questions"]["php_error"] = true;
+        $output["quiz-questions"]["msg"] = $quizQuestions_err;
     } else {
         $quizQuestions = htmlspecialchars(trim($_POST["quiz-questions"]));
     }
@@ -128,12 +130,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($db->execute()) {
                 $output["db"]["msg"] = "Quiz has been created.";
             } else {
-                $db_err = "Database error: " . $db->errInfo(). " Please try again later.";
+                $db_err = "Database error: " . $db->errInfo() . " Please try again later.";
                 $output["db"]["php_error"] = true;
                 $output["db"]["msg"] = $db_err;
             }
         } else {
-            $db_err = "Database error: " . $db->errInfo(). " Please try again later.";
+            $db_err = "Database error: " . $db->errInfo() . " Please try again later.";
             $output["db"]["php_error"] = true;
             $output["db"]["msg"] = $db_err;
         }
@@ -143,5 +145,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 // 
 echo json_encode($output);
-
-?>

@@ -720,7 +720,8 @@ footer p {
 #register-wrapper .form-header,
 #login-wrapper .form-header,
 #filter-quiz-wrapper .form-header,
-#search-quiz-wrapper .form-header {
+#search-quiz-wrapper .form-header,
+#generate-feedback-wrapper .form-header {
     font-family: 'chiller', Arial, Helvetica, sans-serif !important;
     color: var(--color-ghost-white);
     text-align: center;
@@ -770,10 +771,29 @@ input:hover {
     transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
 }
 
+#add-new-quiz-wrapper .icon-left {
+    left: -3px;
+    color: var(--color-ghost-white);
+    transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
+}
+#add-new-quiz-wrapper .input-valid + .icon-left,
+#add-new-quiz-wrapper .input-invalid + .icon-left {
+    color: var(--color-smoky-black);
+    transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
+}
+
 input:active + .icon-left,
 input:focus + .icon-left,
 input:hover + .icon-left {
     color: var(--color-ghost-white);
+    transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
+}
+
+select:active + .icon-left,
+select:focus + .icon-left,
+select:hover + .icon-left {
+    color: var(--color-black-coral);
+    transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
 }
 
 .icon-validation {
@@ -789,11 +809,34 @@ input:hover + .icon-left {
     transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
 }
 
+select ~ .icon-validation {
+    right: 25px;
+    transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
+}
+.number-input-wrapper input ~ .icon-validation {
+    top: 2px;
+    right: 55px;
+    transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
+}
+
 input:active + .icon-validation,
 input:focus + .icon-validation,
 input:hover + .icon-validation {
-    color: var(--color-ghost-white);
+    color: var(--color-black-coral);
+    transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
 }
+input:active ~ .icon-validation,
+input:focus ~ .icon-validation,
+input:hover ~ .icon-validation {
+    color: var(--color-black-coral);
+    transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
+}
+/* select:active + .icon-validation,
+select:focus + .icon-validation,
+select:hover + .icon-validation {
+    color: var(--color-black-coral);
+    transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
+} */
 
 .icon-valid {
     color: var(--color-mountain-meadow);
@@ -950,6 +993,7 @@ button {
 }
 #generate-confirmation {
     overflow: hidden;
+    border-radius: 0rem;
 }
 
 .quiz-display-wrapper {
@@ -994,6 +1038,12 @@ button {
 }
 
 /* Custom Select, Input, Textarea, Pagination, Link Styling */
+
+#add-new-quiz-wrapper input::placeholder {
+    color: var(--color-ghost-white) !important;
+    opacity: 1 !important;
+}
+
 select:focus,
 select:hover,
 select:active,
@@ -1014,14 +1064,14 @@ select:active,
     height: auto;
 }
 
-select,
+#add-new-quiz-wrapper select,
 #add-new-quiz-wrapper input {
     border: none !important;
 	border-radius: 0 !important;
     transition: all 0.1s cubic-bezier(.175,.885,.32,1.275);
     width: 100%;
-    background-color: var(--color-smoky-black) !important;
-    color: var(--color-ghost-white) !important;
+    background-color: var(--color-smoky-black);
+    color: var(--color-ghost-white);
     text-align: center !important;
     height: auto !important;
 }
@@ -1041,10 +1091,8 @@ select::after {
 .select:not(.is-multiple):not(.is-loading):hover::after {
     border-color: var(--color-ghost-white);
 }
-
-#add-new-quiz-wrapper input::placeholder {
-    color: var(--color-ghost-white) !important;
-    opacity: 1 !important;
+#add-new-quiz-wrapper .select:not(.is-multiple):not(.is-loading)::after {
+    z-index: 0;
 }
 
 #filter-quiz-wrapper > div:first-child {
@@ -1109,13 +1157,14 @@ input[type=number]::-webkit-outer-spin-button {
 .number-input input[type=number] {
   font-family: 'chiller', Arial, Helvetica, sans-serif !important;
   max-width: 7rem;
-  padding: .5rem;
+  padding: 0rem .5rem;
   border: none;
   border-width: 0 2px;
   font-size: 2rem;
   height: 3rem;
   font-weight: bold;
   text-align: center;
+  line-height: 1em;
 }
 
 .select select,
