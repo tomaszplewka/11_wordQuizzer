@@ -1,11 +1,12 @@
-<?php 
+<?php
 
 namespace WordQuizzer;
 
 use \PDO;
 use \PDOException;
 
-class Database {
+class Database
+{
 
     private $host = DB_HOST;
     private $user = DB_USER;
@@ -34,13 +35,15 @@ class Database {
         }
     }
 
-    public function queryDB($dbQuery) {
+    public function queryDB($dbQuery)
+    {
         return $this->sqlQuery = $this->dbhandler->prepare($dbQuery);
     }
 
-    public function bind($parameter, $value, $type = null) {
+    public function bind($parameter, $value, $type = null)
+    {
         if (is_null($type)) {
-            switch(true) {
+            switch (true) {
                 case is_int($value):
                     $type = PDO::PARAM_INT;
                     break;
@@ -54,34 +57,52 @@ class Database {
                     $type = PDO::PARAM_STR;
             }
         }
-        $this->sqlQuery->bindValue($parameter, $value, $type);
+        return $this->sqlQuery->bindValue($parameter, $value, $type);
     }
 
-    public function execute() {
+    public function execute()
+    {
         return $this->sqlQuery->execute();
     }
-    
-    public function resultAll() {
+
+    public function resultAll()
+    {
         $this->execute();
         return $this->sqlQuery->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function resultSingle() {
+    public function resultSingle()
+    {
         $this->execute();
         return $this->sqlQuery->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function countRows() {
+    public function countRows()
+    {
         $this->execute();
         return $this->sqlQuery->rowCount();
     }
 
-    public function errInfo() {
+    public function errInfo()
+    {
         return $this->sqlQuery->errorInfo();
     }
 
-    public function dbError() {
+    public function dbError()
+    {
         return $this->error;
     }
 
+    public function transactionStart()
+    {
+        return $this->dbhandler->beginTransaction();
+    }
+    public function transactionCommit()
+    {
+        return $this->dbhandler->commit();
+    }
+    public function transactionRollBack()
+    {
+        return $this->dbhandler->rollBack();
+    }
 }

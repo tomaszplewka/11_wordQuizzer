@@ -1,4 +1,4 @@
-<?php 
+<?php
 // Start session
 session_start();
 // Load config
@@ -11,25 +11,26 @@ require_once(realpath("vendor/autoload.php"));
 $db = new Database();
 // 
 // Define and initialize vars
-$email = $password = '';
-$email_err = $password_err ='';
+$email = $password = $id = '';
+$email_err = $password_err = '';
 $output =   [
-                "email" => [
-                    "php_error" => false,
-                    "msg" => '',
-                    "field" => "login-email"
-            ],  "password" => [
-                    "php_error" => false,
-                    "msg" => '',
-                    "field" => "login-password"
-            ],  "db" => [
-                    "php_error" => false,
-                    "msg" => '',
-                    "field" => "login-db"
-            ],  "session" => [
-                    "loggedIn" => false,
-                    "msg" => ''
-            ]];
+    "email" => [
+        "php_error" => false,
+        "msg" => '',
+        "field" => "login-email"
+    ],  "password" => [
+        "php_error" => false,
+        "msg" => '',
+        "field" => "login-password"
+    ],  "db" => [
+        "php_error" => false,
+        "msg" => '',
+        "field" => "login-db"
+    ],  "session" => [
+        "loggedIn" => false,
+        "msg" => ''
+    ]
+];
 // 
 // session_unset();
 // Check if user is already logged in, if so redirect to welcome screen
@@ -62,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     // Check credentials against db data
     if (empty($email_err) && empty($password_err)) {
-        $sql = "SELECT user_email, user_name, user_password FROM users WHERE user_email = :email";
+        $sql = "SELECT user_id, user_email, user_name, user_password FROM users WHERE user_email = :email";
         if ($db->queryDB($sql)) {
             // Bind params
             $db->bind(":email", $email);
@@ -71,6 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Check if user exist, if so fetch and verify data
                 if ($db->countRows() === 1) {
                     if ($user_result = $db->resultSingle()) {
+                        $id = $user_result["user_id"];
                         $email = $user_result["user_email"];
                         $username = $user_result["user_name"];
                         $password_hashed = $user_result["user_password"];
@@ -78,6 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         if (password_verify($password, $password_hashed)) {
                             // Data validated and verified, user is now logged in
                             $_SESSION["user_loggedIn"] = true;
+                            $_SESSION["user_id"] = $id;
                             $_SESSION["user_email"] = $email;
                             $_SESSION["user_name"] = $username;
                             $output["db"]["msg"] = "User has been logged in.";
@@ -88,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $output["password"]["msg"] = $password_err;
                         }
                     } else {
-                        $db_err = "Database error: " . $db->errInfo(). " Could not fetch the data for this email.";
+                        $db_err = "Database error: " . $db->errInfo() . " Could not fetch the data for this email.";
                         $output["db"]["php_error"] = true;
                         $output["db"]["msg"] = $db_err;
                     }
@@ -99,12 +102,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $output["email"]["msg"] = $email_err;
                 }
             } else {
-                $db_err = "Database error: " . $db->errInfo(). " Please try again later.";
+                $db_err = "Database error: " . $db->errInfo() . " Please try again later.";
                 $output["db"]["php_error"] = true;
                 $output["db"]["msg"] = $db_err;
             }
         } else {
-            $db_err = "Database error: " . $db->errInfo(). " Please try again later.";
+            $db_err = "Database error: " . $db->errInfo() . " Please try again later.";
             $output["db"]["php_error"] = true;
             $output["db"]["msg"] = $db_err;
         }

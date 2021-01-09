@@ -11,7 +11,7 @@ require_once(realpath("vendor/autoload.php"));
 $db = new Database();
 // 
 // Define and initialize vars
-$quizName = $quizType = $quizAnswers = $quizQuestions = '';
+$quizName = $quizType = $quizAnswers = $quizQuestions = $userID = '';
 $quizName_err = $quizType_err = $quizAnswers_err = $quizQuestions_err = $db_err = '';
 $output =
     [
@@ -116,16 +116,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $quizQuestions = htmlspecialchars(trim($_POST["quiz-questions"]));
     }
-    // ADD USER ID !!!
+    // Sanitize and validate user id
+    $userID = htmlspecialchars(filter_var($_POST["user-id"], FILTER_SANITIZE_NUMBER_INT));
     // Check for errors before interacting with db
     if (empty($quizName_err) && empty($quizType_err) && empty($quizAnswers_err) && empty($quizQuestions_err)) {
-        $sql = "INSERT INTO quiz (quiz_name, quiz_type, quiz_answers, quiz_questions) VALUES (:name, :type, :answers, :questions)";
+        $sql = "INSERT INTO quiz (quiz_name, quiz_type, quiz_answers, quiz_questions, user_id) VALUES (:name, :type, :answers, :questions, :id)";
         if ($db->queryDB($sql)) {
             // Bind params
             $db->bind(":name", $quizName);
             $db->bind(":type", $quizType);
             $db->bind(":answers", $quizAnswers);
             $db->bind(":questions", $quizQuestions);
+            $db->bind(":id", $userID);
             // Attempt to execute the query
             if ($db->execute()) {
                 $output["db"]["msg"] = "Quiz has been created.";
