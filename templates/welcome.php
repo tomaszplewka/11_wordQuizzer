@@ -1365,6 +1365,9 @@
         .then(docs => {
             console.log(docs);
         })
+        .catch(error => {
+            console.log(error);
+        });
     // We turn the response into text as we expect HTML
     // 
     // submit generate form
