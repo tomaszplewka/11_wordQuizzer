@@ -878,7 +878,7 @@
             }), {
                 "method": "GET",
                 "headers": {
-                    "x-rapidapi-key": "f8a63bbfd2mshc496f00dfd1b54cp168d18jsn749a1f9f4065",
+                    "x-rapidapi-key": "yourKey",
                     "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
                 }
             })
@@ -928,7 +928,7 @@
             }), {
                 "method": "GET",
                 "headers": {
-                    "x-rapidapi-key": "f8a63bbfd2mshc496f00dfd1b54cp168d18jsn749a1f9f4065",
+                    "x-rapidapi-key": "yourKey",
                     "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
                 }
             });
@@ -943,7 +943,7 @@
                 const response = await fetch('https://wordsapiv1.p.rapidapi.com/words/' + word + '/definitions', {
                     "method": "GET",
                     "headers": {
-                        "x-rapidapi-key": "f8a63bbfd2mshc496f00dfd1b54cp168d18jsn749a1f9f4065",
+                        "x-rapidapi-key": "yourKey",
                         "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
                     }
                 });
@@ -975,7 +975,7 @@
             const response = await fetch('https://wordsapiv1.p.rapidapi.com/words/' + word + '/definitions', {
                 "method": "GET",
                 "headers": {
-                    "x-rapidapi-key": "f8a63bbfd2mshc496f00dfd1b54cp168d18jsn749a1f9f4065",
+                    "x-rapidapi-key": "yourKey",
                     "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
                 }
             });
