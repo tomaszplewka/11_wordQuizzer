@@ -50,67 +50,88 @@ if ($contentType === "application/json") {
         $db->transactionStart();
         try {
             $index = 0;
+            $index2 = 0;
             $sqlQ = "INSERT INTO questions (question_ID, quiz_ID, question, word) VALUES ";
             $sqlA = "INSERT INTO answers (question_ID, answer, question_order, is_correct) VALUES ";
-            $user_ID = 18; // normally read from $_SESSION var
-            $quiz_ID = 1;
+            $user_ID = $_SESSION["user_id"]; // normally read from $_SESSION var
+            $quiz_ID = $decoded["quizID"];
+            // Number of asnwers
+            $numOfQs = (int) $decoded["answersTotal"];
             foreach ($decoded["questions"] as $word => $question) {
                 // Insert question
                 $q_number = ":q_" . ($index + 1);
-                $sqlQ .= "({$q_number}, :quiz_id, :question, :word)";
+                $question_num = ":ques_" . ($index + 1);
+                $word_num = ":w_" . ($index + 1);
+                $sqlQ .= "({$q_number}, :quiz_id, {$question_num}, {$word_num}),";
                 // Convert to array -- check if $question is array or object later
                 $data = (array) $question;
-                $q_ID = "Q" . $quiz_ID  . $user_ID . $index;
                 // Question has been added -- add answers
                 $order = ":q_order_" . ($index + 1);
-                $sqlA .= "({$q_number}, :a_1, {$order}, :correct),";
-                for ($i = 1; $i < 2; $i++) { // number of answers minus correct answer added in the preceeding line
-                    $bindParam = ":a_" . ($i + 1);
+                $bindParam = ":a_" . ($index2 + 1);
+                $sqlA .= "({$q_number}, {$bindParam}, {$order}, :correct),";
+                $index++;
+                $index2++;
+                for ($i = 1; $i < $numOfQs; $i++) { // number of answers minus correct answer added in the preceeding line
+                    $bindParam = ":a_" . ($index2 + 1);
                     $sqlA .= "({$q_number}, {$bindParam}, {$order}, :not_correct),";
+                    $index2++;
                 }
-
-
-
-
-                $sqlQ = rtrim($sqlQ, ',');
-                if ($db->queryDB($sqlQ)) {
-                    // Bind params in a loop
-
+            }
+            $sqlQ = rtrim($sqlQ, ',');
+            if ($db->queryDB($sqlQ)) {
+                // Bind params in a loop
+                $index = 0;
+                $index2 = 0;
+                foreach ($decoded["questions"] as $word => $question) {
+                    $q_number = ":q_" . ($index + 1);
+                    $question_num = ":ques_" . ($index + 1);
+                    $word_num = ":w_" . ($index + 1);
+                    $q_ID = "Q" . $quiz_ID  . $user_ID . ($index + 1);
+                    $data = (array) $question;
                     $db->bind($q_number, $q_ID);
                     $db->bind(":quiz_id", $quiz_ID); // quiz_ID
-                    $db->bind(":question", $data["question"]);
-                    $db->bind(":word", $word);
+                    $db->bind($question_num, $data["question"]);
+                    $db->bind($word_num, $word);
 
+                    $index++;
+                    $index2++;
+                }
+                // Attempt to execute the query
+                if ($db->execute()) {
+                    $sqlA = rtrim($sqlA, ',');
+                    if ($db->queryDB($sqlA)) {
+                        // Bind params
+                        $index = 0;
+                        $index2 = 0;
+                        $index3 = 0;
+                        foreach ($decoded["questions"] as $word => $question) {
+                            $q_number = ":q_" . ($index + 1);
+                            $q_ID = "Q" . $quiz_ID  . $user_ID . ($index + 1);
+                            $bindParam = ":a_" . ($index2 + 1);
+                            $data = (array) $question;
+                            $order = ":q_order_" . ($index + 1);
 
-                    // Attempt to execute the query
-                    if ($db->execute()) {
-
-                        $sqlA = rtrim($sqlA, ',');
-                        if ($db->queryDB($sqlA)) {
-                            // Bind params
                             $db->bind($q_number, $q_ID); // question_ID
-                            $db->bind(":a_1", $data["correctAnswer"]);
-                            $db->bind("{$order}", $index);
+                            $db->bind($bindParam, $data["correctAnswer"]);
+                            $db->bind($order, ($index + 1));
                             $db->bind(":correct", '1');
-                            for ($i = 1; $i < 2; $i++) { // number of answers minus correct answer added in the preceeding line
-                                $bindParam = ":a_" . ($i + 1);
-                                $db->bind($bindParam, $decoded["answers"][$i - 1]);
+                            $index2++;
+                            for ($i = 1; $i < $numOfQs; $i++) { // number of answers minus correct answer added in the preceeding line
+                                $bindParam = ":a_" . ($index2 + 1);
+                                $db->bind($bindParam, $decoded["answers"][$index3]);
                                 $db->bind(":not_correct", '0');
+                                $index2++;
+                                $index3++;
                             }
-                            if ($db->execute()) {
-                                $db->transactionCommit();
-                                // Tu wszystko powinno byc ok
-                                $output["data"]["msg"] = "Questions and answers added.";
-                                echo json_encode($output);
-                                exit;
-                            }
+                            $index++;
                         }
-                    } else {
-                        $db_err = "Database error: " . $db->errInfo() . " Please try again later.";
-                        $output["db"]["php_error"] = true;
-                        $output["db"]["msg"] = $db_err;
-                        echo json_encode($output);
-                        exit;
+                        if ($db->execute()) {
+                            $db->transactionCommit();
+                            // Tu wszystko powinno byc ok
+                            $output["data"]["msg"] = "Questions and answers added.";
+                            echo json_encode($output);
+                            exit;
+                        }
                     }
                 } else {
                     $db_err = "Database error: " . $db->errInfo() . " Please try again later.";
@@ -119,7 +140,12 @@ if ($contentType === "application/json") {
                     echo json_encode($output);
                     exit;
                 }
-                $index++;
+            } else {
+                $db_err = "Database error: " . $db->errInfo() . " Please try again later.";
+                $output["db"]["php_error"] = true;
+                $output["db"]["msg"] = $db_err;
+                echo json_encode($output);
+                exit;
             }
         } catch (\Throwable $th) {
             $db->transactionRollBack();
@@ -138,60 +164,3 @@ if ($contentType === "application/json") {
         exit;
     }
 }
-
-// if ($db->queryDB($sqlQ)) {
-//     // Convert to array -- check if $question is array or object later
-//     $data = (array) $question;
-//     // Bind params
-//     $user_ID = 18; // normally read from $_SESSION var
-//     $quiz_ID = 1;
-//     $q_ID = "Q" . $quiz_ID  . $user_ID . $index;
-//     $db->bind(":q_ID", $q_ID);
-//     $db->bind(":quiz_id", $quiz_ID); // quiz_ID
-//     $db->bind(":question", $data["question"]);
-//     $db->bind(":word", $word);
-//     // Attempt to execute the query
-//     if ($db->execute()) {
-//         // Question has been added -- add answers
-//         $order = ":q_order_" . $index;
-
-//         $sqlA .= "(:q_ID, :a_1, {$order}, :correct),";
-//         for ($i = 1; $i < 2; $i++) { // number of answers minus correct answer added in the preceeding line
-//             $bindParam = ":a_" . ($i + 1);
-//             $sqlA .= "(:q_ID, {$bindParam}, {$order}, :not_correct),";
-//         }
-//         $sqlA = rtrim($sqlA, ',');
-//         if ($db->queryDB($sqlA)) {
-//             // Bind params
-//             $db->bind(":q_ID", $q_ID); // question_ID
-//             $db->bind(":a_1", $data["correctAnswer"]);
-//             $db->bind("{$order}", $index);
-//             $db->bind(":correct", '1');
-//             for ($i = 1; $i < 2; $i++) { // number of answers minus correct answer added in the preceeding line
-//                 $bindParam = ":a_" . ($i + 1);
-//                 $db->bind($bindParam, $decoded["answers"][$i - 1]);
-//                 $db->bind(":not_correct", '0');
-//             }
-//             if ($db->execute()) {
-//                 $db->transactionCommit();
-//                 // Tu wszystko powinno byc ok
-//                 $output["data"]["msg"] = "Questions and answers added.";
-//                 echo json_encode($output);
-//                 exit;
-//             }
-//         }
-//     } else {
-//         $db_err = "Database error: " . $db->errInfo() . " Please try again later.";
-//         $output["db"]["php_error"] = true;
-//         $output["db"]["msg"] = $db_err;
-//         echo json_encode($output);
-//         exit;
-//     }
-// } else {
-//     $db_err = "Database error: " . $db->errInfo() . " Please try again later.";
-//     $output["db"]["php_error"] = true;
-//     $output["db"]["msg"] = $db_err;
-//     echo json_encode($output);
-//     exit;
-// }
-// $index++;

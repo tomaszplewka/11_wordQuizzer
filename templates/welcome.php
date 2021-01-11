@@ -52,10 +52,20 @@
 </section>
 <!-- Add new quiz screen -->
 <section class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 is-relative hidden-options" id="add-new-quiz-wrapper">
-    <div class="generate-confirmation is-flex is-justify-content-center is-align-items-center hidden-options background-mountain-meadow" id="generate-confirmation">
-        <p class="login-confirmation-text text-ghost-white p-2">
-            Your quiz is being generated. Hold on! This may take a while.
-        </p>
+    <div class="generate-confirmation hidden-options background-mountain-meadow columns is-mobile m-0 p-5 has-text-centered is-vcentered is-multiline" id="generate-confirmation">
+        <div class="column is-12-mobile is-12 p-0 m-0">
+            <div class="" id="generate-quiz-loader">
+                <img src="imgs/wordRiddler_logo_shadow_x3.png" alt="">
+            </div>
+        </div>
+        <div class="column is-12-mobile is-12 p-0 m-0">
+            <p class="login-confirmation-text text-ghost-white p-2">
+                Your quiz is being generated.
+            </p>
+            <p class="login-confirmation-text text-ghost-white p-2" id="generate-quiz-text-feedback">
+                Hold on! This may take a while.
+            </p>
+        </div>
     </div>
     <div class="is-flex is-justify-content-space-between">
         <a id="add-new-quiz-back-btn" class="control-btn">
@@ -231,7 +241,7 @@
                     <div class="column is-12-mobile is-12 p-0 has-text-centered my-2 number-input-wrapper">
                         <div class="number-input input-wrapper">
                             <button class="decrement"></button>
-                            <input id="quiz-answers" class="quantity input mx-3" name="quiz-answers" min="2" max="6" step="1" value="2" type="number">
+                            <input id="quiz-answers" class="quantity input mx-3" name="quiz-answers" min="2" max="4" step="1" value="2" type="number">
                             <button class="increment plus"></button>
                             <span class="icon-validation" id="generate-answers-validation">
                                 <i class="fas fa-check icon-valid hide"></i>
@@ -296,39 +306,6 @@
                     <i class="fas fa-search"></i>
                 </span>
             </a>
-        </div>
-    </div>
-    <div id="more-info-wrapper" class="scaleY background-ghost-white columns is-mobile m-0 has-text-centered p-5 is-multiline">
-        <div class="is-flex is-justify-content-start column is-12-mobile is-12 p-0">
-            <a id="more-info-back-btn" class="control-btn">
-                <span class="text-smoky-black">
-                    Go Back
-                </span>
-            </a>
-        </div>
-        <div class="swiped-right column is-1-mobile is-1 p-0 is-flex is-flex-direction-column is-justify-content-center is-align-items-center text-smoky-black">
-            <i class="fas fa-caret-left"></i>
-        </div>
-        <div class="column is-10-mobile is-10 p-0">
-            <div class="more-info-quiz-info columns is-mobile m-0 is-vcentered is-multiline is-flex is-flex-direction-column is-justify-content-center">
-                <div class="column is-12-mobile is-12 p-0">
-                    <a id="" class="m-0">
-                        <span>
-                            HERE DISPLAY INFO ABOUT THE QUIZ: NAME, TYPE (CATEGORY), AVERAGE SCORE, LAST ACTIVITY
-                        </span>
-                    </a>
-                </div>
-                <div class="column is-12-mobile is-12 p-0">
-                    <a id="" class="btn m-0">
-                        <span>
-                            play
-                        </span>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="swiped-left column is-1-mobile is-1 p-0 is-flex is-flex-direction-column is-justify-content-center is-align-items-center text-smoky-black">
-            <i class="fas fa-caret-right"></i>
         </div>
     </div>
     <div id="filter-quiz-wrapper" class="scaleY background-ghost-white p-5 ">
@@ -402,97 +379,84 @@
     </div>
     <div class="quiz-display-wrapper is-flex is-flex-direction-column is-justify-content-start">
         <div class="quiz text-ghost-white my-4">
-            <div class="quiz-header acronym columns is-mobile m-0 is-vcentered has-text-centered py-2">
-                <div class="column is-3-mobile is-3 py-0">
-                    <span class="quiz-header-icon text-smoky-black">
-                        A
-                    </span>
-                </div>
-                <div class="quiz-header-name column is-9-mobile is-9 py-0">
-                    Name goes here!
-                </div>
-            </div>
-            <div class="quiz-body columns is-mobile m-0 is-vcentered has-text-centered p-0">
-                <div class="quiz-body-more-info column is-6-mobile is-6 p-0">
-                    <a id="" class="btn btn-invert btn-small btn-vertical m-0 more-info-btn">
-                        <span>
-                            more info
-                        </span>
-                    </a>
-                </div>
-                <div class="quiz-body-play column is-6-mobile is-6 p-0">
-                    <a id="" class="btn btn-invert btn-small btn-vertical m-0">
-                        <span>
-                            play
-                        </span>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="quiz text-ghost-white my-4">
-            <div class="quiz-header acronym columns is-mobile m-0 is-vcentered has-text-centered py-2">
-                <div class="column is-3-mobile is-3 py-0">
-                    <span class="quiz-header-icon text-smoky-black">
-                        A
-                    </span>
-                </div>
-                <div class="quiz-header-name column is-9-mobile is-9 py-0">
-                    Name goes here!
-                </div>
-            </div>
-            <div class="quiz-body columns is-mobile m-0 is-vcentered has-text-centered p-0">
-                <div class="quiz-body-more-info column is-6-mobile is-6 p-0">
-                    <a id="" class="btn btn-invert btn-small btn-vertical m-0">
-                        <span>
-                            more info
-                        </span>
-                    </a>
-                </div>
-                <div class="quiz-body-play column is-6-mobile is-6 p-0">
-                    <a id="" class="btn btn-invert btn-small btn-vertical m-0">
-                        <span>
-                            play
-                        </span>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="quiz text-ghost-white my-4">
-            <div class="quiz-header acronym columns is-mobile m-0 is-vcentered has-text-centered py-2">
-                <div class="column is-3-mobile is-3 py-0">
-                    <span class="quiz-header-icon text-smoky-black">
-                        A
-                    </span>
-                </div>
-                <div class="quiz-header-name column is-9-mobile is-9 py-0">
-                    Name goes here!
-                </div>
-            </div>
-            <div class="quiz-body columns is-mobile m-0 is-vcentered has-text-centered p-0">
-                <div class="quiz-body-more-info column is-6-mobile is-6 p-0">
-                    <a id="" class="btn btn-invert btn-small btn-vertical m-0">
-                        <span>
-                            more info
-                        </span>
-                    </a>
-                </div>
-                <div class="quiz-body-play column is-6-mobile is-6 p-0">
-                    <a id="" class="btn btn-invert btn-small btn-vertical m-0">
-                        <span>
-                            play
-                        </span>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <!-- <div class="quiz-footer columns is-mobile m-0 is-vcentered has-text-centered text-ghost-white py-2">
-                        <div class="quiz-footer-date column is-6-mobile is-6 py-0">
-                            <i class="far fa-clock"></i> 4-Dec-20
+            <?php foreach ($allQuizzes as $index => $quiz) : ?>
+                <div id="<?php echo $quiz["quiz_id"]; ?>" class="my-2">
+                    <div class="quiz-header columns is-mobile m-0 is-vcentered has-text-centered py-2 <?php echo $quiz["quiz_type"]; ?>">
+                        <div class="column is-3-mobile is-3 py-0">
+                            <span class="quiz-header-icon text-smoky-black">
+                                <?php echo $quiz["quiz_type"][0]; ?>
+                            </span>
                         </div>
-                        <div class="quiz-footer-score column is-6-mobile is-6 py-0">
-                            <i class="fas fa-percentage"></i> 80%
+                        <div class="quiz-header-name column is-9-mobile is-9 py-0">
+                            <?php echo $quiz["quiz_name"]; ?>
                         </div>
+                    </div>
+                    <div class="quiz-body columns is-mobile m-0 is-vcentered has-text-centered p-0">
+                        <div class="quiz-body-more-info column is-6-mobile is-6 p-0">
+                            <a id="" class="btn btn-invert btn-small btn-vertical m-0 more-info-btn">
+                                <span>
+                                    more info
+                                </span>
+                            </a>
+                        </div>
+                        <div class="quiz-body-play column is-6-mobile is-6 p-0">
+                            <a id="" class="btn btn-invert btn-small btn-vertical m-0 play-btn">
+                                <span>
+                                    play
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div data-id="<?php echo $quiz["quiz_id"]; ?>" id="" class="more-info-wrapper scaleY background-ghost-white columns is-mobile m-0 has-text-centered p-5 is-multiline is-flex is-flex-direction-column is-justify-content-start">
+                    <div class="is-flex is-justify-content-start column is-12-mobile is-12 p-0">
+                        <a id="" class="control-btn back-btn">
+                            <span class="text-smoky-black">
+                                Go Back
+                            </span>
+                        </a>
+                    </div>
+                    <!-- <div class="swiped-right column is-1-mobile is-1 p-0 is-flex is-flex-direction-column is-justify-content-center is-align-items-center text-smoky-black">
+                        <i class="fas fa-caret-left"></i>
                     </div> -->
+                    <div class="column is-12-mobile is-12 p-0 my-5">
+                        <div class="more-info-quiz-info columns is-mobile m-0 is-vcentered is-multiline is-flex is-flex-direction-column is-justify-content-center">
+                            <div class="column is-12-mobile is-12 p-0 my-1">
+                                <p class="text-smoky-black">Name: <?php echo $quiz["quiz_name"]; ?></p>
+                            </div>
+                            <div class="column is-12-mobile is-12 p-0 my-1">
+                                <p class="text-smoky-black">Category: <?php echo $quiz["quiz_type"]; ?></p>
+                            </div>
+                            <div class="column is-12-mobile is-12 p-0 my-1">
+                                <p class="text-smoky-black">Questions: <?php echo $quiz["quiz_questions"]; ?></p>
+                            </div>
+                            <div class="column is-12-mobile is-12 p-0 my-1">
+                                <p class="text-smoky-black">Answers: <?php echo $quiz["quiz_answers"]; ?></p>
+                            </div>
+                            <div class="column is-12-mobile is-12 p-0 my-1">
+                                <p class="text-smoky-black">Created at: <?php echo $quiz["created_at"]; ?></p>
+                            </div>
+                            <div class="column is-12-mobile is-12 p-0 my-1">
+                                <p class="text-smoky-black">Last Attempted: NO IDEA</p>
+                            </div>
+                            <div class="column is-12-mobile is-12 p-0 my-1">
+                                <p class="text-smoky-black">Last Score: NO IDEA</p>
+                            </div>
+                            <div class="column is-12-mobile is-12 p-0 my-1">
+                                <a id="" class="btn m-0">
+                                    <span>
+                                        play
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="swiped-left column is-1-mobile is-1 p-0 is-flex is-flex-direction-column is-justify-content-center is-align-items-center text-smoky-black">
+                        <i class="fas fa-caret-right"></i>
+                    </div> -->
+                </div>
+            <?php endforeach; ?>
+        </div>
     </div>
     <!-- <div id="test" style="width: 100%;">scroll to understand</div> -->
     <!-- <div id="content"> </div> -->
@@ -690,6 +654,18 @@
         }, 600);
     });
     // 
+    // Here implement swiping when browsing quizzes
+    // Use fetch API for that
+
+
+
+
+
+
+
+
+
+
     document.addEventListener('touchstart', handleTouchStart, false);
     document.addEventListener('touchmove', handleTouchMove, false);
 
@@ -740,18 +716,48 @@
         yDown = null;
     };
     // 
-    const moreInfoBtn = document.querySelector('.more-info-btn');
-    const moreInfoWrapper = document.querySelector('#more-info-wrapper');
+    // const moreInfoBtn = document.querySelector('.more-info-btn');
+    // const moreInfoWrapper = document.querySelector('.more-info-wrapper');
     // 
-    moreInfoBtn.addEventListener('click', () => {
-        moreInfoWrapper.classList.remove('scaleY');
+    document.addEventListener('click', e => {
+        // More info btn clicked
+        if ((e.target.tagName === 'SPAN' && e.target.parentElement.classList.contains('more-info-btn')) || (e.target.classList.contains('more-info-btn') && e.target.tagName === 'A')) {
+            // Get quiz id
+            let quizID = '';
+            if (e.target.tagName === 'SPAN') {
+                quizID = e.target.parentElement.parentElement.parentElement.parentElement.id;
+            } else {
+                quizID = e.target.parentElement.parentElement.parentElement.id;
+            }
+            // console.log(quizID);
+            // Show appropriate div with more info
+            const divMoreInfo = document.querySelector(`div[data-id="${quizID}"]`);
+            divMoreInfo.classList.remove('scaleY');
+        }
+        // Back btn on more info wrapper clicked
+        if ((e.target.tagName === 'SPAN' && e.target.parentElement.classList.contains('back-btn')) || (e.target.classList.contains('back-btn') && e.target.tagName === 'A')) {
+            // Get quiz id
+            let quizID = '';
+            if (e.target.tagName === 'SPAN') {
+                quizID = e.target.parentElement.parentElement.parentElement.getAttribute('data-id');
+            } else {
+                quizID = e.target.parentElement.parentElement.getAttribute('data-id');
+            }
+            // console.log(quizID);
+            // Hide appropriate div with more info
+            const divMoreInfo = document.querySelector(`div[data-id="${quizID}"]`);
+            divMoreInfo.classList.add('scaleY');
+        }
     });
+    // moreInfoBtn.addEventListener('click', () => {
+    //     moreInfoWrapper.classList.remove('scaleY');
+    // });
     // 
-    const moreInfoBackBtn = document.querySelector('#more-info-back-btn');
-    // 
-    moreInfoBackBtn.addEventListener('click', () => {
-        moreInfoWrapper.classList.add('scaleY');
-    });
+    // const moreInfoBackBtn = document.querySelector('#more-info-back-btn');
+    // // 
+    // moreInfoBackBtn.addEventListener('click', () => {
+    //     moreInfoWrapper.classList.add('scaleY');
+    // });
     // 
     const filterQuizBtn = document.querySelector('#filter-back-btn');
     const filterQuizWrapper = document.querySelector('#filter-quiz-wrapper');
@@ -872,7 +878,7 @@
             }), {
                 "method": "GET",
                 "headers": {
-                    "x-rapidapi-key": "yourKey",
+                    "x-rapidapi-key": "f8a63bbfd2mshc496f00dfd1b54cp168d18jsn749a1f9f4065",
                     "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
                 }
             })
@@ -922,7 +928,7 @@
             }), {
                 "method": "GET",
                 "headers": {
-                    "x-rapidapi-key": "yourKey",
+                    "x-rapidapi-key": "f8a63bbfd2mshc496f00dfd1b54cp168d18jsn749a1f9f4065",
                     "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
                 }
             });
@@ -937,7 +943,7 @@
                 const response = await fetch('https://wordsapiv1.p.rapidapi.com/words/' + word + '/definitions', {
                     "method": "GET",
                     "headers": {
-                        "x-rapidapi-key": "yourKey",
+                        "x-rapidapi-key": "f8a63bbfd2mshc496f00dfd1b54cp168d18jsn749a1f9f4065",
                         "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
                     }
                 });
@@ -969,7 +975,7 @@
             const response = await fetch('https://wordsapiv1.p.rapidapi.com/words/' + word + '/definitions', {
                 "method": "GET",
                 "headers": {
-                    "x-rapidapi-key": "yourKey",
+                    "x-rapidapi-key": "f8a63bbfd2mshc496f00dfd1b54cp168d18jsn749a1f9f4065",
                     "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
                 }
             });
@@ -1058,7 +1064,7 @@
     // });
     // 
     const checkIfEmpty = function() {
-        if (addQuizForm["quiz-name"].value !== '' && addQuizForm["quiz-type"].value !== 'Quiz Type' && addQuizForm["quiz-answers"].value !== '' && addQuizForm["quiz-questions"].value !== '' && (addQuizForm["quiz-answers"].value >= 2 && addQuizForm["quiz-answers"].value <= 6) && (addQuizForm["quiz-questions"].value >= 4 && addQuizForm["quiz-questions"].value <= 10)) {
+        if (addQuizForm["quiz-name"].value !== '' && addQuizForm["quiz-type"].value !== 'Quiz Type' && addQuizForm["quiz-answers"].value !== '' && addQuizForm["quiz-questions"].value !== '' && (addQuizForm["quiz-answers"].value >= 2 && addQuizForm["quiz-answers"].value <= 4) && (addQuizForm["quiz-questions"].value >= 4 && addQuizForm["quiz-questions"].value <= 10)) {
             addQuizForm["quiz-generate"].classList.remove('disabled');
         } else {
             addQuizForm["quiz-generate"].classList.add('disabled');
@@ -1238,112 +1244,9 @@
     }
     // 
 
-    const questionTemplates = [
-        "What is the definition of $?",
-        "How would you define $?",
-        "How to define $?",
-        "What is the meaning of $?",
-        "What does $ mean?"
-    ];
-    let questionsToSave = {};
-    const wordDefinitions = {
-        feelings: [{
-            definition: "emotional or moral sensitivity (especially in relation to personal principles or dignity)",
-            partOfSpeech: "noun"
-        }],
-        leiophyllum: [{
-            definition: "one species: sand myrtle",
-            partOfSpeech: "noun"
-        }],
-        menuhin: [{
-            definition: "British violinist (born in the United States) who began his career as a child prodigy in the 1920s (1916-1999)",
-            partOfSpeech: "noun"
-        }],
-        mezzanine: [{
-            definition: "intermediate floor just above the ground floor",
-            partOfSpeech: "noun"
-        }, {
-            definition: "first or lowest balcony",
-            partOfSpeech: "noun"
-        }],
-        rainwater: [{
-            definition: "drops of fresh water that fall as precipitation from clouds",
-            partOfSpeech: "noun"
-        }],
-        "rocket engineer": [{
-            definition: "an engineer who builds and tests rockets",
-            partOfSpeech: "noun"
-        }],
-        "satsuma tree": [{
-            definition: "a variety of mandarin orange",
-            partOfSpeech: "noun"
-        }],
-        sear: [{
-            definition: "cause to wither or parch from exposure to heat",
-            partOfSpeech: "verb"
-        }, {
-            definition: "become superficially burned",
-            partOfSpeech: "verb"
-        }, {
-            definition: "(used especially of vegetation) having lost all moisture",
-            partOfSpeech: "adjective"
-        }]
-    }
-    // Iterate over word definitions
-    for (const key in wordDefinitions) {
-        console.log(key);
-        let definition, partOfSpeech = '';
-        // If word has more than one definition, choose a random one
-        if (wordDefinitions[key].length > 1) {
-            // Get random definition
-            const r = Math.floor(Math.random() * wordDefinitions[key].length);
-            definition = wordDefinitions[key][r].definition;
-            partOfSpeech = wordDefinitions[key][r].partOfSpeech;
-        } else {
-            definition = wordDefinitions[key][0].definition;
-            partOfSpeech = wordDefinitions[key][0].partOfSpeech;
-        }
-        // Add answer
-        questionsToSave[key] = {};
-        questionsToSave[key].correctAnswer = definition;
-        // Get random question template
-        const r = Math.floor(Math.random() * questionTemplates.length);
-        // Create question
-        questionsToSave[key].question = questionTemplates[r].replace("$", `${key} (${partOfSpeech})`);
-    }
-    // Here all questions & answer for each question is correctly generated
-    console.log(questionsToSave);
-    // Generate questions to save & remaining answers
-    const questionsKeys = Object.keys(questionsToSave);
-    let indexes = [];
-    while (indexes.length < 4) { // number of questions
-        const r = Math.floor(Math.random() * questionsKeys.length);
-        if (indexes.indexOf(r) === -1) {
-            indexes.push(r);
-        }
-    }
-    let questionsSaveSave = {};
-    let answersSaveSave = [];
-    questionsKeys.forEach((key, index) => {
-        if (indexes.includes(index)) {
-            questionsSaveSave[key] = questionsToSave[key];
-        } else {
-            const lolo = questionsToSave[key];
-            answersSaveSave.push(lolo.correctAnswer);
-        }
-    });
-    // console.log('questions');
-    // console.log(questionsSaveSave);
-    // console.log('answers');
-    // console.log(answersSaveSave);
-    const data = {
-        questions: questionsSaveSave,
-        answers: answersSaveSave
-    };
-    // INCLUDE QUIZ_ID HERE!!! 
-    console.log(data);
-    // Save to db as a transaction
-    const postData = async function() {
+    const generateQuizTextFeddback = document.querySelector('#generate-quiz-text-feedback');
+    const generateQuizLoader = document.querySelector('#generate-quiz-loader');
+    const postData = async function(data) {
         return await fetch("store.php", {
             method: "POST",
             mode: 'cors',
@@ -1353,252 +1256,295 @@
             body: JSON.stringify(data)
         })
     }
-    postData()
-        .then(res => {
-            // Check if response ok
-            if (!res.ok) {
-                // Throw an exception
-                throw new Error('Network problem.');
-            }
-            return res.json();
-        })
-        .then(docs => {
-            console.log(docs);
-        })
-        .catch(error => {
-            console.log(error);
-        });
-    // We turn the response into text as we expect HTML
-    // 
     // submit generate form
-    // addQuizForm.addEventListener('submit', e => {
+    addQuizForm.addEventListener('submit', e => {
+        // Assign var names
+        const quizName = addQuizForm["quiz-name"].value;
+        const quizType = addQuizForm["quiz-type"].value;
+        const quizAnswers = addQuizForm["quiz-answers"].value;
+        const quizQuestions = addQuizForm["quiz-questions"].value;
+        // Check if there is anything in inputs
+        if (addQuizForm["quiz-name"].value !== '' && addQuizForm["quiz-type"].value !== 'Quiz Type' && addQuizForm["quiz-answers"].value !== '' && addQuizForm["quiz-questions"].value !== '' && (addQuizForm["quiz-answers"].value >= 2 && addQuizForm["quiz-answers"].value <= 4) && (addQuizForm["quiz-questions"].value >= 4 && addQuizForm["quiz-questions"].value <= 10) && !addQuizForm["quiz-name"].hasAttribute('readonly') && !addQuizForm["quiz-type"].hasAttribute('disabled') && !addQuizForm["quiz-answers"].hasAttribute('readonly') && !addQuizForm["quiz-questions"].hasAttribute('readonly')) {
+            // Adjust UI
+            if (submitGenerateFeedback.classList.contains('hide')) {
+                submitGenerateFeedback.classList.remove('hide');
+                submitGenerateFeedback.lastElementChild.classList.remove('hide');
+            } else {
+                submitGenerateFeedback.firstElementChild.classList.add('hide');
+                submitGenerateFeedback.lastElementChild.classList.remove('hide');
+            }
+            // Lock input fields & submit btn
+            addQuizForm["quiz-name"].setAttribute("readonly", true);
+            addQuizForm["quiz-type"].setAttribute("disabled", true);
+            addQuizForm["quiz-select"].value = addQuizForm["quiz-type"].value;
+            addQuizForm["quiz-answers"].setAttribute("readonly", true);
+            addQuizForm["quiz-questions"].setAttribute("readonly", true);
+            addQuizForm["quiz-generate"].classList.add("disabled");
+            // Clear feedback div
+            clearFeedbackDiv(generateFeedbackWrapper);
+            // Set local var
+            let err_count = 0;
+            let wordDefinitions = [];
+            // Post data using the Fetch API
+            fetch(addQuizForm.action, {
+                    method: addQuizForm.method,
+                    body: new FormData(addQuizForm)
+                })
+                .then(res => {
+                    // Check if response ok
+                    if (!res.ok) {
+                        throw new Error('Network problem.');
+                    }
+                    return res.json();
+                })
+                .then(docs1 => {
+                    console.log(docs1);
+                    // Handle when resolved
+                    // Fetch promise rejects only when there is network error
+                    // Handle input data
+                    err_count = handleFormDataLogin(docs1);
+                    if (err_count) { // errors found
+                        setTimeout(() => {
+                            submitGenerateFeedback.lastElementChild.classList.add('hide');
+                            submitGenerateFeedback.firstElementChild.classList.remove('hide');
+                            // Unlock input fields & submit btn
+                            addQuizForm["quiz-name"].removeAttribute("readonly");
+                            addQuizForm["quiz-type"].removeAttribute("disabled");
+                            addQuizForm["quiz-answers"].removeAttribute("readonly");
+                            addQuizForm["quiz-questions"].removeAttribute("readonly");
+                            addQuizForm["quiz-generate"].classList.remove("disabled");
+                        }, 500);
+                    } else { // no errors
+                        setTimeout(() => {
+                            // Unlock input fields & submit btn
+                            addQuizForm["quiz-name"].removeAttribute("readonly");
+                            addQuizForm["quiz-type"].removeAttribute("disabled");
+                            addQuizForm["quiz-answers"].removeAttribute("readonly");
+                            addQuizForm["quiz-questions"].removeAttribute("readonly");
+                            addQuizForm["quiz-generate"].classList.remove("disabled");
+                            console.log('all good');
+                            // Hide submit feedback div
+                            submitGenerateFeedback.classList.add('hide');
+                            submitGenerateFeedback.firstElementChild.classList.add('hide');
+                            setTimeout(() => {
+                                // Show confirmation wrapper & loader, set text
+                                generateConfirmation.classList.remove('hidden-options');
+                                generateQuizLoader.classList.add('start-loader');
+                                generateQuizTextFeddback.textContent = 'Fetching words...';
+                                // Fetch data from WordAPI
+                                getWordsByRandomPages(quizQuestions, quizAnswers)
+                                    .then(docs2 => {
+                                        // Reset form
+                                        addQuizForm["quiz-name"].value = '';
+                                        addQuizForm["quiz-name"].classList.remove('input-valid');
+                                        addQuizForm["quiz-name"].classList.remove('input-invalid');
+                                        if (!addQuizForm["quiz-name"].parentElement.lastElementChild.firstElementChild.classList.contains('hide')) {
+                                            addQuizForm["quiz-name"].parentElement.lastElementChild.firstElementChild.classList.add('hide');
+                                        }
+                                        if (!addQuizForm["quiz-name"].parentElement.lastElementChild.lastElementChild.classList.contains('hide')) {
+                                            addQuizForm["quiz-name"].parentElement.lastElementChild.lastElementChild.classList.add('hide');
+                                        }
+                                        addQuizForm["quiz-type"].value = 'Quiz Type';
+                                        addQuizForm["quiz-type"].classList.remove('input-valid');
+                                        addQuizForm["quiz-type"].classList.remove('input-invalid');
+                                        if (!addQuizForm["quiz-type"].parentElement.lastElementChild.firstElementChild.classList.contains('hide')) {
+                                            addQuizForm["quiz-type"].parentElement.lastElementChild.firstElementChild.classList.add('hide');
+                                        }
+                                        if (!addQuizForm["quiz-type"].parentElement.lastElementChild.lastElementChild.classList.contains('hide')) {
+                                            addQuizForm["quiz-type"].parentElement.lastElementChild.lastElementChild.classList.add('hide');
+                                        }
+                                        addQuizForm["quiz-answers"].value = 2;
+                                        addQuizForm["quiz-answers"].classList.remove('input-valid');
+                                        addQuizForm["quiz-answers"].classList.remove('input-invalid');
+                                        if (!addQuizForm["quiz-answers"].parentElement.lastElementChild.firstElementChild.classList.contains('hide')) {
+                                            addQuizForm["quiz-answers"].parentElement.lastElementChild.firstElementChild.classList.add('hide');
+                                        }
+                                        if (!addQuizForm["quiz-answers"].parentElement.lastElementChild.lastElementChild.classList.contains('hide')) {
+                                            addQuizForm["quiz-answers"].parentElement.lastElementChild.lastElementChild.classList.add('hide');
+                                        }
+                                        addQuizForm["quiz-questions"].value = 4;
+                                        addQuizForm["quiz-questions"].classList.remove('input-valid');
+                                        addQuizForm["quiz-questions"].classList.remove('input-invalid');
+                                        if (!addQuizForm["quiz-questions"].parentElement.lastElementChild.firstElementChild.classList.contains('hide')) {
+                                            addQuizForm["quiz-questions"].parentElement.lastElementChild.firstElementChild.classList.add('hide');
+                                        }
+                                        if (!addQuizForm["quiz-questions"].parentElement.lastElementChild.lastElementChild.classList.contains('hide')) {
+                                            addQuizForm["quiz-questions"].parentElement.lastElementChild.lastElementChild.classList.add('hide');
+                                        }
+                                        // disable submit btn
+                                        if (!addQuizForm["quiz-generate"].classList.contains('disabled')) {
+                                            addQuizForm["quiz-generate"].classList.add('disabled');
+                                        }
+                                        // Hide submit feedback
+                                        hideSubmitFeedback(submitGenerateFeedback);
+                                        // Generate random word indexes
+                                        let randomIndexes = [],
+                                            randomWords = [];
+                                        while (randomIndexes.length < quizQuestions * quizAnswers) {
+                                            const r = Math.floor(Math.random() * 100) + 1;
+                                            if (randomIndexes.indexOf(r) === -1) {
+                                                randomIndexes.push(r);
+                                            }
+                                        }
+                                        // Get random words based on randomIndexes
+                                        docs2.forEach((doc, index) => {
+                                            randomWords.push(doc.results.data[randomIndexes[index]]);
+                                        });
+                                        // Update UI text
+                                        generateQuizTextFeddback.textContent = 'Fetching definitions...';
+                                        // Fetch definitions
+                                        return getSpecifiedWordDefinitions(randomWords);
+                                    })
+                                    .then(definitions => {
+                                        wordDefinitions = definitions;
+                                        console.log('DONE');
+                                        // Check if length of wordDefinitions is greater than or equal to
+                                        if (Object.keys(wordDefinitions).length === quizQuestions * quizAnswers) {
+                                            // Yes - ok
+                                            console.log('jest ok');
+                                            return undefined;
+                                        } else {
+                                            // No
+                                            const missingWords = quizQuestions * quizAnswers - Object.keys(wordDefinitions).length;
+                                            return getRandomWordDefinitions(missingWords, wordDefinitions);
+                                        }
+                                    })
+                                    .then(definition => {
+                                        if (definition === undefined) {
+                                            console.log('jest ok, znowu');
+                                        } else {
+                                            wordDefinitions = {
+                                                ...wordDefinitions,
+                                                ...definition
+                                            };
+                                            console.log(wordDefinitions);
+                                        }
+                                        // Here words and their definitions were fetched correctly
+                                        // Here generate questions
+                                        console.log('jestem tu - przed ostatnim fetch');
+                                        const questionTemplates = [
+                                            "What is the definition of $?",
+                                            "How would you define $?",
+                                            "How to define $?",
+                                            "What is the meaning of $?",
+                                            "What does $ mean?"
+                                        ];
+                                        let questionsToSave = {};
+                                        // Iterate over word definitions
+                                        console.log('przed for loop');
+                                        for (const key in wordDefinitions) {
+                                            console.log(key);
+                                            let definition, partOfSpeech = '';
+                                            // If word has more than one definition, choose a random one
+                                            if (wordDefinitions[key].length > 1) {
+                                                // Get random definition
+                                                const r = Math.floor(Math.random() * wordDefinitions[key].length);
+                                                definition = wordDefinitions[key][r].definition;
+                                                partOfSpeech = wordDefinitions[key][r].partOfSpeech;
+                                            } else {
+                                                definition = wordDefinitions[key][0].definition;
+                                                partOfSpeech = wordDefinitions[key][0].partOfSpeech;
+                                            }
+                                            // Add answer
+                                            questionsToSave[key] = {};
+                                            questionsToSave[key].correctAnswer = definition;
+                                            // Get random question template
+                                            const r = Math.floor(Math.random() * questionTemplates.length);
+                                            // Create question
+                                            questionsToSave[key].question = questionTemplates[r].replace("$", `${key} (${partOfSpeech})`);
+                                        }
+                                        // Here all questions & answer for each question is correctly generated
+                                        console.log(questionsToSave);
+                                        console.log('tututututu');
+                                        // Generate questions to save & remaining answers
+                                        const questionsKeys = Object.keys(questionsToSave);
+                                        let indexes = [];
+                                        while (indexes.length < quizQuestions) { // number of questions
+                                            const r = Math.floor(Math.random() * questionsKeys.length);
+                                            if (indexes.indexOf(r) === -1) {
+                                                indexes.push(r);
+                                            }
+                                        }
+                                        let questionsSaveSave = {};
+                                        let answersSaveSave = [];
+                                        questionsKeys.forEach((key, index) => {
+                                            if (indexes.includes(index)) {
+                                                questionsSaveSave[key] = questionsToSave[key];
+                                            } else {
+                                                const lolo = questionsToSave[key];
+                                                answersSaveSave.push(lolo.correctAnswer);
+                                            }
+                                        });
+                                        const data = {
+                                            questions: questionsSaveSave,
+                                            answers: answersSaveSave,
+                                            quizID: quizName,
+                                            answersTotal: quizAnswers
+                                        };
+                                        console.log(data);
+                                        // Save to db as a transaction
+                                        console.log('tutaj postData jest wywolany');
+                                        // Update UI text
+                                        generateQuizTextFeddback.textContent = 'Saving...';
+                                        return postData(data);
+                                    })
+                                    .then(res => {
+                                        // Check if response ok
+                                        if (!res.ok) {
+                                            throw new Error('Network problem.');
+                                        }
+                                        return res.json();
+                                    })
+                                    .then(docs3 => {
+                                        console.log(docs3);
+                                        console.log('jestem az tutaj');
+                                        generateQuizTextFeddback.textContent = 'Done!';
+                                        generateQuizLoader.classList.remove('start-loader');
+                                        setTimeout(() => {
+                                            // generateConfirmation.classList.add('hidden-options');
+                                            // addQuizWrapper.classList.add('hidden-options');
+                                            // browseWrapper.classList.toggle('hidden-options');
+                                            location.reload(true);
+                                            // Jest opcja, zeby nie odswiezac -- zrob fetch wszystkich quizzow, wygeneruj templates za pomoca js
 
-    //     const quizName = addQuizForm["quiz-name"].value;
-    //     const quizType = addQuizForm["quiz-type"].value;
-    //     const quizAnswers = addQuizForm["quiz-answers"].value;
-    //     const quizQuestions = addQuizForm["quiz-questions"].value;
-    //     console.log(quizName);
-    //     console.log(quizType);
-    //     console.log(quizAnswers);
-    //     console.log(quizQuestions);
+                                            // Jak to wszystko juz bedzie gotowe -- przenies uzytkownika na strone glowna quizu (tak jakby wybral ten quiz z puli quizzow)
+                                            // Kazde pytanie na osobnej stronie
+                                            // Daj mozliwosc powrotu do poprzedniego pytania
+                                            // Na ostatniej stronie submit form ze wszystkimi odpowiedziami
+                                            // Policz wynik, pokaz wynik, zapisz ostatni wynik do bazy danych
+                                        }, 1500);
+                                    })
+                                    .catch(error => {
+                                        console.log(error);
+                                    });
+                            }, 500);
+                        }, 1000);
+                    }
+                })
+                .catch(error => {
+                    // here you can handle also error from php
+                    // they come in a js form: JSON.parse blah blah
+                    console.log(error);
+                    // Handle when rejected (only network exceptions)
+                    if (err_count) {
+                        setTimeout(() => {
+                            submitGenerateFeedback.lastElementChild.classList.add('hide');
+                            submitGenerateFeedback.firstElementChild.classList.remove('hide');
+                            // Unlock input fields
+                            addQuizForm["quiz-name"].removeAttribute("readonly");
+                            addQuizForm["quiz-type"].removeAttribute("disabled");
+                            addQuizForm["quiz-answers"].removeAttribute("readonly");
+                            addQuizForm["quiz-questions"].removeAttribute("readonly");
 
-    //     // Check if there is anything in inputs
-    //     if (addQuizForm["quiz-name"].value !== '' && addQuizForm["quiz-type"].value !== 'Quiz Type' && addQuizForm["quiz-answers"].value !== '' && addQuizForm["quiz-questions"].value !== '' && (addQuizForm["quiz-answers"].value >= 2 && addQuizForm["quiz-answers"].value <= 6) && (addQuizForm["quiz-questions"].value >= 4 && addQuizForm["quiz-questions"].value <= 10) && !addQuizForm["quiz-name"].hasAttribute('readonly') && !addQuizForm["quiz-type"].hasAttribute('disabled') && !addQuizForm["quiz-answers"].hasAttribute('readonly') && !addQuizForm["quiz-questions"].hasAttribute('readonly')) {
-    //         // Adjust UI
-    //         if (submitGenerateFeedback.classList.contains('hide')) {
-    //             submitGenerateFeedback.classList.remove('hide');
-    //             submitGenerateFeedback.lastElementChild.classList.remove('hide');
-    //         } else {
-    //             submitGenerateFeedback.firstElementChild.classList.add('hide');
-    //             submitGenerateFeedback.lastElementChild.classList.remove('hide');
-    //         }
-    //         // Lock input fields
-    //         addQuizForm["quiz-name"].setAttribute("readonly", true);
-    //         addQuizForm["quiz-type"].setAttribute("disabled", true);
-    //         addQuizForm["quiz-select"].value = addQuizForm["quiz-type"].value;
-    //         addQuizForm["quiz-answers"].setAttribute("readonly", true);
-    //         addQuizForm["quiz-questions"].setAttribute("readonly", true);
-
-    //         addQuizForm["quiz-generate"].classList.add("disabled");
-    //         // Clear feedback div
-    //         clearFeedbackDiv(generateFeedbackWrapper);
-    //         // 
-    //         let err_count = 0;
-    //         // Post data using the Fetch API
-    //         fetch(addQuizForm.action, {
-    //                 method: addQuizForm.method,
-    //                 body: new FormData(addQuizForm)
-    //             })
-    //             // We turn the response into text as we expect HTML
-    //             .then(res => {
-    //                 // Check if response ok
-    //                 if (!res.ok) {
-    //                     // Throw an exception
-    //                     throw new Error('Network problem.');
-    //                 }
-    //                 return res.json();
-    //             })
-    //             .then(docs => {
-    //                 console.log(docs);
-    //                 // Handle when resolved
-    //                 // Fetch promise rejects only when there is network error
-    //                 // Handle input data
-    //                 err_count = handleFormDataLogin(docs);
-    //                 console.log(err_count);
-    //                 if (err_count) { // errors found
-    //                     setTimeout(() => {
-    //                         submitGenerateFeedback.lastElementChild.classList.add('hide');
-    //                         submitGenerateFeedback.firstElementChild.classList.remove('hide');
-    //                         // Unlock input fields
-    //                         addQuizForm["quiz-name"].removeAttribute("readonly");
-    //                         addQuizForm["quiz-type"].removeAttribute("disabled");
-    //                         addQuizForm["quiz-answers"].removeAttribute("readonly");
-    //                         addQuizForm["quiz-questions"].removeAttribute("readonly");
-
-    //                         addQuizForm["quiz-generate"].classList.remove("disabled");
-    //                     }, 500);
-    //                 } else { // no errors
-    //                     setTimeout(() => {
-    //                         // Unlock input fields
-    //                         addQuizForm["quiz-name"].removeAttribute("readonly");
-    //                         addQuizForm["quiz-type"].removeAttribute("disabled");
-    //                         addQuizForm["quiz-answers"].removeAttribute("readonly");
-    //                         addQuizForm["quiz-questions"].removeAttribute("readonly");
-
-    //                         addQuizForm["quiz-generate"].classList.remove("disabled");
-    //                         console.log('all good');
-    //                         // Hide submit feedback div
-    //                         submitGenerateFeedback.classList.add('hide');
-    //                         submitGenerateFeedback.firstElementChild.classList.add('hide');
-    //                         setTimeout(() => {
-    //                             // Show main info wrapper!
-    //                             generateConfirmation.classList.remove('hidden-options');
-    //                             // Show loader !!!
-    //                             // 
-    //                             // 
-    //                             // Fetch data
-    //                             const numOfQuestion = addQuizForm["quiz-answers"].value;
-    //                             const numOfAnswers = addQuizForm["quiz-questions"].value;
-    //                             getWordsByRandomPages(numOfQuestion, numOfAnswers)
-    //                                 .then(docs => {
-    //                                     // RESET FORM
-    //                                     addQuizForm["quiz-name"].value = '';
-    //                                     addQuizForm["quiz-type"].value = 'Quiz Type';
-    //                                     addQuizForm["quiz-answers"].value = 2;
-    //                                     addQuizForm["quiz-questions"].value = 4;
-    //                                     // disable submit btn
-    //                                     if (!addQuizForm["quiz-generate"].classList.contains('disabled')) {
-    //                                         addQuizForm["quiz-generate"].classList.add('disabled');
-    //                                     }
-    //                                     // Hide submit feedback
-    //                                     hideSubmitFeedback(submitGenerateFeedback);
-    //                                     // Reenable inputs & select !?!?
-    //                                     // 
-    //                                     console.log(docs);
-    //                                     // Generate random word indexes
-    //                                     let randomIndexes = [],
-    //                                         randomWords = [];
-    //                                     while (randomIndexes.length < numOfQuestion * numOfAnswers) {
-    //                                         const r = Math.floor(Math.random() * 100) + 1;
-    //                                         if (randomIndexes.indexOf(r) === -1) {
-    //                                             randomIndexes.push(r);
-    //                                         }
-    //                                     }
-    //                                     console.log(randomIndexes);
-    //                                     // Get random words based on randomIndexes
-    //                                     docs.forEach((doc, index) => {
-    //                                         randomWords.push(doc.results.data[randomIndexes[index]]);
-    //                                     });
-    //                                     console.log(randomWords);
-    //                                     // Get all words definitions
-    //                                     let wordDefinitions = [];
-    //                                     getSpecifiedWordDefinitions(randomWords)
-    //                                         .then(definitions => {
-    //                                             wordDefinitions = definitions;
-    //                                             console.log(wordDefinitions);
-    //                                             console.log('DONE');
-    //                                             // Check if length of wordDefinitions is greater than or equal to length of numOfQuestions
-    //                                             if (Object.keys(wordDefinitions).length === numOfQuestion * numOfAnswers) {
-    //                                                 // Yes - ok
-    //                                                 console.log('jest ok');
-    //                                                 // Here check if there is enough word to create answers
-    //                                                 // Yes -- 
-    //                                                 return undefined;
-    //                                                 // No -- fetch more word definitions -- you can do it in one if statement!!!
-    //                                                 // const missingWords = 2 - Object.keys(wordDefinitions).length;
-    //                                                 // return getRandomWordDefinitions(missingWords, wordDefinitions);
-    //                                             } else {
-    //                                                 // No - show user a message that generator found that many words (is that ok?) + if not ok -- add async function that searches for random word within a while loop till it finds appropriate amount of words with definitions
-    //                                                 const missingWords = numOfQuestion * numOfAnswers - Object.keys(wordDefinitions).length;
-    //                                                 return getRandomWordDefinitions(missingWords, wordDefinitions);
-
-    //                                             }
-    //                                         })
-    //                                         .then(definition => {
-    //                                             if (definition === undefined) {
-    //                                                 console.log('jest ok, znowu');
-    //                                             } else {
-    //                                                 console.log(definition);
-    //                                                 wordDefinitions = {
-    //                                                     ...wordDefinitions,
-    //                                                     ...definition
-    //                                                 };
-    //                                                 console.log(wordDefinitions);
-    //                                             }
-    //                                             // Here words and their definitions were fetched correctly
-    //                                             // Change text on the screen
-    //                                             // Here generate questions
-    //                                             const questionTemplates = [
-    //                                                 "What is the definition of $",
-    //                                                 "How would you define $",
-    //                                                 "How to define $",
-    //                                                 "What is the meaning of $",
-    //                                                 "What does $ mean?"
-    //                                             ];
-    //                                             let questionsToSave = {};
-    //                                             // Iterate over word definitions
-    //                                             for (const key in wordDefinitions) {
-    //                                                 // Get random question template
-    //                                                 const r = Math.floor(Math.random() * questionTemplates.length) + 1;
-    //                                                 // Create question
-    //                                                 questionsToSave.key = questionTemplates[r].replace("$", key);
-    //                                             }
-    //                                             // 
-    //                                             // Generate answers
-    //                                             // 
-    //                                             // Save to db as a transaction
-    //                                             // 
-    //                                             // Jak to wszystko juz bedzie gotowe -- przenies uzytkownika na strone glowna quizu (tak jakby wybral ten quiz z puli quizzow)
-    //                                             // Kazde pytanie na osobnej stronie
-    //                                             // Daj mozliwosc powrotu do poprzedniego pytania
-    //                                             // Na ostatniej stronie submit form ze wszystkimi odpowiedziami
-    //                                             // Policz wynik, pokaz wynik, zapisz ostatni wynik do bazy danych
-    //                                             setTimeout(() => {
-    //                                                 console.log('jestem az tutaj');
-    //                                                 // mainSectionWrapper.classList.toggle('hidden-options');
-    //                                                 // loginWrapper.classList.toggle('hidden-options');
-    //                                                 // // set tabindex="-1"
-    //                                                 // addTabindex('login-tabindex');
-    //                                                 // // 
-    //                                                 // setTimeout(() => {
-    //                                                 //     // Hide confirmation
-    //                                                 //     loginConfirmation.classList.add('hidden-options');
-    //                                                 //     // Show welcome screen
-    //                                                 //     mainSectionWrapper.classList.toggle('hidden-options');
-    //                                                 //     // Redirect
-    //                                                 //     window.location = './welcome.php';
-    //                                                 // }, 500);
-    //                                             }, 1500);
-    //                                         });
-    //                                 });
-    //                             // 
-    //                         }, 500);
-    //                     }, 1000);
-    //                 }
-    //             })
-    //             .catch(err => {
-    //                 // here you can handle also error from php
-    //                 // they come in a js form: JSON.parse blah blah
-    //                 console.log(err);
-    //                 // Handle when rejected (only network exceptions)
-    //                 if (err_count) {
-    //                     setTimeout(() => {
-    //                         submitGenerateFeedback.lastElementChild.classList.add('hide');
-    //                         submitGenerateFeedback.firstElementChild.classList.remove('hide');
-    //                         // Unlock input fields
-    //                         addQuizForm["quiz-name"].removeAttribute("readonly");
-    //                         addQuizForm["quiz-type"].removeAttribute("disabled");
-    //                         addQuizForm["quiz-answers"].removeAttribute("readonly");
-    //                         addQuizForm["quiz-questions"].removeAttribute("readonly");
-
-    //                         addQuizForm["quiz-generate"].classList.remove("disabled");
-    //                     }, 500);
-    //                 }
-    //             });
-    //     } else {
-    //         // tutaj pokaz ERRORS FOUND i zmien feedback
-    //     }
-    //     // Prevent the default form submit
-    //     e.preventDefault();
-    // });
+                            addQuizForm["quiz-generate"].classList.remove("disabled");
+                        }, 500);
+                    }
+                });
+        } else {
+            // W tym miejscu, nie przechodzi przez front-end validation
+            // Pokaz error msg albo po prostu pozbadz sie else
+        }
+        // Prevent the default form submit
+        e.preventDefault();
+    });
 </script>

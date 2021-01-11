@@ -98,7 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     // Sanitize and validate quiz answers
     $quizAnswers = filter_var($_POST["quiz-answers"], FILTER_SANITIZE_NUMBER_INT);
-    if (empty(trim($_POST["quiz-answers"])) || trim($_POST["quiz-answers"]) < 2  || trim($_POST["quiz-answers"]) > 6) {
+    if (empty(trim($_POST["quiz-answers"])) || trim($_POST["quiz-answers"]) < 2  || trim($_POST["quiz-answers"]) > 4) {
         $quizAnswers_err = "Please select valid number of quiz answers.";
         // Send err msg to front end
         $output["quiz-answers"]["php_error"] = true;

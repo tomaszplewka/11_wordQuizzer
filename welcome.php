@@ -10,7 +10,6 @@ require_once("config/config.php");
 // Use namespaces
 use WordQuizzer\Database;
 use WordQuizzer\Template;
-use GuzzleHttp\Client;
 // Load dependencies
 require_once(realpath("vendor/autoload.php"));
 
@@ -21,10 +20,18 @@ if (!(isset($_SESSION["user_loggedIn"]) && $_SESSION["user_loggedIn"] === true))
     exit;
 }
 
-// $db = new Database();
+// Initialize Database class
+$db = new Database();
+// Initialize Template class
 $welcome = new Template(realpath("templates/welcome.php"));
-
+// Assign template properties
 $welcome->username = $_SESSION["user_name"];
-// $index->heading = 'Welcome to wordRiddler!';
-
+$welcome->userID = $_SESSION["user_id"];
+// 
+$sql = "SELECT * FROM quiz ORDER BY created_at DESC LIMIT 3";
+if ($db->queryDB($sql)) {
+    $welcome->allQuizzes = $db->resultAll();
+    // print_r($results);
+}
+// 
 echo $welcome->output();
