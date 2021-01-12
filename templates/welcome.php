@@ -380,7 +380,7 @@
     <div class="quiz-display-wrapper is-flex is-flex-direction-column is-justify-content-start">
         <div class="quiz text-ghost-white my-4">
             <?php foreach ($allQuizzes as $index => $quiz) : ?>
-                <div id="<?php echo $quiz["quiz_id"]; ?>" class="my-2">
+                <div id="<?php echo $quiz["quiz_id"]; ?>" class="my-5">
                     <div class="quiz-header columns is-mobile m-0 is-vcentered has-text-centered py-2 <?php echo $quiz["quiz_type"]; ?>">
                         <div class="column is-3-mobile is-3 py-0">
                             <span class="quiz-header-icon text-smoky-black">
@@ -416,31 +416,32 @@
                             </span>
                         </a>
                     </div>
-                    <!-- <div class="swiped-right column is-1-mobile is-1 p-0 is-flex is-flex-direction-column is-justify-content-center is-align-items-center text-smoky-black">
-                        <i class="fas fa-caret-left"></i>
-                    </div> -->
+                    <!-- < div class="swiped-right column is-1-mobile is-1 p-0 is-flex is-flex-direction-column is-justify-content-center is-align-items-center text-smoky-black">
+                        <i class="fas fa-caret-left">
+                            </i>
+                                </div> -->
                     <div class="column is-12-mobile is-12 p-0 my-5">
                         <div class="more-info-quiz-info columns is-mobile m-0 is-vcentered is-multiline is-flex is-flex-direction-column is-justify-content-center">
                             <div class="column is-12-mobile is-12 p-0 my-1">
-                                <p class="text-smoky-black">Name: <?php echo $quiz["quiz_name"]; ?></p>
+                                <p class="text-smoky-black"> Name: <?php echo $quiz["quiz_name"]; ?></p>
                             </div>
                             <div class="column is-12-mobile is-12 p-0 my-1">
-                                <p class="text-smoky-black">Category: <?php echo $quiz["quiz_type"]; ?></p>
+                                <p class="text-smoky-black"> Category: <?php echo $quiz["quiz_type"]; ?></p>
                             </div>
                             <div class="column is-12-mobile is-12 p-0 my-1">
-                                <p class="text-smoky-black">Questions: <?php echo $quiz["quiz_questions"]; ?></p>
+                                <p class="text-smoky-black"> Questions: <?php echo $quiz["quiz_questions"]; ?></p>
                             </div>
                             <div class="column is-12-mobile is-12 p-0 my-1">
-                                <p class="text-smoky-black">Answers: <?php echo $quiz["quiz_answers"]; ?></p>
+                                <p class="text-smoky-black"> Answers: <?php echo $quiz["quiz_answers"]; ?></p>
                             </div>
                             <div class="column is-12-mobile is-12 p-0 my-1">
-                                <p class="text-smoky-black">Created at: <?php echo $quiz["created_at"]; ?></p>
+                                <p class="text-smoky-black"> Created at: <?php echo $quiz["created_at"]; ?></p>
                             </div>
                             <div class="column is-12-mobile is-12 p-0 my-1">
-                                <p class="text-smoky-black">Last Attempted: NO IDEA</p>
+                                <p class="text-smoky-black"> Last Attempted: NO IDEA</p>
                             </div>
                             <div class="column is-12-mobile is-12 p-0 my-1">
-                                <p class="text-smoky-black">Last Score: NO IDEA</p>
+                                <p class="text-smoky-black"> Last Score: NO IDEA</p>
                             </div>
                             <div class="column is-12-mobile is-12 p-0 my-1">
                                 <a id="" class="btn m-0">
@@ -451,15 +452,85 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="swiped-left column is-1-mobile is-1 p-0 is-flex is-flex-direction-column is-justify-content-center is-align-items-center text-smoky-black">
-                        <i class="fas fa-caret-right"></i>
-                    </div> -->
+                    <!-- < div class="swiped-left column is-1-mobile is-1 p-0 is-flex is-flex-direction-column is-justify-content-center is-align-items-center text-smoky-black">
+                        < i class="fas fa-caret-right">
+                            < /i>
+                                < /div> -->
                 </div>
             <?php endforeach; ?>
         </div>
     </div>
     <!-- <div id="test" style="width: 100%;">scroll to understand</div> -->
     <!-- <div id="content"> </div> -->
+</section>
+<!-- Quiz view -->
+<section class="section background-ghost-white is-flex is-flex-direction-column is-justify-content-start p-5 hidden-options" id="quiz-view-wrapper">
+    <div class="columns is-mobile m-0 is-vcentered is-multiline is-flex is-flex-direction-column is-justify-content-start">
+        <div class="is-flex is-justify-content-space-between is-align-items-center column is-12-mobile is-12 p-0">
+            <a id="quiz-quit-btn" class="control-btn">
+                <span class="text-smoky-black">
+                    Quit
+                </span>
+            </a>
+            <p class="quiz-view-questions">
+                <span id="quiz-current-question" class="">
+                    1
+                </span>
+                /
+                <span id="quiz-total-questions" class="">
+                    4
+                </span>
+            </p>
+            <a id="quiz-next-btn" class="control-btn">
+                <span class="text-smoky-black">
+                    Next
+                </span>
+            </a>
+        </div>
+        <div class="quiz-quit-confirmation-wrapper background-copper-red hidden-options">
+            <p class="quiz-quit-confirmation-text">
+                are you sure?
+            </p>
+            <div class="quiz-quit-confirmation-btn-wrapper is-flex is-justify-content-center mb-2">
+                <a id="quit-quiz-yes" class="btn mx-3">
+                    <span>
+                        yes
+                    </span>
+                </a>
+            </div>
+        </div>
+        <div class="is-flex is-justify-content-space-between is-align-items-center column is-12-mobile is-12 p-0 mt-2 mb-4">
+            <div id="question-text" class="quiz-view-question-text has-text-centered p-2">
+                <!-- <p class="quiz-view-header-text">
+                    What is the definition of undefined (noun)?
+                </p> -->
+            </div>
+        </div>
+        <div class="is-flex is-justify-content-space-between is-align-items-center column is-12-mobile is-12 p-0">
+            <form action="quiz.php" method="POST">
+                <div class="column is-12-mobile is-12 p-0 has-text-centered m-0 p-0">
+                    <input class="py-1" type="hidden" name="quiz-id">
+                </div>
+                <div id="Q1">
+                    <div class="quiz-view-answer-text has-text-centered p-2 my-1">
+                        <div class="is-relative">
+                            <input type="radio" name="Q1" value="Q1ANSWER1" id="Q1ANSWER1" class="btn m-0 p-0">
+                            <label for="Q1ANSWER1">
+                                maciek
+                            </label>
+                        </div>
+                    </div>
+                    <div class="quiz-view-answer-text has-text-centered p-2 my-1">
+                        <div class="is-relative">
+                            <input type="radio" name="Q1" value="Q1ANSWER2" id="Q1ANSWER2" class="btn m-0 p-0">
+                            <label for="Q1ANSWER2">
+                                mirek
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
 </section>
 <!-- Options -->
 <section class="section background-ghost-white is-flex is-flex-direction-column is-justify-content-center p-5 hidden-options" id="options-wrapper-welcome">
@@ -634,8 +705,121 @@
     const browseWrapper = document.querySelector('#browse-wrapper');
     const welcomeWrapper = document.querySelector('#welcome-wrapper');
     // 
+    let allQuizzes = [];
+    const quizWrapper = document.querySelector('.quiz');
+    const renderQuizzes = function(page) {
+        let html = '';
+        const quizStart = 0 + (page - 1) * 3;
+        const quizEnd = 3 + (page - 1) * 3;
+        const pages = Math.ceil(allQuizzes.length / 3);
+        console.log(pages);
+        for (let index = quizStart; index < quizEnd; index++) {
+            const quizID = allQuizzes[index]["quiz_id"];
+            const quizCategory = allQuizzes[index]["quiz_type"];
+            const quizName = allQuizzes[index]["quiz_name"];
+            const quizAnswers = allQuizzes[index]["quiz_answers"];
+            const quizQuestions = allQuizzes[index]["quiz_questions"];
+            const quizCreatedAt = allQuizzes[index]["created_at"];
+            html += `
+            <div id = "${quizID}" class = "my-5">
+                <div class = "quiz-header columns is-mobile m-0 is-vcentered has-text-centered py-2 ${quizCategory}" >
+                    <div class = "column is-3-mobile is-3 py-0" >
+                        <span class = "quiz-header-icon text-smoky-black">
+                            ${quizCategory[0]}
+                        </span> 
+                    </div>
+                    <div class = "quiz-header-name column is-9-mobile is-9 py-0" >
+                        ${quizName}
+                    </div>
+                </div>
+                <div class = "quiz-body columns is-mobile m-0 is-vcentered has-text-centered p-0">
+                    <div class = "quiz-body-more-info column is-6-mobile is-6 p-0" >
+                        <a id = "" class = "btn btn-invert btn-small btn-vertical m-0 more-info-btn" >
+                            <span>
+                                more info
+                            </span>
+                        </a>
+                    </div>
+                    <div class = "quiz-body-play column is-6-mobile is-6 p-0" >
+                        <a id = "" class = "btn btn-invert btn-small btn-vertical m-0 play-btn" >
+                            <span>
+                                play
+                            </span>
+                        </a> 
+                    </div>
+                </div>
+            </div>
+            <div data-id = "${quizID}" id = "" class = "more-info-wrapper scaleY background-ghost-white columns is-mobile m-0 has-text-centered p-5 is-multiline is-flex is-flex-direction-column is-justify-content-start" >
+                <div class = "is-flex is-justify-content-start column is-12-mobile is-12 p-0" >
+                    <a id = "" class="control-btn back-btn" >
+                        <span class="text-smoky-black">
+                            Go Back
+                        </span>
+                    </a>
+                </div>
+                <div class = "column is-12-mobile is-12 p-0 my-5" >
+                    <div class = "more-info-quiz-info columns is-mobile m-0 is-vcentered is-multiline is-flex is-flex-direction-column is-justify-content-center" >
+                        <div class = "column is-12-mobile is-12 p-0 my-1" >
+                            <p class = "text-smoky-black" > Name: ${quizName}</p>
+                        </div>
+                        <div class = "column is-12-mobile is-12 p-0 my-1">
+                            <p class = "text-smoky-black" > Category: ${quizCategory}</p>
+                        </div>
+                        <div class = "column is-12-mobile is-12 p-0 my-1">
+                            <p class = "text-smoky-black" > Questions: ${quizQuestions}</p>
+                        </div>
+                        <div class = "column is-12-mobile is-12 p-0 my-1">
+                            <p class = "text-smoky-black" > Answers: ${quizAnswers}</p>
+                        </div>
+                        <div class = "column is-12-mobile is-12 p-0 my-1">
+                            <p class = "text-smoky-black" > Created at: ${quizCreatedAt}</p>
+                        </div>
+                        <div class = "column is-12-mobile is-12 p-0 my-1">
+                            <p class = "text-smoky-black" > Last Attempted: NO IDEA</p>
+                        </div>
+                        <div class = "column is-12-mobile is-12 p-0 my-1">
+                            <p class = "text-smoky-black" > Last Score: NO IDEA </p>
+                        </div>
+                        <div class = "column is-12-mobile is-12 p-0 my-1">
+                            <a id = "" class = "btn m-0">
+                                <span>
+                                    play
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `;
+        }
+        let previousDisabled = '';
+        let nextDisabled = '';
+        if (page === 1) {
+            previousDisabled = 'disabled';
+        } else if (page === pages) {
+            nextDisabled = 'disabled';
+        }
+        html += `
+        <div class="is-flex is-justify-content-space-between column is-12-mobile is-12 p-0" >
+            <a id="browse-quizzes-previous" class="control-btn back-btn ${previousDisabled}" >
+                <span class="">
+                    Previous
+                </span>
+            </a>
+            <a id="browse-quizzes-previous" class="control-btn back-btn ${nextDisabled}" >
+                <span class="">
+                    Next
+                </span>
+            </a>
+        </div>
+        `;
+        quizWrapper.innerHTML = html;
+    }
+    // 
     browseBtn.addEventListener('click', () => {
         welcomeWrapper.firstElementChild.classList.add('shrink');
+        // Render data using JS
+
         // 
         setTimeout(() => {
             welcomeWrapper.classList.toggle('hidden-options');
@@ -719,6 +903,23 @@
     // const moreInfoBtn = document.querySelector('.more-info-btn');
     // const moreInfoWrapper = document.querySelector('.more-info-wrapper');
     // 
+    const fetchQuizzes = async function() {
+        return await fetch("fetchQuizzes.php", {
+            method: "GET",
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+    }
+    // call this function when browse database is clicked
+    // do it only once and checked if allQuizzes is not empty and has some kind of flag (meaning that was fetched already)
+    fetchQuizzes()
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            allQuizzes = data.data.fields;
+        });
     document.addEventListener('click', e => {
         // More info btn clicked
         if ((e.target.tagName === 'SPAN' && e.target.parentElement.classList.contains('more-info-btn')) || (e.target.classList.contains('more-info-btn') && e.target.tagName === 'A')) {
@@ -748,7 +949,64 @@
             const divMoreInfo = document.querySelector(`div[data-id="${quizID}"]`);
             divMoreInfo.classList.add('scaleY');
         }
+        // Play btn clicked
+        const quizViewWrapper = document.querySelector('#quiz-view-wrapper');
+        if ((e.target.tagName === 'SPAN' && e.target.parentElement.classList.contains('play-btn')) || (e.target.classList.contains('play-btn') && e.target.tagName === 'A')) {
+            quizViewWrapper.classList.toggle('hidden-options');
+            // Get quiz id
+            let quizID = '';
+            if (e.target.tagName === 'SPAN') {
+                quizID = e.target.parentElement.parentElement.parentElement.parentElement.id;
+            } else {
+                quizID = e.target.parentElement.parentElement.parentElement.id;
+            }
+            console.log(quizID);
+            // Render question
+            // Fetch quiz first
+            console.log(allQuizzes);
+            let trueQuizId = '';
+            allQuizzes.forEach(quiz => {
+                if (quiz.quiz_id === quizID) {
+                    trueQuizId = quiz.quiz_name;
+                }
+            });
+            const data = {
+                ID: trueQuizId
+            };
+            fetch("fetchQsAs.php", {
+                    method: "POST",
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    // 
+                    const questions = data.questions.fields;
+                    // Insert question
+                    const quizQuestion = document.querySelector('#question-text');
+                    console.log(questions);
+                    quizQuestion.innerHTML = `
+                    <p class="quiz-view-header-text">
+                        ${questions[0]["question"]}
+                    </p>
+                    `;
+
+                })
+            // console.log(allQuizzes);
+        }
     });
+    // Next btn clicked
+    // let qHtml = `
+    // <div class="column is-12-mobile is-12 p-0 has-text-centered m-0 p-0">
+    //     <input class="input py-1" type="hidden" name="quiz-select">
+    // </div>
+    // `;
+
+
     // moreInfoBtn.addEventListener('click', () => {
     //     moreInfoWrapper.classList.remove('scaleY');
     // });
@@ -878,7 +1136,7 @@
             }), {
                 "method": "GET",
                 "headers": {
-                    "x-rapidapi-key": "yourKey",
+                    "x-rapidapi-key": "f8a63bbfd2mshc496f00dfd1b54cp168d18jsn749a1f9f4065",
                     "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
                 }
             })
@@ -928,7 +1186,7 @@
             }), {
                 "method": "GET",
                 "headers": {
-                    "x-rapidapi-key": "yourKey",
+                    "x-rapidapi-key": "f8a63bbfd2mshc496f00dfd1b54cp168d18jsn749a1f9f4065",
                     "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
                 }
             });
@@ -943,7 +1201,7 @@
                 const response = await fetch('https://wordsapiv1.p.rapidapi.com/words/' + word + '/definitions', {
                     "method": "GET",
                     "headers": {
-                        "x-rapidapi-key": "yourKey",
+                        "x-rapidapi-key": "f8a63bbfd2mshc496f00dfd1b54cp168d18jsn749a1f9f4065",
                         "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
                     }
                 });
@@ -975,7 +1233,7 @@
             const response = await fetch('https://wordsapiv1.p.rapidapi.com/words/' + word + '/definitions', {
                 "method": "GET",
                 "headers": {
-                    "x-rapidapi-key": "yourKey",
+                    "x-rapidapi-key": "f8a63bbfd2mshc496f00dfd1b54cp168d18jsn749a1f9f4065",
                     "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
                 }
             });
@@ -1498,13 +1756,18 @@
                                     .then(docs3 => {
                                         console.log(docs3);
                                         console.log('jestem az tutaj');
+                                        allQuizzes = docs3['snapshot'];
+                                        console.log(allQuizzes);
                                         generateQuizTextFeddback.textContent = 'Done!';
                                         generateQuizLoader.classList.remove('start-loader');
                                         setTimeout(() => {
-                                            // generateConfirmation.classList.add('hidden-options');
-                                            // addQuizWrapper.classList.add('hidden-options');
-                                            // browseWrapper.classList.toggle('hidden-options');
-                                            location.reload(true);
+                                            generateConfirmation.classList.add('hidden-options');
+                                            addQuizWrapper.classList.add('hidden-options');
+                                            // Render quizzes
+                                            renderQuizzes(1);
+                                            browseWrapper.classList.toggle('hidden-options');
+                                            // 
+                                            // location.reload(true);
                                             // Jest opcja, zeby nie odswiezac -- zrob fetch wszystkich quizzow, wygeneruj templates za pomoca js
 
                                             // Jak to wszystko juz bedzie gotowe -- przenies uzytkownika na strone glowna quizu (tak jakby wybral ten quiz z puli quizzow)
