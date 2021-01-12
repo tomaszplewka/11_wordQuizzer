@@ -591,7 +591,8 @@ footer p {
 #options-wrapper-welcome ul,
 #quiz-view-wrapper > *,
 .logout-confirmation-wrapper > *,
-.quiz-quit-confirmation-wrapper > * {
+.quiz-quit-confirmation-wrapper > *,
+#quiz-answers-wrapper > * {
     opacity: 1;
     transition: all .5s ease;
 }
@@ -611,7 +612,8 @@ footer p {
 #options-wrapper-welcome.hidden-options,
 #quiz-view-wrapper.hidden-options,
 .logout-confirmation-wrapper.hidden-options,
-.quiz-quit-confirmation-wrapper.hidden-options {
+.quiz-quit-confirmation-wrapper.hidden-options,
+#quiz-answers-wrapper > div.hidden-options {
     overflow: hidden;
     padding: 0 !important;
     max-height: 0;
@@ -622,7 +624,8 @@ footer p {
 #options-wrapper-welcome.hidden-options ul,
 #quiz-view-wrapper.hidden-options > *,
 .logout-confirmation-wrapper.hidden-options > *,
-.quiz-quit-confirmation-wrapper.hidden-options > * {
+.quiz-quit-confirmation-wrapper.hidden-options > *,
+#quiz-answers-wrapper > div.hidden-options > * {
     opacity: 0;
     transition: all .5s ease;
 }
@@ -758,7 +761,9 @@ footer p {
 }
 
 input[type="number"],
-input[ype="text"] {
+input[ype="text"],
+input[type="email"],
+input[type="password"] {
     appearance: none;
     outline: none;
     margin: 0;
