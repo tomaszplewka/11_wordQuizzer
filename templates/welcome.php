@@ -378,87 +378,7 @@
         </div>
     </div>
     <div class="quiz-display-wrapper is-flex is-flex-direction-column is-justify-content-start">
-        <div class="quiz text-ghost-white my-4">
-            <?php foreach ($allQuizzes as $index => $quiz) : ?>
-                <div id="<?php echo $quiz["quiz_id"]; ?>" class="my-5">
-                    <div class="quiz-header columns is-mobile m-0 is-vcentered has-text-centered py-2 <?php echo $quiz["quiz_type"]; ?>">
-                        <div class="column is-3-mobile is-3 py-0">
-                            <span class="quiz-header-icon text-smoky-black">
-                                <?php echo $quiz["quiz_type"][0]; ?>
-                            </span>
-                        </div>
-                        <div class="quiz-header-name column is-9-mobile is-9 py-0">
-                            <?php echo $quiz["quiz_name"]; ?>
-                        </div>
-                    </div>
-                    <div class="quiz-body columns is-mobile m-0 is-vcentered has-text-centered p-0">
-                        <div class="quiz-body-more-info column is-6-mobile is-6 p-0">
-                            <a id="" class="btn btn-invert btn-small btn-vertical m-0 more-info-btn">
-                                <span>
-                                    more info
-                                </span>
-                            </a>
-                        </div>
-                        <div class="quiz-body-play column is-6-mobile is-6 p-0">
-                            <a id="" class="btn btn-invert btn-small btn-vertical m-0 play-btn">
-                                <span>
-                                    play
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div data-id="<?php echo $quiz["quiz_id"]; ?>" id="" class="more-info-wrapper scaleY background-ghost-white columns is-mobile m-0 has-text-centered p-5 is-multiline is-flex is-flex-direction-column is-justify-content-start">
-                    <div class="is-flex is-justify-content-start column is-12-mobile is-12 p-0">
-                        <a id="" class="control-btn back-btn">
-                            <span class="text-smoky-black">
-                                Go Back
-                            </span>
-                        </a>
-                    </div>
-                    <!-- < div class="swiped-right column is-1-mobile is-1 p-0 is-flex is-flex-direction-column is-justify-content-center is-align-items-center text-smoky-black">
-                        <i class="fas fa-caret-left">
-                            </i>
-                                </div> -->
-                    <div class="column is-12-mobile is-12 p-0 my-5">
-                        <div class="more-info-quiz-info columns is-mobile m-0 is-vcentered is-multiline is-flex is-flex-direction-column is-justify-content-center">
-                            <div class="column is-12-mobile is-12 p-0 my-1">
-                                <p class="text-smoky-black"> Name: <?php echo $quiz["quiz_name"]; ?></p>
-                            </div>
-                            <div class="column is-12-mobile is-12 p-0 my-1">
-                                <p class="text-smoky-black"> Category: <?php echo $quiz["quiz_type"]; ?></p>
-                            </div>
-                            <div class="column is-12-mobile is-12 p-0 my-1">
-                                <p class="text-smoky-black"> Questions: <?php echo $quiz["quiz_questions"]; ?></p>
-                            </div>
-                            <div class="column is-12-mobile is-12 p-0 my-1">
-                                <p class="text-smoky-black"> Answers: <?php echo $quiz["quiz_answers"]; ?></p>
-                            </div>
-                            <div class="column is-12-mobile is-12 p-0 my-1">
-                                <p class="text-smoky-black"> Created at: <?php echo $quiz["created_at"]; ?></p>
-                            </div>
-                            <div class="column is-12-mobile is-12 p-0 my-1">
-                                <p class="text-smoky-black"> Last Attempted: NO IDEA</p>
-                            </div>
-                            <div class="column is-12-mobile is-12 p-0 my-1">
-                                <p class="text-smoky-black"> Last Score: NO IDEA</p>
-                            </div>
-                            <div class="column is-12-mobile is-12 p-0 my-1">
-                                <a id="" class="btn m-0">
-                                    <span>
-                                        play
-                                    </span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- < div class="swiped-left column is-1-mobile is-1 p-0 is-flex is-flex-direction-column is-justify-content-center is-align-items-center text-smoky-black">
-                        < i class="fas fa-caret-right">
-                            < /i>
-                                < /div> -->
-                </div>
-            <?php endforeach; ?>
-        </div>
+        <div class="quiz text-ghost-white my-4"></div>
     </div>
     <!-- <div id="test" style="width: 100%;">scroll to understand</div> -->
     <!-- <div id="content"> </div> -->
@@ -477,20 +397,23 @@
                     1
                 </span>
                 /
-                <span id="quiz-total-questions" class="">
-                    4
-                </span>
+                <span id="quiz-total-questions" class=""></span>
             </p>
             <a id="quiz-next-btn" class="control-btn">
                 <span class="text-smoky-black">
                     Next
                 </span>
             </a>
-            <button id="" class="control-btn" type="submit" form="quiz-form" style="display: none; background-color: transparent;">
+            <button id="quiz-form-submit" class="control-btn" type="submit" form="quiz-form" style="display: none; background-color: transparent;">
                 <span class="text-smoky-black">
                     Submit
                 </span>
             </button>
+            <a id="quiz-retry-btn" class="control-btn" style="display: none;">
+                <span class="text-smoky-black">
+                    Retry
+                </span>
+            </a>
         </div>
         <div class="quiz-quit-confirmation-wrapper background-copper-red is-flex is-justify-content-center is-align-items-center column is-12-mobile is-12 p-0 hidden-options">
             <p class="quiz-quit-confirmation-text">
@@ -504,19 +427,32 @@
                 </a>
             </div>
         </div>
-        <div class="is-flex is-justify-content-space-between is-align-items-center column is-12-mobile is-12 p-0 my-2">
-            <div id="question-text" class="quiz-view-question-text has-text-centered p-2">
+        <div id="quiz-content" class="column is-12-mobile is-12 p-0">
+            <div class="is-flex is-justify-content-space-between is-align-items-center my-2">
+                <div id="question-text" class="quiz-view-question-text has-text-centered p-2">
+                </div>
+            </div>
+            <div class="is-flex is-justify-content-space-between is-align-items-center">
+                <form action="quiz.php" method="POST" id="quiz-form">
+                    <div class="column is-12-mobile is-12 p-0 has-text-centered m-0 p-0">
+                        <input class="py-1" type="hidden" name="quiz-id" value="">
+                    </div>
+                    <div id="quiz-answers-wrapper">
+                    </div>
+                </form>
             </div>
         </div>
-        <div class="is-flex is-justify-content-space-between is-align-items-center column is-12-mobile is-12 p-0">
-            <form action="quiz.php" method="POST" id="quiz-form">
-                <div class="column is-12-mobile is-12 p-0 has-text-centered m-0 p-0">
-                    <input class="py-1" type="hidden" name="quiz-id">
-                </div>
-                <div id="quiz-answers-wrapper">
-                    <div></div>
-                </div>
-            </form>
+        <div id="quiz-results" class="column is-12-mobile is-12 p-0 hidden-options">
+            <div class="is-flex is-justify-content-center is-align-items-center">
+                <p class="quiz-view-questions">Your result</p>
+            </div>
+            <div class="is-flex is-justify-content-center is-align-items-center my-2">
+                <p id="quiz-score" class="has-text-centered p-2">
+                </p>
+            </div>
+            <div class="is-flex is-justify-content-space-between is-align-items-center">
+                <ul id="quiz-feedback"></ul>
+            </div>
         </div>
 </section>
 <!-- Options -->
@@ -783,17 +719,18 @@
         let nextDisabled = '';
         if (page === 1) {
             previousDisabled = 'disabled';
-        } else if (page === pages) {
+        }
+        if (page === pages) {
             nextDisabled = 'disabled';
         }
         html += `
         <div class="is-flex is-justify-content-space-between column is-12-mobile is-12 p-0" >
-            <a id="browse-quizzes-previous" class="control-btn back-btn ${previousDisabled}" >
+            <a id="browse-quizzes-previous" class="control-btn ${previousDisabled}" >
                 <span class="">
                     Previous
                 </span>
             </a>
-            <a id="browse-quizzes-previous" class="control-btn back-btn ${nextDisabled}" >
+            <a id="browse-quizzes-previous" class="control-btn ${nextDisabled}" >
                 <span class="">
                     Next
                 </span>
@@ -806,7 +743,7 @@
     browseBtn.addEventListener('click', () => {
         welcomeWrapper.firstElementChild.classList.add('shrink');
         // Render data using JS
-
+        renderQuizzes(1);
         // 
         setTimeout(() => {
             welcomeWrapper.classList.toggle('hidden-options');
@@ -915,9 +852,26 @@
     let value = [];
     let index = 0;
     const quizQuestion = document.querySelector('#question-text');
+    const quitBtn = document.querySelector('#quiz-quit-btn');
+    const nextBtn = document.querySelector('#quiz-next-btn');
+    const qNumber = document.querySelector('#quiz-which-question');
+    const quitConfirmationWrapper = document.querySelector('.quiz-quit-confirmation-wrapper');
+    const quitYes = document.querySelector('#quit-quiz-yes');
+    const shuffleArray = array => {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[j], array[i]] = [array[i], array[j]];
+        }
+    }
+    const quizContent = document.querySelector('#quiz-content');
+    const quizResults = document.querySelector('#quiz-results');
+    const quizScore = document.querySelector('#quiz-score');
+    const quizFeedback = document.querySelector('#quiz-feedback');
+    let quizID = '';
     document.addEventListener('click', e => {
         // More info btn clicked
         if ((e.target.tagName === 'SPAN' && e.target.parentElement.classList.contains('more-info-btn')) || (e.target.classList.contains('more-info-btn') && e.target.tagName === 'A')) {
+            console.log('jestem tutaj');
             // Get quiz id
             let quizID = '';
             if (e.target.tagName === 'SPAN') {
@@ -945,24 +899,17 @@
             divMoreInfo.classList.add('scaleY');
         }
         // Play btn clicked
-
-
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[j], array[i]] = [array[i], array[j]];
-            }
-        }
         if ((e.target.tagName === 'SPAN' && e.target.parentElement.classList.contains('play-btn')) || (e.target.classList.contains('play-btn') && e.target.tagName === 'A')) {
             quizViewWrapper.classList.toggle('hidden-options');
             // Get quiz id
-            let quizID = '';
             if (e.target.tagName === 'SPAN') {
                 quizID = e.target.parentElement.parentElement.parentElement.parentElement.id;
             } else {
                 quizID = e.target.parentElement.parentElement.parentElement.id;
             }
             console.log(quizID);
+            // Assign quizID to hidden input value
+            quizForm["quiz-id"].value = quizID;
             // Render question
             // Fetch quiz first
             console.log(allQuizzes);
@@ -1029,15 +976,13 @@
                         </div>
                         `;
                     });
-                    quizForm.lastElementChild.firstElementChild.innerHTML = aHtml;
+                    let div = document.createElement('div');
+                    div.innerHTML = aHtml;
+                    quizForm.lastElementChild.appendChild(div);
                     console.log(correctAnswers);
+                    qNumber.lastElementChild.textContent = questions.length;
                 })
         }
-        const quitBtn = document.querySelector('#quiz-quit-btn');
-        const nextBtn = document.querySelector('#quiz-next-btn');
-        const qNumber = document.querySelector('#quiz-which-question');
-        const quitConfirmationWrapper = document.querySelector('.quiz-quit-confirmation-wrapper');
-        const quitYes = document.querySelector('#quit-quiz-yes');
         // Next btn clicked
         if ((e.target.tagName === 'SPAN' && e.target.parentElement.id === 'quiz-next-btn') || (e.target.id === 'quiz-next-btn' && e.target.tagName === 'A')) {
             if ((index + 1) === questions.length) {
@@ -1045,13 +990,13 @@
                 nextBtn.nextElementSibling.style.display = 'flex';
             }
             // Check if radio button is checked
-            console.log('Index: ' + index);
+            // console.log('Index: ' + index);
             const currName = questions[index - 1].question_ID;
-            console.log('CurrName: ' + currName);
+            // console.log('CurrName: ' + currName);
             const target = [...quizForm[currName]].filter(r => r.checked)[0];
             if (target !== undefined) {
                 value.push(target.value);
-                console.log('Value: ' + value);
+                // console.log('Value: ' + value);
                 // Update question number
                 qNumber.firstElementChild.textContent = (index + 1);
                 // 
@@ -1096,7 +1041,7 @@
                             `;
                 });
                 quizForm.lastElementChild.lastElementChild.innerHTML = aHtml;
-                console.log(correctAnswers);
+                // console.log(correctAnswers);
             } else {
                 // show message
             }
@@ -1106,28 +1051,123 @@
             quitConfirmationWrapper.classList.toggle('hidden-options');
         }
         if ((e.target.tagName === 'SPAN' && e.target.parentElement.id === 'quit-quiz-yes') || (e.target.id === 'quit-quiz-yes' && e.target.tagName === 'A')) {
+            // ZRESETUJ GLOBAL VARS (INDEX, ETC.) + ZRESETUJ UI DISPLAY
+            // If at the end of a quiz
+
             quitConfirmationWrapper.classList.toggle('hidden-options');
+            index = 0;
             setTimeout(() => {
                 quizViewWrapper.classList.toggle('hidden-options');
+                setTimeout(() => {
+                    if (!quizResults.classList.contains('hidden-options')) {
+                        quizResults.classList.add('hidden-options');
+                    }
+                    quizContent.classList.remove('hidden-options');
+                    quizForm.lastElementChild.innerHTML = '';
+                    quizContent.firstElementChild.firstElementChild.firstElementChild.innerHTML = '';
+                    qNumber.style.display = 'flex';
+                    qNumber.firstElementChild.textContent = 1;
+                    nextBtn.style.display = 'flex';
+                    nextBtn.nextElementSibling.style.display = 'none';
+                    nextBtn.nextElementSibling.nextElementSibling.style.display = 'none';
+                }, 500);
             }, 500);
         }
     });
-    // let qHtml = `
-    // <div class="column is-12-mobile is-12 p-0 has-text-centered m-0 p-0">
-    //     <input class="input py-1" type="hidden" name="quiz-select">
-    // </div>
-    // `;
+    // Quiz submitted
 
+    const createLoader = target => {
+        let div = document.createElement('div');
+        div.className = 'is-flex is-flex-direction-column is-justify-content-center is-align-items-center loader-wrapper';
+        let loader = document.createElement('div');
+        loader.className = 'loader hide';
+        target.appendChild(div);
+        target.lastElementChild.appendChild(loader);
+        setTimeout(() => {
+            target.lastElementChild.firstElementChild.classList.remove('hide');
+        }, 250);
+    };
+    const removeLoader = () => {
+        const loader = document.querySelector('.loader-wrapper');
+        loader.remove();
+    }
+    quizForm.addEventListener('submit', e => {
+        console.log('quiz submitted');
+        // Show loader
+        createLoader(quizViewWrapper);
+        quizContent.classList.toggle('hidden-options');
+        qNumber.style.display = 'none';
+        nextBtn.nextElementSibling.style.display = 'none';
+        nextBtn.nextElementSibling.nextElementSibling.style.display = 'flex';
+        let score = 0;
+        // Adjust UI & interact with db
+        // Output quiz feedback
+        let uHtml = '';
+        questions.forEach((question, index) => {
+            // userAnswers.push(quizForm[question.question_ID].value);
+            if (quizForm[question.question_ID].value == correctAnswers[index]) {
+                score++;
+                uHtml += `
+                <li class="is-flex is-justify-content-space-between is-align-items-center quiz-li-feedback input-valid">
+                    <p class="">
+                        ${question.question}
+                    </p>
+                    <span class="icon-validation" id="">
+                        <i class="fas fa-check icon-valid"></i>
+                    </span>
+                </li>
+                `;
+            } else {
+                uHtml += `
+                <li class="is-flex is-justify-content-space-between is-align-items-center quiz-li-feedback input-invalid">
+                    <p class="">
+                        ${question.question}
+                    </p>
+                    <span class="icon-validation" id="">
+                        <i class="fas fa-times icon-invalid"></i>
+                    </span>    
+                </li>
+                `;
+            }
+        });
+        console.log(quizID);
+        const finalScore = (score / questions.length) * 100;
+        console.log(finalScore);
+        const data = {
+            finalScore,
+            quizID
+        };
+        fetch(quizForm.action, {
+                method: quizForm.method,
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error('Network problem.');
+                }
+                return res.json();
+            })
+            .then(docs1 => {
+                console.log(docs1);
+                // setTimeout(() => {
+                //     removeLoader();
+                //     quizResults.classList.toggle('hidden-options');
+                //     // Output feedback & score
+                //     quizScore.textContent = finalScore + '%';
+                //     quizFeedback.innerHTML = uHtml;
+                //     // console.log('Correct asnwers: ' + correctAnswers);
+                //     // console.log('My answers: ' + userAnswers);
+                //     // console.log('My score: ' + finalScore + '%');
+                // }, 1000);
+            })
+            .catch(error => console.log(error));
 
-    // moreInfoBtn.addEventListener('click', () => {
-    //     moreInfoWrapper.classList.remove('scaleY');
-    // });
-    // 
-    // const moreInfoBackBtn = document.querySelector('#more-info-back-btn');
-    // // 
-    // moreInfoBackBtn.addEventListener('click', () => {
-    //     moreInfoWrapper.classList.add('scaleY');
-    // });
+        e.preventDefault();
+    });
     // 
     const filterQuizBtn = document.querySelector('#filter-back-btn');
     const filterQuizWrapper = document.querySelector('#filter-quiz-wrapper');

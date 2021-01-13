@@ -126,7 +126,7 @@ if ($contentType === "application/json") {
                             $index++;
                         }
                         if ($db->execute()) {
-                            // $db->transactionCommit();
+                            $db->transactionCommit();
                             // Tu wszystko powinno byc ok
                             $output["data"]["msg"] = "Questions and answers added.";
                             $sql = "SELECT * FROM quiz ORDER BY created_at DESC";

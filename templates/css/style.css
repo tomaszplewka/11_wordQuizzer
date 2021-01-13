@@ -585,6 +585,7 @@ footer p {
 #quiz-view-wrapper {
     height: calc(100% - 71px);
     border-top: 1px solid var(--color-smoky-black);
+    overflow: scroll;
 }
 
 #options-wrapper ul,
@@ -592,9 +593,16 @@ footer p {
 #quiz-view-wrapper > *,
 .logout-confirmation-wrapper > *,
 .quiz-quit-confirmation-wrapper > *,
-#quiz-answers-wrapper > * {
+#quiz-answers-wrapper > *,
+#quiz-content > *,
+#quiz-results > *,
+.loader-wrapper {
     opacity: 1;
     transition: all .5s ease;
+}
+
+.loader-wrapper {
+    transition: all 0s;
 }
 
 .logout-confirmation-wrapper,
@@ -613,11 +621,17 @@ footer p {
 #quiz-view-wrapper.hidden-options,
 .logout-confirmation-wrapper.hidden-options,
 .quiz-quit-confirmation-wrapper.hidden-options,
-#quiz-answers-wrapper > div.hidden-options {
+#quiz-answers-wrapper > div.hidden-options,
+#quiz-content.hidden-options,
+#quiz-results.hidden-options,
+.loader-wrapper.hidden-options {
     overflow: hidden;
     padding: 0 !important;
     max-height: 0;
     transition: all .5s ease;
+}
+.loader-wrapper.hidden-options {
+    transition: all 0s;
 }
 
 #options-wrapper.hidden-options ul,
@@ -625,9 +639,15 @@ footer p {
 #quiz-view-wrapper.hidden-options > *,
 .logout-confirmation-wrapper.hidden-options > *,
 .quiz-quit-confirmation-wrapper.hidden-options > *,
-#quiz-answers-wrapper > div.hidden-options > * {
+#quiz-answers-wrapper > div.hidden-options > *,
+#quiz-content.hidden-options > *,
+#quiz-results.hidden-options > *,
+.loader-wrapper.hidden-options > * {
     opacity: 0;
     transition: all .5s ease;
+}
+.loader-wrapper.hidden-options > * {
+    transition: all 0s;
 }
 
 .shrink {
@@ -899,6 +919,7 @@ select:hover + .icon-validation {
 
 button {
     border: none;
+    outline: none;
 }
 
 .status-failure {
@@ -1244,6 +1265,7 @@ select option,
     border: 2px solid var(--color-copper-red);
     background-color: var(--color-smoky-black);
     border-radius: 0.5rem;
+    width: 100%;
 }
 .quiz-view-answer-text {
     font-family: 'chiller', Arial, Helvetica, sans-serif !important;
@@ -1264,4 +1286,68 @@ select option,
 #quiz-view-wrapper label {
     display: block;
     position: relative;
+}
+
+#quiz-score {
+    background-color: var(--color-space-cadet);
+    color: var(--color-corn);
+    font-family: chiller;
+    border-radius: 50%;
+    width: 5rem;
+    height: 5rem;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    border: 5px solid var(--color-corn);
+}
+
+.quiz-li-feedback.input-valid {
+    border: 2px solid var(--color-mountain-meadow);
+    padding: 0.5rem;
+    font-size: 1rem;
+    font-family: chiller;
+    text-align: center;
+    position: relative;
+}
+.quiz-li-feedback.input-invalid {
+    border: 2px solid var(--color-copper-red);
+    padding: 0.5rem;
+    font-size: 1rem;
+    font-family: chiller;
+    text-align: center;
+    position: relative;
+}
+
+ul {
+    width: 100%;
+}
+
+.quiz-li-feedback .icon-validation {
+    position: relative;
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.loader {
+  border: 10px solid var(--color-corn);
+  border-top: 10px solid var(--color-space-cadet);
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loader-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
 }
