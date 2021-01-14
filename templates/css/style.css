@@ -228,6 +228,7 @@ footer p {
     opacity: 0.5;
     cursor: not-allowed;
     transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
+    pointer-events: none;
 }
 .control-btn.disabled span {
     color: var(--color-black-coral) !important;
@@ -1065,9 +1066,10 @@ button {
     font-family: 'chiller', Arial, Helvetica, sans-serif !important;
     text-transform: uppercase;
     transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
+    height: 100%;
 }
 
-.quiz > div {
+.quiz > div > div {
     border-radius: 0.5rem;
     overflow: hidden;
 }
@@ -1343,7 +1345,7 @@ ul {
   100% { transform: rotate(360deg); }
 }
 
-.loader-wrapper {
+.loader-wrapper2 {
     position: fixed;
     top: 0;
     left: 0;

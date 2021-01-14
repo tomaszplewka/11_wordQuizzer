@@ -378,7 +378,21 @@
         </div>
     </div>
     <div class="quiz-display-wrapper is-flex is-flex-direction-column is-justify-content-start">
-        <div class="quiz text-ghost-white my-4"></div>
+        <div class="quiz is-flex is-flex-direction-column is-justify-content-space-between text-ghost-white my-4">
+            <div class="is-flex is-flex-direction-column is-justify-content-start column is-12-mobile is-12 p-0"></div>
+            <div class="is-flex is-justify-content-space-between column is-12-mobile is-12 p-0">
+                <a id="browse-quizzes-previous" class="control-btn">
+                    <span class="">
+                        Previous
+                    </span>
+                </a>
+                <a id="browse-quizzes-next" class="control-btn">
+                    <span class="">
+                        Next
+                    </span>
+                </a>
+            </div>
+        </div>
     </div>
     <!-- <div id="test" style="width: 100%;">scroll to understand</div> -->
     <!-- <div id="content"> </div> -->
@@ -630,13 +644,16 @@
     // 
     let allQuizzes = [];
     const quizWrapper = document.querySelector('.quiz');
-    const renderQuizzes = function(page) {
+    const renderQuizzes = page => {
         let html = '';
         const quizStart = 0 + (page - 1) * 3;
         const quizEnd = 3 + (page - 1) * 3;
         const pages = Math.ceil(allQuizzes.length / 3);
         console.log(pages);
         for (let index = quizStart; index < quizEnd; index++) {
+            if (allQuizzes[index] === undefined) {
+                break;
+            }
             const quizID = allQuizzes[index]["quiz_id"];
             const quizCategory = allQuizzes[index]["quiz_type"];
             const quizName = allQuizzes[index]["quiz_name"];
@@ -644,27 +661,27 @@
             const quizQuestions = allQuizzes[index]["quiz_questions"];
             const quizCreatedAt = allQuizzes[index]["created_at"];
             html += `
-            <div id = "${quizID}" class = "my-5">
-                <div class = "quiz-header columns is-mobile m-0 is-vcentered has-text-centered py-2 ${quizCategory}" >
-                    <div class = "column is-3-mobile is-3 py-0" >
-                        <span class = "quiz-header-icon text-smoky-black">
+            <div id="${quizID}" class="my-2">
+                <div class="quiz-header columns is-mobile m-0 is-vcentered has-text-centered py-2 ${quizCategory}">
+                    <div class="column is-3-mobile is-3 py-0" >
+                        <span class="quiz-header-icon text-smoky-black">
                             ${quizCategory[0]}
                         </span> 
                     </div>
-                    <div class = "quiz-header-name column is-9-mobile is-9 py-0" >
+                    <div class="quiz-header-name column is-9-mobile is-9 py-0" >
                         ${quizName}
                     </div>
                 </div>
-                <div class = "quiz-body columns is-mobile m-0 is-vcentered has-text-centered p-0">
-                    <div class = "quiz-body-more-info column is-6-mobile is-6 p-0" >
-                        <a id = "" class = "btn btn-invert btn-small btn-vertical m-0 more-info-btn" >
+                <div class="quiz-body columns is-mobile m-0 is-vcentered has-text-centered p-0">
+                    <div class="quiz-body-more-info column is-6-mobile is-6 p-0" >
+                        <a id="" class="btn btn-invert btn-small btn-vertical m-0 more-info-btn" >
                             <span>
                                 more info
                             </span>
                         </a>
                     </div>
-                    <div class = "quiz-body-play column is-6-mobile is-6 p-0" >
-                        <a id = "" class = "btn btn-invert btn-small btn-vertical m-0 play-btn" >
+                    <div class="quiz-body-play column is-6-mobile is-6 p-0" >
+                        <a id="" class="btn btn-invert btn-small btn-vertical m-0 play-btn" >
                             <span>
                                 play
                             </span>
@@ -672,39 +689,39 @@
                     </div>
                 </div>
             </div>
-            <div data-id = "${quizID}" id = "" class = "more-info-wrapper scaleY background-ghost-white columns is-mobile m-0 has-text-centered p-5 is-multiline is-flex is-flex-direction-column is-justify-content-start" >
-                <div class = "is-flex is-justify-content-start column is-12-mobile is-12 p-0" >
-                    <a id = "" class="control-btn back-btn" >
+            <div data-id="${quizID}" id ="" class="more-info-wrapper scaleY background-ghost-white columns is-mobile m-0 has-text-centered p-5 is-multiline is-flex is-flex-direction-column is-justify-content-start" >
+                <div class="is-flex is-justify-content-start column is-12-mobile is-12 p-0" >
+                    <a id="" class="control-btn back-btn" >
                         <span class="text-smoky-black">
                             Go Back
                         </span>
                     </a>
                 </div>
-                <div class = "column is-12-mobile is-12 p-0 my-5" >
-                    <div class = "more-info-quiz-info columns is-mobile m-0 is-vcentered is-multiline is-flex is-flex-direction-column is-justify-content-center" >
-                        <div class = "column is-12-mobile is-12 p-0 my-1" >
-                            <p class = "text-smoky-black" > Name: ${quizName}</p>
+                <div class="column is-12-mobile is-12 p-0 my-5" >
+                    <div class="more-info-quiz-info columns is-mobile m-0 is-vcentered is-multiline is-flex is-flex-direction-column is-justify-content-center" >
+                        <div class="column is-12-mobile is-12 p-0 my-1" >
+                            <p class="text-smoky-black" > Name: ${quizName}</p>
                         </div>
-                        <div class = "column is-12-mobile is-12 p-0 my-1">
-                            <p class = "text-smoky-black" > Category: ${quizCategory}</p>
+                        <div class="column is-12-mobile is-12 p-0 my-1">
+                            <p class="text-smoky-black" > Category: ${quizCategory}</p>
                         </div>
-                        <div class = "column is-12-mobile is-12 p-0 my-1">
-                            <p class = "text-smoky-black" > Questions: ${quizQuestions}</p>
+                        <div class="column is-12-mobile is-12 p-0 my-1">
+                            <p class="text-smoky-black" > Questions: ${quizQuestions}</p>
                         </div>
-                        <div class = "column is-12-mobile is-12 p-0 my-1">
-                            <p class = "text-smoky-black" > Answers: ${quizAnswers}</p>
+                        <div class="column is-12-mobile is-12 p-0 my-1">
+                            <p class="text-smoky-black" > Answers: ${quizAnswers}</p>
                         </div>
-                        <div class = "column is-12-mobile is-12 p-0 my-1">
-                            <p class = "text-smoky-black" > Created at: ${quizCreatedAt}</p>
+                        <div class="column is-12-mobile is-12 p-0 my-1">
+                            <p class="text-smoky-black" > Created at: ${quizCreatedAt}</p>
                         </div>
-                        <div class = "column is-12-mobile is-12 p-0 my-1">
-                            <p class = "text-smoky-black" > Last Attempted: NO IDEA</p>
+                        <div class="column is-12-mobile is-12 p-0 my-1">
+                            <p class="text-smoky-black" > Last Attempted: NO IDEA</p>
                         </div>
-                        <div class = "column is-12-mobile is-12 p-0 my-1">
-                            <p class = "text-smoky-black" > Last Score: NO IDEA </p>
+                        <div class="column is-12-mobile is-12 p-0 my-1">
+                            <p class="text-smoky-black" > Last Score: NO IDEA </p>
                         </div>
-                        <div class = "column is-12-mobile is-12 p-0 my-1">
-                            <a id = "" class = "btn m-0">
+                        <div class="column is-12-mobile is-12 p-0 my-1">
+                            <a id="" class="btn m-0">
                                 <span>
                                     play
                                 </span>
@@ -714,36 +731,28 @@
                 </div>
             </div>
             `;
-        }
-        let previousDisabled = '';
-        let nextDisabled = '';
+        };
         if (page === 1) {
-            previousDisabled = 'disabled';
+            quizWrapper.lastElementChild.firstElementChild.classList.add('disabled');
+        } else {
+            quizWrapper.lastElementChild.firstElementChild.classList.remove('disabled');
         }
         if (page === pages) {
-            nextDisabled = 'disabled';
+            quizWrapper.lastElementChild.lastElementChild.classList.add('disabled');
+        } else {
+            quizWrapper.lastElementChild.lastElementChild.classList.remove('disabled');
         }
-        html += `
-        <div class="is-flex is-justify-content-space-between column is-12-mobile is-12 p-0" >
-            <a id="browse-quizzes-previous" class="control-btn ${previousDisabled}" >
-                <span class="">
-                    Previous
-                </span>
-            </a>
-            <a id="browse-quizzes-previous" class="control-btn ${nextDisabled}" >
-                <span class="">
-                    Next
-                </span>
-            </a>
-        </div>
-        `;
-        quizWrapper.innerHTML = html;
+        let lastChild = quizWrapper.lastElementChild;
+        quizWrapper.firstElementChild.innerHTML = html;
+        quizWrapper.appendChild(lastChild);
+        quizWrapper.setAttribute('data-page', page);
     }
     // 
     browseBtn.addEventListener('click', () => {
         welcomeWrapper.firstElementChild.classList.add('shrink');
         // Render data using JS
         renderQuizzes(1);
+        // 
         // 
         setTimeout(() => {
             welcomeWrapper.classList.toggle('hidden-options');
@@ -1065,7 +1074,7 @@
                     quizContent.classList.remove('hidden-options');
                     quizForm.lastElementChild.innerHTML = '';
                     quizContent.firstElementChild.firstElementChild.firstElementChild.innerHTML = '';
-                    qNumber.style.display = 'flex';
+                    qNumber.style.opacity = 1;
                     qNumber.firstElementChild.textContent = 1;
                     nextBtn.style.display = 'flex';
                     nextBtn.nextElementSibling.style.display = 'none';
@@ -1073,12 +1082,31 @@
                 }, 500);
             }, 500);
         }
+        // Browse quiz next
+        if ((e.target.tagName === 'SPAN' && e.target.parentElement.id === 'browse-quizzes-next') || (e.target.id === 'browse-quizzes-next' && e.target.tagName === 'A')) {
+            console.log('next clicked');
+            const page = parseInt(quizWrapper.getAttribute('data-page'));
+            console.log(page);
+            renderQuizzes(page + 1);
+        }
+        // Browse quiz previous
+        if ((e.target.tagName === 'SPAN' && e.target.parentElement.id === 'browse-quizzes-previous') || (e.target.id === 'browse-quizzes-previous' && e.target.tagName === 'A')) {
+            console.log('previous clicked');
+            const page = parseInt(quizWrapper.getAttribute('data-page'));
+            console.log(page);
+            renderQuizzes(page - 1);
+        }
     });
+    // const browseQuizNext = document.querySelector('#browse-quizzes-next');
+    // browseQuizNext.addEventListener('click', e => {
+    // });
+    // const browseQuizPrevious = document.querySelector('#browse-quizzes-previous');
+    // browseQuizPrevious.addEventListener('click', e => {
+    // });
     // Quiz submitted
-
     const createLoader = target => {
         let div = document.createElement('div');
-        div.className = 'is-flex is-flex-direction-column is-justify-content-center is-align-items-center loader-wrapper';
+        div.className = 'is-flex is-flex-direction-column is-justify-content-center is-align-items-center loader-wrapper2';
         let loader = document.createElement('div');
         loader.className = 'loader hide';
         target.appendChild(div);
@@ -1088,7 +1116,7 @@
         }, 250);
     };
     const removeLoader = () => {
-        const loader = document.querySelector('.loader-wrapper');
+        const loader = document.querySelector('.loader-wrapper2');
         loader.remove();
     }
     quizForm.addEventListener('submit', e => {
@@ -1096,7 +1124,7 @@
         // Show loader
         createLoader(quizViewWrapper);
         quizContent.classList.toggle('hidden-options');
-        qNumber.style.display = 'none';
+        qNumber.style.opacity = 0;
         nextBtn.nextElementSibling.style.display = 'none';
         nextBtn.nextElementSibling.nextElementSibling.style.display = 'flex';
         let score = 0;
@@ -1153,20 +1181,86 @@
             })
             .then(docs1 => {
                 console.log(docs1);
-                // setTimeout(() => {
-                //     removeLoader();
-                //     quizResults.classList.toggle('hidden-options');
-                //     // Output feedback & score
-                //     quizScore.textContent = finalScore + '%';
-                //     quizFeedback.innerHTML = uHtml;
-                //     // console.log('Correct asnwers: ' + correctAnswers);
-                //     // console.log('My answers: ' + userAnswers);
-                //     // console.log('My score: ' + finalScore + '%');
-                // }, 1000);
+                setTimeout(() => {
+                    removeLoader();
+                    quizResults.classList.toggle('hidden-options');
+                    // Output feedback & score
+                    quizScore.textContent = finalScore + '%';
+                    quizFeedback.innerHTML = uHtml;
+                    // console.log('Correct asnwers: ' + correctAnswers);
+                    // console.log('My answers: ' + userAnswers);
+                    // console.log('My score: ' + finalScore + '%');
+                }, 1000);
             })
             .catch(error => console.log(error));
-
+        // 
         e.preventDefault();
+    });
+    // Retry quiz
+    const retryBtn = document.querySelector('#quiz-retry-btn');
+    retryBtn.addEventListener('click', e => {
+        index = 0;
+        setTimeout(() => {
+            if (!quizResults.classList.contains('hidden-options')) {
+                quizResults.classList.add('hidden-options');
+            }
+            quizContent.classList.remove('hidden-options');
+            quizForm.lastElementChild.innerHTML = '';
+            quizContent.firstElementChild.firstElementChild.firstElementChild.innerHTML = '';
+            qNumber.style.opacity = 1;
+            qNumber.firstElementChild.textContent = 1;
+            nextBtn.style.display = 'flex';
+            nextBtn.nextElementSibling.style.display = 'none';
+            nextBtn.nextElementSibling.nextElementSibling.style.display = 'none';
+            // Output question
+            quizQuestion.innerHTML = `
+                    <p class="quiz-view-header-text">
+                        ${questions[index]["question"]}
+                    </p>
+                    `;
+            // Insert answers
+            const questionID = questions[index]["question_ID"];
+            let currAnswers = [];
+            answers.forEach(answer => {
+                if (answer.question_ID === questionID) {
+                    currAnswers.push({
+                        answer: answer.answer,
+                        a_ID: answer.answer_ID,
+                        q_ID: answer.question_ID,
+                        is_correct: answer.is_correct === "1"
+                    });
+                }
+            });
+            index++;
+            console.log(currAnswers);
+            shuffleArray(currAnswers);
+            console.log(currAnswers);
+            let aHtml = '';
+            // Reset corrent answer
+            console.log(correctAnswers);
+            correctAnswers = [];
+            console.log(correctAnswers);
+            currAnswers.forEach((currAnswer, index) => {
+                if (currAnswer.is_correct) {
+                    correctAnswers.push(index);
+                }
+                aHtml += `
+                        <div class="quiz-view-answer-text has-text-centered p-2 m-0">
+                            <div class="is-relative">
+                                <input type="radio" name="${currAnswer.q_ID}" value="${index}" id="${currAnswer.a_ID}" class="btn m-0 p-0">
+                                <label for="${currAnswer.a_ID}">
+                                    ${currAnswer.answer}
+                                </label>
+                            </div>
+                        </div>
+                        `;
+            });
+            let div = document.createElement('div');
+            div.innerHTML = aHtml;
+            quizForm.lastElementChild.appendChild(div);
+            console.log(correctAnswers);
+            qNumber.lastElementChild.textContent = questions.length;
+        }, 250);
     });
     // 
     const filterQuizBtn = document.querySelector('#filter-back-btn');
@@ -1288,7 +1382,7 @@
             }), {
                 "method": "GET",
                 "headers": {
-                    "x-rapidapi-key": "f8a63bbfd2mshc496f00dfd1b54cp168d18jsn749a1f9f4065",
+                    "x-rapidapi-key": "yourKey",
                     "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
                 }
             })
@@ -1338,7 +1432,7 @@
             }), {
                 "method": "GET",
                 "headers": {
-                    "x-rapidapi-key": "f8a63bbfd2mshc496f00dfd1b54cp168d18jsn749a1f9f4065",
+                    "x-rapidapi-key": "yourKey",
                     "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
                 }
             });
@@ -1353,7 +1447,7 @@
                 const response = await fetch('https://wordsapiv1.p.rapidapi.com/words/' + word + '/definitions', {
                     "method": "GET",
                     "headers": {
-                        "x-rapidapi-key": "f8a63bbfd2mshc496f00dfd1b54cp168d18jsn749a1f9f4065",
+                        "x-rapidapi-key": "yourKey",
                         "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
                     }
                 });
@@ -1385,7 +1479,7 @@
             const response = await fetch('https://wordsapiv1.p.rapidapi.com/words/' + word + '/definitions', {
                 "method": "GET",
                 "headers": {
-                    "x-rapidapi-key": "f8a63bbfd2mshc496f00dfd1b54cp168d18jsn749a1f9f4065",
+                    "x-rapidapi-key": "yourKey",
                     "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
                 }
             });
