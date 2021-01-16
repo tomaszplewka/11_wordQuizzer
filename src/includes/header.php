@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <!-- <link rel="shortcut icon" type="image/x-icon" href="favicon.ico"> -->
+    <!-- Delete this two lines when building for production -->
     <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-    <link rel="stylesheet" href="templates/css/style.css">
+    <!--  -->
+    <link rel="stylesheet" href="src/css/style.css">
     <title><?php echo isset($title) ? $title : WEBSITE_TITLE; ?></title>
 </head>
+
 <body class="is-relative">
     <!-- Navbar -->
     <nav class="" role="navigation" aria-label="main navigation">
@@ -16,7 +20,7 @@
             <div class="columns is-mobile m-0 has-text-centered is-vcentered is-multiline">
                 <div class="column is-10-mobile is-10" id="navbar-logo">
                     <span class="logo is-flex is-justify-content-flex-start is-align-items-center">
-                        <img src="imgs/wordRiddler_logo_shadow_x3.png" alt="" class="logo-img mr-1">
+                        <img src="imgs/logo-main.png" alt="" class="logo-img mr-1">
                         <span class="logo-text text-smoky-black">WordRiddler</span>
                     </span>
                 </div>

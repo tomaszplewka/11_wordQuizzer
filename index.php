@@ -10,7 +10,7 @@ if (isset($_SESSION["user_loggedIn"]) && $_SESSION["user_loggedIn"] === true) {
 }
 // Check last page and act accordingly
 // && $_SESSION["last_page"]
-if (isset($_SESSION["last_page"]) ) {
+if (isset($_SESSION["last_page"])) {
     // echo $_SESSION["last_page"];
     // print_r(parse_url($_SESSION["last_page"], PHP_URL_PATH));
     // print_r(explode("/", $_SESSION["last_page"]));
@@ -36,7 +36,7 @@ require_once(realpath("vendor/autoload.php"));
 
 
 // $db = new Database();
-$index = new Template(realpath("templates/index.php"));
+$index = new Template(realpath("src/index.php"));
 
 // $index->title = 'wordRiddler';
 // $index->heading = 'Welcome to wordRiddler!';

@@ -1,28 +1,53 @@
-<?php include('templates/includes/header.php'); ?>
-    <!-- Main screen -->
-    <section class="section background-space-cadet-gradient is-flex is-flex-direction-column is-justify-content-center py-2 is-relative" id="main-section-wrapper">
-        <div class="columns is-mobile m-0 has-text-centered is-vcentered is-multiline" id="front-page-main-content-wrapper">
-            <div class="column is-12-mobile is-12 pt-0 mb-5">
-                <div class="perspective-box-far" id="front-page-logo">
-                    <div class="face front">
-                        <img src="imgs/wordRiddler_logo_shadow_x3.png" alt="">
-                    </div>
-                    <div class="face top">
-                        <img src="imgs/wordRiddler_logo_shadow_x3.png" alt="">
-                    </div>
-                    <div class="face left">
-                        <img src="imgs/wordRiddler_logo_shadow_x3.png" alt="">
-                    </div>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="shortcut icon" type="image/x-icon" href="favicon.ico"> -->
+    <!-- Delete this two lines when building for production -->
+    <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <!--  -->
+    <!-- <link rel="stylesheet" href="src/css/style.css"> -->
+    <!-- <link rel="stylesheet" href="src/css/style.css"> -->
+    <title>
+        <?php echo isset($title) ? $title : WEBSITE_TITLE; ?>
+    </title>
+</head>
+
+<body class="is-relative">
+    <!-- Navbar -->
+    <nav class="" role="navigation" aria-label="main navigation">
+        <div class="background-ghost-white has-text-white is-relative" id="navbar">
+            <div class="columns is-mobile m-0 has-text-centered is-vcentered is-multiline">
+                <div class="column is-10-mobile is-10" id="navbar-logo">
+                    <span class="logo is-flex is-justify-content-flex-start is-align-items-center">
+                        <img src="imgs/logo-main.png" alt="" class="logo-img mr-1">
+                        <span class="logo-text text-smoky-black">WordRiddler</span>
+                    </span>
+                </div>
+                <div class="column is-2-mobile is-2 is-flex is-justify-content-end">
+                    <span class="icon" id="burger">
+                        <i class="fas fa-bars fa-2x is-clickable text-smoky-black"></i>
+                    </span>
+                    <span class="icon hide" id="times">
+                        <i class="fas fa-times fa-2x is-clickable text-smoky-black"></i>
+                    </span>
                 </div>
             </div>
+        </div>
+    </nav>
+    <!-- Main screen -->
+    <section
+        class="section background-space-cadet-gradient is-flex is-flex-direction-column is-justify-content-center py-2 is-relative"
+        id="main-section-wrapper">
+        <div class="columns is-mobile m-0 has-text-centered is-vcentered is-multiline" id="front-page-main-content-wrapper">
+            <div class="column is-12-mobile is-12 pt-0 mb-5">
+                <!-- main logo div -->
+            </div>
             <div class="column is-12-mobile is-12 mt-5 px-0 pb-5 is-relative buttons-wrapper">
-                <div class="button-wrapper-primary">
-                    <a id="front-page-start-btn" class="btn">
-                        <span>
-                            start
-                        </span>
-                    </a>
-                </div>
+                <!-- main btns div -->
                 <div class="hide button-wrapper-secondary">
                     <a id="front-page-demo-btn" class="btn hidden">
                         <span>
@@ -46,7 +71,9 @@
         </div>
     </section>
     <!-- Sign Up screen -->
-    <section class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 is-relative hidden-options" id="register-wrapper">
+    <section
+        class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 is-relative hidden-options"
+        id="register-wrapper">
         <div class="is-flex is-justify-content-start">
             <a id="register-back-btn" class="control-btn">
                 <span class="">
@@ -69,7 +96,7 @@
                 <div class="username-wrapper-if-error">
                     <div class="columns is-mobile m-0 is-vcentered is-multiline hide">
                         <div class="column is-10-mobile is-10 p-2">
-                            <p role="alert" class="status-failure has-text-left" >username</p>
+                            <p role="alert" class="status-failure has-text-left">username</p>
                         </div>
                         <div class="column is-2-mobile is-2 text-copper-red has-text-centered p-0 px-2">
                             <i class="fas fa-exclamation fa-2x"></i>
@@ -82,7 +109,7 @@
                 <div class="username-wrapper-if-ok">
                     <div class="columns is-mobile m-0 is-vcentered is-multiline hide">
                         <div class="column is-10-mobile is-10 p-2">
-                            <p role="alert" class="status-ok has-text-left" >username</p>
+                            <p role="alert" class="status-ok has-text-left">username</p>
                         </div>
                         <div class="column is-2-mobile is-2 text-mountain-meadow has-text-centered p-0 px-2">
                             <i class="fas fa-check fa-2x"></i>
@@ -92,7 +119,7 @@
                 <div class="email-wrapper-if-error">
                     <div class="columns is-mobile m-0 is-vcentered is-multiline hide">
                         <div class="column is-10-mobile is-10 p-2">
-                            <p role="alert" class="status-failure has-text-left" >email</p>
+                            <p role="alert" class="status-failure has-text-left">email</p>
                         </div>
                         <div class="column is-2-mobile is-2 text-copper-red has-text-centered p-0 px-2">
                             <i class="fas fa-exclamation fa-2x"></i>
@@ -105,7 +132,7 @@
                 <div class="email-wrapper-if-ok">
                     <div class="columns is-mobile m-0 is-vcentered is-multiline hide">
                         <div class="column is-10-mobile is-10 p-2">
-                            <p role="alert" class="status-ok has-text-left" >email</p>
+                            <p role="alert" class="status-ok has-text-left">email</p>
                         </div>
                         <div class="column is-2-mobile is-2 text-mountain-meadow has-text-centered p-0 px-2">
                             <i class="fas fa-check fa-2x"></i>
@@ -115,7 +142,7 @@
                 <div class="password-wrapper-if-error">
                     <div class="columns is-mobile m-0 is-vcentered is-multiline hide">
                         <div class="column is-10-mobile is-10 p-2">
-                            <p role="alert" class="status-failure has-text-left" >password</p>
+                            <p role="alert" class="status-failure has-text-left">password</p>
                         </div>
                         <div class="column is-2-mobile is-2 text-copper-red has-text-centered p-0 px-2">
                             <i class="fas fa-exclamation fa-2x"></i>
@@ -128,7 +155,7 @@
                 <div class="password-wrapper-if-ok">
                     <div class="columns is-mobile m-0 is-vcentered is-multiline hide">
                         <div class="column is-10-mobile is-10 p-2">
-                            <p role="alert" class="status-ok has-text-left" >password</p>
+                            <p role="alert" class="status-ok has-text-left">password</p>
                         </div>
                         <div class="column is-2-mobile is-2 text-mountain-meadow has-text-centered p-0 px-2">
                             <i class="fas fa-check fa-2x"></i>
@@ -138,7 +165,7 @@
                 <div class="confirm_password-wrapper-if-error">
                     <div class="columns is-mobile m-0 is-vcentered is-multiline hide">
                         <div class="column is-10-mobile is-10 p-2">
-                            <p role="alert" class="status-failure has-text-left" >confirm-password</p>
+                            <p role="alert" class="status-failure has-text-left">confirm-password</p>
                         </div>
                         <div class="column is-2-mobile is-2 text-copper-red has-text-centered p-0 px-2">
                             <i class="fas fa-exclamation fa-2x"></i>
@@ -151,7 +178,7 @@
                 <div class="confirm_password-wrapper-if-ok">
                     <div class="columns is-mobile m-0 is-vcentered is-multiline hide">
                         <div class="column is-10-mobile is-10 p-2">
-                            <p role="alert" class="status-ok has-text-left" >confirm-password</p>
+                            <p role="alert" class="status-ok has-text-left">confirm-password</p>
                         </div>
                         <div class="column is-2-mobile is-2 text-mountain-meadow has-text-centered p-0 px-2">
                             <i class="fas fa-check fa-2x"></i>
@@ -161,7 +188,7 @@
                 <div class="db-wrapper-if-error">
                     <div class="columns is-mobile m-0 is-vcentered is-multiline hide">
                         <div class="column is-10-mobile is-10 p-2">
-                            <p role="alert" class="status-failure has-text-left" >database</p>
+                            <p role="alert" class="status-failure has-text-left">database</p>
                         </div>
                         <div class="column is-2-mobile is-2 text-copper-red has-text-centered p-0 px-2">
                             <i class="fas fa-exclamation fa-2x"></i>
@@ -174,7 +201,7 @@
                 <div class="db-wrapper-if-ok">
                     <div class="columns is-mobile m-0 is-vcentered is-multiline hide">
                         <div class="column is-10-mobile is-10 p-2">
-                            <p role="alert" class="status-ok has-text-left" >db</p>
+                            <p role="alert" class="status-ok has-text-left">db</p>
                         </div>
                         <div class="column is-2-mobile is-2 text-mountain-meadow has-text-centered p-0 px-2">
                             <i class="fas fa-check fa-2x"></i>
@@ -186,13 +213,15 @@
         <h2 class="is-size-1 form-header">SIGN UP</h2>
         <form action="register.php" method="POST" id="register-form">
             <div class="is-relative is-clipped">
-                <div class="registration-confirmation is-flex is-justify-content-center is-align-items-center hidden-options background-mountain-meadow" id="registration-confirmation">
+                <div class="registration-confirmation is-flex is-justify-content-center is-align-items-center hidden-options background-mountain-meadow"
+                    id="registration-confirmation">
                     <p class="registration-cofirmation-text text-ghost-white p-2">
                         User <span class="registration-cofirmation-user text-smoky-black"></span> has been registered.
                     </p>
                 </div>
                 <div class="input-wrapper">
-                    <input class="register-tabindex" type="text" name="username" placeholder="e.g. tomoko666*" tabindex="-1">
+                    <input class="register-tabindex" type="text" name="username" placeholder="e.g. tomoko666*"
+                        tabindex="-1">
                     <span class="icon-left">
                         <i class="fas fa-user"></i>
                     </span>
@@ -202,7 +231,8 @@
                     </span>
                 </div>
                 <div class="input-wrapper">
-                    <input class="register-tabindex" type="email" name="email" placeholder="e.g. tomoko666@gmail.com*" tabindex="-1">
+                    <input class="register-tabindex" type="email" name="email" placeholder="e.g. tomoko666@gmail.com*"
+                        tabindex="-1">
                     <span class="icon-left">
                         <i class="fas fa-at"></i>
                     </span>
@@ -222,7 +252,8 @@
                     </span>
                 </div>
                 <div class="input-wrapper">
-                    <input class="register-tabindex" type="password" name="confirm-password" placeholder="Confirm Password*" tabindex="-1">
+                    <input class="register-tabindex" type="password" name="confirm-password" placeholder="Confirm Password*"
+                        tabindex="-1">
                     <span class="icon-left">
                         <i class="fas fa-key"></i>
                     </span>
@@ -235,7 +266,7 @@
             <div class="submit-feedback mt-4 hide" id="submit-feedback">
                 <div class="columns is-mobile m-0 has-text-centered is-vcentered is-multiline error-status hide">
                     <div class="column is-10-mobile is-10">
-                        <p role="alert" class="status-failure" >Errors found</p>
+                        <p role="alert" class="status-failure">Errors found</p>
                     </div>
                     <div class="column is-2-mobile is-2 background-copper-red error-icon-wrapper">
                         <i class="fas fa-exclamation"></i>
@@ -243,12 +274,13 @@
                 </div>
                 <div class="columns is-mobile m-0 has-text-centered is-vcentered is-multiline data-status hide">
                     <div class="column is-12-mobile is-12">
-                        <p role="alert" class="status-ok" >Busy sending data.</p>
+                        <p role="alert" class="status-ok">Busy sending data.</p>
                     </div>
                 </div>
             </div>
             <div class="submit-btn-wrapper mt-4">
-                <button type="submit" name="register-submit" class="btn btn-invert disabled register-tabindex" tabindex="-1">
+                <button type="submit" name="register-submit" class="btn btn-invert disabled register-tabindex"
+                    tabindex="-1">
                     <span>
                         submit
                     </span>
@@ -257,7 +289,9 @@
         </form>
     </section>
     <!-- Log In screen -->
-    <section class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 is-relative hidden-options" id="login-wrapper">
+    <section
+        class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 is-relative hidden-options"
+        id="login-wrapper">
         <div class="is-flex is-justify-content-start">
             <a id="login-back-btn" class="control-btn">
                 <span class="">
@@ -280,7 +314,7 @@
                 <div class="login-email-wrapper-if-error">
                     <div class="columns is-mobile m-0 is-vcentered is-multiline hide">
                         <div class="column is-10-mobile is-10 p-2">
-                            <p role="alert" class="status-failure has-text-left" >email</p>
+                            <p role="alert" class="status-failure has-text-left">email</p>
                         </div>
                         <div class="column is-2-mobile is-2 text-copper-red has-text-centered p-0 px-2">
                             <i class="fas fa-exclamation fa-2x"></i>
@@ -293,7 +327,7 @@
                 <div class="login-email-wrapper-if-ok">
                     <div class="columns is-mobile m-0 is-vcentered is-multiline hide">
                         <div class="column is-10-mobile is-10 p-2">
-                            <p role="alert" class="status-ok has-text-left" >email</p>
+                            <p role="alert" class="status-ok has-text-left">email</p>
                         </div>
                         <div class="column is-2-mobile is-2 text-mountain-meadow has-text-centered p-0 px-2">
                             <i class="fas fa-check fa-2x"></i>
@@ -303,7 +337,7 @@
                 <div class="login-password-wrapper-if-error">
                     <div class="columns is-mobile m-0 is-vcentered is-multiline hide">
                         <div class="column is-10-mobile is-10 p-2">
-                            <p role="alert" class="status-failure has-text-left" >password</p>
+                            <p role="alert" class="status-failure has-text-left">password</p>
                         </div>
                         <div class="column is-2-mobile is-2 text-copper-red has-text-centered p-0 px-2">
                             <i class="fas fa-exclamation fa-2x"></i>
@@ -316,7 +350,7 @@
                 <div class="login-password-wrapper-if-ok">
                     <div class="columns is-mobile m-0 is-vcentered is-multiline hide">
                         <div class="column is-10-mobile is-10 p-2">
-                            <p role="alert" class="status-ok has-text-left" >password</p>
+                            <p role="alert" class="status-ok has-text-left">password</p>
                         </div>
                         <div class="column is-2-mobile is-2 text-mountain-meadow has-text-centered p-0 px-2">
                             <i class="fas fa-check fa-2x"></i>
@@ -326,7 +360,7 @@
                 <div class="login-db-wrapper-if-error">
                     <div class="columns is-mobile m-0 is-vcentered is-multiline hide">
                         <div class="column is-10-mobile is-10 p-2">
-                            <p role="alert" class="status-failure has-text-left" >database</p>
+                            <p role="alert" class="status-failure has-text-left">database</p>
                         </div>
                         <div class="column is-2-mobile is-2 text-copper-red has-text-centered p-0 px-2">
                             <i class="fas fa-exclamation fa-2x"></i>
@@ -339,7 +373,7 @@
                 <div class="login-db-wrapper-if-ok">
                     <div class="columns is-mobile m-0 is-vcentered is-multiline hide">
                         <div class="column is-10-mobile is-10 p-2">
-                            <p role="alert" class="status-ok has-text-left" >db</p>
+                            <p role="alert" class="status-ok has-text-left">db</p>
                         </div>
                         <div class="column is-2-mobile is-2 text-mountain-meadow has-text-centered p-0 px-2">
                             <i class="fas fa-check fa-2x"></i>
@@ -351,13 +385,15 @@
         <h2 class="is-size-1 form-header">LOG IN</h2>
         <form action="login.php" method="POST" id="login-form">
             <div class="is-relative is-clipped">
-                <div class="login-confirmation is-flex is-justify-content-center is-align-items-center hidden-options background-mountain-meadow" id="login-confirmation">
+                <div class="login-confirmation is-flex is-justify-content-center is-align-items-center hidden-options background-mountain-meadow"
+                    id="login-confirmation">
                     <p class="login-confirmation-text text-ghost-white p-2">
                         You are now logged in!
                     </p>
                 </div>
                 <div class="input-wrapper">
-                    <input class="register-tabindex" type="email" name="email" placeholder="e.g. tomoko666@gmail.com*" tabindex="-1">
+                    <input class="register-tabindex" type="email" name="email" placeholder="e.g. tomoko666@gmail.com*"
+                        tabindex="-1">
                     <span class="icon-left">
                         <i class="fas fa-at"></i>
                     </span>
@@ -380,7 +416,7 @@
             <div class="submit-feedback mt-4 hide" id="submit-login-feedback">
                 <div class="columns is-mobile m-0 has-text-centered is-vcentered is-multiline error-status hide">
                     <div class="column is-10-mobile is-10">
-                        <p role="alert" class="status-failure" >Errors found</p>
+                        <p role="alert" class="status-failure">Errors found</p>
                     </div>
                     <div class="column is-2-mobile is-2 background-copper-red error-icon-wrapper">
                         <i class="fas fa-exclamation"></i>
@@ -388,7 +424,7 @@
                 </div>
                 <div class="columns is-mobile m-0 has-text-centered is-vcentered is-multiline data-status hide">
                     <div class="column is-12-mobile is-12">
-                        <p role="alert" class="status-ok" >Busy sending data.</p>
+                        <p role="alert" class="status-ok">Busy sending data.</p>
                     </div>
                 </div>
             </div>
@@ -402,7 +438,9 @@
         </form>
     </section>
     <!-- Options -->
-    <section class="section background-ghost-white is-flex is-flex-direction-column is-justify-content-center p-5 hidden-options" id="options-wrapper">
+    <section
+        class="section background-ghost-white is-flex is-flex-direction-column is-justify-content-center p-5 hidden-options"
+        id="options-wrapper">
         <ul>
             <li>
                 <a id="options-settings-btn" class="btn">
@@ -427,4 +465,20 @@
             </li>
         </ul>
     </section>
-<?php include('templates/includes/footer.php'); ?>
+    <!-- Footer -->
+    <footer id="front-page-footer" class="background-ghost-white is-vcentered">
+        <div class="content has-text-centered py-4 px-3">
+            <p>
+                &copy; 2021 Tomoko. All rights reserved.
+            </p>
+        </div>
+    </footer>
+    <!-- Scripts -->
+    <!-- Switch to bundle when buidling for production -->
+    <!-- <script src="src/js/UICtrl.js" type="module"></script>
+    <script src="src/index.js" type="module"></script> -->
+    <!-- <script src="dist/assets/bundle.js"></script> -->
+    <script src="./assets/bundle.js"></script>
+    </body>
+    
+    </html>

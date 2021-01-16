@@ -23,7 +23,7 @@ if (!(isset($_SESSION["user_loggedIn"]) && $_SESSION["user_loggedIn"] === true))
 // Initialize Database class
 $db = new Database();
 // Initialize Template class
-$welcome = new Template(realpath("templates/welcome.php"));
+$welcome = new Template(realpath("src/welcome.php"));
 // Assign template properties
 $welcome->username = $_SESSION["user_name"];
 $welcome->userID = $_SESSION["user_id"];

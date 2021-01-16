@@ -658,7 +658,7 @@ footer p {
 
 #register-wrapper,
 #login-wrapper,
-#feedback-wrapper,
+#register-feedback-wrapper,
 #registration-confirmation,
 #login-confirmation,
 #generate-confirmation,
@@ -692,7 +692,7 @@ footer p {
 
 #register-wrapper > *,
 #login-wrapper > *,
-#feedback-wrapper > *,
+#register-feedback-wrapper > *,
 #registration-confirmation > *,
 #login-confirmation > *,
 #generate-confirmation > *,
@@ -703,12 +703,13 @@ footer p {
 #quiz-info-wrapper > *,
 #add-new-quiz-wrapper > * {
     opacity: 1;
+    /* z-index: 2; */
     transition: all 0.5s ease;
 }
 
 #register-wrapper.hidden-options,
 #login-wrapper.hidden-options,
-#feedback-wrapper.hidden-options,
+#register-feedback-wrapper.hidden-options,
 #registration-confirmation.hidden-options,
 #login-confirmation.hidden-options,
 #generate-confirmation.hidden-options,
@@ -726,7 +727,7 @@ footer p {
 
 #register-wrapper.hidden-options > *,
 #login-wrapper.hidden-options > *,
-#feedback-wrapper.hidden-options > *,
+#register-feedback-wrapper.hidden-options > *,
 #registration-confirmation.hidden-options > *,
 #login-confirmation.hidden-options > *,
 #generate-confirmation.hidden-options > *,
@@ -782,7 +783,7 @@ footer p {
 }
 
 input[type="number"],
-input[ype="text"],
+input[type="text"],
 input[type="email"],
 input[type="password"] {
     appearance: none;

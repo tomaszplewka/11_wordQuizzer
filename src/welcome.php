@@ -1,4 +1,4 @@
-<?php include('templates/includes/header.php'); ?>
+<?php include('src/includes/header.php'); ?>
 <!-- Welcome screen & demo screen -->
 <section class="background-copper-red-gradient is-flex is-flex-direction-column is-justify-content-start p-5 is-relative" id="welcome-wrapper">
     <!-- hidden-options -->
