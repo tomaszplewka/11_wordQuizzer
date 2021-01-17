@@ -308,21 +308,24 @@ footer p {
     transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
 }
 
-.btn.disabled {
+.btn.disabled,
+.btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
     background-color: var(--color-black-coral);
     transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
 }
 
-.btn.disabled span {
+.btn.disabled span,
+.btn:disabled span {
     color: var(--color-ghost-white);
     transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
 }
 
 .btn.disabled:active::before,
 .btn.disabled:focus::before,
-.btn.disabled:hover::before {
+.btn.disabled:hover::before,
+.btn:disabled::before {
     transform: scaleX(0);
     transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
 }
@@ -567,7 +570,8 @@ footer p {
 
 #options-wrapper,
 #options-wrapper-welcome,
-#quiz-view-wrapper {
+#quiz-view-wrapper,
+#hint-wrapper {
     position: absolute;
     z-index: 100;
     top: 72px;
@@ -589,6 +593,17 @@ footer p {
     overflow: scroll;
 }
 
+#hint-wrapper {
+    top: 0;
+    height: 100%;
+}
+
+hr {
+    border-width: 5px;
+    border-color: var(--color-ghost-white);
+    width: 90%;
+}
+
 #options-wrapper ul,
 #options-wrapper-welcome ul,
 #quiz-view-wrapper > *,
@@ -597,7 +612,8 @@ footer p {
 #quiz-answers-wrapper > *,
 #quiz-content > *,
 #quiz-results > *,
-.loader-wrapper {
+.loader-wrapper,
+#hint-wrapper > * {
     opacity: 1;
     transition: all .5s ease;
 }
@@ -625,7 +641,8 @@ footer p {
 #quiz-answers-wrapper > div.hidden-options,
 #quiz-content.hidden-options,
 #quiz-results.hidden-options,
-.loader-wrapper.hidden-options {
+.loader-wrapper.hidden-options,
+#hint-wrapper.hidden-options {
     overflow: hidden;
     padding: 0 !important;
     max-height: 0;
@@ -643,7 +660,8 @@ footer p {
 #quiz-answers-wrapper > div.hidden-options > *,
 #quiz-content.hidden-options > *,
 #quiz-results.hidden-options > *,
-.loader-wrapper.hidden-options > * {
+.loader-wrapper.hidden-options > *,
+#hint-wrapper.hidden-options > * {
     opacity: 0;
     transition: all .5s ease;
 }
@@ -876,8 +894,29 @@ select ~ .icon-validation {
     right: 55px;
     transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
 }
+.input-hint {
+    width: 2.5rem;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
+}
+.input-hint:hover {
+    filter: contrast(2);
+    transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
+}
 
-input:active + .icon-validation,
+/* input + .icon-validation,
+input.input-invalid + .icon-validation {
+    z-index: -1;
+}
+input.input-valid + .icon-validation {
+    z-index: 0;
+} */
+
+/* input:active + .icon-validation,
 input:focus + .icon-validation,
 input:hover + .icon-validation {
     color: var(--color-black-coral);
@@ -888,7 +927,7 @@ input:focus ~ .icon-validation,
 input:hover ~ .icon-validation {
     color: var(--color-black-coral);
     transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
-}
+} */
 /* select:active + .icon-validation,
 select:focus + .icon-validation,
 select:hover + .icon-validation {

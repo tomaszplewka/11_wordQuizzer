@@ -1,4 +1,4 @@
-<?php 
+<?php
 // Start session
 session_start();
 // Load config
@@ -9,32 +9,16 @@ use WordQuizzer\Database;
 require_once(realpath("vendor/autoload.php"));
 // Initialize db
 $db = new Database();
-// 
-// Define and initialize vars
+// Initialize vars
 $username = $email = $password = $confirm_password = '';
-$username_err = $email_err = $password_err = $confirm_password_err = $db_err ='';
+$username_err = $email_err = $password_err = $confirm_password_err = $db_err = '';
 $output =   [
-                "username" => [
-                    "php_error" => false,
-                    "msg" => '',
-                    "field" => "username"
-            ],  "email" => [
-                    "php_error" => false,
-                    "msg" => '',
-                    "field" => "email"
-            ],  "password" => [
-                    "php_error" => false,
-                    "msg" => '',
-                    "field" => "password"
-            ],  "confirm_password" => [
-                    "php_error" => false,
-                    "msg" => '',
-                    "field" => "confirm_password"
-            ],  "db" => [
-                    "php_error" => false,
-                    "msg" => '',
-                    "field" => "db"
-            ]];
+    "username" => ["php_error" => false, "msg" => '', "field" => "username"],
+    "email" => ["php_error" => false, "msg" => '', "field" => "email"],
+    "password" => ["php_error" => false, "msg" => '', "field" => "password"],
+    "confirm_password" => ["php_error" => false, "msg" => '', "field" => "confirm_password"],
+    "db" => ["php_error" => false, "msg" => '', "field" => "db"]
+];
 // 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Sanitize and validate username - check if empty and against regex expression
@@ -45,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $output["username"]["php_error"] = true;
         $output["username"]["msg"] = $username_err;
     } elseif (preg_match("/^(\w+( \w+)*){6,20}$/", $username) === 0) {  // username invalid -- username does not pass regex match
-        $username_err = "Username field must be 6-20 characters long, contain letters or numbers only.";
+        $username_err = "Username field must contain at least 6 characters (letters or numbers only).";
         // Send error msg to front end
         $output["username"]["php_error"] = true;
         $output["username"]["msg"] = $username_err;
@@ -85,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $output["email"]["php_error"] = true;
         $output["email"]["msg"] = $email_err;
     } elseif (preg_match('/^([a-zA-Z]{1}[\w\.]{0,20})@([a-zA-Z]{2,15})\.([a-zA-Z]{2,5})(\.[a-zA-Z]{2,5})?$/', $email) === 0) {  // email invalid -- email does not pass regex match
-        $email_err = "Email field must be a valid email address.";
+        $email_err = "Email field must contain a valid email address.";
         // Send error msg to front end
         $output["email"]["php_error"] = true;
         $output["email"]["msg"] = $email_err;
@@ -124,7 +108,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $output["password"]["php_error"] = true;
         $output["password"]["msg"] = $password_err;
     } elseif (preg_match('/^[a-zA-Z]{4,}$/', $_POST["password"]) === 0) {  // password invalid -- password does not pass regex match
-        $password_err = "Password must be at least 8 characters long and contain at least 1 capital letter and 1 special symbol";
+        $password_err = "Password must be at least 8 characters long and contain at least 1 capital letter and 1 special symbol.";
         // Send error msg to front end
         $output["password"]["php_error"] = true;
         $output["password"]["msg"] = $password_err;
@@ -159,12 +143,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($db->execute()) {
                 $output["db"]["msg"] = "User has been created.";
             } else {
-                $db_err = "Database error: " . $db->errInfo(). " Please try again later.";
+                $db_err = "Database error: " . $db->errInfo() . " Please try again later.";
                 $output["db"]["php_error"] = true;
                 $output["db"]["msg"] = $db_err;
             }
         } else {
-            $db_err = "Database error: " . $db->errInfo(). " Please try again later.";
+            $db_err = "Database error: " . $db->errInfo() . " Please try again later.";
             $output["db"]["php_error"] = true;
             $output["db"]["msg"] = $db_err;
         }

@@ -25,6 +25,24 @@
         <div class="feedback-body mb-5">
         </div> -->
     </div>
+    <div class="background-space-cadet-gradient is-flex is-flex-direction-column is-justify-content-center has-text-centered p-5 hidden-options" id="hint-wrapper">
+        <h2 class="is-size-1 is-uppercase form-header">hint</h2>
+        <p class="text-smoky-black">
+            Username field must contain at least 6 characters (letters or numbers only).
+        </p>
+        <hr>
+        <p class="text-smoky-black">
+            Email field must contain a valid email address.
+        </p>
+        <hr>
+        <p class="text-smoky-black">
+            Password must be at least 8 characters long and contain at least 1 capital letter and 1 special symbol.
+        </p>
+        <hr>
+        <p class="text-smoky-black">
+            Passwords must match.
+        </p>
+    </div>
     <form action="register.php" method="POST" id="register-form">
         <div class="is-relative is-clipped">
             <!-- <div class="registration-confirmation is-flex is-justify-content-center is-align-items-center hidden-options background-mountain-meadow" id="registration-confirmation">
@@ -33,7 +51,7 @@
                 </p>
             </div> -->
             <div class="input-wrapper">
-                <input class="register-tabindex" type="text" name="username" placeholder="e.g. tomoko666*" tabindex="-1">
+                <input class="register-tabindex" type="text" name="username" placeholder="e.g. user666*" tabindex="-1">
                 <span class="icon-left">
                     <i class="fas fa-user"></i>
                 </span>
@@ -43,7 +61,7 @@
                 </span>
             </div>
             <div class="input-wrapper">
-                <input class="register-tabindex" type="email" name="email" placeholder="e.g. tomoko666@gmail.com*" tabindex="-1">
+                <input class="register-tabindex" type="email" name="email" placeholder="e.g. user666@gmail.com*" tabindex="-1">
                 <span class="icon-left">
                     <i class="fas fa-at"></i>
                 </span>
@@ -73,7 +91,7 @@
                 </span>
             </div>
         </div>
-        <div class="submit-feedback mt-4 hide" id="submit-feedback">
+        <!-- <div class="submit-feedback mt-4 hide" id="submit-feedback">
             <div class="columns is-mobile m-0 has-text-centered is-vcentered is-multiline error-status hide">
                 <div class="column is-10-mobile is-10">
                     <p role="alert" class="status-failure">Errors found</p>
@@ -87,7 +105,7 @@
                     <p role="alert" class="status-ok">Busy sending data.</p>
                 </div>
             </div>
-        </div>
+        </div> -->
         <div class="submit-btn-wrapper mt-4">
             <button type="submit" name="register-submit" class="btn btn-invert disabled register-tabindex" tabindex="-1">
                 <span>
