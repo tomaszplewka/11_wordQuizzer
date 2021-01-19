@@ -39,23 +39,23 @@
 //     }, 750);
 // });
 // 
-const burger = document.querySelector('#burger');
-const times = document.querySelector('#times');
-const optionsWrapper = document.querySelector('#options-wrapper');
+// const burger = document.querySelector('#burger');
+// const times = document.querySelector('#times');
+// const optionsWrapper = document.querySelector('#options-wrapper');
 // 
-burger.addEventListener('click', () => {
-    burger.classList.toggle('hide');
-    times.classList.toggle('hide');
-    // 
-    optionsWrapper.classList.toggle('hidden-options');
-});
-// 
-times.addEventListener('click', () => {
-    burger.classList.toggle('hide');
-    times.classList.toggle('hide');
-    // 
-    optionsWrapper.classList.toggle('hidden-options');
-});
+// burger.addEventListener('click', () => {
+//     burger.classList.toggle('hide');
+//     times.classList.toggle('hide');
+//     // 
+//     optionsWrapper.classList.toggle('hidden-options');
+// });
+// // 
+// times.addEventListener('click', () => {
+//     burger.classList.toggle('hide');
+//     times.classList.toggle('hide');
+//     // 
+//     optionsWrapper.classList.toggle('hidden-options');
+// });
 // 
 // const mainSectionWrapper = document.querySelector('#main-section-wrapper');
 // const registerWrapper = document.querySelector('#register-wrapper');
@@ -94,37 +94,37 @@ times.addEventListener('click', () => {
 // 
 // const loginWrapper = document.querySelector('#login-wrapper');
 // 
-loginBtn.addEventListener('click', () => {
-    mainSectionWrapper.firstElementChild.classList.add('shrink');
-    // 
-    setTimeout(() => {
-        mainSectionWrapper.classList.toggle('hidden-options');
-        loginWrapper.classList.toggle('hidden-options');
-        // remove tabindex="-1"
-        removeTabindex('login-tabindex');
-        // set focus on first input
-        setTimeout(() => {
-            loginForm.email.focus();
-        }, 500);
-    }, 600);
-});
+// loginBtn.addEventListener('click', () => {
+//     mainSectionWrapper.firstElementChild.classList.add('shrink');
+//     // 
+//     setTimeout(() => {
+//         mainSectionWrapper.classList.toggle('hidden-options');
+//         loginWrapper.classList.toggle('hidden-options');
+//         // remove tabindex="-1"
+//         removeTabindex('login-tabindex');
+//         // set focus on first input
+//         setTimeout(() => {
+//             loginForm.email.focus();
+//         }, 500);
+//     }, 600);
+// });
 // 
-const loginBackBtn = document.querySelector('#login-back-btn');
-// 
-loginBackBtn.addEventListener('click', () => {
-    mainSectionWrapper.classList.toggle('hidden-options');
-    loginWrapper.classList.toggle('hidden-options');
-    // 
-    setTimeout(() => {
-        mainSectionWrapper.firstElementChild.classList.remove('shrink');
-        // set tabindex="-1"
-        addTabindex('login-tabindex');
-        // reset form
-        resetForm('#login-form input', loginForm['login-submit']);
-        // hide submit feedback div
-        hideSubmitFeedback(submitLoginFeedback);
-    }, 600);
-});
+// const loginBackBtn = document.querySelector('#login-back-btn');
+// // 
+// loginBackBtn.addEventListener('click', () => {
+//     mainSectionWrapper.classList.toggle('hidden-options');
+//     loginWrapper.classList.toggle('hidden-options');
+//     // 
+//     setTimeout(() => {
+//         mainSectionWrapper.firstElementChild.classList.remove('shrink');
+//         // set tabindex="-1"
+//         addTabindex('login-tabindex');
+//         // reset form
+//         resetForm('#login-form input', loginForm['login-submit']);
+//         // hide submit feedback div
+//         hideSubmitFeedback(submitLoginFeedback);
+//     }, 600);
+// });
 // 
 // const registerForm = document.querySelector('#register-form');
 // const usernamePattern = /^(\w+( \w+)*){6,20}$/;
@@ -168,13 +168,13 @@ loginBackBtn.addEventListener('click', () => {
 //     });
 // }
 // Event listener to disable enter key
-document.addEventListener('keypress', function (e) {
-    if (e.key === 13) {
-        e.preventDefault();
-        return false;
-    }
+// document.addEventListener('keypress', function (e) {
+//     if (e.key === 13) {
+//         e.preventDefault();
+//         return false;
+//     }
     
-});
+// });
 // // adjust UI on click or blur events
 // const inputValid = function(target, feedback) {
 //     if (!feedback.lastElementChild.classList.contains('hide')) {
@@ -363,38 +363,38 @@ document.addEventListener('keypress', function (e) {
     
 //     return err_count;
 // }
-const handleFormDataLogin = function(data) {
-    // Count errors
-    let err_count = 0;
-    // Check username
-    if (checkField(data.email)) { 
-        err_count ++;
-        inputInvalid(loginForm.email, loginEmailValidationIcons);
-        // 
-        setTimeout(() => {
-            inputInvalidRemove(loginForm.email, loginEmailValidationIcons);
-        }, 2000);
-        // 
-        return err_count;
-    } else {
-        inputValid(loginForm.email, loginEmailValidationIcons);
-    }
-    // Check password
-    if (checkField(data.password)) {
-        err_count ++;
-        inputInvalid(loginForm.password, loginPasswordValidationIcons);
-        // 
-        setTimeout(() => {
-            inputInvalidRemove(loginForm.password, loginPasswordValidationIcons);
-        }, 2000);
-    } else {
-        inputValid(loginForm.password, loginPasswordValidationIcons);
-    }
-    // Check db
-    err_count += checkField(data.db);
+// const handleFormDataLogin = function(data) {
+//     // Count errors
+//     let err_count = 0;
+//     // Check username
+//     if (checkField(data.email)) { 
+//         err_count ++;
+//         inputInvalid(loginForm.email, loginEmailValidationIcons);
+//         // 
+//         setTimeout(() => {
+//             inputInvalidRemove(loginForm.email, loginEmailValidationIcons);
+//         }, 2000);
+//         // 
+//         return err_count;
+//     } else {
+//         inputValid(loginForm.email, loginEmailValidationIcons);
+//     }
+//     // Check password
+//     if (checkField(data.password)) {
+//         err_count ++;
+//         inputInvalid(loginForm.password, loginPasswordValidationIcons);
+//         // 
+//         setTimeout(() => {
+//             inputInvalidRemove(loginForm.password, loginPasswordValidationIcons);
+//         }, 2000);
+//     } else {
+//         inputValid(loginForm.password, loginPasswordValidationIcons);
+//     }
+//     // Check db
+//     err_count += checkField(data.db);
     
-    return err_count;
-}
+//     return err_count;
+// }
 // const checkField = function(field) {
 //     // console.log(field);
 //     // Check for error & adjust UI
@@ -440,7 +440,7 @@ const handleFormDataLogin = function(data) {
 // })
 // 
 // const submitFeedback = document.querySelector('#submit-feedback');
-const registrationConfirmation = document.querySelector('#registration-confirmation');
+// const registrationConfirmation = document.querySelector('#registration-confirmation');
 // // submit register form
 // registerForm.addEventListener('submit', e => {
 //     // Adjust UI
@@ -549,42 +549,42 @@ const registrationConfirmation = document.querySelector('#registration-confirmat
 // });
 // 
 // const loginForm = document.querySelector('#login-form');
-const loginEmailValidationIcons = document.querySelector('#login-email-validation');
-const loginPasswordValidationIcons = document.querySelector('#login-password-validation');
+// const loginEmailValidationIcons = document.querySelector('#login-email-validation');
+// const loginPasswordValidationIcons = document.querySelector('#login-password-validation');
 // 
-const checkIfEmpty = function() {
-    if (loginForm.email.value !== '' && emailPattern.test(loginForm.email.value) && loginForm.password.value !== '') {
-        loginForm["login-submit"].classList.remove('disabled');
-    } else {
-        loginForm["login-submit"].classList.add('disabled');
-    }
-}
-// Check Email
-loginForm.email.addEventListener('keyup', () => {
-    checkIfEmpty();
-});
-loginForm.email.addEventListener('blur', () => {
-    checkIfEmpty();
-});
-// Check Password
-loginForm.password.addEventListener('keyup', () => {
-    checkIfEmpty();
-});
-loginForm.password.addEventListener('blur', () => {
-    checkIfEmpty();
-});
+// const checkIfEmpty = function() {
+//     if (loginForm.email.value !== '' && emailPattern.test(loginForm.email.value) && loginForm.password.value !== '') {
+//         loginForm["login-submit"].classList.remove('disabled');
+//     } else {
+//         loginForm["login-submit"].classList.add('disabled');
+//     }
+// }
+// // Check Email
+// loginForm.email.addEventListener('keyup', () => {
+//     checkIfEmpty();
+// });
+// loginForm.email.addEventListener('blur', () => {
+//     checkIfEmpty();
+// });
+// // Check Password
+// loginForm.password.addEventListener('keyup', () => {
+//     checkIfEmpty();
+// });
+// loginForm.password.addEventListener('blur', () => {
+//     checkIfEmpty();
+// });
 // Show/hide errors
-const showLoginErrors = document.querySelector('#submit-login-feedback .error-icon-wrapper');
-const loginFeedbackWrapper = document.querySelector('#login-feedback-wrapper');
-const loginFeedbackBackBtn = document.querySelector('#login-feedback-back-btn');
+// const showLoginErrors = document.querySelector('#submit-login-feedback .error-icon-wrapper');
+// const loginFeedbackWrapper = document.querySelector('#login-feedback-wrapper');
+// const loginFeedbackBackBtn = document.querySelector('#login-feedback-back-btn');
 // 
-showLoginErrors.addEventListener('click', () => {
-    loginFeedbackWrapper.classList.toggle('hidden-options');
-})
+// showLoginErrors.addEventListener('click', () => {
+//     loginFeedbackWrapper.classList.toggle('hidden-options');
+// })
 // 
-loginFeedbackBackBtn.addEventListener('click', () => {
-    loginFeedbackWrapper.classList.toggle('hidden-options');
-})
+// loginFeedbackBackBtn.addEventListener('click', () => {
+//     loginFeedbackWrapper.classList.toggle('hidden-options');
+// })
 // const clearFeedbackDiv = function(target) {
 //     Array.from(target.lastElementChild.children).forEach(childDiv => {
 //         if (!childDiv.firstElementChild.classList.contains('hide')) {
@@ -592,115 +592,115 @@ loginFeedbackBackBtn.addEventListener('click', () => {
 //         }
 //     });
 // }
-const hideSubmitFeedback = function(target) {
-    if (!target.classList.contains('hide')) {
-        if (!target.firstElementChild.classList.contains('hide')) {
-            target.firstElementChild.classList.add('hide');
-        }
-        if (!target.lastElementChild.classList.contains('hide')) {
-            target.lastElementChild.classList.add('hide');
-        }
-        target.classList.add('hide');
-    }
-}
+// const hideSubmitFeedback = function(target) {
+//     if (!target.classList.contains('hide')) {
+//         if (!target.firstElementChild.classList.contains('hide')) {
+//             target.firstElementChild.classList.add('hide');
+//         }
+//         if (!target.lastElementChild.classList.contains('hide')) {
+//             target.lastElementChild.classList.add('hide');
+//         }
+//         target.classList.add('hide');
+//     }
+// }
 // 
-const submitLoginFeedback = document.querySelector('#submit-login-feedback');
-const loginConfirmation = document.querySelector('#login-confirmation');
-// submit register form
-loginForm.addEventListener('submit', e => {
-    // Check if there is anything in inputs
-    if (loginForm.email.value !== '' && emailPattern.test(loginForm.email.value) && loginForm.password.value !== '' && !loginForm.email.hasAttribute('readonly') && !loginForm.password.hasAttribute('readonly')) {
-        // Adjust UI
-        if (submitLoginFeedback.classList.contains('hide')) {
-            submitLoginFeedback.classList.remove('hide');
-            submitLoginFeedback.lastElementChild.classList.remove('hide');
-        } else {
-            submitLoginFeedback.firstElementChild.classList.add('hide');
-            submitLoginFeedback.lastElementChild.classList.remove('hide');
-        } 
-        // Lock input fields
-        lockInputFields(loginFormInputs);
-        // Clear feedback div
-        clearFeedbackDiv(loginFeedbackWrapper);
-        // 
-        let err_count = 0;
-        // Post data using the Fetch API
-        fetch(loginForm.action, {
-                method: loginForm.method,
-                body: new FormData(loginForm)
-            })
-            // We turn the response into text as we expect HTML
-            .then(res => {
-                // Check if response ok
-                if (!res.ok) {
-                    // Throw an exception
-                    throw new Error('Network problem.');
-                }
-                return res.json();
-            })
-            .then(docs => {
-                // console.log(docs);
-                // Handle when resolved
-                // Fetch promise rejects only when there is network error
-                // Handle input data
-                err_count = handleFormDataLogin(docs);
-                if (err_count) { // errors found
-                    setTimeout(() => {
-                        submitLoginFeedback.lastElementChild.classList.add('hide');
-                        submitLoginFeedback.firstElementChild.classList.remove('hide');
-                        // Unlock fields
-                        unlockInputFields(loginFormInputs);
-                    }, 500);
-                } else { // no errors
-                    setTimeout(() => {
-                        // Unlock fields
-                        unlockInputFields(loginFormInputs);
-                        // Hide submit feedback div
-                        submitLoginFeedback.classList.add('hide');
-                        submitLoginFeedback.firstElementChild.classList.add('hide');
-                        setTimeout(() => {
-                            // Show confirmation
-                            loginConfirmation.classList.remove('hidden-options');
-                            // Clear form
-                            resetForm('#login-form input', loginForm['login-submit']);
-                            // 
-                            setTimeout(() => {
-                                mainSectionWrapper.classList.toggle('hidden-options');
-                                loginWrapper.classList.toggle('hidden-options');
-                                // set tabindex="-1"
-                                addTabindex('login-tabindex');
-                                // 
-                                setTimeout(() => {
-                                    // Hide confirmation
-                                    loginConfirmation.classList.add('hidden-options');
-                                    // Show welcome screen
-                                    mainSectionWrapper.classList.toggle('hidden-options');
-                                    // Redirect
-                                    window.location = './welcome.php';
-                                }, 500);
-                            }, 1500);
-                        }, 500);
-                    }, 1000);
-                }
-            })
-            .catch(err => {
-                // here you can handle also error from php
-                // they come in a js form: JSON.parse blah blah
-                console.log(err);
-                // Handle when rejected (only network exceptions)
-                if (err_count) {
-                    setTimeout(() => {
-                        submitLoginFeedback.lastElementChild.classList.add('hide');
-                        submitLoginFeedback.firstElementChild.classList.remove('hide');
-                        // Unlock fields
-                        unlockInputFields();
-                    }, 500);
-                }
-            });
-    } else {
-        // tutaj pokaz ERRORS FOUND i zmien feedback
-    }
-    // Prevent the default form submit
-    e.preventDefault();
-});
+// const submitLoginFeedback = document.querySelector('#submit-login-feedback');
+// const loginConfirmation = document.querySelector('#login-confirmation');
+// // submit register form
+// loginForm.addEventListener('submit', e => {
+//     // Check if there is anything in inputs
+//     if (loginForm.email.value !== '' && emailPattern.test(loginForm.email.value) && loginForm.password.value !== '' && !loginForm.email.hasAttribute('readonly') && !loginForm.password.hasAttribute('readonly')) {
+//         // Adjust UI
+//         if (submitLoginFeedback.classList.contains('hide')) {
+//             submitLoginFeedback.classList.remove('hide');
+//             submitLoginFeedback.lastElementChild.classList.remove('hide');
+//         } else {
+//             submitLoginFeedback.firstElementChild.classList.add('hide');
+//             submitLoginFeedback.lastElementChild.classList.remove('hide');
+//         } 
+//         // Lock input fields
+//         lockInputFields(loginFormInputs);
+//         // Clear feedback div
+//         clearFeedbackDiv(loginFeedbackWrapper);
+//         // 
+//         let err_count = 0;
+//         // Post data using the Fetch API
+//         fetch(loginForm.action, {
+//                 method: loginForm.method,
+//                 body: new FormData(loginForm)
+//             })
+//             // We turn the response into text as we expect HTML
+//             .then(res => {
+//                 // Check if response ok
+//                 if (!res.ok) {
+//                     // Throw an exception
+//                     throw new Error('Network problem.');
+//                 }
+//                 return res.json();
+//             })
+//             .then(docs => {
+//                 // console.log(docs);
+//                 // Handle when resolved
+//                 // Fetch promise rejects only when there is network error
+//                 // Handle input data
+//                 err_count = handleFormDataLogin(docs);
+//                 if (err_count) { // errors found
+//                     setTimeout(() => {
+//                         submitLoginFeedback.lastElementChild.classList.add('hide');
+//                         submitLoginFeedback.firstElementChild.classList.remove('hide');
+//                         // Unlock fields
+//                         unlockInputFields(loginFormInputs);
+//                     }, 500);
+//                 } else { // no errors
+//                     setTimeout(() => {
+//                         // Unlock fields
+//                         unlockInputFields(loginFormInputs);
+//                         // Hide submit feedback div
+//                         submitLoginFeedback.classList.add('hide');
+//                         submitLoginFeedback.firstElementChild.classList.add('hide');
+//                         setTimeout(() => {
+//                             // Show confirmation
+//                             loginConfirmation.classList.remove('hidden-options');
+//                             // Clear form
+//                             resetForm('#login-form input', loginForm['login-submit']);
+//                             // 
+//                             setTimeout(() => {
+//                                 mainSectionWrapper.classList.toggle('hidden-options');
+//                                 loginWrapper.classList.toggle('hidden-options');
+//                                 // set tabindex="-1"
+//                                 addTabindex('login-tabindex');
+//                                 // 
+//                                 setTimeout(() => {
+//                                     // Hide confirmation
+//                                     loginConfirmation.classList.add('hidden-options');
+//                                     // Show welcome screen
+//                                     mainSectionWrapper.classList.toggle('hidden-options');
+//                                     // Redirect
+//                                     window.location = './welcome.php';
+//                                 }, 500);
+//                             }, 1500);
+//                         }, 500);
+//                     }, 1000);
+//                 }
+//             })
+//             .catch(err => {
+//                 // here you can handle also error from php
+//                 // they come in a js form: JSON.parse blah blah
+//                 console.log(err);
+//                 // Handle when rejected (only network exceptions)
+//                 if (err_count) {
+//                     setTimeout(() => {
+//                         submitLoginFeedback.lastElementChild.classList.add('hide');
+//                         submitLoginFeedback.firstElementChild.classList.remove('hide');
+//                         // Unlock fields
+//                         unlockInputFields();
+//                     }, 500);
+//                 }
+//             });
+//     } else {
+//         // tutaj pokaz ERRORS FOUND i zmien feedback
+//     }
+//     // Prevent the default form submit
+//     e.preventDefault();
+// });
 // 

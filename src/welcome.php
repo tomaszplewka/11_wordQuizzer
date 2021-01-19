@@ -3,15 +3,8 @@
 <section class="background-copper-red-gradient is-flex is-flex-direction-column is-justify-content-start p-5 is-relative" id="welcome-wrapper">
     <!-- hidden-options -->
     <div class="columns is-mobile m-0 has-text-centered is-vcentered is-multiline" id="welcome-content-wrapper">
-        <!-- <div class="is-flex is-justify-content-start">
-                <a id="welcome-back-btn" class="control-btn">
-                    <span class="">
-                        Go Back
-                    </span>
-                </a>
-            </div> -->
-        <div class="column is-12-mobile is-12 py-0 mt-5">
-            <div class="box-floating" id="welcome-logo-browse">
+        <!-- <div class="column is-12-mobile is-12 py-0 mt-5"> -->
+        <!-- <div class="box-floating" id="welcome-logo-browse">
                 <div class="db-disc-top">
                     <img src="imgs/wordRiddler_db_disc_x3.png" alt="">
                 </div>
@@ -21,9 +14,9 @@
                 <div class="db-disc-bottom">
                     <img src="imgs/wordRiddler_db_disc_x3.png" alt="">
                 </div>
-            </div>
-        </div>
-        <div class="column is-12-mobile is-12 px-0 pt-0 pb-5 is-relative">
+            </div> -->
+        <!-- </div> -->
+        <!-- <div class="column is-12-mobile is-12 px-0 pt-0 pb-5 is-relative">
             <div class="button-wrapper-primary">
                 <a id="welcome-browse-btn" class="btn btn-invert">
                     <span>
@@ -31,15 +24,15 @@
                     </span>
                 </a>
             </div>
-        </div>
-        <div class="column is-12-mobile is-12 py-0">
+        </div> -->
+        <!-- <div class="column is-12-mobile is-12 py-0">
             <div class="box-floating" id="welcome-logo-new-quiz">
                 <div class="new-quiz">
                     <img src="imgs/wordRiddler_add_new_x3.png" alt="">
                 </div>
             </div>
-        </div>
-        <div class="column is-12-mobile is-12 px-0 pt-0 pb-5 is-relative">
+        </div> -->
+        <!-- <div class="column is-12-mobile is-12 px-0 pt-0 pb-5 is-relative">
             <div class="button-wrapper-primary">
                 <a id="welcome-add-new-quiz-btn" class="btn btn-invert">
                     <span>
@@ -47,7 +40,7 @@
                     </span>
                 </a>
             </div>
-        </div>
+        </div> -->
     </div>
 </section>
 <!-- Add new quiz screen -->

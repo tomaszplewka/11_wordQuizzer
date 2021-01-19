@@ -9,38 +9,24 @@ use WordQuizzer\Database;
 require_once(realpath("vendor/autoload.php"));
 // Initialize db
 $db = new Database();
-// 
-// Define and initialize vars
+// Initialize vars
 $email = $password = $id = '';
 $email_err = $password_err = '';
 $output =   [
-    "email" => [
-        "php_error" => false,
-        "msg" => '',
-        "field" => "login-email"
-    ],  "password" => [
-        "php_error" => false,
-        "msg" => '',
-        "field" => "login-password"
-    ],  "db" => [
-        "php_error" => false,
-        "msg" => '',
-        "field" => "login-db"
-    ],  "session" => [
-        "loggedIn" => false,
-        "msg" => ''
-    ]
+    "email" => ["php_error" => false, "msg" => '', "field" => "email"],
+    "password" => ["php_error" => false, "msg" => '', "field" => "password"],
+    "db" => ["php_error" => false, "msg" => '', "field" => "db"],
+    "session" => ["loggedIn" => false, "msg" => '', "field" => "session"]
 ];
-// 
-// session_unset();
 // Check if user is already logged in, if so redirect to welcome screen
 if (isset($_SESSION["user_loggedIn"]) && $_SESSION["user_loggedIn"] === true) {
     $output["session"]["loggedIn"] = true;
     $output["session"]["msg"] = "This user is already logged in";
     echo json_encode($output);
+    session_unset();
     exit;
 }
-// 
+// Process POST data
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Sanitize and validate email - check if empty
     $email = filter_var($_POST["email"], FILTER_SANITIZE_EMAIL);
@@ -85,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $_SESSION["user_name"] = $username;
                             $output["db"]["msg"] = "User has been logged in.";
                         } else {
-                            $password_err = "Password is not valid.";
+                            $password_err = "Incorrect password.";
                             // Send err msg to front end
                             $output["password"]["php_error"] = true;
                             $output["password"]["msg"] = $password_err;
@@ -115,5 +101,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Close connection
     unset($db);
 }
-// 
+// Send back the output to front-end
 echo json_encode($output);

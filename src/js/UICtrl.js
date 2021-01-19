@@ -14,21 +14,25 @@ const UICtrl = (function() {
         registerBtn: '#front-page-register-btn',
         registerWrapper: document.querySelector('#register-wrapper'),
         registerFeedback: document.querySelector('#register-feedback-wrapper'),
+        loginFeedback: document.querySelector('#login-feedback-wrapper'),
         registerForm: document.querySelector('#register-form'),
         registerBackBtn: '#register-back-btn',
-        usernameValidationIcons: document.querySelector('#username-validation'),
-        emailValidationIcons: document.querySelector('#email-validation'),
-        passwordValidationIcons: document.querySelector('#password-validation'),
-        confirmPasswordValidationIcons: document.querySelector('#confirm-password-validation'),
-        formSubmitFeedback: '#submit-feedback',
+        formRegisterSubmitFeedback: '#register-submit-feedback',
+        formLoginSubmitFeedback: '#login-submit-feedback',
         inputHint: '.input-hint',
         hintWrapper: document.querySelector('#hint-wrapper'),
         feedbackBackBtn: '#feedback-back-btn',
         submitFeedbackError: '.error-icon-wrapper',
-        confirmationWrapper: '.registration-confirmation',
-        confirmationUser: '.registration-cofirmation-user',
+        registrationConfirmation: '.register-confirmation',
+        loginConfirmation: '.login-confirmation',
+        confirmationUser: '.register-cofirmation-user',
         loginWrapper: document.querySelector('#login-wrapper'),
-        loginForm: document.querySelector('#login-form')
+        loginForm: document.querySelector('#login-form'),
+        loginFeedback: document.querySelector('#login-feedback-wrapper'),
+        loginBackBtn: '#login-back-btn',
+        burger: document.querySelector('#burger'),
+        times: document.querySelector('#times'),
+        options: document.querySelector('#options-wrapper')
     };
     const showMainLogo = function() {
         return `
@@ -145,7 +149,8 @@ const UICtrl = (function() {
         </div>
         `;
     };
-    const createDataFeedback = function(inputArr) {
+    const createDataFeedback = function(inputArr, target) {
+        const targetFeedback = document.querySelector(`#${target}-feedback-wrapper`);
         const goBack = goBackBtn('feedback-back-btn');
         const feedbackHeader = createDiv('feedback-header');
         const h = createHeader('feedback');
@@ -157,16 +162,16 @@ const UICtrl = (function() {
             feedbackBody.innerHTML += okWrapper(input);
         });
         // Make it more general by passing target to the function!!!
-        UISelectors.registerFeedback.appendChild(goBack);
-        UISelectors.registerFeedback.appendChild(feedbackHeader);
-        UISelectors.registerFeedback.appendChild(feedbackBody);
+        targetFeedback.appendChild(goBack);
+        targetFeedback.appendChild(feedbackHeader);
+        targetFeedback.appendChild(feedbackBody);
     };
     const createFormConfirmation = function(target) {
         const targetForm = document.querySelector(`#${target}-form`);
-        let div = createDiv('registration-confirmation is-flex is-justify-content-center is-align-items-center hidden-options background-mountain-meadow', 'registration-confirmation');
-        let p = createPara('registration-cofirmation-text text-ghost-white p-2');
+        let div = createDiv(`${target}-confirmation is-flex is-justify-content-center is-align-items-center hidden-options background-mountain-meadow`, `${target}-confirmation`);
+        let p = createPara(`${target}-cofirmation-text text-ghost-white p-2`);
         let html = `
-        User <span class="registration-cofirmation-user is-lowercase text-smoky-black"></span> has been registered.
+        User <span class="${target}-cofirmation-user is-lowercase text-smoky-black"></span> has been registered.
         `;
         p.innerHTML = html;
         div.appendChild(p);
@@ -174,7 +179,7 @@ const UICtrl = (function() {
     };
     const createSubmitFeedback = function(target) {
         const targetForm = document.querySelector(`#${target}-form`);
-        const div = createDiv('submit-feedback mt-4 hide', 'submit-feedback');
+        const div = createDiv('submit-feedback mt-4 hide', `${target}-submit-feedback`);
         div.innerHTML = `
         <div class="columns is-mobile m-0 has-text-centered is-vcentered is-multiline error-status hide">
             <div class="column is-10-mobile is-10">
@@ -390,26 +395,101 @@ const UICtrl = (function() {
         // Count errors
         let err_count = 0;
         Object.keys(data).forEach(input => {
-            if (!(data[input].field === 'db')) {
+            if ((data[input].field !== 'db') && (data[input].field !== 'session')) {
                 if (checkField(data[input])) {
                     err_count ++;
                     inputInvalid(targetForm[data[input].field]);
-                    hintFeedback(data[input].field, false);
+                    if (target !== 'login') {
+                        hintFeedback(data[input].field, false);
+                    }
                 }
             }
         });
         err_count += checkField(data.db);
         return err_count;
     };
+    const checkIfEmpty = function() {
+        if (UISelectors.loginForm.email.value !== '' && patterns.emailPattern.test(UISelectors.loginForm.email.value) && UISelectors.loginForm.password.value !== '') {
+            UISelectors.loginForm["login-submit"].classList.remove('disabled');
+        } else {
+            UISelectors.loginForm["login-submit"].classList.add('disabled');
+        }
+    };
     // 
     // 
+    const loadStartScreen = function() {
+        const divLogo = createDiv('column is-12-mobile is-12 pt-0 mb-3');
+        const divBtns = createDiv('column is-12-mobile is-12 mt-5 px-0 pb-5 is-relative buttons-wrapper');
+        UISelectors.mainSectionWrapper.firstElementChild.appendChild(divLogo);
+        UISelectors.mainSectionWrapper.firstElementChild.appendChild(divBtns);
+        // Load main logo
+        UISelectors.mainSectionWrapper.firstElementChild.firstElementChild.innerHTML = showMainLogo();
+        // Load start btn
+        UISelectors.mainSectionWrapper.firstElementChild.lastElementChild.appendChild(createStartBtn());
+        // Adjust UI display
+        document.querySelector('#front-page-footer').classList.remove('hide');
+        UISelectors.mainSectionWrapper.classList.remove('welcome-wrapper');
+        UISelectors.mainSectionWrapper.classList.add('background-space-cadet-gradient');
+        UISelectors.mainSectionWrapper.classList.remove('background-copper-red-gradient');
+    };
+    const createBrowseLogo = function() {
+        return `
+        <div class="box-floating" id="welcome-logo-browse">
+            <div class="db-disc-top">
+                <img src="imgs/logo-browse.png" alt="browse logo">
+            </div>
+            <div class="db-disc-middle">
+                <img src="imgs/logo-browse.png" alt="browse logo">
+            </div>
+            <div class="db-disc-bottom">
+                <img src="imgs/logo-browse.png" alt="browse logo">
+            </div>
+        </div>
+        `;
+    };
+    const createCreateQuizLogo = function() {
+        return `
+        <div class="box-floating" id="welcome-logo-new-quiz">
+            <div class="new-quiz">
+                <img src="imgs/logo-create-quiz.png" alt="">
+            </div>
+        </div>
+        `;
+    };
+    const loadLoggedInScreen = function() {
+        const divBrowse = createDiv('column is-12-mobile is-12 py-0 mt-5');
+        divBrowse.innerHTML = createBrowseLogo();
+        const divBrowseBtn = createDiv('column is-12-mobile is-12 px-0 pt-0 pb-5 is-relative');
+        const browseWrapper = createDiv('button-wrapper-primary');
+        const aBrowse = createA('btn btn-invert', 'browse-btn');
+        const spanBrowse = createSpan();
+        spanBrowse.textContent = 'browse';
+        aBrowse.appendChild(spanBrowse);
+        browseWrapper.appendChild(aBrowse);
+        divBrowseBtn.appendChild(browseWrapper);
+        const divCreateQuiz = createDiv('column is-12-mobile is-12 py-0');
+        divCreateQuiz.innerHTML = createCreateQuizLogo();
+        const divCreateQuizBtn = createDiv('column is-12-mobile is-12 px-0 pt-0 pb-5 is-relative');
+        const createQuizWrapper = createDiv('button-wrapper-primary');
+        const aCreateQuiz = createA('btn btn-invert', 'create-quiz-btn');
+        const spanCreateQuiz = createSpan();
+        spanCreateQuiz.textContent = 'create quiz';
+        aCreateQuiz.appendChild(spanCreateQuiz);
+        createQuizWrapper.appendChild(aCreateQuiz);
+        divCreateQuizBtn.appendChild(createQuizWrapper);
+        UISelectors.mainSectionWrapper.firstElementChild.innerHTML = '';
+        UISelectors.mainSectionWrapper.firstElementChild.appendChild(divBrowse);
+        UISelectors.mainSectionWrapper.firstElementChild.appendChild(divBrowseBtn);
+        UISelectors.mainSectionWrapper.firstElementChild.appendChild(divCreateQuiz);
+        UISelectors.mainSectionWrapper.firstElementChild.appendChild(divCreateQuizBtn);
+        // document.querySelector('#front-page-footer').classList.add('hide');
+        // UISelectors.mainSectionWrapper.classList.add('welcome-wrapper');
+        // UISelectors.mainSectionWrapper.classList.add('background-copper-red-gradient');
+        // UISelectors.mainSectionWrapper.classList.remove('background-space-cadet-gradient');
+    };
     return {
         init: function() {
-            // Load main logo
-            UISelectors.mainSectionWrapper.firstElementChild.firstElementChild.innerHTML = showMainLogo();
-            // Load start btn
-            UISelectors.mainSectionWrapper.firstElementChild.lastElementChild.appendChild(createStartBtn());
-
+            loadStartScreen();
         },
         UISelectors,
         patterns,
@@ -433,7 +513,9 @@ const UICtrl = (function() {
         unlockInput,
         createInputHint,
         createHintContent,
-        handleFormData
+        handleFormData,
+        checkIfEmpty,
+        loadLoggedInScreen
     };
 })();
 UICtrl.init();
@@ -501,8 +583,8 @@ document.addEventListener('click', e => {
             // Remove rendered UI components
             grab(selector.registerBackBtn).parentElement.remove();
             grab('.main-register-header').remove();
-            if (grab(selector.formSubmitFeedback) !== null) {
-                grab(selector.formSubmitFeedback).remove();
+            if (grab(selector.formRegisterSubmitFeedback) !== null) {
+                grab(selector.formRegisterSubmitFeedback).remove();
             }
             grab(selector.inputHint).parentElement.remove();
             selector.hintWrapper.innerHTML = '';
@@ -515,11 +597,65 @@ document.addEventListener('click', e => {
     }
     // FeedbackBackBtn clicked
     if ((e.target.tagName === 'SPAN' && `#${e.target.parentElement.id}` === selector.feedbackBackBtn) || (`#${e.target.id}` === selector.feedbackBackBtn)) {
-        selector.registerFeedback.classList.toggle('hidden-options');
+        grab(selector.feedbackBackBtn).parentElement.parentElement.classList.toggle('hidden-options');
     }
     // submitFeedbackError clicked
-    if (document.querySelector(selector.submitFeedbackError).contains(e.target)) {
-        selector.registerFeedback.classList.toggle('hidden-options');
+    if (e.target.classList.contains(selector.submitFeedbackError.substring(1)) || e.target.parentElement.classList.contains(selector.submitFeedbackError.substring(1)) || e.target.parentElement.parentElement.classList.contains(selector.submitFeedbackError.substring(1))) {
+        if (grab(selector.submitFeedbackError).parentElement.parentElement.id.includes('login')) {
+            selector.loginFeedback.classList.toggle('hidden-options');
+        } else {
+            selector.registerFeedback.classList.toggle('hidden-options');
+        }
+    }
+    // LoginBtn clicked
+    if ((e.target.tagName === 'SPAN' && `#${e.target.parentElement.id}` === selector.loginBtn) || (`#${e.target.id}` === selector.loginBtn)) {
+        selector.mainSectionWrapper.firstElementChild.classList.add('shrink');
+        setTimeout(() => {
+            // Render UI elements
+            selector.loginFeedback.before(UICtrl.goBackBtn('login-back-btn'));
+            selector.loginFeedback.after(UICtrl.createHeader('login', 'main-login-header'));
+            // Adjust UI display
+            selector.mainSectionWrapper.classList.toggle('hidden-options');
+            selector.loginWrapper.classList.toggle('hidden-options');
+            // remove tabindex="-1"
+            UICtrl.removeTabindex('login-tabindex');
+            // set focus on first input
+            setTimeout(() => {
+                selector.loginForm.email.focus();
+            }, 500);
+        }, 600);
+    }
+    // LoginBackBtn clicked
+    if ((e.target.tagName === 'SPAN' && `#${e.target.parentElement.id}` === selector.loginBackBtn) || (`#${e.target.id}` === selector.loginBackBtn)) {
+        selector.mainSectionWrapper.classList.toggle('hidden-options');
+        selector.loginWrapper.classList.toggle('hidden-options');
+        // 
+        setTimeout(() => {
+            selector.mainSectionWrapper.firstElementChild.classList.remove('shrink');
+            // set tabindex="-1"
+            UICtrl.addTabindex('register-tabindex');
+            // reset form
+            UICtrl.resetForm('login');
+            // Remove rendered UI components
+            grab(selector.loginBackBtn).parentElement.remove();
+            grab('.main-login-header').remove();
+            if (grab(selector.formLoginSubmitFeedback) !== null) {
+                grab(selector.formLoginSubmitFeedback).remove();
+            }
+            selector.loginFeedback.innerHTML = '';
+        }, 600);
+    }
+    // Burger clicked
+    if ((e.target.tagName === 'SPAN' && e.target.id === selector.burger.id) || (e.target.tagName === 'svg' && e.target.parentElement.id === selector.burger.id) || (e.target.tagName === 'path' && e.target.parentElement.parentElement.id === selector.burger.id)) {
+        selector.burger.classList.toggle('hide');
+        selector.times.classList.toggle('hide');
+        selector.options.classList.toggle('hidden-options');
+    }
+    // Times clicked
+    if ((e.target.tagName === 'SPAN' && e.target.id === selector.times.id) || (e.target.tagName === 'svg' && e.target.parentElement.id === selector.times.id) || (e.target.tagName === 'path' && e.target.parentElement.parentElement.id === selector.times.id)) {
+        selector.burger.classList.toggle('hide');
+        selector.times.classList.toggle('hide');
+        selector.options.classList.toggle('hidden-options');
     }
 });
 // Keyup & blur events
@@ -583,19 +719,33 @@ selector.registerForm['confirm-password'].addEventListener('blur', () => {
 	}
     UICtrl.checkIfAllValid('register');
 });
+// Check Email
+selector.loginForm.email.addEventListener('keyup', () => {
+    UICtrl.checkIfEmpty();
+});
+selector.loginForm.email.addEventListener('blur', () => {
+    UICtrl.checkIfEmpty();
+});
+// Check Password
+selector.loginForm.password.addEventListener('keyup', () => {
+    UICtrl.checkIfEmpty();
+});
+selector.loginForm.password.addEventListener('blur', () => {
+    UICtrl.checkIfEmpty();
+});
 // Submit events
 // submit register form
 selector.registerForm.addEventListener('submit', e => {
     // Prevent the default form submit
     e.preventDefault();
-    // Add formSubmitFeedback
-    if (grab(selector.formSubmitFeedback) === null) {
+    // Add formRegisterSubmitFeedback
+    if (grab(selector.formRegisterSubmitFeedback) === null) {
         UICtrl.createSubmitFeedback('register');
     }
-    const submitFeedback = grab(selector.formSubmitFeedback);
+    const submitFeedback = grab(selector.formRegisterSubmitFeedback);
     // Add data feedback
     selector.registerFeedback.innerHTML = '';
-    UICtrl.createDataFeedback(['username', 'email', 'password', 'confirm-password', 'db']);
+    UICtrl.createDataFeedback(['username', 'email', 'password', 'confirm-password', 'db'], 'register');
     // Adjust UI
     if (submitFeedback.classList.contains('hide')) {
         submitFeedback.classList.remove('hide');
@@ -624,8 +774,6 @@ selector.registerForm.addEventListener('submit', e => {
         })
         .then(docs => {
             console.log(docs);
-            // Handle when resolved
-            // Fetch promise rejects only when there is network error
             // Handle input data
             err_count = UICtrl.handleFormData(docs, 'register');
             if (err_count) { // errors found
@@ -647,7 +795,7 @@ selector.registerForm.addEventListener('submit', e => {
                     setTimeout(() => {
                         // Show confirmation
                         grab(selector.confirmationUser).textContent = selector.registerForm.username.value;
-                        grab(selector.confirmationWrapper).classList.remove('hidden-options');
+                        grab(selector.registrationConfirmation).classList.remove('hidden-options');
                         // Clear form
                         UICtrl.resetForm('register');
                         setTimeout(() => {
@@ -655,6 +803,9 @@ selector.registerForm.addEventListener('submit', e => {
                             selector.registerWrapper.classList.toggle('hidden-options');
                             // set tabindex="-1"
                             UICtrl.addTabindex('register-tabindex');
+                            // Render UI elements
+                            selector.loginFeedback.before(UICtrl.goBackBtn('login-back-btn'));
+                            selector.loginFeedback.after(UICtrl.createHeader('login', 'main-login-header'));
                             // Show login screen
                             selector.mainSectionWrapper.classList.toggle('hidden-options');
                             selector.loginWrapper.classList.toggle('hidden-options');
@@ -666,24 +817,144 @@ selector.registerForm.addEventListener('submit', e => {
                                 // Reset register UI
                                 grab(selector.registerBackBtn).parentElement.remove();
                                 grab('.main-register-header').remove();
-                                if (grab(selector.formSubmitFeedback) !== null) {
-                                    grab(selector.formSubmitFeedback).remove();
-                                }
+                                submitFeedback.remove();
                                 grab(selector.inputHint).parentElement.remove();
                                 selector.hintWrapper.innerHTML = '';
                                 selector.registerFeedback.innerHTML = '';
-                                grab(selector.confirmationWrapper).remove();
+                                grab(selector.registrationConfirmation).remove();
                             }, 600);
                         }, 1000);
                     }, 500);
                 }, 1000);
             }
         })
-        .catch(err => {
-            console.log(err);
+        .catch(error => {
+            console.log(error);
             // Handle when rejected (only network exceptions)
             // For network show big red screen saying 'network problem. check your internet connection'
         });        
+    }
+});
+// submit register form
+selector.loginForm.addEventListener('submit', e => {
+    // Prevent the default form submit
+    e.preventDefault();
+    // Add formLoginSubmitFeedback
+    if (grab(selector.formLoginSubmitFeedback) === null) {
+        UICtrl.createSubmitFeedback('login');
+    }
+    const submitFeedback = grab(selector.formLoginSubmitFeedback);
+    // Add data feedback
+    selector.loginFeedback.innerHTML = '';
+    UICtrl.createDataFeedback(['email', 'password', 'db'], 'login');
+    // Check if there is anything in inputs
+    if (selector.loginForm.email.value !== '' && UICtrl.patterns.emailPattern.test(selector.loginForm.email.value) && selector.loginForm.password.value !== '' && !selector.loginForm.email.hasAttribute('readonly') && !selector.loginForm.password.hasAttribute('readonly')) {
+        // Adjust UI
+        if (submitFeedback.classList.contains('hide')) {
+            submitFeedback.classList.remove('hide');
+            submitFeedback.lastElementChild.classList.remove('hide');
+        } else {
+            submitFeedback.firstElementChild.classList.add('hide');
+            submitFeedback.lastElementChild.classList.remove('hide');
+        } 
+        // Lock input fields
+        UICtrl.lockInput('login');
+        // Disable submit btn
+        if (!selector.loginForm["login-submit"].classList.contains('disabled')) {
+            selector.loginForm["login-submit"].classList.add('disabled');
+        }
+        // 
+        let err_count = 0;
+        // Post data using the Fetch API
+        UICtrl.loadLoggedInScreen();
+        setTimeout(() => {
+            selector.mainSectionWrapper.classList.add('welcome-wrapper');
+            selector.mainSectionWrapper.classList.add('background-copper-red-gradient');
+            selector.mainSectionWrapper.classList.remove('background-space-cadet-gradient');
+            selector.mainSectionWrapper.classList.toggle('hidden-options');
+            selector.mainSectionWrapper.firstElementChild.classList.toggle('shrink');
+            document.querySelector('#front-page-footer').classList.add('hidden-options');
+        }, 1000);
+        // fetch(selector.loginForm.action, {
+        //     method: selector.loginForm.method,
+        //     body: new FormData(selector.loginForm)
+        // })
+        // .then(res => {
+        //     if (!res.ok) { throw new Error('Network problem.'); }
+        //     return res.json();
+        // })
+        // .then(docs => {
+        //     console.log(docs);
+        //     // First check if user is logged in, if so redirect to welcome page !!!
+        //     if (docs.session.loggedIn) {
+        //         // Do the redirect here
+        //     } else {
+        //         // Handle input data
+        //         err_count = UICtrl.handleFormData(docs, 'login');
+        //         if (err_count) { // errors found
+        //             setTimeout(() => {
+        //                 submitFeedback.lastElementChild.classList.add('hide');
+        //                 submitFeedback.firstElementChild.classList.remove('hide');
+        //                 // Unlock fields
+        //                 UICtrl.unlockInput('login');
+        //                 // Reset input class
+        //                 const inputElements = document.querySelectorAll('#login-form input')
+        //                 Array.from(inputElements).forEach(input => {
+        //                     input.classList.remove('input-valid');
+        //                     input.classList.remove('input-invalid');
+        //                     if (!input.parentElement.lastElementChild.firstElementChild.classList.contains('hide')) {
+        //                         input.parentElement.lastElementChild.firstElementChild.classList.add('hide');
+        //                     }
+        //                     if (!input.parentElement.lastElementChild.lastElementChild.classList.contains('hide')) {
+        //                         input.parentElement.lastElementChild.lastElementChild.classList.add('hide');
+        //                     }
+        //                 });
+        //             }, 500);
+        //         } else { // no errors
+        //             // Add confirmation div
+        //             UICtrl.createFormConfirmation('login');
+        //             setTimeout(() => {
+        //                 // Unlock fields
+        //                 UICtrl.unlockInput('login');
+        //                 // Hide submit feedback div
+        //                 submitFeedback.classList.add('hide');
+        //                 submitFeedback.firstElementChild.classList.add('hide');
+        //                 setTimeout(() => {
+        //                     // Show confirmation
+        //                     grab(selector.loginConfirmation).classList.remove('hidden-options');
+        //                     // Clear form
+        //                     UICtrl.resetForm('login');
+
+        //                     setTimeout(() => {
+        //                         selector.mainSectionWrapper.classList.toggle('hidden-options');
+        //                         selector.loginWrapper.classList.toggle('hidden-options');
+        //                         // set tabindex="-1"
+        //                         UICtrl.addTabindex('login-tabindex');
+        //                         // Show welcome screen
+        //                         selector.mainSectionWrapper.classList.toggle('hidden-options');
+        //                         // 
+        //                         setTimeout(() => {
+        //                             // Reset register UI
+        //                             grab(selector.loginBackBtn).parentElement.remove();
+        //                             grab('.main-login-header').remove();
+        //                             submitFeedback.remove();
+        //                             selector.loginFeedback.innerHTML = '';
+        //                             grab(selector.loginConfirmation).remove();
+        //                             // Redirect
+        //                             window.location = './welcome.php';
+        //                         }, 600);
+        //                     }, 1000);
+        //                 }, 500);
+        //             }, 1000);
+        //         }
+        //     }
+        // })
+        // .catch(error => {
+        //     // here you can handle also error from php
+        //     // they come in a js form: JSON.parse blah blah
+        //     console.log(error);
+        //     // Handle when rejected (only network exceptions)
+        // });
     }
 });
 // export default UICtrl;

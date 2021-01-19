@@ -19,7 +19,7 @@ $output =   [
     "confirm-password" => ["php_error" => false, "msg" => '', "field" => "confirm-password"],
     "db" => ["php_error" => false, "msg" => '', "field" => "db"]
 ];
-// 
+// Process POST data
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Sanitize and validate username - check if empty and against regex expression
     $username = filter_var($_POST["username"], FILTER_SANITIZE_STRING);
@@ -156,5 +156,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Close connection
     unset($db);
 }
-// 
+// Send back the output to front-end
 echo json_encode($output);

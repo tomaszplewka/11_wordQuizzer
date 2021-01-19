@@ -680,7 +680,7 @@ hr {
 #register-wrapper,
 #login-wrapper,
 #register-feedback-wrapper,
-#registration-confirmation,
+#register-confirmation,
 #login-confirmation,
 #generate-confirmation,
 #login-feedback-wrapper,
@@ -688,17 +688,24 @@ hr {
 #welcome-wrapper,
 #browse-wrapper,
 #quiz-info-wrapper,
-#add-new-quiz-wrapper {
+#add-new-quiz-wrapper,
+#front-page-footer {
     max-height: 10000px;
     height: calc(100% - 72px - 68px);
     transition: all 0.5s ease;
 }
 
 #welcome-wrapper,
+.welcome-wrapper,
 #browse-wrapper,
 #quiz-info-wrapper,
 #add-new-quiz-wrapper {
     height: calc(100% - 72px);
+}
+
+#front-page-footer {
+    height: auto;
+    transform: translateY(0);
 }
 
 #browse-wrapper {
@@ -714,7 +721,7 @@ hr {
 #register-wrapper > *,
 #login-wrapper > *,
 #register-feedback-wrapper > *,
-#registration-confirmation > *,
+#register-confirmation > *,
 #login-confirmation > *,
 #generate-confirmation > *,
 #login-feedback-wrapper > *,
@@ -722,7 +729,8 @@ hr {
 #welcome-wrapper > *,
 #browse-wrapper > *,
 #quiz-info-wrapper > *,
-#add-new-quiz-wrapper > * {
+#add-new-quiz-wrapper > *,
+#front-page-footer > * {
     opacity: 1;
     /* z-index: 2; */
     transition: all 0.5s ease;
@@ -731,7 +739,7 @@ hr {
 #register-wrapper.hidden-options,
 #login-wrapper.hidden-options,
 #register-feedback-wrapper.hidden-options,
-#registration-confirmation.hidden-options,
+#register-confirmation.hidden-options,
 #login-confirmation.hidden-options,
 #generate-confirmation.hidden-options,
 #login-feedback-wrapper.hidden-options,
@@ -745,11 +753,17 @@ hr {
     max-height: 0;
     transition: all 0.5s ease;
 }
+#front-page-footer.hidden-options {
+    overflow: hidden;
+    padding: 0 !important;
+    transform: translateY(68px);
+    transition: all 0.5s ease;
+}
 
 #register-wrapper.hidden-options > *,
 #login-wrapper.hidden-options > *,
 #register-feedback-wrapper.hidden-options > *,
-#registration-confirmation.hidden-options > *,
+#register-confirmation.hidden-options > *,
 #login-confirmation.hidden-options > *,
 #generate-confirmation.hidden-options > *,
 #login-feedback-wrapper.hidden-options > *,
@@ -757,7 +771,8 @@ hr {
 #welcome-wrapper.hidden-options > *,
 #browse-wrapper.hidden-options > *,
 #quiz-info-wrapper.hidden-options > *,
-#add-new-quiz-wrapper.hidden-options > * {
+#add-new-quiz-wrapper.hidden-options > *,
+#front-page-footer.hidden-options > * {
     opacity: 0;
     transition: all 0.5s ease;
 }
@@ -984,7 +999,7 @@ button {
 
 
 .status-ok,
-.registration-cofirmation-text,
+.register-cofirmation-text,
 .login-confirmation-text,
 .generate-confirmation-text,
 .username-info-text,
@@ -1011,7 +1026,7 @@ button {
     padding: 0.5rem 0;
 }
 
-.registration-confirmation-text,
+.register-confirmation-text,
 .login-confirmation-text,
 .generate-confirmation-text {
     font-size: 1.25rem;
@@ -1089,7 +1104,7 @@ p.input-valid {
 }
 
 .feedback-wrapper,
-#registration-confirmation,
+#register-confirmation,
 #login-confirmation,
 #generate-confirmation,
 #quiz-info-wrapper {
@@ -1102,7 +1117,7 @@ p.input-valid {
     overflow-y: scroll;
 }
 
-#registration-confirmation,
+#register-confirmation,
 #login-confirmation {
     overflow: hidden;
     border-radius: 1rem;
