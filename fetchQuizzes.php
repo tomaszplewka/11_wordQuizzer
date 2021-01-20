@@ -22,7 +22,7 @@ if (isset($_SESSION["user_loggedIn"]) && ($_SESSION["user_loggedIn"] === true)) 
     // User is logged in
     $id = $_SESSION["user_id"];
     $user = $_SESSION["user_name"];
-    // W RAMACH ERROR HANDLING -- JEZELI TUTAJ JEST JAKIS BLAD -- SERVER IS DOWN -- SHOW MESSAGE TO A USER IN A FORM OF WHOLE SCREEN WRAPPER
+    // W RAMACH ERROR HANDLING -- JEZELI TUTAJ JEST JAKIS BLAD -- SERVER IS DOWN -- SHOW MESSAGE TO A USER IN A FORM OF WHOLE SCREEN WRAPPER --> moze uzyj try & catch block here
     $sql = "SELECT * FROM quiz WHERE user_id = :id ORDER BY created_at DESC";
     if ($db->queryDB($sql)) {
         $db->bind(":id", $id);

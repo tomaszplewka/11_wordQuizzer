@@ -177,61 +177,19 @@
 </section>
 <!-- Quiz view -->
 <section class="section background-ghost-white is-flex is-flex-direction-column is-justify-content-start p-5 hidden-options" id="quiz-view-wrapper">
-    <!-- <div class="columns is-mobile m-0 is-vcentered is-multiline is-flex is-flex-direction-column is-justify-content-start"> -->
-    <!-- <div class="is-flex is-justify-content-space-between is-align-items-center column is-12-mobile is-12 p-0">
-        <a id="quiz-quit-btn" class="control-btn">
-            <span class="text-smoky-black">Quit</span>
-        </a>
-        <p id="quiz-which-question" class="quiz-view-questions">
-            <span id="quiz-current-question" class="">1</span>
-            /
-            <span id="quiz-total-questions" class=""></span>
-        </p>
-        <a id="quiz-next-btn" class="control-btn">
-            <span class="text-smoky-black">Next</span>
-        </a>
-        <button id="quiz-form-submit" class="control-btn" type="submit" form="quiz-form" style="display: none; background-color: transparent;">
-            <span class="text-smoky-black">Submit</span>
-        </button>
-        <a id="quiz-retry-btn" class="control-btn" style="display: none;">
-            <span class="text-smoky-black">Retry</span>
-        </a>
-    </div> -->
-    <!-- <div class="quiz-quit-confirmation-wrapper background-copper-red is-flex is-justify-content-center is-align-items-center column is-12-mobile is-12 p-0 hidden-options">
-        <p class="quiz-quit-confirmation-text">are you sure?</p>
-        <div class="quiz-quit-confirmation-btn-wrapper is-flex is-justify-content-center">
-            <a id="quit-quiz-yes" class="btn btn-vertical mx-2 my-0">
-                <span>yes</span>
-            </a>
-        </div>
-    </div> -->
     <div id="quiz-content" class="column is-12-mobile is-12 p-0">
         <div class="is-flex is-justify-content-space-between is-align-items-center my-2">
-            <div id="question-text" class="quiz-view-question-text has-text-centered p-2">
-            </div>
+            <div id="question-text" class="quiz-view-question-text has-text-centered p-2"></div>
         </div>
         <div class="is-flex is-justify-content-space-between is-align-items-center">
             <form action="quiz.php" method="POST" id="quiz-form">
                 <div class="column is-12-mobile is-12 p-0 has-text-centered m-0 p-0">
                     <input class="py-1" type="hidden" name="quiz-id" value="">
                 </div>
-                <div id="quiz-answers-wrapper">
-                </div>
+                <div id="quiz-answers-wrapper"></div>
             </form>
         </div>
     </div>
-    <!-- <div id="quiz-results" class="column is-12-mobile is-12 p-0 hidden-options">
-        <div class="is-flex is-justify-content-center is-align-items-center">
-            <p class="quiz-view-questions">Your result</p>
-        </div>
-        <div class="is-flex is-justify-content-center is-align-items-center my-2">
-            <p id="quiz-score" class="has-text-centered p-2">
-            </p>
-        </div>
-        <div class="is-flex is-justify-content-space-between is-align-items-center">
-            <ul id="quiz-feedback"></ul>
-        </div>
-    </div> -->
 </section>
 <!-- Options -->
 <section class="section background-ghost-white is-flex is-flex-direction-column is-justify-content-center p-5 hidden-options" id="options-wrapper">

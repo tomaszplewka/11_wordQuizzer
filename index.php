@@ -15,7 +15,7 @@ require_once(realpath("vendor/autoload.php"));
 $index = new Template(realpath("src/index.php"));
 // $index->title = 'wordRiddler';
 // $index->heading = 'Welcome to wordRiddler!';
-session_unset();
+// session_unset();
 echo $index->output();
 // 
 // Check if user is logged in first

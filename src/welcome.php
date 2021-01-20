@@ -848,248 +848,248 @@
     //     });
     // const quizViewWrapper = document.querySelector('#quiz-view-wrapper');
     // const quizForm = document.querySelector('#quiz-form');
-    let questions = [];
-    let answers = [];
-    let correctAnswers = [];
-    let value = [];
-    let index = 0;
-    const quizQuestion = document.querySelector('#question-text');
-    const quitBtn = document.querySelector('#quiz-quit-btn');
-    const nextBtn = document.querySelector('#quiz-next-btn');
-    const qNumber = document.querySelector('#quiz-which-question');
-    const quitConfirmationWrapper = document.querySelector('.quiz-quit-confirmation-wrapper');
-    const quitYes = document.querySelector('#quit-quiz-yes');
-    const shuffleArray = array => {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[j], array[i]] = [array[i], array[j]];
-        }
-    }
+    // let questions = [];
+    // let answers = [];
+    // let correctAnswers = [];
+    // let value = [];
+    // let index = 0;
+    // const quizQuestion = document.querySelector('#question-text');
+    // const quitBtn = document.querySelector('#quiz-quit-btn');
+    // const nextBtn = document.querySelector('#quiz-next-btn');
+    // const qNumber = document.querySelector('#quiz-which-question');
+    // const quitConfirmationWrapper = document.querySelector('.quiz-quit-confirmation-wrapper');
+    // const quitYes = document.querySelector('#quit-quiz-yes');
+    // const shuffleArray = array => {
+    //     for (let i = array.length - 1; i > 0; i--) {
+    //         const j = Math.floor(Math.random() * (i + 1));
+    //         [array[j], array[i]] = [array[i], array[j]];
+    //     }
+    // }
     // const quizContent = document.querySelector('#quiz-content');
     // const quizResults = document.querySelector('#quiz-results');
     // const quizScore = document.querySelector('#quiz-score');
     // const quizFeedback = document.querySelector('#quiz-feedback');
-    let quizID = '';
-    document.addEventListener('click', e => {
-        // More info btn clicked
-        // if ((e.target.tagName === 'SPAN' && e.target.parentElement.classList.contains('more-info-btn')) || (e.target.classList.contains('more-info-btn') && e.target.tagName === 'A')) {
-        //     console.log('jestem tutaj');
-        //     // Get quiz id
-        //     let quizID = '';
-        //     if (e.target.tagName === 'SPAN') {
-        //         quizID = e.target.parentElement.parentElement.parentElement.parentElement.id;
-        //     } else {
-        //         quizID = e.target.parentElement.parentElement.parentElement.id;
-        //     }
-        //     // console.log(quizID);
-        //     // Show appropriate div with more info
-        //     const divMoreInfo = document.querySelector(`div[data-id="${quizID}"]`);
-        //     divMoreInfo.classList.remove('scaleY');
-        // }
-        // // Back btn on more info wrapper clicked
-        // if ((e.target.tagName === 'SPAN' && e.target.parentElement.classList.contains('back-btn')) || (e.target.classList.contains('back-btn') && e.target.tagName === 'A')) {
-        //     // Get quiz id
-        //     let quizID = '';
-        //     if (e.target.tagName === 'SPAN') {
-        //         quizID = e.target.parentElement.parentElement.parentElement.getAttribute('data-id');
-        //     } else {
-        //         quizID = e.target.parentElement.parentElement.getAttribute('data-id');
-        //     }
-        //     // console.log(quizID);
-        //     // Hide appropriate div with more info
-        //     const divMoreInfo = document.querySelector(`div[data-id="${quizID}"]`);
-        //     divMoreInfo.classList.add('scaleY');
-        // }
-        // // Play btn clicked
-        // if ((e.target.tagName === 'SPAN' && e.target.parentElement.classList.contains('play-btn')) || (e.target.classList.contains('play-btn') && e.target.tagName === 'A')) {
-        //     quizViewWrapper.classList.toggle('hidden-options');
-        //     // Get quiz id
-        //     if (e.target.tagName === 'SPAN') {
-        //         quizID = e.target.parentElement.parentElement.parentElement.parentElement.id;
-        //     } else {
-        //         quizID = e.target.parentElement.parentElement.parentElement.id;
-        //     }
-        //     console.log(quizID);
-        //     // Assign quizID to hidden input value
-        //     quizForm["quiz-id"].value = quizID;
-        //     // Render question
-        //     // Fetch quiz first
-        //     console.log(allQuizzes);
-        //     let trueQuizId = '';
-        //     allQuizzes.forEach(quiz => {
-        //         if (quiz.quiz_id === quizID) {
-        //             trueQuizId = quiz.quiz_name;
-        //         }
-        //     });
-        //     const data = {
-        //         ID: trueQuizId
-        //     };
-        //     fetch("fetchQsAs.php", {
-        //             method: "POST",
-        //             mode: 'cors',
-        //             headers: {
-        //                 'Content-Type': 'application/json'
-        //             },
-        //             body: JSON.stringify(data)
-        //         })
-        //         .then(response => response.json())
-        //         .then(data => {
-        //             console.log(data);
-        //             // 
-        //             questions = data.questions.fields;
-        //             // Insert question
-        //             console.log(questions);
-        //             quizQuestion.innerHTML = `
-        //             <p class="quiz-view-header-text">
-        //                 ${questions[index]["question"]}
-        //             </p>
-        //             `;
-        //             // Insert answers
-        //             const questionID = questions[index]["question_ID"];
-        //             answers = data.answers.fields;
-        //             let currAnswers = [];
-        //             answers.forEach(answer => {
-        //                 if (answer.question_ID === questionID) {
-        //                     currAnswers.push({
-        //                         answer: answer.answer,
-        //                         a_ID: answer.answer_ID,
-        //                         q_ID: answer.question_ID,
-        //                         is_correct: answer.is_correct === "1"
-        //                     });
-        //                 }
-        //             });
-        //             index++;
-        //             console.log(currAnswers);
-        //             shuffleArray(currAnswers);
-        //             console.log(currAnswers);
-        //             let aHtml = '';
-        //             currAnswers.forEach((currAnswer, index) => {
-        //                 if (currAnswer.is_correct) {
-        //                     correctAnswers.push(index);
-        //                 }
-        //                 aHtml += `
-        //                 <div class="quiz-view-answer-text has-text-centered p-2 m-0">
-        //                     <div class="is-relative">
-        //                         <input type="radio" name="${currAnswer.q_ID}" value="${index}" id="${currAnswer.a_ID}" class="btn m-0 p-0">
-        //                         <label for="${currAnswer.a_ID}">
-        //                             ${currAnswer.answer}
-        //                         </label>
-        //                     </div>
-        //                 </div>
-        //                 `;
-        //             });
-        //             let div = document.createElement('div');
-        //             div.innerHTML = aHtml;
-        //             quizForm.lastElementChild.appendChild(div);
-        //             console.log(correctAnswers);
-        //             qNumber.lastElementChild.textContent = questions.length;
-        //         })
-        // }
-        // Next btn clicked
-        if ((e.target.tagName === 'SPAN' && e.target.parentElement.id === 'quiz-next-btn') || (e.target.id === 'quiz-next-btn' && e.target.tagName === 'A')) {
-            if ((index + 1) === questions.length) {
-                nextBtn.style.display = 'none';
-                nextBtn.nextElementSibling.style.display = 'flex';
-            }
-            // Check if radio button is checked
-            // console.log('Index: ' + index);
-            const currName = questions[index - 1].question_ID;
-            // console.log('CurrName: ' + currName);
-            const target = [...quizForm[currName]].filter(r => r.checked)[0];
-            if (target !== undefined) {
-                value.push(target.value);
-                // console.log('Value: ' + value);
-                // Update question number
-                qNumber.firstElementChild.textContent = (index + 1);
-                // 
-                quizForm.lastElementChild.lastElementChild.classList.add('hidden-options');
-                // Insert question
-                quizQuestion.innerHTML = `
-                <p class="quiz-view-header-text">
-                    ${questions[index]["question"]}
-                </p>
-                `;
-                // Insert answers
-                const questionID = questions[index]["question_ID"];
-                let currAnswers = [];
-                answers.forEach(answer => {
-                    if (answer.question_ID === questionID) {
-                        currAnswers.push({
-                            answer: answer.answer,
-                            a_ID: answer.answer_ID,
-                            q_ID: answer.question_ID,
-                            is_correct: answer.is_correct === "1"
-                        });
-                    }
-                });
-                index++;
-                shuffleArray(currAnswers);
-                let aHtml = '';
-                let div = document.createElement('div');
-                quizForm.lastElementChild.appendChild(div);
-                currAnswers.forEach((currAnswer, index) => {
-                    if (currAnswer.is_correct) {
-                        correctAnswers.push(index);
-                    }
-                    aHtml += `
-                            <div class="quiz-view-answer-text has-text-centered p-2 m-0">
-                                <div class="is-relative">
-                                    <input type="radio" name="${currAnswer.q_ID}" value="${index}" id="${currAnswer.a_ID}" class="btn m-0 p-0">
-                                    <label for="${currAnswer.a_ID}">
-                                        ${currAnswer.answer}
-                                    </label>
-                                </div>
-                            </div>
-                            `;
-                });
-                quizForm.lastElementChild.lastElementChild.innerHTML = aHtml;
-                // console.log(correctAnswers);
-            } else {
-                // show message
-            }
-        }
-        // Quit btn clicked
-        if ((e.target.tagName === 'SPAN' && e.target.parentElement.id === 'quiz-quit-btn') || (e.target.id === 'quiz-quit-btn' && e.target.tagName === 'A')) {
-            quitConfirmationWrapper.classList.toggle('hidden-options');
-        }
-        if ((e.target.tagName === 'SPAN' && e.target.parentElement.id === 'quit-quiz-yes') || (e.target.id === 'quit-quiz-yes' && e.target.tagName === 'A')) {
-            // ZRESETUJ GLOBAL VARS (INDEX, ETC.) + ZRESETUJ UI DISPLAY
-            // If at the end of a quiz
+    // let quizID = '';
+    // document.addEventListener('click', e => {
+    // More info btn clicked
+    // if ((e.target.tagName === 'SPAN' && e.target.parentElement.classList.contains('more-info-btn')) || (e.target.classList.contains('more-info-btn') && e.target.tagName === 'A')) {
+    //     console.log('jestem tutaj');
+    //     // Get quiz id
+    //     let quizID = '';
+    //     if (e.target.tagName === 'SPAN') {
+    //         quizID = e.target.parentElement.parentElement.parentElement.parentElement.id;
+    //     } else {
+    //         quizID = e.target.parentElement.parentElement.parentElement.id;
+    //     }
+    //     // console.log(quizID);
+    //     // Show appropriate div with more info
+    //     const divMoreInfo = document.querySelector(`div[data-id="${quizID}"]`);
+    //     divMoreInfo.classList.remove('scaleY');
+    // }
+    // // Back btn on more info wrapper clicked
+    // if ((e.target.tagName === 'SPAN' && e.target.parentElement.classList.contains('back-btn')) || (e.target.classList.contains('back-btn') && e.target.tagName === 'A')) {
+    //     // Get quiz id
+    //     let quizID = '';
+    //     if (e.target.tagName === 'SPAN') {
+    //         quizID = e.target.parentElement.parentElement.parentElement.getAttribute('data-id');
+    //     } else {
+    //         quizID = e.target.parentElement.parentElement.getAttribute('data-id');
+    //     }
+    //     // console.log(quizID);
+    //     // Hide appropriate div with more info
+    //     const divMoreInfo = document.querySelector(`div[data-id="${quizID}"]`);
+    //     divMoreInfo.classList.add('scaleY');
+    // }
+    // // Play btn clicked
+    // if ((e.target.tagName === 'SPAN' && e.target.parentElement.classList.contains('play-btn')) || (e.target.classList.contains('play-btn') && e.target.tagName === 'A')) {
+    //     quizViewWrapper.classList.toggle('hidden-options');
+    //     // Get quiz id
+    //     if (e.target.tagName === 'SPAN') {
+    //         quizID = e.target.parentElement.parentElement.parentElement.parentElement.id;
+    //     } else {
+    //         quizID = e.target.parentElement.parentElement.parentElement.id;
+    //     }
+    //     console.log(quizID);
+    //     // Assign quizID to hidden input value
+    //     quizForm["quiz-id"].value = quizID;
+    //     // Render question
+    //     // Fetch quiz first
+    //     console.log(allQuizzes);
+    //     let trueQuizId = '';
+    //     allQuizzes.forEach(quiz => {
+    //         if (quiz.quiz_id === quizID) {
+    //             trueQuizId = quiz.quiz_name;
+    //         }
+    //     });
+    //     const data = {
+    //         ID: trueQuizId
+    //     };
+    //     fetch("fetchQsAs.php", {
+    //             method: "POST",
+    //             mode: 'cors',
+    //             headers: {
+    //                 'Content-Type': 'application/json'
+    //             },
+    //             body: JSON.stringify(data)
+    //         })
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             console.log(data);
+    //             // 
+    //             questions = data.questions.fields;
+    //             // Insert question
+    //             console.log(questions);
+    //             quizQuestion.innerHTML = `
+    //             <p class="quiz-view-header-text">
+    //                 ${questions[index]["question"]}
+    //             </p>
+    //             `;
+    //             // Insert answers
+    //             const questionID = questions[index]["question_ID"];
+    //             answers = data.answers.fields;
+    //             let currAnswers = [];
+    //             answers.forEach(answer => {
+    //                 if (answer.question_ID === questionID) {
+    //                     currAnswers.push({
+    //                         answer: answer.answer,
+    //                         a_ID: answer.answer_ID,
+    //                         q_ID: answer.question_ID,
+    //                         is_correct: answer.is_correct === "1"
+    //                     });
+    //                 }
+    //             });
+    //             index++;
+    //             console.log(currAnswers);
+    //             shuffleArray(currAnswers);
+    //             console.log(currAnswers);
+    //             let aHtml = '';
+    //             currAnswers.forEach((currAnswer, index) => {
+    //                 if (currAnswer.is_correct) {
+    //                     correctAnswers.push(index);
+    //                 }
+    //                 aHtml += `
+    //                 <div class="quiz-view-answer-text has-text-centered p-2 m-0">
+    //                     <div class="is-relative">
+    //                         <input type="radio" name="${currAnswer.q_ID}" value="${index}" id="${currAnswer.a_ID}" class="btn m-0 p-0">
+    //                         <label for="${currAnswer.a_ID}">
+    //                             ${currAnswer.answer}
+    //                         </label>
+    //                     </div>
+    //                 </div>
+    //                 `;
+    //             });
+    //             let div = document.createElement('div');
+    //             div.innerHTML = aHtml;
+    //             quizForm.lastElementChild.appendChild(div);
+    //             console.log(correctAnswers);
+    //             qNumber.lastElementChild.textContent = questions.length;
+    //         })
+    // }
+    // // Next btn clicked
+    // if ((e.target.tagName === 'SPAN' && e.target.parentElement.id === 'quiz-next-btn') || (e.target.id === 'quiz-next-btn' && e.target.tagName === 'A')) {
+    //     if ((index + 1) === questions.length) {
+    //         nextBtn.style.display = 'none';
+    //         nextBtn.nextElementSibling.style.display = 'flex';
+    //     }
+    //     // Check if radio button is checked
+    //     // console.log('Index: ' + index);
+    //     const currName = questions[index - 1].question_ID;
+    //     // console.log('CurrName: ' + currName);
+    //     const target = [...quizForm[currName]].filter(r => r.checked)[0];
+    //     if (target !== undefined) {
+    //         value.push(target.value);
+    //         // console.log('Value: ' + value);
+    //         // Update question number
+    //         qNumber.firstElementChild.textContent = (index + 1);
+    //         // 
+    //         quizForm.lastElementChild.lastElementChild.classList.add('hidden-options');
+    //         // Insert question
+    //         quizQuestion.innerHTML = `
+    //         <p class="quiz-view-header-text">
+    //             ${questions[index]["question"]}
+    //         </p>
+    //         `;
+    //         // Insert answers
+    //         const questionID = questions[index]["question_ID"];
+    //         let currAnswers = [];
+    //         answers.forEach(answer => {
+    //             if (answer.question_ID === questionID) {
+    //                 currAnswers.push({
+    //                     answer: answer.answer,
+    //                     a_ID: answer.answer_ID,
+    //                     q_ID: answer.question_ID,
+    //                     is_correct: answer.is_correct === "1"
+    //                 });
+    //             }
+    //         });
+    //         index++;
+    //         shuffleArray(currAnswers);
+    //         let aHtml = '';
+    //         let div = document.createElement('div');
+    //         quizForm.lastElementChild.appendChild(div);
+    //         currAnswers.forEach((currAnswer, index) => {
+    //             if (currAnswer.is_correct) {
+    //                 correctAnswers.push(index);
+    //             }
+    //             aHtml += `
+    //                     <div class="quiz-view-answer-text has-text-centered p-2 m-0">
+    //                         <div class="is-relative">
+    //                             <input type="radio" name="${currAnswer.q_ID}" value="${index}" id="${currAnswer.a_ID}" class="btn m-0 p-0">
+    //                             <label for="${currAnswer.a_ID}">
+    //                                 ${currAnswer.answer}
+    //                             </label>
+    //                         </div>
+    //                     </div>
+    //                     `;
+    //         });
+    //         quizForm.lastElementChild.lastElementChild.innerHTML = aHtml;
+    //         // console.log(correctAnswers);
+    //     } else {
+    //         // show message
+    //     }
+    // }
+    // // Quit btn clicked
+    // if ((e.target.tagName === 'SPAN' && e.target.parentElement.id === 'quiz-quit-btn') || (e.target.id === 'quiz-quit-btn' && e.target.tagName === 'A')) {
+    //     quitConfirmationWrapper.classList.toggle('hidden-options');
+    // }
+    // if ((e.target.tagName === 'SPAN' && e.target.parentElement.id === 'quit-quiz-yes') || (e.target.id === 'quit-quiz-yes' && e.target.tagName === 'A')) {
+    //     // ZRESETUJ GLOBAL VARS (INDEX, ETC.) + ZRESETUJ UI DISPLAY
+    //     // If at the end of a quiz
 
-            quitConfirmationWrapper.classList.toggle('hidden-options');
-            index = 0;
-            setTimeout(() => {
-                quizViewWrapper.classList.toggle('hidden-options');
-                setTimeout(() => {
-                    if (!quizResults.classList.contains('hidden-options')) {
-                        quizResults.classList.add('hidden-options');
-                    }
-                    quizContent.classList.remove('hidden-options');
-                    quizForm.lastElementChild.innerHTML = '';
-                    quizContent.firstElementChild.firstElementChild.firstElementChild.innerHTML = '';
-                    qNumber.style.opacity = 1;
-                    qNumber.firstElementChild.textContent = 1;
-                    nextBtn.style.display = 'flex';
-                    nextBtn.nextElementSibling.style.display = 'none';
-                    nextBtn.nextElementSibling.nextElementSibling.style.display = 'none';
-                }, 500);
-            }, 500);
-        }
-        // Browse quiz next
-        if ((e.target.tagName === 'SPAN' && e.target.parentElement.id === 'browse-quizzes-next') || (e.target.id === 'browse-quizzes-next' && e.target.tagName === 'A')) {
-            console.log('next clicked');
-            const page = parseInt(quizWrapper.getAttribute('data-page'));
-            console.log(page);
-            renderQuizzes(page + 1);
-        }
-        // Browse quiz previous
-        if ((e.target.tagName === 'SPAN' && e.target.parentElement.id === 'browse-quizzes-previous') || (e.target.id === 'browse-quizzes-previous' && e.target.tagName === 'A')) {
-            console.log('previous clicked');
-            const page = parseInt(quizWrapper.getAttribute('data-page'));
-            console.log(page);
-            renderQuizzes(page - 1);
-        }
-    });
+    //     quitConfirmationWrapper.classList.toggle('hidden-options');
+    //     index = 0;
+    //     setTimeout(() => {
+    //         quizViewWrapper.classList.toggle('hidden-options');
+    //         setTimeout(() => {
+    //             if (!quizResults.classList.contains('hidden-options')) {
+    //                 quizResults.classList.add('hidden-options');
+    //             }
+    //             quizContent.classList.remove('hidden-options');
+    //             quizForm.lastElementChild.innerHTML = '';
+    //             quizContent.firstElementChild.firstElementChild.firstElementChild.innerHTML = '';
+    //             qNumber.style.opacity = 1;
+    //             qNumber.firstElementChild.textContent = 1;
+    //             nextBtn.style.display = 'flex';
+    //             nextBtn.nextElementSibling.style.display = 'none';
+    //             nextBtn.nextElementSibling.nextElementSibling.style.display = 'none';
+    //         }, 500);
+    //     }, 500);
+    // }
+    // // Browse quiz next
+    // if ((e.target.tagName === 'SPAN' && e.target.parentElement.id === 'browse-quizzes-next') || (e.target.id === 'browse-quizzes-next' && e.target.tagName === 'A')) {
+    //     console.log('next clicked');
+    //     const page = parseInt(quizWrapper.getAttribute('data-page'));
+    //     console.log(page);
+    //     renderQuizzes(page + 1);
+    // }
+    // // Browse quiz previous
+    // if ((e.target.tagName === 'SPAN' && e.target.parentElement.id === 'browse-quizzes-previous') || (e.target.id === 'browse-quizzes-previous' && e.target.tagName === 'A')) {
+    //     console.log('previous clicked');
+    //     const page = parseInt(quizWrapper.getAttribute('data-page'));
+    //     console.log(page);
+    //     renderQuizzes(page - 1);
+    // }
+    // });
     // const browseQuizNext = document.querySelector('#browse-quizzes-next');
     // browseQuizNext.addEventListener('click', e => {
     // });
@@ -1112,149 +1112,149 @@
     //     const loader = document.querySelector('.loader-wrapper2');
     //     loader.remove();
     // }
-    quizForm.addEventListener('submit', e => {
-        console.log('quiz submitted');
-        // Show loader
-        createLoader(quizViewWrapper);
-        quizContent.classList.toggle('hidden-options');
-        qNumber.style.opacity = 0;
-        nextBtn.nextElementSibling.style.display = 'none';
-        nextBtn.nextElementSibling.nextElementSibling.style.display = 'flex';
-        let score = 0;
-        // Adjust UI & interact with db
-        // Output quiz feedback
-        let uHtml = '';
-        questions.forEach((question, index) => {
-            // userAnswers.push(quizForm[question.question_ID].value);
-            if (quizForm[question.question_ID].value == correctAnswers[index]) {
-                score++;
-                uHtml += `
-                <li class="is-flex is-justify-content-space-between is-align-items-center quiz-li-feedback input-valid">
-                    <p class="">
-                        ${question.question}
-                    </p>
-                    <span class="icon-validation" id="">
-                        <i class="fas fa-check icon-valid"></i>
-                    </span>
-                </li>
-                `;
-            } else {
-                uHtml += `
-                <li class="is-flex is-justify-content-space-between is-align-items-center quiz-li-feedback input-invalid">
-                    <p class="">
-                        ${question.question}
-                    </p>
-                    <span class="icon-validation" id="">
-                        <i class="fas fa-times icon-invalid"></i>
-                    </span>    
-                </li>
-                `;
-            }
-        });
-        console.log(quizID);
-        const finalScore = (score / questions.length) * 100;
-        console.log(finalScore);
-        const data = {
-            finalScore,
-            quizID
-        };
-        fetch(quizForm.action, {
-                method: quizForm.method,
-                mode: 'cors',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error('Network problem.');
-                }
-                return res.json();
-            })
-            .then(docs1 => {
-                console.log(docs1);
-                setTimeout(() => {
-                    removeLoader();
-                    quizResults.classList.toggle('hidden-options');
-                    // Output feedback & score
-                    quizScore.textContent = finalScore + '%';
-                    quizFeedback.innerHTML = uHtml;
-                    // console.log('Correct asnwers: ' + correctAnswers);
-                    // console.log('My answers: ' + userAnswers);
-                    // console.log('My score: ' + finalScore + '%');
-                }, 1000);
-            })
-            .catch(error => console.log(error));
-        // 
-        e.preventDefault();
-    });
+    // quizForm.addEventListener('submit', e => {
+    //     console.log('quiz submitted');
+    //     // Show loader
+    //     createLoader(quizViewWrapper);
+    //     quizContent.classList.toggle('hidden-options');
+    //     qNumber.style.opacity = 0;
+    //     nextBtn.nextElementSibling.style.display = 'none';
+    //     nextBtn.nextElementSibling.nextElementSibling.style.display = 'flex';
+    //     let score = 0;
+    //     // Adjust UI & interact with db
+    //     // Output quiz feedback
+    //     let uHtml = '';
+    //     questions.forEach((question, index) => {
+    //         // userAnswers.push(quizForm[question.question_ID].value);
+    //         if (quizForm[question.question_ID].value == correctAnswers[index]) {
+    //             score++;
+    //             uHtml += `
+    //             <li class="is-flex is-justify-content-space-between is-align-items-center quiz-li-feedback input-valid">
+    //                 <p class="">
+    //                     ${question.question}
+    //                 </p>
+    //                 <span class="icon-validation" id="">
+    //                     <i class="fas fa-check icon-valid"></i>
+    //                 </span>
+    //             </li>
+    //             `;
+    //         } else {
+    //             uHtml += `
+    //             <li class="is-flex is-justify-content-space-between is-align-items-center quiz-li-feedback input-invalid">
+    //                 <p class="">
+    //                     ${question.question}
+    //                 </p>
+    //                 <span class="icon-validation" id="">
+    //                     <i class="fas fa-times icon-invalid"></i>
+    //                 </span>    
+    //             </li>
+    //             `;
+    //         }
+    //     });
+    //     console.log(quizID);
+    //     const finalScore = (score / questions.length) * 100;
+    //     console.log(finalScore);
+    //     const data = {
+    //         finalScore,
+    //         quizID
+    //     };
+    //     fetch(quizForm.action, {
+    //             method: quizForm.method,
+    //             mode: 'cors',
+    //             headers: {
+    //                 'Content-Type': 'application/json'
+    //             },
+    //             body: JSON.stringify(data)
+    //         })
+    //         .then(res => {
+    //             if (!res.ok) {
+    //                 throw new Error('Network problem.');
+    //             }
+    //             return res.json();
+    //         })
+    //         .then(docs1 => {
+    //             console.log(docs1);
+    //             setTimeout(() => {
+    //                 removeLoader();
+    //                 quizResults.classList.toggle('hidden-options');
+    //                 // Output feedback & score
+    //                 quizScore.textContent = finalScore + '%';
+    //                 quizFeedback.innerHTML = uHtml;
+    //                 // console.log('Correct asnwers: ' + correctAnswers);
+    //                 // console.log('My answers: ' + userAnswers);
+    //                 // console.log('My score: ' + finalScore + '%');
+    //             }, 1000);
+    //         })
+    //         .catch(error => console.log(error));
+    //     // 
+    //     e.preventDefault();
+    // });
     // Retry quiz
-    const retryBtn = document.querySelector('#quiz-retry-btn');
-    retryBtn.addEventListener('click', e => {
-        index = 0;
-        setTimeout(() => {
-            if (!quizResults.classList.contains('hidden-options')) {
-                quizResults.classList.add('hidden-options');
-            }
-            quizContent.classList.remove('hidden-options');
-            quizForm.lastElementChild.innerHTML = '';
-            quizContent.firstElementChild.firstElementChild.firstElementChild.innerHTML = '';
-            qNumber.style.opacity = 1;
-            qNumber.firstElementChild.textContent = 1;
-            nextBtn.style.display = 'flex';
-            nextBtn.nextElementSibling.style.display = 'none';
-            nextBtn.nextElementSibling.nextElementSibling.style.display = 'none';
-            // Output question
-            quizQuestion.innerHTML = `
-                    <p class="quiz-view-header-text">
-                        ${questions[index]["question"]}
-                    </p>
-                    `;
-            // Insert answers
-            const questionID = questions[index]["question_ID"];
-            let currAnswers = [];
-            answers.forEach(answer => {
-                if (answer.question_ID === questionID) {
-                    currAnswers.push({
-                        answer: answer.answer,
-                        a_ID: answer.answer_ID,
-                        q_ID: answer.question_ID,
-                        is_correct: answer.is_correct === "1"
-                    });
-                }
-            });
-            index++;
-            console.log(currAnswers);
-            shuffleArray(currAnswers);
-            console.log(currAnswers);
-            let aHtml = '';
-            // Reset corrent answer
-            console.log(correctAnswers);
-            correctAnswers = [];
-            console.log(correctAnswers);
-            currAnswers.forEach((currAnswer, index) => {
-                if (currAnswer.is_correct) {
-                    correctAnswers.push(index);
-                }
-                aHtml += `
-                        <div class="quiz-view-answer-text has-text-centered p-2 m-0">
-                            <div class="is-relative">
-                                <input type="radio" name="${currAnswer.q_ID}" value="${index}" id="${currAnswer.a_ID}" class="btn m-0 p-0">
-                                <label for="${currAnswer.a_ID}">
-                                    ${currAnswer.answer}
-                                </label>
-                            </div>
-                        </div>
-                        `;
-            });
-            let div = document.createElement('div');
-            div.innerHTML = aHtml;
-            quizForm.lastElementChild.appendChild(div);
-            console.log(correctAnswers);
-            qNumber.lastElementChild.textContent = questions.length;
-        }, 250);
-    });
+    // const retryBtn = document.querySelector('#quiz-retry-btn');
+    // retryBtn.addEventListener('click', e => {
+    // index = 0;
+    // setTimeout(() => {
+    //     if (!quizResults.classList.contains('hidden-options')) {
+    //         quizResults.classList.add('hidden-options');
+    //     }
+    //     quizContent.classList.remove('hidden-options');
+    //     quizForm.lastElementChild.innerHTML = '';
+    //     quizContent.firstElementChild.firstElementChild.firstElementChild.innerHTML = '';
+    //     qNumber.style.opacity = 1;
+    //     qNumber.firstElementChild.textContent = 1;
+    //     nextBtn.style.display = 'flex';
+    //     nextBtn.nextElementSibling.style.display = 'none';
+    //     nextBtn.nextElementSibling.nextElementSibling.style.display = 'none';
+    //     // Output question
+    //     quizQuestion.innerHTML = `
+    //             <p class="quiz-view-header-text">
+    //                 ${questions[index]["question"]}
+    //             </p>
+    //             `;
+    //     // Insert answers
+    //     const questionID = questions[index]["question_ID"];
+    //     let currAnswers = [];
+    //     answers.forEach(answer => {
+    //         if (answer.question_ID === questionID) {
+    //             currAnswers.push({
+    //                 answer: answer.answer,
+    //                 a_ID: answer.answer_ID,
+    //                 q_ID: answer.question_ID,
+    //                 is_correct: answer.is_correct === "1"
+    //             });
+    //         }
+    //     });
+    //     index++;
+    //     console.log(currAnswers);
+    //     shuffleArray(currAnswers);
+    //     console.log(currAnswers);
+    //     let aHtml = '';
+    //     // Reset corrent answer
+    //     console.log(correctAnswers);
+    //     correctAnswers = [];
+    //     console.log(correctAnswers);
+    //     currAnswers.forEach((currAnswer, index) => {
+    //         if (currAnswer.is_correct) {
+    //             correctAnswers.push(index);
+    //         }
+    //         aHtml += `
+    //                 <div class="quiz-view-answer-text has-text-centered p-2 m-0">
+    //                     <div class="is-relative">
+    //                         <input type="radio" name="${currAnswer.q_ID}" value="${index}" id="${currAnswer.a_ID}" class="btn m-0 p-0">
+    //                         <label for="${currAnswer.a_ID}">
+    //                             ${currAnswer.answer}
+    //                         </label>
+    //                     </div>
+    //                 </div>
+    //                 `;
+    //     });
+    //     let div = document.createElement('div');
+    //     div.innerHTML = aHtml;
+    //     quizForm.lastElementChild.appendChild(div);
+    //     console.log(correctAnswers);
+    //     qNumber.lastElementChild.textContent = questions.length;
+    // }, 250);
+    // });
     // 
     const filterQuizBtn = document.querySelector('#filter-back-btn');
     const filterQuizWrapper = document.querySelector('#filter-quiz-wrapper');
@@ -1289,24 +1289,24 @@
         }, 600);
     });
     // reset form
-    const resetForm = function(targetSelector, submitBtn) {
-        const inputElements = document.querySelectorAll(targetSelector);
-        Array.from(inputElements).forEach(input => {
-            input.value = '';
-            input.classList.remove('input-valid');
-            input.classList.remove('input-invalid');
-            if (!input.parentElement.lastElementChild.firstElementChild.classList.contains('hide')) {
-                input.parentElement.lastElementChild.firstElementChild.classList.add('hide');
-            }
-            if (!input.parentElement.lastElementChild.lastElementChild.classList.contains('hide')) {
-                input.parentElement.lastElementChild.lastElementChild.classList.add('hide');
-            }
-        });
-        // disable submit btn
-        if (!submitBtn.classList.contains('disabled')) {
-            submitBtn.classList.add('disabled');
-        }
-    }
+    // const resetForm = function(targetSelector, submitBtn) {
+    //     const inputElements = document.querySelectorAll(targetSelector);
+    //     Array.from(inputElements).forEach(input => {
+    //         input.value = '';
+    //         input.classList.remove('input-valid');
+    //         input.classList.remove('input-invalid');
+    //         if (!input.parentElement.lastElementChild.firstElementChild.classList.contains('hide')) {
+    //             input.parentElement.lastElementChild.firstElementChild.classList.add('hide');
+    //         }
+    //         if (!input.parentElement.lastElementChild.lastElementChild.classList.contains('hide')) {
+    //             input.parentElement.lastElementChild.lastElementChild.classList.add('hide');
+    //         }
+    //     });
+    //     // disable submit btn
+    //     if (!submitBtn.classList.contains('disabled')) {
+    //         submitBtn.classList.add('disabled');
+    //     }
+    // }
     addQuizBackBtn.addEventListener('click', () => {
         welcomeWrapper.classList.toggle('hidden-options');
         addQuizWrapper.classList.toggle('hidden-options');

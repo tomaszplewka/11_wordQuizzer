@@ -49,10 +49,25 @@ const UICtrl = (function() {
         quizContent: document.querySelector('#quiz-content'),
         quizResults: '#quiz-results',
         quizScore: '#quiz-score',
-        quizFeedback: '#quiz-feedback'
+        quizFeedback: '#quiz-feedback',
+        overlay: '.overlay',
+        quizQuestion: document.querySelector('#question-text'),
+        quitBtn: '#quiz-quit-btn',
+        nextBtn: '#quiz-next-btn',
+        qNumber: '#quiz-which-question',
+        quitConfirmationWrapper: '.quiz-quit-confirmation-wrapper',
+        quitYes: '#quiz-quit-yes-btn',
+        quizSubmitBtn: '#quiz-form-submit',
+        quizRetryBtn: '#quiz-retry-btn'
     };
     const global = {
         quizzes: [],
+        quizID: null,
+        index: 0,
+        questions: [],
+        answers: [],
+        correctAnswers: [],
+        value: [],
     };
     const showMainLogo = function() {
         return `
@@ -192,10 +207,12 @@ const UICtrl = (function() {
         divWrapper.appendChild(divOptionsWrapper);
         return divWrapper;
     };
-    const createBtn = function() {
-        `<a id="quiz-quit-btn" class="control-btn">
-                <span class="text-smoky-black">Quit</span>
-            </a>`
+    const createBtn = function(aClass, aID, aText) {
+        const a = createA(aClass, aID);
+        const span = createSpan('text-smoky-black');
+        span.textContent = aText;
+        a.appendChild(span);
+        return a;
     };
     const createQuizNavigation = function() {
         const divWrapper = createDiv('is-flex is-justify-content-space-between is-align-items-center column is-12-mobile is-12 p-0');
@@ -257,12 +274,12 @@ const UICtrl = (function() {
         targetFeedback.appendChild(feedbackHeader);
         targetFeedback.appendChild(feedbackBody);
     };
-    const createFormConfirmation = function(target) {
+    const createFormConfirmation = function(target, text = 'registered') {
         const targetForm = document.querySelector(`#${target}-form`);
         let div = createDiv(`${target}-confirmation is-flex is-justify-content-center is-align-items-center hidden-options background-mountain-meadow`, `${target}-confirmation`);
         let p = createPara(`${target}-cofirmation-text text-ghost-white p-2`);
         let html = `
-        User <span class="${target}-cofirmation-user is-lowercase text-smoky-black"></span> has been registered.
+        User <span class="${target}-cofirmation-user is-lowercase text-smoky-black"></span> has been ${text}.
         `;
         p.innerHTML = html;
         div.appendChild(p);
@@ -315,12 +332,15 @@ const UICtrl = (function() {
         let loader = document.createElement('div');
         // loader.className = 'loader hide';
         loader.className = 'loader';
+        div.appendChild(loader);
         target.appendChild(div);
-        target.lastElementChild.appendChild(loader);
         // setTimeout(() => {
         //     target.lastElementChild.firstElementChild.classList.remove('hide');
         // }, 250);
     };
+    // const createOverlay = function() {
+    //     const div = createDiv('overlay', 'overlay');
+    // };
     const removeLoader = function() {
         const loader = document.querySelector('.loader-wrapper2');
         loader.classList.add('shrink');
@@ -494,6 +514,9 @@ const UICtrl = (function() {
             </div>
         `;
         return quizResults;
+    };
+    const removeElement = function(target) {
+        target.remove();
     };
     // 
     // This one should go to DataCtrl
@@ -717,6 +740,25 @@ const UICtrl = (function() {
     };
     // 
     // 
+    const shuffleArray = function(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[j], array[i]] = [array[i], array[j]];
+        }
+    };
+    const setAttributes = function(el, attrs) {
+        for(var key in attrs) {
+            el.setAttribute(key, attrs[key]);
+        }
+    }
+    const createSubmitBtn = function() {
+        let btn = document.createElement('button');
+        setAttributes(btn, {"id": "quiz-form-submit", "class": "control-btn", "type": "submit", "form": "quiz-form", "style": "display: none; background-color: transparent;"});
+        const span = createSpan('text-smoky-black');
+        span.textContent = 'submit';
+        btn.appendChild(span);
+        return btn;
+    };
     return {
         init: function() {
             const mainWrapper = UISelectors.mainSectionWrapper;
@@ -744,10 +786,29 @@ const UICtrl = (function() {
                     console.log(error);
                 });
             } else {
-                loadLoggedInScreen();
-                setTimeout(() => {
-                    document.querySelector('#front-page-footer').classList.add('hidden-options');
-                }, 150);
+                // Fetch user's quizzes
+                fetchQuizzes()
+                .then(response => {
+                    if (!response.ok) { throw new Error('Network problem. Please try again later'); }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                    global.quizzes = data.data.fields;
+                    setTimeout(() => {
+                        // Hide loader
+                        removeLoader();
+                        setTimeout(() => {
+                            loadLoggedInScreen();
+                            setTimeout(() => {
+                                document.querySelector('#front-page-footer').classList.add('hidden-options');
+                            }, 150);
+                        }, 600);
+                    }, 1000);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
             }
         },
         UISelectors,
@@ -782,7 +843,13 @@ const UICtrl = (function() {
         renderQuizzes,
         createQuizResults,
         createQuizNavigation,
-        createQuizQuitConfirmation
+        createQuizQuitConfirmation,
+        createDiv,
+        removeElement,
+        shuffleArray,
+        createSubmitBtn,
+        createBtn,
+        fetchQuizzes
     };
 })();
 UICtrl.init();
@@ -1001,92 +1068,282 @@ document.addEventListener('click', e => {
     }
     // Play btn clicked
     if ((e.target.tagName === 'SPAN' && e.target.parentElement.classList.contains(selector.playBtn.slice(1))) || (e.target.classList.contains(selector.playBtn.slice(1)) && e.target.tagName === 'A')) {
-        // Render UI
-        UICtrl.createQuizNavigation();
-        // Adjust UI display
-        selector.quizViewWrapper.classList.toggle('hidden-options');
-        // // Get quiz id
-        // if (e.target.tagName === 'SPAN') {
-        //     quizID = e.target.parentElement.parentElement.parentElement.parentElement.id;
-        // } else {
-        //     quizID = e.target.parentElement.parentElement.parentElement.id;
-        // }
-        // console.log(quizID);
-        // // Assign quizID to hidden input value
-        // quizForm["quiz-id"].value = quizID;
-        // // Render question
-        // // Fetch quiz first
-        // console.log(allQuizzes);
-        // let trueQuizId = '';
-        // allQuizzes.forEach(quiz => {
-        //     if (quiz.quiz_id === quizID) {
-        //         trueQuizId = quiz.quiz_name;
-        //     }
-        // });
-        // const data = {
-        //     ID: trueQuizId
-        // };
-        // fetch("fetchQsAs.php", {
-        //     method: "POST",
-        //     mode: 'cors',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify(data)
-        // })
-        // .then(response => response.json())
-        // .then(data => {
-        //     console.log(data);
-        //     // 
-        //     questions = data.questions.fields;
-        //     // Insert question
-        //     console.log(questions);
-        //     quizQuestion.innerHTML = `
-        //     <p class="quiz-view-header-text">
-        //         ${questions[index]["question"]}
-        //     </p>
-        //     `;
-        //     // Insert answers
-        //     const questionID = questions[index]["question_ID"];
-        //     answers = data.answers.fields;
-        //     let currAnswers = [];
-        //     answers.forEach(answer => {
-        //         if (answer.question_ID === questionID) {
-        //             currAnswers.push({
-        //                 answer: answer.answer,
-        //                 a_ID: answer.answer_ID,
-        //                 q_ID: answer.question_ID,
-        //                 is_correct: answer.is_correct === "1"
-        //             });
-        //         }
-        //     });
-        //     index++;
-        //     console.log(currAnswers);
-        //     shuffleArray(currAnswers);
-        //     console.log(currAnswers);
-        //     let aHtml = '';
-        //     currAnswers.forEach((currAnswer, index) => {
-        //         if (currAnswer.is_correct) {
-        //             correctAnswers.push(index);
-        //         }
-        //         aHtml += `
-        //         <div class="quiz-view-answer-text has-text-centered p-2 m-0">
-        //             <div class="is-relative">
-        //                 <input type="radio" name="${currAnswer.q_ID}" value="${index}" id="${currAnswer.a_ID}" class="btn m-0 p-0">
-        //                 <label for="${currAnswer.a_ID}">
-        //                     ${currAnswer.answer}
-        //                 </label>
-        //             </div>
-        //         </div>
-        //         `;
-        //     });
-        //     let div = document.createElement('div');
-        //     div.innerHTML = aHtml;
-        //     quizForm.lastElementChild.appendChild(div);
-        //     console.log(correctAnswers);
-        //     qNumber.lastElementChild.textContent = questions.length;
-        // })
+        // Show loader
+        selector.browseWrapper.appendChild(UICtrl.createDiv(selector.overlay.slice(1)));
+        UICtrl.createLoader(grab(selector.overlay));
+        // Get quiz id
+        if (e.target.tagName === 'SPAN') {
+            UICtrl.global.quizID = e.target.parentElement.parentElement.parentElement.parentElement.id;
+        } else {
+            UICtrl.global.quizID = e.target.parentElement.parentElement.parentElement.id;
+        }
+        // not sure if need global quizID
+        console.log(UICtrl.global.quizID);
+        // Render question
+        // Fetch quiz first
+        let trueQuizId = '';
+        UICtrl.global.quizzes.some(quiz => {
+            if (quiz.quiz_id === UICtrl.global.quizID) {
+                trueQuizId = quiz.quiz_name;
+                return true;
+            }
+        });
+        const data = {
+            ID: trueQuizId
+        };
+        fetch("fetchQsAs.php", {
+            method: "POST",
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            setTimeout(() => {
+                // Adjust UI display
+                UICtrl.removeLoader();
+                UICtrl.removeElement(grab(selector.overlay));
+                selector.quizViewWrapper.classList.toggle('hidden-options');
+                // Render UI
+                UICtrl.createQuizNavigation();
+                UICtrl.createQuizQuitConfirmation();
+                // Assign quizID to hidden input value
+                selector.quizForm["quiz-id"].value = UICtrl.global.quizID;
+                // questions global?
+                let questions = data.questions.fields;
+                // Insert question
+                console.log(questions);
+                selector.quizQuestion.innerHTML = `
+                <p class="quiz-view-header-text">
+                    ${questions[UICtrl.global.index]["question"]}
+                </p>
+                `;
+                // Insert answers
+                const questionID = questions[UICtrl.global.index]["question_ID"];
+                // answers global?
+                let answers = data.answers.fields;
+                let currAnswers = [];
+                let correctAnswers = [];
+                answers.forEach(answer => {
+                    if (answer.question_ID === questionID) {
+                        currAnswers.push({
+                            answer: answer.answer,
+                            a_ID: answer.answer_ID,
+                            q_ID: answer.question_ID,
+                            is_correct: answer.is_correct === "1"
+                        });
+                    }
+                });
+                UICtrl.global.index++;
+                console.log(currAnswers);
+                UICtrl.shuffleArray(currAnswers);
+                let aHtml = '';
+                currAnswers.forEach((currAnswer, index) => {
+                    if (currAnswer.is_correct) {
+                        correctAnswers.push(index);
+                    }
+                    aHtml += `
+                    <div class="quiz-view-answer-text has-text-centered p-2 m-0">
+                        <div class="is-relative">
+                            <input type="radio" name="${currAnswer.q_ID}" value="${index}" id="${currAnswer.a_ID}" class="btn m-0 p-0">
+                            <label for="${currAnswer.a_ID}">
+                                ${currAnswer.answer}
+                            </label>
+                        </div>
+                    </div>
+                    `;
+                });
+                let div = document.createElement('div');
+                div.innerHTML = aHtml;
+                selector.quizForm.lastElementChild.appendChild(div);
+                console.log(correctAnswers);
+                grab(selector.qNumber).lastElementChild.textContent = questions.length;
+                // Set global vars
+                UICtrl.global.questions = questions;
+                UICtrl.global.answers = answers;
+                UICtrl.global.correctAnswers = correctAnswers;
+            }, 1000);
+        })
     }
+    // Next btn clicked
+    if ((e.target.tagName === 'SPAN' && e.target.parentElement.id === selector.nextBtn.slice(1)) || (e.target.id === selector.nextBtn.slice(1) && e.target.tagName === 'A')) {
+        if ((UICtrl.global.index + 1) === UICtrl.global.questions.length) {
+            grab(selector.nextBtn).after(UICtrl.createSubmitBtn());
+            grab(selector.nextBtn).remove();
+            grab(selector.quizSubmitBtn).style.display = 'flex';
+        }
+        // Check if radio button is checked
+        console.log('Index: ' + UICtrl.global.index);
+        const currName = UICtrl.global.questions[UICtrl.global.index - 1].question_ID;
+        console.log('CurrName: ' + currName);
+        const target = [...selector.quizForm[currName]].filter(r => r.checked)[0];
+        console.log(target);
+        if (target !== undefined) {
+            UICtrl.global.value.push(target.value);
+            // console.log('Value: ' + UICtrl.global.value);
+            // Update question number
+            grab(selector.qNumber).firstElementChild.textContent = (UICtrl.global.index + 1);
+            // 
+            selector.quizForm.lastElementChild.lastElementChild.classList.add('hidden-options');
+            // Insert question
+            selector.quizQuestion.innerHTML = `
+            <p class="quiz-view-header-text">
+                ${UICtrl.global.questions[UICtrl.global.index]["question"]}
+            </p>
+            `;
+            // Insert answers
+            const questionID = UICtrl.global.questions[UICtrl.global.index]["question_ID"];
+            let currAnswers = [];
+            UICtrl.global.answers.forEach(answer => {
+                if (answer.question_ID === questionID) {
+                    currAnswers.push({
+                        answer: answer.answer,
+                        a_ID: answer.answer_ID,
+                        q_ID: answer.question_ID,
+                        is_correct: answer.is_correct === "1"
+                    });
+                }
+            });
+            UICtrl.global.index++;
+            UICtrl.shuffleArray(currAnswers);
+            let aHtml = '';
+            let div = document.createElement('div');
+            selector.quizForm.lastElementChild.appendChild(div);
+            currAnswers.forEach((currAnswer, index) => {
+                if (currAnswer.is_correct) {
+                    UICtrl.global.correctAnswers.push(index);
+                }
+                aHtml += `
+                <div class="quiz-view-answer-text has-text-centered p-2 m-0">
+                    <div class="is-relative">
+                        <input type="radio" name="${currAnswer.q_ID}" value="${index}" id="${currAnswer.a_ID}" class="btn m-0 p-0">
+                        <label for="${currAnswer.a_ID}">
+                            ${currAnswer.answer}
+                        </label>
+                    </div>
+                </div>
+                `;
+            });
+            selector.quizForm.lastElementChild.lastElementChild.innerHTML = aHtml;
+            // console.log(correctAnswers);
+        } else {
+            // show message
+        }
+    }
+    // Quit btn clicked
+    if ((e.target.tagName === 'SPAN' && e.target.parentElement.id === selector.quitBtn.slice(1)) || (e.target.id === selector.quitBtn.slice(1) && e.target.tagName === 'A')) {
+        // Adjust UI display
+        grab(selector.quitConfirmationWrapper).classList.toggle('hidden-options');
+    }
+    if ((e.target.tagName === 'SPAN' && e.target.parentElement.id === selector.quitYes.slice(1)) || (e.target.id === selector.quitYes.slice(1) && e.target.tagName === 'A')) {
+        // Reset global vars
+        UICtrl.global.index = 0,
+        UICtrl.global.questions = [],
+        UICtrl.global.answers = [],
+        UICtrl.global.correctAnswers = [],
+        UICtrl.global.value = [],
+        // Adjust UI display
+        grab(selector.quitConfirmationWrapper).classList.toggle('hidden-options');
+        setTimeout(() => {
+            selector.quizViewWrapper.classList.toggle('hidden-options');
+            setTimeout(() => {
+                if (grab(selector.quizResults) !== null) {
+                    grab(selector.quizResults).classList.add('hidden-options');
+                }
+                selector.quizContent.classList.remove('hidden-options');
+                // Remove UI components
+                grab(selector.quitBtn).parentElement.remove();
+                grab(selector.quitConfirmationWrapper).remove();
+                grab(selector.quizResults).remove();
+                selector.quizForm.lastElementChild.innerHTML = '';
+                selector.quizContent.firstElementChild.firstElementChild.innerHTML = '';
+            }, 500);
+        }, 500);
+    }
+    // RetryBtn clicked
+    if ((e.target.tagName === 'SPAN' && e.target.parentElement.id === selector.quizRetryBtn.slice(1)) || (e.target.id === selector.quizRetryBtn.slice(1) && e.target.tagName === 'A')) {
+        // Show loader
+        selector.browseWrapper.appendChild(UICtrl.createDiv(selector.overlay.slice(1)));
+        UICtrl.createLoader(grab(selector.overlay));
+        // Reset global vars
+        UICtrl.global.index = 0,
+        UICtrl.global.correctAnswers = [],
+        UICtrl.global.value = [],
+        // Adjust UI display
+        setTimeout(() => {
+            // Adjust UI display
+            UICtrl.removeLoader();
+            UICtrl.removeElement(grab(selector.overlay));
+            grab(selector.quizResults).classList.add('hidden-options');
+            selector.quizContent.classList.remove('hidden-options');
+            selector.quizForm.lastElementChild.innerHTML = '';
+            selector.quizContent.firstElementChild.firstElementChild.firstElementChild.innerHTML = '';
+            grab(selector.qNumber).style.opacity = 1;
+            grab(selector.qNumber).firstElementChild.textContent = 1;
+            grab(selector.quizRetryBtn).before(UICtrl.createBtn('control-btn', 'quiz-next-btn', 'next'));
+            grab(selector.quizRetryBtn).remove();
+            grab(selector.nextBtn).style.display = 'flex';
+            // Output question
+            selector.quizQuestion.innerHTML = `
+            <p class="quiz-view-header-text">
+                ${UICtrl.global.questions[UICtrl.global.index]["question"]}
+            </p>
+            `;
+            // Insert answers
+            const questionID = UICtrl.global.questions[UICtrl.global.index]["question_ID"];
+            let currAnswers = [];
+            UICtrl.global.answers.forEach(answer => {
+                if (answer.question_ID === questionID) {
+                    currAnswers.push({
+                        answer: answer.answer,
+                        a_ID: answer.answer_ID,
+                        q_ID: answer.question_ID,
+                        is_correct: answer.is_correct === "1"
+                    });
+                }
+            });
+            UICtrl.global.index++;
+            UICtrl.shuffleArray(currAnswers);
+            let aHtml = '';
+            // Reset corrent answer
+            currAnswers.forEach((currAnswer, index) => {
+                if (currAnswer.is_correct) {
+                    UICtrl.global.correctAnswers.push(index);
+                }
+                aHtml += `
+                <div class="quiz-view-answer-text has-text-centered p-2 m-0">
+                    <div class="is-relative">
+                        <input type="radio" name="${currAnswer.q_ID}" value="${index}" id="${currAnswer.a_ID}" class="btn m-0 p-0">
+                        <label for="${currAnswer.a_ID}">
+                            ${currAnswer.answer}
+                        </label>
+                    </div>
+                </div>
+                `;
+            });
+            let div = document.createElement('div');
+            div.innerHTML = aHtml;
+            selector.quizForm.lastElementChild.appendChild(div);
+            grab(selector.qNumber).lastElementChild.textContent = UICtrl.global.questions.length;
+        }, 1000);
+    }
+    // // Browse quiz next
+    // if ((e.target.tagName === 'SPAN' && e.target.parentElement.id === 'browse-quizzes-next') || (e.target.id === 'browse-quizzes-next' && e.target.tagName === 'A')) {
+    //     console.log('next clicked');
+    //     const page = parseInt(quizWrapper.getAttribute('data-page'));
+    //     console.log(page);
+    //     renderQuizzes(page + 1);
+    // }
+    // // Browse quiz previous
+    // if ((e.target.tagName === 'SPAN' && e.target.parentElement.id === 'browse-quizzes-previous') || (e.target.id === 'browse-quizzes-previous' && e.target.tagName === 'A')) {
+    //     console.log('previous clicked');
+    //     const page = parseInt(quizWrapper.getAttribute('data-page'));
+    //     console.log(page);
+    //     renderQuizzes(page - 1);
+    // }
 });
 // Keyup & blur events
 // Check Username
@@ -1265,7 +1522,7 @@ selector.registerForm.addEventListener('submit', e => {
         });        
     }
 });
-// submit register form
+// submit login form
 selector.loginForm.addEventListener('submit', e => {
     // Prevent the default form submit
     e.preventDefault();
@@ -1333,48 +1590,61 @@ selector.loginForm.addEventListener('submit', e => {
                     }, 500);
                 } else { // no errors
                     // Add confirmation div
-                    UICtrl.createFormConfirmation('login');
-                    setTimeout(() => {
-                        // Unlock fields
-                        UICtrl.unlockInput('login');
-                        // Hide submit feedback div
-                        submitFeedback.classList.add('hide');
-                        submitFeedback.firstElementChild.classList.add('hide');
-                        setTimeout(() => {
-                            // Show confirmation
-                            grab(selector.loginConfirmation).classList.remove('hidden-options');
-                            // Clear form
-                            UICtrl.resetForm('login');
-
-                            setTimeout(() => {
-                                selector.mainSectionWrapper.classList.toggle('hidden-options');
-                                selector.loginWrapper.classList.toggle('hidden-options');
-                                // set tabindex="-1"
-                                UICtrl.addTabindex('login-tabindex');
-                                // Show welcome screen
-                                selector.mainSectionWrapper.classList.toggle('hidden-options');
-                                // 
-                                setTimeout(() => {
-                                    // Reset register UI
-                                    grab(selector.loginBackBtn).parentElement.remove();
-                                    grab('.main-login-header').remove();
-                                    submitFeedback.remove();
-                                    selector.loginFeedback.innerHTML = '';
-                                    grab(selector.loginConfirmation).remove();
-                                    // Rerender UI
-                                    UICtrl.loadLoggedInScreen();
-                                    // rerender options too !!!
-                                    setTimeout(() => {
-                                        selector.mainSectionWrapper.classList.toggle('hidden-options');
-                                        selector.mainSectionWrapper.firstElementChild.classList.toggle('shrink');
-                                        document.querySelector('#front-page-footer').classList.add('hidden-options');
-                                    }, 1000);
-                                }, 600);
-                            }, 1000);
-                        }, 500);
-                    }, 1000);
+                    UICtrl.createFormConfirmation('login', 'logged in');
+                    // Hide submit feedback div
+                    submitFeedback.classList.add('hide');
+                    submitFeedback.firstElementChild.classList.add('hide');
+                     // Show confirmation
+                    grab(selector.loginConfirmation).classList.remove('hidden-options');
+                    // Clear form
+                    UICtrl.resetForm('login');
+                    // Fetch user's quizzes
+                    return UICtrl.fetchQuizzes();
                 }
             }
+        })
+        .then(response => {
+            if (!response.ok) { throw new Error('Network problem. Please try again later'); }
+            // Show loader
+            selector.loginWrapper.appendChild(UICtrl.createDiv(selector.overlay.slice(1)));
+            UICtrl.createLoader(grab(selector.overlay));
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            UICtrl.global.quizzes = data.data.fields;
+            // Unlock fields
+            UICtrl.unlockInput('login');
+            setTimeout(() => {
+                // Hide loader
+                UICtrl.removeLoader();
+                UICtrl.removeElement(grab(selector.overlay));
+                // Adjust UI display
+                selector.mainSectionWrapper.classList.toggle('hidden-options');
+                selector.loginWrapper.classList.toggle('hidden-options');
+                // set tabindex="-1"
+                UICtrl.addTabindex('login-tabindex');
+                // Show welcome screen
+                selector.mainSectionWrapper.classList.toggle('hidden-options');
+                // 
+                setTimeout(() => {
+                    // Rerender UI
+                    // CONSIDER SHRINKING CONTENT AT THE BEGINNING AND THEN REMOVING THAT!!!
+                    UICtrl.loadLoggedInScreen();
+                    // rerender options too !!!
+                    selector.mainSectionWrapper.classList.toggle('hidden-options');
+                    selector.mainSectionWrapper.firstElementChild.classList.toggle('shrink');
+                    setTimeout(() => {
+                        // Reset register UI
+                        grab(selector.loginBackBtn).parentElement.remove();
+                        grab('.main-login-header').remove();
+                        submitFeedback.remove();
+                        selector.loginFeedback.innerHTML = '';
+                        grab(selector.loginConfirmation).remove();
+                        document.querySelector('#front-page-footer').classList.add('hidden-options');
+                    }, 500);
+                }, 350);
+            }, 1000);
         })
         .catch(error => {
             // here you can handle also error from php
@@ -1382,6 +1652,94 @@ selector.loginForm.addEventListener('submit', e => {
             console.log(error);
             // Handle when rejected (only network exceptions)
         });
+    }
+});
+selector.quizForm.addEventListener('submit', e => {
+    // Prevent default
+    e.preventDefault();
+    // 
+    const currName = UICtrl.global.questions[UICtrl.global.index - 1].question_ID;
+    console.log('CurrName: ' + currName);
+    const target = [...selector.quizForm[currName]].filter(r => r.checked)[0];
+    console.log(target);
+    if (target !== undefined) {
+        console.log('quiz submitted');
+        // Show loader
+        selector.browseWrapper.appendChild(UICtrl.createDiv(selector.overlay.slice(1)));
+        UICtrl.createLoader(grab(selector.overlay));
+        selector.quizContent.classList.toggle('hidden-options');
+        grab(selector.qNumber).style.opacity = 0;
+        // Render retry btn
+        grab(selector.quizSubmitBtn).after(UICtrl.createBtn('control-btn', 'quiz-retry-btn', 'retry'));
+        grab(selector.quizSubmitBtn).remove();
+        grab(selector.quizRetryBtn).style.display = 'flex';
+        let score = 0;
+        // Adjust UI & interact with db
+        // Output quiz feedback
+        let uHtml = '';
+        UICtrl.global.questions.forEach((question, index) => {
+            // userAnswers.push(quizForm[question.question_ID].value);
+            if (selector.quizForm[question.question_ID].value == UICtrl.global.correctAnswers[index]) {
+                score++;
+                uHtml += `
+                <li class="is-flex is-justify-content-space-between is-align-items-center quiz-li-feedback input-valid">
+                    <p class="">
+                        ${question.question}
+                    </p>
+                    <span class="icon-validation" id="">
+                        <i class="fas fa-check icon-valid"></i>
+                    </span>
+                </li>
+                `;
+            } else {
+                uHtml += `
+                <li class="is-flex is-justify-content-space-between is-align-items-center quiz-li-feedback input-invalid">
+                    <p class="">
+                        ${question.question}
+                    </p>
+                    <span class="icon-validation" id="">
+                        <i class="fas fa-times icon-invalid"></i>
+                    </span>    
+                </li>
+                `;
+            }
+        });
+        console.log(UICtrl.global.quizID);
+        const finalScore = (score / UICtrl.global.questions.length) * 100;
+        console.log(finalScore);
+        const data = {
+            finalScore,
+            quizID: UICtrl.global.quizID
+        };
+        fetch(selector.quizForm.action, {
+            method: selector.quizForm.method,
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(res => {
+            if (!res.ok) {
+                throw new Error('Network problem.');
+            }
+            return res.json();
+        })
+        .then(docs1 => {
+            console.log(docs1);
+            setTimeout(() => {
+                UICtrl.removeLoader();
+                UICtrl.removeElement(grab(selector.overlay));
+                selector.quizContent.after(UICtrl.createQuizResults());
+                grab(selector.quizResults).classList.toggle('hidden-options');
+                // Output feedback & score
+                grab(selector.quizScore).textContent = finalScore + '%';
+                grab(selector.quizFeedback).innerHTML = uHtml;
+            }, 1000);
+        })
+        .catch(error => console.log(error));
+    } else {
+        // show message
     }
 });
 // export default UICtrl;
