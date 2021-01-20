@@ -3,6 +3,7 @@
 // 
 const UICtrl = (function() {
     const UISelectors = {
+        startPage: '#front-page-main-content-wrapper',
         mainSectionWrapper: document.querySelector('#main-section-wrapper'),
         mainLogo: '#front-page-logo',
         mainLogoFaceFront: '.face.front',
@@ -32,7 +33,26 @@ const UICtrl = (function() {
         loginBackBtn: '#login-back-btn',
         burger: document.querySelector('#burger'),
         times: document.querySelector('#times'),
-        options: document.querySelector('#options-wrapper')
+        options: document.querySelector('#options-wrapper'),
+        browseWrapper: document.querySelector('#browse-wrapper'),
+        filterWrapper: document.querySelector('#filter-quiz-wrapper'),
+        filterForm: document.querySelector('#filter-form'),
+        searchForm: document.querySelector('#search-form'),
+        browseBackBtn: '#browse-back-btn',
+        quizWrapper: document.querySelector('.quiz'),
+        moreInfoBtn: '.more-info-btn',
+        moreInfoBackBtn: '.more-info-back-btn',
+        moreInfoWrapper: '.more-info-wrapper',
+        playBtn: '.play-btn',
+        quizViewWrapper: document.querySelector('#quiz-view-wrapper'),
+        quizForm: document.querySelector('#quiz-form'),
+        quizContent: document.querySelector('#quiz-content'),
+        quizResults: '#quiz-results',
+        quizScore: '#quiz-score',
+        quizFeedback: '#quiz-feedback'
+    };
+    const global = {
+        quizzes: [],
     };
     const showMainLogo = function() {
         return `
@@ -149,6 +169,77 @@ const UICtrl = (function() {
         </div>
         `;
     };
+    const createBrowseOptions = function() {
+        const divWrapper = createDiv('is-flex is-justify-content-space-between is-align-items-center');
+        const aBtn = createA('control-btn', 'browse-back-btn');
+        const spanBtn = createSpan();
+        spanBtn.textContent = 'go back';
+        aBtn.appendChild(spanBtn);
+        divWrapper.appendChild(aBtn);
+        const divOptionsWrapper = createDiv('is-flex is-justify-content-center');
+        const aFilter = createA('control-btn mx-1', 'filter-btn');
+        const spanFilter = createSpan();
+        const iFilter = createIcon('filter');
+        spanFilter.appendChild(iFilter);
+        aFilter.appendChild(spanFilter);
+        divOptionsWrapper.appendChild(aFilter);
+        const aSearch = createA('control-btn mx-1', 'search-btn');
+        const spanSearch = createSpan();
+        const iSearch = createIcon('search');
+        spanSearch.appendChild(iSearch);
+        aSearch.appendChild(spanSearch);
+        divOptionsWrapper.appendChild(aSearch);
+        divWrapper.appendChild(divOptionsWrapper);
+        return divWrapper;
+    };
+    const createBtn = function() {
+        `<a id="quiz-quit-btn" class="control-btn">
+                <span class="text-smoky-black">Quit</span>
+            </a>`
+    };
+    const createQuizNavigation = function() {
+        const divWrapper = createDiv('is-flex is-justify-content-space-between is-align-items-center column is-12-mobile is-12 p-0');
+        const aQuit = createA('control-btn', 'quiz-quit-btn');
+        const spanQuit = createSpan('text-smoky-black');
+        spanQuit.textContent = 'quit';
+        aQuit.appendChild(spanQuit);
+        divWrapper.appendChild(aQuit);
+        const paraQuiz = createPara('quiz-view-questions', 'quiz-which-question');
+        paraQuiz.innerHTML = `
+        <span id="quiz-current-question" class="">1</span>
+        /
+        <span id="quiz-total-questions" class=""></span>
+        `;
+        divWrapper.appendChild(paraQuiz);
+        const aNext = createA('control-btn', 'quiz-next-btn');
+        const spanNext = createSpan('text-smoky-black');
+        spanNext.textContent = 'next';
+        aNext.appendChild(spanNext);
+        divWrapper.appendChild(aNext);
+        UISelectors.quizContent.before(divWrapper);
+        // const html = `
+        //     <button id="quiz-form-submit" class="control-btn" type="submit" form="quiz-form" style="display: none; background-color: transparent;">
+        //         <span class="text-smoky-black">Submit</span>
+        //     </button>
+        //     <a id="quiz-retry-btn" class="control-btn" style="display: none;">
+        //         <span class="text-smoky-black">Retry</span>
+        //     </a>
+        // `;
+    };
+    const createQuizQuitConfirmation = function() {
+        const divWrapper = createDiv('quiz-quit-confirmation-wrapper background-copper-red is-flex is-justify-content-center is-align-items-center column is-12-mobile is-12 p-0 hidden-options');
+        const p = createPara('quiz-quit-confirmation-text');
+        p.textContent = 'are you sure?';
+        const divBtn = createDiv('quiz-quit-confirmation-btn-wrapper is-flex is-justify-content-center');
+        const aBtn = createA('btn btn-vertical mx-2 my-0', 'quiz-quit-yes-btn');
+        const spanBtn = createSpan();
+        spanBtn.textContent = 'yes';
+        aBtn.appendChild(spanBtn);
+        divBtn.appendChild(aBtn);
+        divWrapper.appendChild(p);
+        divWrapper.appendChild(divBtn);
+        UISelectors.quizContent.before(divWrapper);
+    };
     const createDataFeedback = function(inputArr, target) {
         const targetFeedback = document.querySelector(`#${target}-feedback-wrapper`);
         const goBack = goBackBtn('feedback-back-btn');
@@ -218,16 +309,35 @@ const UICtrl = (function() {
         `;
         UISelectors.hintWrapper.innerHTML = html;
     };
+    const createLoader = function(target) {
+        let div = document.createElement('div');
+        div.className = 'is-flex is-flex-direction-column is-justify-content-center is-align-items-center loader-wrapper2';
+        let loader = document.createElement('div');
+        // loader.className = 'loader hide';
+        loader.className = 'loader';
+        target.appendChild(div);
+        target.lastElementChild.appendChild(loader);
+        // setTimeout(() => {
+        //     target.lastElementChild.firstElementChild.classList.remove('hide');
+        // }, 250);
+    };
+    const removeLoader = function() {
+        const loader = document.querySelector('.loader-wrapper2');
+        loader.classList.add('shrink');
+        setTimeout(() => {
+            loader.remove();
+        }, 500);
+    }
     // const createInput = function(inputType, inputName, inputPlaceholder) {
     //     return `
     //     <input class="register-tabindex" type="${inputType}" name="${inputName}" placeholder="${inputPlaceholder}*" tabindex="-1">
     //     `;
     // };
-    // const createIcon = function(iconClass) {
-    //     let i = document.createElement('i');
-    //     i.className = `fas fa-${iconClass}`;
-    //     return i;
-    // };
+    const createIcon = function(iconClass) {
+        let i = document.createElement('i');
+        i.className = `fas fa-${iconClass}`;
+        return i;
+    };
     // const createInputWrapper = function(inputType, inputName, inputPlaceholder, leftIcon) {
     //     const div = createDiv('input-wrapper');
     //     div.innerHTML = createInput(inputType, inputName, inputPlaceholder);
@@ -272,13 +382,119 @@ const UICtrl = (function() {
         span.innerHTML = `<img src="./imgs/hint.png" alt="input hints" class="input-hint">`;
         UISelectors.registerForm.appendChild(span);
     };
-    // const clearDataFeedback = function(target) {
-    //     Array.from(target.lastElementChild.children).forEach(childDiv => {
-    //         if (!childDiv.firstElementChild.classList.contains('hide')) {
-    //             childDiv.firstElementChild.classList.add('hide');
-    //         }
-    //     });
-    // };
+    const renderQuizzes = function(page, data) {
+        let html = '';
+        const quizStart = 0 + (page - 1) * 3;
+        const quizEnd = 3 + (page - 1) * 3;
+        const pages = Math.ceil(data.length / 3);
+        console.log(pages);
+        for (let index = quizStart; index < quizEnd; index++) {
+            if (data[index] === undefined) { break; }
+            // Set vars
+            const quizID = data[index]["quiz_id"];
+            const quizCategory = data[index]["quiz_type"];
+            const quizName = data[index]["quiz_name"];
+            const quizAnswers = data[index]["quiz_answers"];
+            const quizQuestions = data[index]["quiz_questions"];
+            const quizCreatedAt = new Date(data[index]["created_at"]).toLocaleString();
+            const quizUpdateddAt = new Date(data[index]["updated_at"]).toLocaleString();
+            const quizScore = data[index]["score"];
+            // Create template
+            html += `
+            <div id="${quizID}" class="my-2">
+                <div class="quiz-header columns is-mobile m-0 is-vcentered has-text-centered py-2 ${quizCategory}">
+                    <div class="column is-3-mobile is-3 py-0" >
+                        <span class="quiz-header-icon text-smoky-black">
+                            ${quizCategory[0]}
+                        </span> 
+                    </div>
+                    <div class="quiz-header-name column is-9-mobile is-9 py-0" >
+                        ${quizName}
+                    </div>
+                </div>
+                <div class="quiz-body columns is-mobile m-0 is-vcentered has-text-centered p-0">
+                    <div class="quiz-body-more-info column is-6-mobile is-6 p-0" >
+                        <a id="" class="btn btn-invert btn-small btn-vertical m-0 more-info-btn" >
+                            <span>more info</span>
+                        </a>
+                    </div>
+                    <div class="quiz-body-play column is-6-mobile is-6 p-0" >
+                        <a id="" class="btn btn-invert btn-small btn-vertical m-0 play-btn" >
+                            <span>play</span>
+                        </a> 
+                    </div>
+                </div>
+            </div>
+            <div data-id="${quizID}" id ="" class="more-info-wrapper scaleY background-ghost-white columns is-mobile m-0 has-text-centered p-5 is-multiline is-flex is-flex-direction-column is-justify-content-start" >
+                <div class="is-flex is-justify-content-start column is-12-mobile is-12 p-0" >
+                    <a id="" class="control-btn more-info-back-btn" >
+                        <span class="text-smoky-black">go back</span>
+                    </a>
+                </div>
+                <div class="column is-12-mobile is-12 p-0 my-5" >
+                    <div class="more-info-quiz-info columns is-mobile m-0 is-vcentered is-multiline is-flex is-flex-direction-column is-justify-content-center" >
+                        <div class="column is-12-mobile is-12 p-0 my-1" >
+                            <p class="text-smoky-black" > Name: ${quizName}</p>
+                        </div>
+                        <div class="column is-12-mobile is-12 p-0 my-1">
+                            <p class="text-smoky-black" > Category: ${quizCategory}</p>
+                        </div>
+                        <div class="column is-12-mobile is-12 p-0 my-1">
+                            <p class="text-smoky-black" > Questions: ${quizQuestions}</p>
+                        </div>
+                        <div class="column is-12-mobile is-12 p-0 my-1">
+                            <p class="text-smoky-black" > Answers: ${quizAnswers}</p>
+                        </div>
+                        <div class="column is-12-mobile is-12 p-0 my-1">
+                            <p class="text-smoky-black" > Created at: ${quizCreatedAt}</p>
+                        </div>
+                        <div class="column is-12-mobile is-12 p-0 my-1">
+                            <p class="text-smoky-black" > Attempted on: ${quizUpdateddAt}</p>
+                        </div>
+                        <div class="column is-12-mobile is-12 p-0 my-1">
+                            <p class="text-smoky-black" > Recent Score: ${quizScore}%</p>
+                        </div>
+                        <div class="column is-12-mobile is-12 p-0 my-1">
+                            <a id="" class="btn m-0">
+                                <span>play</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `;
+        };
+        if (page === 1) {
+            UISelectors.quizWrapper.lastElementChild.firstElementChild.classList.add('disabled');
+        } else {
+            UISelectors.quizWrapper.lastElementChild.firstElementChild.classList.remove('disabled');
+        }
+        if (page === pages) {
+            UISelectors.quizWrapper.lastElementChild.lastElementChild.classList.add('disabled');
+        } else {
+            UISelectors.quizWrapper.lastElementChild.lastElementChild.classList.remove('disabled');
+        }
+        UISelectors.quizWrapper.firstElementChild.innerHTML = html;
+        UISelectors.quizWrapper.setAttribute('data-page', page);
+        // let lastChild = UISelectors.quizWrapper.lastElementChild;
+        // UISelectors.quizWrapper.appendChild(lastChild);
+    };
+    const createQuizResults = function() {
+        const quizResults = createDiv('column is-12-mobile is-12 p-0 hidden-options', 'quiz-results');
+        quizResults.innerHTML = `
+            <div class="is-flex is-justify-content-center is-align-items-center">
+                <p class="quiz-view-questions">Your result</p>
+            </div>
+            <div class="is-flex is-justify-content-center is-align-items-center my-2">
+                <p id="quiz-score" class="has-text-centered p-2">
+                </p>
+            </div>
+            <div class="is-flex is-justify-content-space-between is-align-items-center">
+                <ul id="quiz-feedback"></ul>
+            </div>
+        `;
+        return quizResults;
+    };
     // 
     // This one should go to DataCtrl
     const patterns = {
@@ -482,16 +698,60 @@ const UICtrl = (function() {
         UISelectors.mainSectionWrapper.firstElementChild.appendChild(divBrowseBtn);
         UISelectors.mainSectionWrapper.firstElementChild.appendChild(divCreateQuiz);
         UISelectors.mainSectionWrapper.firstElementChild.appendChild(divCreateQuizBtn);
-        // document.querySelector('#front-page-footer').classList.add('hide');
-        // UISelectors.mainSectionWrapper.classList.add('welcome-wrapper');
-        // UISelectors.mainSectionWrapper.classList.add('background-copper-red-gradient');
-        // UISelectors.mainSectionWrapper.classList.remove('background-space-cadet-gradient');
+        UISelectors.mainSectionWrapper.classList.add('welcome-wrapper');
+        UISelectors.mainSectionWrapper.classList.add('background-copper-red-gradient');
+        UISelectors.mainSectionWrapper.classList.remove('background-space-cadet-gradient');
     };
+    // 
+    // 
+    // Db controller
+    const fetchQuizzes = async function() {
+        return await (
+            fetch("fetchQuizzes.php", {
+                method: "GET",
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+        }));
+    };
+    // 
+    // 
     return {
         init: function() {
-            loadStartScreen();
+            const mainWrapper = UISelectors.mainSectionWrapper;
+            // Show loader
+            createLoader(UISelectors.mainSectionWrapper);
+            if (`#${mainWrapper.firstElementChild.id}` === UISelectors.startPage) {
+                // Fetch demo quizzes
+                fetchQuizzes()
+                .then(response => {
+                    if (!response.ok) { throw new Error('Network problem. Please try again later'); }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                    global.quizzes = data.data.fields;
+                    setTimeout(() => {
+                        // Hide loader
+                        removeLoader();
+                        setTimeout(() => {
+                            loadStartScreen();
+                        }, 600);
+                    }, 1000);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+            } else {
+                loadLoggedInScreen();
+                setTimeout(() => {
+                    document.querySelector('#front-page-footer').classList.add('hidden-options');
+                }, 150);
+            }
         },
         UISelectors,
+        global,
         patterns,
         createMainBtns,
         removeTabindex,
@@ -515,7 +775,14 @@ const UICtrl = (function() {
         createHintContent,
         handleFormData,
         checkIfEmpty,
-        loadLoggedInScreen
+        loadLoggedInScreen,
+        createBrowseOptions,
+        createLoader,
+        removeLoader,
+        renderQuizzes,
+        createQuizResults,
+        createQuizNavigation,
+        createQuizQuitConfirmation
     };
 })();
 UICtrl.init();
@@ -656,6 +923,169 @@ document.addEventListener('click', e => {
         selector.burger.classList.toggle('hide');
         selector.times.classList.toggle('hide');
         selector.options.classList.toggle('hidden-options');
+    }
+    // DemoBtn clicked
+    if ((e.target.tagName === 'SPAN' && `#${e.target.parentElement.id}` === selector.demoBtn) || (`#${e.target.id}` === selector.demoBtn)) {
+        // Render UI display
+        selector.filterWrapper.before(UICtrl.createBrowseOptions());
+        // Include these when filter btn is clicked
+        // selector.filterForm.before(UICtrl.goBackBtn('filter-back-btn'));
+        // selector.filterForm.before(UICtrl.createHeader('filter', 'main-filter-header'));
+        // Include these when search btn is clicked
+        // selector.searchForm.before(UICtrl.goBackBtn('search-back-btn'));
+        // selector.searchForm.before(UICtrl.createHeader('search', 'main-search-header'));
+        // Hide main section
+        selector.mainSectionWrapper.firstElementChild.classList.add('shrink');
+        // Render data using JS
+        UICtrl.renderQuizzes(1, UICtrl.global.quizzes);
+        setTimeout(() => {
+            selector.mainSectionWrapper.classList.toggle('hidden-options');
+            // Show browse section
+            selector.browseWrapper.classList.toggle('hidden-options');
+            setTimeout(() => {
+                document.querySelector('#front-page-footer').classList.add('hidden-options');
+            }, 500);
+        }, 500);
+        // Demo mode is active
+        grab('body').setAttribute('data-id', 'demo-mode');
+    }
+    // BrowseBackBtn clicked
+    if ((e.target.tagName === 'SPAN' && `#${e.target.parentElement.id}` === selector.browseBackBtn) || (`#${e.target.id}` === selector.browseBackBtn)) {
+        const dataId = grab('body').getAttribute('data-id');
+        if (dataId === 'demo-mode') {
+            // Hide browse section
+            document.querySelector('#front-page-footer').classList.remove('hidden-options');
+            setTimeout(() => {
+                selector.browseWrapper.classList.toggle('hidden-options');
+                // Show main section
+                selector.mainSectionWrapper.classList.toggle('hidden-options');
+                setTimeout(() => {
+                    selector.mainSectionWrapper.firstElementChild.classList.remove('shrink');
+                    // Reset mode
+                    grab('body').setAttribute('data-id', '');
+                    // Remove UI components
+                    selector.browseWrapper.firstElementChild.remove();
+                }, 250);
+            }, 500);
+        } else {
+
+        }
+    }
+    // More info btn clicked
+    if ((e.target.tagName === 'SPAN' && e.target.parentElement.classList.contains(selector.moreInfoBtn.slice(1))) || (e.target.classList.contains(selector.moreInfoBtn.slice(1)) && e.target.tagName === 'A')) {
+        // Get quiz id
+        let quizID = '';
+        if (e.target.tagName === 'SPAN') {
+            quizID = e.target.parentElement.parentElement.parentElement.parentElement.id;
+        } else {
+            quizID = e.target.parentElement.parentElement.parentElement.id;
+        }
+        // console.log(quizID);
+        // Show appropriate div with more info
+        const divMoreInfo = document.querySelector(`div[data-id="${quizID}"]`);
+        divMoreInfo.classList.remove('scaleY');
+    }
+    // Back btn on more info wrapper clicked
+    if ((e.target.tagName === 'SPAN' && e.target.parentElement.classList.contains(selector.moreInfoBackBtn.slice(1))) || (e.target.classList.contains(selector.moreInfoBackBtn.slice(1)) && e.target.tagName === 'A')) {
+        // Get quiz id
+        let quizID = '';
+        if (e.target.tagName === 'SPAN') {
+            quizID = e.target.parentElement.parentElement.parentElement.getAttribute('data-id');
+        } else {
+            quizID = e.target.parentElement.parentElement.getAttribute('data-id');
+        }
+        // console.log(quizID);
+        // Hide appropriate div with more info
+        const divMoreInfo = document.querySelector(`div[data-id="${quizID}"]`);
+        divMoreInfo.classList.add('scaleY');
+    }
+    // Play btn clicked
+    if ((e.target.tagName === 'SPAN' && e.target.parentElement.classList.contains(selector.playBtn.slice(1))) || (e.target.classList.contains(selector.playBtn.slice(1)) && e.target.tagName === 'A')) {
+        // Render UI
+        UICtrl.createQuizNavigation();
+        // Adjust UI display
+        selector.quizViewWrapper.classList.toggle('hidden-options');
+        // // Get quiz id
+        // if (e.target.tagName === 'SPAN') {
+        //     quizID = e.target.parentElement.parentElement.parentElement.parentElement.id;
+        // } else {
+        //     quizID = e.target.parentElement.parentElement.parentElement.id;
+        // }
+        // console.log(quizID);
+        // // Assign quizID to hidden input value
+        // quizForm["quiz-id"].value = quizID;
+        // // Render question
+        // // Fetch quiz first
+        // console.log(allQuizzes);
+        // let trueQuizId = '';
+        // allQuizzes.forEach(quiz => {
+        //     if (quiz.quiz_id === quizID) {
+        //         trueQuizId = quiz.quiz_name;
+        //     }
+        // });
+        // const data = {
+        //     ID: trueQuizId
+        // };
+        // fetch("fetchQsAs.php", {
+        //     method: "POST",
+        //     mode: 'cors',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify(data)
+        // })
+        // .then(response => response.json())
+        // .then(data => {
+        //     console.log(data);
+        //     // 
+        //     questions = data.questions.fields;
+        //     // Insert question
+        //     console.log(questions);
+        //     quizQuestion.innerHTML = `
+        //     <p class="quiz-view-header-text">
+        //         ${questions[index]["question"]}
+        //     </p>
+        //     `;
+        //     // Insert answers
+        //     const questionID = questions[index]["question_ID"];
+        //     answers = data.answers.fields;
+        //     let currAnswers = [];
+        //     answers.forEach(answer => {
+        //         if (answer.question_ID === questionID) {
+        //             currAnswers.push({
+        //                 answer: answer.answer,
+        //                 a_ID: answer.answer_ID,
+        //                 q_ID: answer.question_ID,
+        //                 is_correct: answer.is_correct === "1"
+        //             });
+        //         }
+        //     });
+        //     index++;
+        //     console.log(currAnswers);
+        //     shuffleArray(currAnswers);
+        //     console.log(currAnswers);
+        //     let aHtml = '';
+        //     currAnswers.forEach((currAnswer, index) => {
+        //         if (currAnswer.is_correct) {
+        //             correctAnswers.push(index);
+        //         }
+        //         aHtml += `
+        //         <div class="quiz-view-answer-text has-text-centered p-2 m-0">
+        //             <div class="is-relative">
+        //                 <input type="radio" name="${currAnswer.q_ID}" value="${index}" id="${currAnswer.a_ID}" class="btn m-0 p-0">
+        //                 <label for="${currAnswer.a_ID}">
+        //                     ${currAnswer.answer}
+        //                 </label>
+        //             </div>
+        //         </div>
+        //         `;
+        //     });
+        //     let div = document.createElement('div');
+        //     div.innerHTML = aHtml;
+        //     quizForm.lastElementChild.appendChild(div);
+        //     console.log(correctAnswers);
+        //     qNumber.lastElementChild.textContent = questions.length;
+        // })
     }
 });
 // Keyup & blur events
@@ -866,95 +1296,92 @@ selector.loginForm.addEventListener('submit', e => {
         // 
         let err_count = 0;
         // Post data using the Fetch API
-        UICtrl.loadLoggedInScreen();
-        setTimeout(() => {
-            selector.mainSectionWrapper.classList.add('welcome-wrapper');
-            selector.mainSectionWrapper.classList.add('background-copper-red-gradient');
-            selector.mainSectionWrapper.classList.remove('background-space-cadet-gradient');
-            selector.mainSectionWrapper.classList.toggle('hidden-options');
-            selector.mainSectionWrapper.firstElementChild.classList.toggle('shrink');
-            document.querySelector('#front-page-footer').classList.add('hidden-options');
-        }, 1000);
-        // fetch(selector.loginForm.action, {
-        //     method: selector.loginForm.method,
-        //     body: new FormData(selector.loginForm)
-        // })
-        // .then(res => {
-        //     if (!res.ok) { throw new Error('Network problem.'); }
-        //     return res.json();
-        // })
-        // .then(docs => {
-        //     console.log(docs);
-        //     // First check if user is logged in, if so redirect to welcome page !!!
-        //     if (docs.session.loggedIn) {
-        //         // Do the redirect here
-        //     } else {
-        //         // Handle input data
-        //         err_count = UICtrl.handleFormData(docs, 'login');
-        //         if (err_count) { // errors found
-        //             setTimeout(() => {
-        //                 submitFeedback.lastElementChild.classList.add('hide');
-        //                 submitFeedback.firstElementChild.classList.remove('hide');
-        //                 // Unlock fields
-        //                 UICtrl.unlockInput('login');
-        //                 // Reset input class
-        //                 const inputElements = document.querySelectorAll('#login-form input')
-        //                 Array.from(inputElements).forEach(input => {
-        //                     input.classList.remove('input-valid');
-        //                     input.classList.remove('input-invalid');
-        //                     if (!input.parentElement.lastElementChild.firstElementChild.classList.contains('hide')) {
-        //                         input.parentElement.lastElementChild.firstElementChild.classList.add('hide');
-        //                     }
-        //                     if (!input.parentElement.lastElementChild.lastElementChild.classList.contains('hide')) {
-        //                         input.parentElement.lastElementChild.lastElementChild.classList.add('hide');
-        //                     }
-        //                 });
-        //             }, 500);
-        //         } else { // no errors
-        //             // Add confirmation div
-        //             UICtrl.createFormConfirmation('login');
-        //             setTimeout(() => {
-        //                 // Unlock fields
-        //                 UICtrl.unlockInput('login');
-        //                 // Hide submit feedback div
-        //                 submitFeedback.classList.add('hide');
-        //                 submitFeedback.firstElementChild.classList.add('hide');
-        //                 setTimeout(() => {
-        //                     // Show confirmation
-        //                     grab(selector.loginConfirmation).classList.remove('hidden-options');
-        //                     // Clear form
-        //                     UICtrl.resetForm('login');
+        fetch(selector.loginForm.action, {
+            method: selector.loginForm.method,
+            body: new FormData(selector.loginForm)
+        })
+        .then(res => {
+            if (!res.ok) { throw new Error('Network problem.'); }
+            return res.json();
+        })
+        .then(docs => {
+            console.log(docs);
+            // First check if user is logged in, if so redirect to welcome page !!!
+            if (docs.session.loggedIn) {
+                // Do the redirect here
+            } else {
+                // Handle input data
+                err_count = UICtrl.handleFormData(docs, 'login');
+                if (err_count) { // errors found
+                    setTimeout(() => {
+                        submitFeedback.lastElementChild.classList.add('hide');
+                        submitFeedback.firstElementChild.classList.remove('hide');
+                        // Unlock fields
+                        UICtrl.unlockInput('login');
+                        // Reset input class
+                        const inputElements = document.querySelectorAll('#login-form input')
+                        Array.from(inputElements).forEach(input => {
+                            input.classList.remove('input-valid');
+                            input.classList.remove('input-invalid');
+                            if (!input.parentElement.lastElementChild.firstElementChild.classList.contains('hide')) {
+                                input.parentElement.lastElementChild.firstElementChild.classList.add('hide');
+                            }
+                            if (!input.parentElement.lastElementChild.lastElementChild.classList.contains('hide')) {
+                                input.parentElement.lastElementChild.lastElementChild.classList.add('hide');
+                            }
+                        });
+                    }, 500);
+                } else { // no errors
+                    // Add confirmation div
+                    UICtrl.createFormConfirmation('login');
+                    setTimeout(() => {
+                        // Unlock fields
+                        UICtrl.unlockInput('login');
+                        // Hide submit feedback div
+                        submitFeedback.classList.add('hide');
+                        submitFeedback.firstElementChild.classList.add('hide');
+                        setTimeout(() => {
+                            // Show confirmation
+                            grab(selector.loginConfirmation).classList.remove('hidden-options');
+                            // Clear form
+                            UICtrl.resetForm('login');
 
-        //                     setTimeout(() => {
-        //                         selector.mainSectionWrapper.classList.toggle('hidden-options');
-        //                         selector.loginWrapper.classList.toggle('hidden-options');
-        //                         // set tabindex="-1"
-        //                         UICtrl.addTabindex('login-tabindex');
-        //                         // Show welcome screen
-        //                         selector.mainSectionWrapper.classList.toggle('hidden-options');
-        //                         // 
-        //                         setTimeout(() => {
-        //                             // Reset register UI
-        //                             grab(selector.loginBackBtn).parentElement.remove();
-        //                             grab('.main-login-header').remove();
-        //                             submitFeedback.remove();
-        //                             selector.loginFeedback.innerHTML = '';
-        //                             grab(selector.loginConfirmation).remove();
-        //                             // Redirect
-        //                             window.location = './welcome.php';
-        //                         }, 600);
-        //                     }, 1000);
-        //                 }, 500);
-        //             }, 1000);
-        //         }
-        //     }
-        // })
-        // .catch(error => {
-        //     // here you can handle also error from php
-        //     // they come in a js form: JSON.parse blah blah
-        //     console.log(error);
-        //     // Handle when rejected (only network exceptions)
-        // });
+                            setTimeout(() => {
+                                selector.mainSectionWrapper.classList.toggle('hidden-options');
+                                selector.loginWrapper.classList.toggle('hidden-options');
+                                // set tabindex="-1"
+                                UICtrl.addTabindex('login-tabindex');
+                                // Show welcome screen
+                                selector.mainSectionWrapper.classList.toggle('hidden-options');
+                                // 
+                                setTimeout(() => {
+                                    // Reset register UI
+                                    grab(selector.loginBackBtn).parentElement.remove();
+                                    grab('.main-login-header').remove();
+                                    submitFeedback.remove();
+                                    selector.loginFeedback.innerHTML = '';
+                                    grab(selector.loginConfirmation).remove();
+                                    // Rerender UI
+                                    UICtrl.loadLoggedInScreen();
+                                    // rerender options too !!!
+                                    setTimeout(() => {
+                                        selector.mainSectionWrapper.classList.toggle('hidden-options');
+                                        selector.mainSectionWrapper.firstElementChild.classList.toggle('shrink');
+                                        document.querySelector('#front-page-footer').classList.add('hidden-options');
+                                    }, 1000);
+                                }, 600);
+                            }, 1000);
+                        }, 500);
+                    }, 1000);
+                }
+            }
+        })
+        .catch(error => {
+            // here you can handle also error from php
+            // they come in a js form: JSON.parse blah blah
+            console.log(error);
+            // Handle when rejected (only network exceptions)
+        });
     }
 });
 // export default UICtrl;

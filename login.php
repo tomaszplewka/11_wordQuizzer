@@ -23,7 +23,7 @@ if (isset($_SESSION["user_loggedIn"]) && $_SESSION["user_loggedIn"] === true) {
     $output["session"]["loggedIn"] = true;
     $output["session"]["msg"] = "This user is already logged in";
     echo json_encode($output);
-    session_unset();
+    // session_unset();
     exit;
 }
 // Process POST data

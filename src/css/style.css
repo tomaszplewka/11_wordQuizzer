@@ -519,7 +519,8 @@ footer p {
     transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
 }
 
-#front-page-main-content-wrapper {
+#front-page-main-content-wrapper,
+#logged-in-main-content-wrapper {
     transform: scale(1);
     max-height: 10000px;
     transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
@@ -1239,9 +1240,9 @@ select::after {
     z-index: 0;
 }
 
-#filter-quiz-wrapper > div:first-child {
+/* #filter-quiz-wrapper > div:first-child {
     height: 100%;
-}
+} */
 
 /* input[type="number"] */
 input[type="number"] {

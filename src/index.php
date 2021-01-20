@@ -1,10 +1,11 @@
 <?php include('src/includes/header.php'); ?>
 <!-- Main screen -->
 <section class="section background-space-cadet-gradient is-flex is-flex-direction-column is-justify-content-center py-2 is-relative" id="main-section-wrapper">
-    <div class="columns is-mobile m-0 has-text-centered is-vcentered is-multiline has-text-centered" id="front-page-main-content-wrapper">
-        <!-- main logo div -->
-        <!-- main btns div -->
-    </div>
+    <?php if (isset($_SESSION["user_loggedIn"]) && $_SESSION["user_loggedIn"] === true) : ?>
+        <div class="columns is-mobile m-0 has-text-centered is-vcentered is-multiline has-text-centered" id="logged-in-main-content-wrapper"></div>
+    <?php else : ?>
+        <div class="columns is-mobile m-0 has-text-centered is-vcentered is-multiline has-text-centered" id="front-page-main-content-wrapper"></div>
+    <?php endif; ?>
 </section>
 <!-- Sign Up screen -->
 <section class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 is-relative hidden-options" id="register-wrapper">
@@ -106,10 +107,136 @@
         </div>
     </form>
 </section>
+<!-- Browse screen -->
+<section class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 is-relative hidden-options" id="browse-wrapper">
+    <!-- browse options -->
+    <div id="filter-quiz-wrapper" class="scaleY background-ghost-white p-5 is-flex is-flex-direction-column is-justify-content-start">
+        <!-- <div class="is-flex is-justify-content-start">
+            <a id="filter-quiz-back-btn" class="control-btn">
+                <span class="text-smoky-black">
+                    Go Back
+                </span>
+            </a>
+        </div>
+        <h2 class="is-size-1 form-header text-smoky-black">FILTER</h2> -->
+        <form action="" id="filter-form">
+            <div class="columns is-mobile m-0 is-vcentered is-multiline">
+                <div class="column is-12-mobile is-12 p-0 has-text-centered my-2">
+                    <label class="filter-label" for="category">Quiz category</label>
+                    <div class="select">
+                        <select>
+                            <option>Select dropdown</option>
+                            <option>With options</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="column is-6-mobile is-6 p-0">
+                    <button type="submit" name="filter-clear" id="" class="btn btn-invert btn-small btn-vertical m-0">
+                        <span>clear all</span>
+                    </button>
+                </div>
+                <div class="column is-6-mobile is-6 p-0">
+                    <button type="submit" name="filter-apply" id="" class="btn btn-invert btn-small btn-vertical m-0">
+                        <span>apply</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="search-quiz-wrapper" class="scaleY background-ghost-white p-5 is-flex is-flex-direction-column is-justify-content-start">
+        <!-- <div class="is-flex is-justify-content-start">
+            <a id="search-quiz-back-btn" class="control-btn">
+                <span class="text-smoky-black">
+                    Go Back
+                </span>
+            </a>
+        </div>
+        <h2 class="is-size-1 form-header text-smoky-black">SEARCH</h2> -->
+        <form action="" id="search-form">
+            <div class="columns is-mobile m-0 is-vcentered is-multiline">
+                <div class="column is-12-mobile is-12 p-0 has-text-centered my-2">
+                    <input class="input" type="search" name="search" placeholder="Type here">
+                </div>
+            </div>
+        </form>
+        HERE SHOW LOADER WHILE SEARCHING AND WHEN IT'S DONE SHOW HOW MANY RESULTS
+    </div>
+    <div class="quiz-display-wrapper is-flex is-flex-direction-column is-justify-content-start">
+        <div class="quiz is-flex is-flex-direction-column is-justify-content-space-between text-ghost-white my-4">
+            <div class="is-flex is-flex-direction-column is-justify-content-start column is-12-mobile is-12 p-0"></div>
+            <div class="is-flex is-justify-content-space-between column is-12-mobile is-12 p-0">
+                <a id="browse-quizzes-previous" class="control-btn">
+                    <span class="">Previous</span>
+                </a>
+                <a id="browse-quizzes-next" class="control-btn">
+                    <span class="">Next</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Quiz view -->
+<section class="section background-ghost-white is-flex is-flex-direction-column is-justify-content-start p-5 hidden-options" id="quiz-view-wrapper">
+    <!-- <div class="columns is-mobile m-0 is-vcentered is-multiline is-flex is-flex-direction-column is-justify-content-start"> -->
+    <!-- <div class="is-flex is-justify-content-space-between is-align-items-center column is-12-mobile is-12 p-0">
+        <a id="quiz-quit-btn" class="control-btn">
+            <span class="text-smoky-black">Quit</span>
+        </a>
+        <p id="quiz-which-question" class="quiz-view-questions">
+            <span id="quiz-current-question" class="">1</span>
+            /
+            <span id="quiz-total-questions" class=""></span>
+        </p>
+        <a id="quiz-next-btn" class="control-btn">
+            <span class="text-smoky-black">Next</span>
+        </a>
+        <button id="quiz-form-submit" class="control-btn" type="submit" form="quiz-form" style="display: none; background-color: transparent;">
+            <span class="text-smoky-black">Submit</span>
+        </button>
+        <a id="quiz-retry-btn" class="control-btn" style="display: none;">
+            <span class="text-smoky-black">Retry</span>
+        </a>
+    </div> -->
+    <!-- <div class="quiz-quit-confirmation-wrapper background-copper-red is-flex is-justify-content-center is-align-items-center column is-12-mobile is-12 p-0 hidden-options">
+        <p class="quiz-quit-confirmation-text">are you sure?</p>
+        <div class="quiz-quit-confirmation-btn-wrapper is-flex is-justify-content-center">
+            <a id="quit-quiz-yes" class="btn btn-vertical mx-2 my-0">
+                <span>yes</span>
+            </a>
+        </div>
+    </div> -->
+    <div id="quiz-content" class="column is-12-mobile is-12 p-0">
+        <div class="is-flex is-justify-content-space-between is-align-items-center my-2">
+            <div id="question-text" class="quiz-view-question-text has-text-centered p-2">
+            </div>
+        </div>
+        <div class="is-flex is-justify-content-space-between is-align-items-center">
+            <form action="quiz.php" method="POST" id="quiz-form">
+                <div class="column is-12-mobile is-12 p-0 has-text-centered m-0 p-0">
+                    <input class="py-1" type="hidden" name="quiz-id" value="">
+                </div>
+                <div id="quiz-answers-wrapper">
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- <div id="quiz-results" class="column is-12-mobile is-12 p-0 hidden-options">
+        <div class="is-flex is-justify-content-center is-align-items-center">
+            <p class="quiz-view-questions">Your result</p>
+        </div>
+        <div class="is-flex is-justify-content-center is-align-items-center my-2">
+            <p id="quiz-score" class="has-text-centered p-2">
+            </p>
+        </div>
+        <div class="is-flex is-justify-content-space-between is-align-items-center">
+            <ul id="quiz-feedback"></ul>
+        </div>
+    </div> -->
+</section>
 <!-- Options -->
 <section class="section background-ghost-white is-flex is-flex-direction-column is-justify-content-center p-5 hidden-options" id="options-wrapper">
     <ul>
-        <?php if (isset($_SESSION["user_loggedIn"]) && $_SESSION["user_loggedIn"]) : ?>
+        <?php if (isset($_SESSION["user_loggedIn"]) && $_SESSION["user_loggedIn"] === true) : ?>
             <li>
                 <p class="username-info-text">
                     You are logged in as

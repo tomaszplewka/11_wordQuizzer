@@ -1,10 +1,10 @@
 <?php include('src/includes/header.php'); ?>
 <!-- Welcome screen & demo screen -->
-<section class="background-copper-red-gradient is-flex is-flex-direction-column is-justify-content-start p-5 is-relative" id="welcome-wrapper">
-    <!-- hidden-options -->
-    <div class="columns is-mobile m-0 has-text-centered is-vcentered is-multiline" id="welcome-content-wrapper">
-        <!-- <div class="column is-12-mobile is-12 py-0 mt-5"> -->
-        <!-- <div class="box-floating" id="welcome-logo-browse">
+<!-- <section class="background-copper-red-gradient is-flex is-flex-direction-column is-justify-content-start p-5 is-relative" id="welcome-wrapper"> -->
+<!-- hidden-options -->
+<!-- <div class="columns is-mobile m-0 has-text-centered is-vcentered is-multiline" id="welcome-content-wrapper"> -->
+<!-- <div class="column is-12-mobile is-12 py-0 mt-5"> -->
+<!-- <div class="box-floating" id="welcome-logo-browse">
                 <div class="db-disc-top">
                     <img src="imgs/wordRiddler_db_disc_x3.png" alt="">
                 </div>
@@ -15,8 +15,8 @@
                     <img src="imgs/wordRiddler_db_disc_x3.png" alt="">
                 </div>
             </div> -->
-        <!-- </div> -->
-        <!-- <div class="column is-12-mobile is-12 px-0 pt-0 pb-5 is-relative">
+<!-- </div> -->
+<!-- <div class="column is-12-mobile is-12 px-0 pt-0 pb-5 is-relative">
             <div class="button-wrapper-primary">
                 <a id="welcome-browse-btn" class="btn btn-invert">
                     <span>
@@ -25,14 +25,14 @@
                 </a>
             </div>
         </div> -->
-        <!-- <div class="column is-12-mobile is-12 py-0">
+<!-- <div class="column is-12-mobile is-12 py-0">
             <div class="box-floating" id="welcome-logo-new-quiz">
                 <div class="new-quiz">
                     <img src="imgs/wordRiddler_add_new_x3.png" alt="">
                 </div>
             </div>
         </div> -->
-        <!-- <div class="column is-12-mobile is-12 px-0 pt-0 pb-5 is-relative">
+<!-- <div class="column is-12-mobile is-12 px-0 pt-0 pb-5 is-relative">
             <div class="button-wrapper-primary">
                 <a id="welcome-add-new-quiz-btn" class="btn btn-invert">
                     <span>
@@ -41,8 +41,8 @@
                 </a>
             </div>
         </div> -->
-    </div>
-</section>
+<!-- </div>
+</section> -->
 <!-- Add new quiz screen -->
 <section class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 is-relative hidden-options" id="add-new-quiz-wrapper">
     <div class="generate-confirmation hidden-options background-mountain-meadow columns is-mobile m-0 p-5 has-text-centered is-vcentered is-multiline" id="generate-confirmation">
@@ -281,7 +281,7 @@
     </div>
 </section>
 <!-- Browse screen -->
-<section class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 is-relative hidden-options" id="browse-wrapper">
+<!-- <section class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 is-relative hidden-options" id="browse-wrapper">
     <div class="is-flex is-justify-content-space-between">
         <a id="browse-back-btn" class="control-btn">
             <span class="">
@@ -387,11 +387,11 @@
             </div>
         </div>
     </div>
-    <!-- <div id="test" style="width: 100%;">scroll to understand</div> -->
-    <!-- <div id="content"> </div> -->
-</section>
+    <div id="test" style="width: 100%;">scroll to understand</div>
+    <div id="content"> </div>
+</section> -->
 <!-- Quiz view -->
-<section class="section background-ghost-white is-flex is-flex-direction-column is-justify-content-start p-5 hidden-options" id="quiz-view-wrapper">
+<!-- <section class="section background-ghost-white is-flex is-flex-direction-column is-justify-content-start p-5 hidden-options" id="quiz-view-wrapper">
     <div class="columns is-mobile m-0 is-vcentered is-multiline is-flex is-flex-direction-column is-justify-content-start">
         <div class="is-flex is-justify-content-space-between is-align-items-center column is-12-mobile is-12 p-0">
             <a id="quiz-quit-btn" class="control-btn">
@@ -461,7 +461,7 @@
                 <ul id="quiz-feedback"></ul>
             </div>
         </div>
-</section>
+</section> -->
 <!-- Options -->
 <section class="section background-ghost-white is-flex is-flex-direction-column is-justify-content-center p-5 hidden-options" id="options-wrapper-welcome">
     <ul>
@@ -520,27 +520,27 @@
     </ul>
 </section>
 <script>
-    const burger = document.querySelector('#burger');
-    const times = document.querySelector('#times');
-    const optionsWrapper = document.querySelector('#options-wrapper-welcome');
+    // const burger = document.querySelector('#burger');
+    // const times = document.querySelector('#times');
+    // const optionsWrapper = document.querySelector('#options-wrapper-welcome');
     // 
-    burger.addEventListener('click', () => {
-        burger.classList.toggle('hide');
-        times.classList.toggle('hide');
-        // 
-        optionsWrapper.classList.toggle('hidden-options');
-    });
-    // 
-    times.addEventListener('click', () => {
-        burger.classList.toggle('hide');
-        times.classList.toggle('hide');
-        // 
-        optionsWrapper.classList.toggle('hidden-options');
-        // 
-        if (!logOutConfirmation.classList.contains('hidden-options')) {
-            logOutConfirmation.classList.add('hidden-options');
-        }
-    });
+    // burger.addEventListener('click', () => {
+    //     burger.classList.toggle('hide');
+    //     times.classList.toggle('hide');
+    //     // 
+    //     optionsWrapper.classList.toggle('hidden-options');
+    // });
+    // // 
+    // times.addEventListener('click', () => {
+    //     burger.classList.toggle('hide');
+    //     times.classList.toggle('hide');
+    //     // 
+    //     optionsWrapper.classList.toggle('hidden-options');
+    //     // 
+    //     if (!logOutConfirmation.classList.contains('hidden-options')) {
+    //         logOutConfirmation.classList.add('hidden-options');
+    //     }
+    // });
     // 
     const logOutBtn = document.querySelector('#options-logout-btn');
     const logOutConfirmation = document.querySelector('.logout-confirmation-wrapper');
@@ -635,123 +635,123 @@
     const browseWrapper = document.querySelector('#browse-wrapper');
     const welcomeWrapper = document.querySelector('#welcome-wrapper');
     // 
-    let allQuizzes = [];
-    const quizWrapper = document.querySelector('.quiz');
-    const renderQuizzes = page => {
-        let html = '';
-        const quizStart = 0 + (page - 1) * 3;
-        const quizEnd = 3 + (page - 1) * 3;
-        const pages = Math.ceil(allQuizzes.length / 3);
-        console.log(pages);
-        for (let index = quizStart; index < quizEnd; index++) {
-            if (allQuizzes[index] === undefined) {
-                break;
-            }
-            const quizID = allQuizzes[index]["quiz_id"];
-            const quizCategory = allQuizzes[index]["quiz_type"];
-            const quizName = allQuizzes[index]["quiz_name"];
-            const quizAnswers = allQuizzes[index]["quiz_answers"];
-            const quizQuestions = allQuizzes[index]["quiz_questions"];
-            const quizCreatedAt = allQuizzes[index]["created_at"];
-            html += `
-            <div id="${quizID}" class="my-2">
-                <div class="quiz-header columns is-mobile m-0 is-vcentered has-text-centered py-2 ${quizCategory}">
-                    <div class="column is-3-mobile is-3 py-0" >
-                        <span class="quiz-header-icon text-smoky-black">
-                            ${quizCategory[0]}
-                        </span> 
-                    </div>
-                    <div class="quiz-header-name column is-9-mobile is-9 py-0" >
-                        ${quizName}
-                    </div>
-                </div>
-                <div class="quiz-body columns is-mobile m-0 is-vcentered has-text-centered p-0">
-                    <div class="quiz-body-more-info column is-6-mobile is-6 p-0" >
-                        <a id="" class="btn btn-invert btn-small btn-vertical m-0 more-info-btn" >
-                            <span>
-                                more info
-                            </span>
-                        </a>
-                    </div>
-                    <div class="quiz-body-play column is-6-mobile is-6 p-0" >
-                        <a id="" class="btn btn-invert btn-small btn-vertical m-0 play-btn" >
-                            <span>
-                                play
-                            </span>
-                        </a> 
-                    </div>
-                </div>
-            </div>
-            <div data-id="${quizID}" id ="" class="more-info-wrapper scaleY background-ghost-white columns is-mobile m-0 has-text-centered p-5 is-multiline is-flex is-flex-direction-column is-justify-content-start" >
-                <div class="is-flex is-justify-content-start column is-12-mobile is-12 p-0" >
-                    <a id="" class="control-btn back-btn" >
-                        <span class="text-smoky-black">
-                            Go Back
-                        </span>
-                    </a>
-                </div>
-                <div class="column is-12-mobile is-12 p-0 my-5" >
-                    <div class="more-info-quiz-info columns is-mobile m-0 is-vcentered is-multiline is-flex is-flex-direction-column is-justify-content-center" >
-                        <div class="column is-12-mobile is-12 p-0 my-1" >
-                            <p class="text-smoky-black" > Name: ${quizName}</p>
-                        </div>
-                        <div class="column is-12-mobile is-12 p-0 my-1">
-                            <p class="text-smoky-black" > Category: ${quizCategory}</p>
-                        </div>
-                        <div class="column is-12-mobile is-12 p-0 my-1">
-                            <p class="text-smoky-black" > Questions: ${quizQuestions}</p>
-                        </div>
-                        <div class="column is-12-mobile is-12 p-0 my-1">
-                            <p class="text-smoky-black" > Answers: ${quizAnswers}</p>
-                        </div>
-                        <div class="column is-12-mobile is-12 p-0 my-1">
-                            <p class="text-smoky-black" > Created at: ${quizCreatedAt}</p>
-                        </div>
-                        <div class="column is-12-mobile is-12 p-0 my-1">
-                            <p class="text-smoky-black" > Last Attempted: NO IDEA</p>
-                        </div>
-                        <div class="column is-12-mobile is-12 p-0 my-1">
-                            <p class="text-smoky-black" > Last Score: NO IDEA </p>
-                        </div>
-                        <div class="column is-12-mobile is-12 p-0 my-1">
-                            <a id="" class="btn m-0">
-                                <span>
-                                    play
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            `;
-        };
-        if (page === 1) {
-            quizWrapper.lastElementChild.firstElementChild.classList.add('disabled');
-        } else {
-            quizWrapper.lastElementChild.firstElementChild.classList.remove('disabled');
-        }
-        if (page === pages) {
-            quizWrapper.lastElementChild.lastElementChild.classList.add('disabled');
-        } else {
-            quizWrapper.lastElementChild.lastElementChild.classList.remove('disabled');
-        }
-        let lastChild = quizWrapper.lastElementChild;
-        quizWrapper.firstElementChild.innerHTML = html;
-        quizWrapper.appendChild(lastChild);
-        quizWrapper.setAttribute('data-page', page);
-    }
+    // let allQuizzes = [];
+    // const quizWrapper = document.querySelector('.quiz');
+    // const renderQuizzes = page => {
+    //     let html = '';
+    //     const quizStart = 0 + (page - 1) * 3;
+    //     const quizEnd = 3 + (page - 1) * 3;
+    //     const pages = Math.ceil(allQuizzes.length / 3);
+    //     console.log(pages);
+    //     for (let index = quizStart; index < quizEnd; index++) {
+    //         if (allQuizzes[index] === undefined) {
+    //             break;
+    //         }
+    //         const quizID = allQuizzes[index]["quiz_id"];
+    //         const quizCategory = allQuizzes[index]["quiz_type"];
+    //         const quizName = allQuizzes[index]["quiz_name"];
+    //         const quizAnswers = allQuizzes[index]["quiz_answers"];
+    //         const quizQuestions = allQuizzes[index]["quiz_questions"];
+    //         const quizCreatedAt = allQuizzes[index]["created_at"];
+    //         html += `
+    //         <div id="${quizID}" class="my-2">
+    //             <div class="quiz-header columns is-mobile m-0 is-vcentered has-text-centered py-2 ${quizCategory}">
+    //                 <div class="column is-3-mobile is-3 py-0" >
+    //                     <span class="quiz-header-icon text-smoky-black">
+    //                         ${quizCategory[0]}
+    //                     </span> 
+    //                 </div>
+    //                 <div class="quiz-header-name column is-9-mobile is-9 py-0" >
+    //                     ${quizName}
+    //                 </div>
+    //             </div>
+    //             <div class="quiz-body columns is-mobile m-0 is-vcentered has-text-centered p-0">
+    //                 <div class="quiz-body-more-info column is-6-mobile is-6 p-0" >
+    //                     <a id="" class="btn btn-invert btn-small btn-vertical m-0 more-info-btn" >
+    //                         <span>
+    //                             more info
+    //                         </span>
+    //                     </a>
+    //                 </div>
+    //                 <div class="quiz-body-play column is-6-mobile is-6 p-0" >
+    //                     <a id="" class="btn btn-invert btn-small btn-vertical m-0 play-btn" >
+    //                         <span>
+    //                             play
+    //                         </span>
+    //                     </a> 
+    //                 </div>
+    //             </div>
+    //         </div>
+    //         <div data-id="${quizID}" id ="" class="more-info-wrapper scaleY background-ghost-white columns is-mobile m-0 has-text-centered p-5 is-multiline is-flex is-flex-direction-column is-justify-content-start" >
+    //             <div class="is-flex is-justify-content-start column is-12-mobile is-12 p-0" >
+    //                 <a id="" class="control-btn back-btn" >
+    //                     <span class="text-smoky-black">
+    //                         Go Back
+    //                     </span>
+    //                 </a>
+    //             </div>
+    //             <div class="column is-12-mobile is-12 p-0 my-5" >
+    //                 <div class="more-info-quiz-info columns is-mobile m-0 is-vcentered is-multiline is-flex is-flex-direction-column is-justify-content-center" >
+    //                     <div class="column is-12-mobile is-12 p-0 my-1" >
+    //                         <p class="text-smoky-black" > Name: ${quizName}</p>
+    //                     </div>
+    //                     <div class="column is-12-mobile is-12 p-0 my-1">
+    //                         <p class="text-smoky-black" > Category: ${quizCategory}</p>
+    //                     </div>
+    //                     <div class="column is-12-mobile is-12 p-0 my-1">
+    //                         <p class="text-smoky-black" > Questions: ${quizQuestions}</p>
+    //                     </div>
+    //                     <div class="column is-12-mobile is-12 p-0 my-1">
+    //                         <p class="text-smoky-black" > Answers: ${quizAnswers}</p>
+    //                     </div>
+    //                     <div class="column is-12-mobile is-12 p-0 my-1">
+    //                         <p class="text-smoky-black" > Created at: ${quizCreatedAt}</p>
+    //                     </div>
+    //                     <div class="column is-12-mobile is-12 p-0 my-1">
+    //                         <p class="text-smoky-black" > Last Attempted: NO IDEA</p>
+    //                     </div>
+    //                     <div class="column is-12-mobile is-12 p-0 my-1">
+    //                         <p class="text-smoky-black" > Last Score: NO IDEA </p>
+    //                     </div>
+    //                     <div class="column is-12-mobile is-12 p-0 my-1">
+    //                         <a id="" class="btn m-0">
+    //                             <span>
+    //                                 play
+    //                             </span>
+    //                         </a>
+    //                     </div>
+    //                 </div>
+    //             </div>
+    //         </div>
+    //         `;
+    //     };
+    //     if (page === 1) {
+    //         quizWrapper.lastElementChild.firstElementChild.classList.add('disabled');
+    //     } else {
+    //         quizWrapper.lastElementChild.firstElementChild.classList.remove('disabled');
+    //     }
+    //     if (page === pages) {
+    //         quizWrapper.lastElementChild.lastElementChild.classList.add('disabled');
+    //     } else {
+    //         quizWrapper.lastElementChild.lastElementChild.classList.remove('disabled');
+    //     }
+    //     let lastChild = quizWrapper.lastElementChild;
+    //     quizWrapper.firstElementChild.innerHTML = html;
+    //     quizWrapper.appendChild(lastChild);
+    //     quizWrapper.setAttribute('data-page', page);
+    // }
     // 
-    browseBtn.addEventListener('click', () => {
-        welcomeWrapper.firstElementChild.classList.add('shrink');
-        // Render data using JS
-        renderQuizzes(1);
-        // 
-        // 
-        setTimeout(() => {
-            welcomeWrapper.classList.toggle('hidden-options');
-            browseWrapper.classList.toggle('hidden-options');
-        }, 600);
-    });
+    // browseBtn.addEventListener('click', () => {
+    // welcomeWrapper.firstElementChild.classList.add('shrink');
+    // Render data using JS
+    // renderQuizzes(1);
+    // 
+    // 
+    // setTimeout(() => {
+    //     welcomeWrapper.classList.toggle('hidden-options');
+    //     browseWrapper.classList.toggle('hidden-options');
+    // }, 600);
+    // });
     // 
     const browseBackBtn = document.querySelector('#browse-back-btn');
     // 
@@ -829,25 +829,25 @@
     // const moreInfoBtn = document.querySelector('.more-info-btn');
     // const moreInfoWrapper = document.querySelector('.more-info-wrapper');
     // 
-    const fetchQuizzes = async function() {
-        return await fetch("fetchQuizzes.php", {
-            method: "GET",
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-    }
+    // const fetchQuizzes = async function() {
+    //     return await fetch("fetchQuizzes.php", {
+    //         method: "GET",
+    //         mode: 'cors',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         }
+    //     });
+    // }
     // call this function when browse database is clicked
     // do it only once and checked if allQuizzes is not empty and has some kind of flag (meaning that was fetched already)
-    fetchQuizzes()
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            allQuizzes = data.data.fields;
-        });
-    const quizViewWrapper = document.querySelector('#quiz-view-wrapper');
-    const quizForm = document.querySelector('#quiz-form');
+    // fetchQuizzes()
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         console.log(data);
+    //         allQuizzes = data.data.fields;
+    //     });
+    // const quizViewWrapper = document.querySelector('#quiz-view-wrapper');
+    // const quizForm = document.querySelector('#quiz-form');
     let questions = [];
     let answers = [];
     let correctAnswers = [];
@@ -865,126 +865,126 @@
             [array[j], array[i]] = [array[i], array[j]];
         }
     }
-    const quizContent = document.querySelector('#quiz-content');
-    const quizResults = document.querySelector('#quiz-results');
-    const quizScore = document.querySelector('#quiz-score');
-    const quizFeedback = document.querySelector('#quiz-feedback');
+    // const quizContent = document.querySelector('#quiz-content');
+    // const quizResults = document.querySelector('#quiz-results');
+    // const quizScore = document.querySelector('#quiz-score');
+    // const quizFeedback = document.querySelector('#quiz-feedback');
     let quizID = '';
     document.addEventListener('click', e => {
         // More info btn clicked
-        if ((e.target.tagName === 'SPAN' && e.target.parentElement.classList.contains('more-info-btn')) || (e.target.classList.contains('more-info-btn') && e.target.tagName === 'A')) {
-            console.log('jestem tutaj');
-            // Get quiz id
-            let quizID = '';
-            if (e.target.tagName === 'SPAN') {
-                quizID = e.target.parentElement.parentElement.parentElement.parentElement.id;
-            } else {
-                quizID = e.target.parentElement.parentElement.parentElement.id;
-            }
-            // console.log(quizID);
-            // Show appropriate div with more info
-            const divMoreInfo = document.querySelector(`div[data-id="${quizID}"]`);
-            divMoreInfo.classList.remove('scaleY');
-        }
-        // Back btn on more info wrapper clicked
-        if ((e.target.tagName === 'SPAN' && e.target.parentElement.classList.contains('back-btn')) || (e.target.classList.contains('back-btn') && e.target.tagName === 'A')) {
-            // Get quiz id
-            let quizID = '';
-            if (e.target.tagName === 'SPAN') {
-                quizID = e.target.parentElement.parentElement.parentElement.getAttribute('data-id');
-            } else {
-                quizID = e.target.parentElement.parentElement.getAttribute('data-id');
-            }
-            // console.log(quizID);
-            // Hide appropriate div with more info
-            const divMoreInfo = document.querySelector(`div[data-id="${quizID}"]`);
-            divMoreInfo.classList.add('scaleY');
-        }
-        // Play btn clicked
-        if ((e.target.tagName === 'SPAN' && e.target.parentElement.classList.contains('play-btn')) || (e.target.classList.contains('play-btn') && e.target.tagName === 'A')) {
-            quizViewWrapper.classList.toggle('hidden-options');
-            // Get quiz id
-            if (e.target.tagName === 'SPAN') {
-                quizID = e.target.parentElement.parentElement.parentElement.parentElement.id;
-            } else {
-                quizID = e.target.parentElement.parentElement.parentElement.id;
-            }
-            console.log(quizID);
-            // Assign quizID to hidden input value
-            quizForm["quiz-id"].value = quizID;
-            // Render question
-            // Fetch quiz first
-            console.log(allQuizzes);
-            let trueQuizId = '';
-            allQuizzes.forEach(quiz => {
-                if (quiz.quiz_id === quizID) {
-                    trueQuizId = quiz.quiz_name;
-                }
-            });
-            const data = {
-                ID: trueQuizId
-            };
-            fetch("fetchQsAs.php", {
-                    method: "POST",
-                    mode: 'cors',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                    // 
-                    questions = data.questions.fields;
-                    // Insert question
-                    console.log(questions);
-                    quizQuestion.innerHTML = `
-                    <p class="quiz-view-header-text">
-                        ${questions[index]["question"]}
-                    </p>
-                    `;
-                    // Insert answers
-                    const questionID = questions[index]["question_ID"];
-                    answers = data.answers.fields;
-                    let currAnswers = [];
-                    answers.forEach(answer => {
-                        if (answer.question_ID === questionID) {
-                            currAnswers.push({
-                                answer: answer.answer,
-                                a_ID: answer.answer_ID,
-                                q_ID: answer.question_ID,
-                                is_correct: answer.is_correct === "1"
-                            });
-                        }
-                    });
-                    index++;
-                    console.log(currAnswers);
-                    shuffleArray(currAnswers);
-                    console.log(currAnswers);
-                    let aHtml = '';
-                    currAnswers.forEach((currAnswer, index) => {
-                        if (currAnswer.is_correct) {
-                            correctAnswers.push(index);
-                        }
-                        aHtml += `
-                        <div class="quiz-view-answer-text has-text-centered p-2 m-0">
-                            <div class="is-relative">
-                                <input type="radio" name="${currAnswer.q_ID}" value="${index}" id="${currAnswer.a_ID}" class="btn m-0 p-0">
-                                <label for="${currAnswer.a_ID}">
-                                    ${currAnswer.answer}
-                                </label>
-                            </div>
-                        </div>
-                        `;
-                    });
-                    let div = document.createElement('div');
-                    div.innerHTML = aHtml;
-                    quizForm.lastElementChild.appendChild(div);
-                    console.log(correctAnswers);
-                    qNumber.lastElementChild.textContent = questions.length;
-                })
-        }
+        // if ((e.target.tagName === 'SPAN' && e.target.parentElement.classList.contains('more-info-btn')) || (e.target.classList.contains('more-info-btn') && e.target.tagName === 'A')) {
+        //     console.log('jestem tutaj');
+        //     // Get quiz id
+        //     let quizID = '';
+        //     if (e.target.tagName === 'SPAN') {
+        //         quizID = e.target.parentElement.parentElement.parentElement.parentElement.id;
+        //     } else {
+        //         quizID = e.target.parentElement.parentElement.parentElement.id;
+        //     }
+        //     // console.log(quizID);
+        //     // Show appropriate div with more info
+        //     const divMoreInfo = document.querySelector(`div[data-id="${quizID}"]`);
+        //     divMoreInfo.classList.remove('scaleY');
+        // }
+        // // Back btn on more info wrapper clicked
+        // if ((e.target.tagName === 'SPAN' && e.target.parentElement.classList.contains('back-btn')) || (e.target.classList.contains('back-btn') && e.target.tagName === 'A')) {
+        //     // Get quiz id
+        //     let quizID = '';
+        //     if (e.target.tagName === 'SPAN') {
+        //         quizID = e.target.parentElement.parentElement.parentElement.getAttribute('data-id');
+        //     } else {
+        //         quizID = e.target.parentElement.parentElement.getAttribute('data-id');
+        //     }
+        //     // console.log(quizID);
+        //     // Hide appropriate div with more info
+        //     const divMoreInfo = document.querySelector(`div[data-id="${quizID}"]`);
+        //     divMoreInfo.classList.add('scaleY');
+        // }
+        // // Play btn clicked
+        // if ((e.target.tagName === 'SPAN' && e.target.parentElement.classList.contains('play-btn')) || (e.target.classList.contains('play-btn') && e.target.tagName === 'A')) {
+        //     quizViewWrapper.classList.toggle('hidden-options');
+        //     // Get quiz id
+        //     if (e.target.tagName === 'SPAN') {
+        //         quizID = e.target.parentElement.parentElement.parentElement.parentElement.id;
+        //     } else {
+        //         quizID = e.target.parentElement.parentElement.parentElement.id;
+        //     }
+        //     console.log(quizID);
+        //     // Assign quizID to hidden input value
+        //     quizForm["quiz-id"].value = quizID;
+        //     // Render question
+        //     // Fetch quiz first
+        //     console.log(allQuizzes);
+        //     let trueQuizId = '';
+        //     allQuizzes.forEach(quiz => {
+        //         if (quiz.quiz_id === quizID) {
+        //             trueQuizId = quiz.quiz_name;
+        //         }
+        //     });
+        //     const data = {
+        //         ID: trueQuizId
+        //     };
+        //     fetch("fetchQsAs.php", {
+        //             method: "POST",
+        //             mode: 'cors',
+        //             headers: {
+        //                 'Content-Type': 'application/json'
+        //             },
+        //             body: JSON.stringify(data)
+        //         })
+        //         .then(response => response.json())
+        //         .then(data => {
+        //             console.log(data);
+        //             // 
+        //             questions = data.questions.fields;
+        //             // Insert question
+        //             console.log(questions);
+        //             quizQuestion.innerHTML = `
+        //             <p class="quiz-view-header-text">
+        //                 ${questions[index]["question"]}
+        //             </p>
+        //             `;
+        //             // Insert answers
+        //             const questionID = questions[index]["question_ID"];
+        //             answers = data.answers.fields;
+        //             let currAnswers = [];
+        //             answers.forEach(answer => {
+        //                 if (answer.question_ID === questionID) {
+        //                     currAnswers.push({
+        //                         answer: answer.answer,
+        //                         a_ID: answer.answer_ID,
+        //                         q_ID: answer.question_ID,
+        //                         is_correct: answer.is_correct === "1"
+        //                     });
+        //                 }
+        //             });
+        //             index++;
+        //             console.log(currAnswers);
+        //             shuffleArray(currAnswers);
+        //             console.log(currAnswers);
+        //             let aHtml = '';
+        //             currAnswers.forEach((currAnswer, index) => {
+        //                 if (currAnswer.is_correct) {
+        //                     correctAnswers.push(index);
+        //                 }
+        //                 aHtml += `
+        //                 <div class="quiz-view-answer-text has-text-centered p-2 m-0">
+        //                     <div class="is-relative">
+        //                         <input type="radio" name="${currAnswer.q_ID}" value="${index}" id="${currAnswer.a_ID}" class="btn m-0 p-0">
+        //                         <label for="${currAnswer.a_ID}">
+        //                             ${currAnswer.answer}
+        //                         </label>
+        //                     </div>
+        //                 </div>
+        //                 `;
+        //             });
+        //             let div = document.createElement('div');
+        //             div.innerHTML = aHtml;
+        //             quizForm.lastElementChild.appendChild(div);
+        //             console.log(correctAnswers);
+        //             qNumber.lastElementChild.textContent = questions.length;
+        //         })
+        // }
         // Next btn clicked
         if ((e.target.tagName === 'SPAN' && e.target.parentElement.id === 'quiz-next-btn') || (e.target.id === 'quiz-next-btn' && e.target.tagName === 'A')) {
             if ((index + 1) === questions.length) {
@@ -1097,21 +1097,21 @@
     // browseQuizPrevious.addEventListener('click', e => {
     // });
     // Quiz submitted
-    const createLoader = target => {
-        let div = document.createElement('div');
-        div.className = 'is-flex is-flex-direction-column is-justify-content-center is-align-items-center loader-wrapper2';
-        let loader = document.createElement('div');
-        loader.className = 'loader hide';
-        target.appendChild(div);
-        target.lastElementChild.appendChild(loader);
-        setTimeout(() => {
-            target.lastElementChild.firstElementChild.classList.remove('hide');
-        }, 250);
-    };
-    const removeLoader = () => {
-        const loader = document.querySelector('.loader-wrapper2');
-        loader.remove();
-    }
+    // const createLoader = target => {
+    //     let div = document.createElement('div');
+    //     div.className = 'is-flex is-flex-direction-column is-justify-content-center is-align-items-center loader-wrapper2';
+    //     let loader = document.createElement('div');
+    //     loader.className = 'loader hide';
+    //     target.appendChild(div);
+    //     target.lastElementChild.appendChild(loader);
+    //     setTimeout(() => {
+    //         target.lastElementChild.firstElementChild.classList.remove('hide');
+    //     }, 250);
+    // };
+    // const removeLoader = () => {
+    //     const loader = document.querySelector('.loader-wrapper2');
+    //     loader.remove();
+    // }
     quizForm.addEventListener('submit', e => {
         console.log('quiz submitted');
         // Show loader
