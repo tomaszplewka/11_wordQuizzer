@@ -43,7 +43,7 @@
         </div> -->
 <!-- </div>
 </section> -->
-<!-- Add new quiz screen -->
+<!-- Add new quiz screen
 <section class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 is-relative hidden-options" id="add-new-quiz-wrapper">
     <div class="generate-confirmation hidden-options background-mountain-meadow columns is-mobile m-0 p-5 has-text-centered is-vcentered is-multiline" id="generate-confirmation">
         <div class="column is-12-mobile is-12 p-0 m-0">
@@ -279,7 +279,7 @@
             </form>
         </div>
     </div>
-</section>
+</section> -->
 <!-- Browse screen -->
 <!-- <section class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 is-relative hidden-options" id="browse-wrapper">
     <div class="is-flex is-justify-content-space-between">
@@ -463,10 +463,10 @@
         </div>
 </section> -->
 <!-- Options -->
-<section class="section background-ghost-white is-flex is-flex-direction-column is-justify-content-center p-5 hidden-options" id="options-wrapper-welcome">
+<!-- <section class="section background-ghost-white is-flex is-flex-direction-column is-justify-content-center p-5 hidden-options" id="options-wrapper-welcome">
     <ul>
         <li>
-            <p class="username-info-text">You are logged in as <span id="username-info"><?php echo $username; ?></span></p>
+            <p class="username-info-text">You are logged in as <span id="username-info"></span></p>
         </li>
         <li>
             <a id="options-logout-btn" class="btn">
@@ -518,7 +518,7 @@
             </a>
         </li>
     </ul>
-</section>
+</section> -->
 <script>
     // const burger = document.querySelector('#burger');
     // const times = document.querySelector('#times');
@@ -542,66 +542,66 @@
     //     }
     // });
     // 
-    const logOutBtn = document.querySelector('#options-logout-btn');
-    const logOutConfirmation = document.querySelector('.logout-confirmation-wrapper');
+    // const logOutBtn = document.querySelector('#options-logout-btn');
+    // const logOutConfirmation = document.querySelector('.logout-confirmation-wrapper');
     // 
-    logOutBtn.addEventListener('click', () => {
-        logOutConfirmation.classList.toggle('hidden-options');
-    });
+    // logOutBtn.addEventListener('click', () => {
+    //     logOutConfirmation.classList.toggle('hidden-options');
+    // });
     // 
-    const logOutForm = document.querySelector('#logout-form');
+    // const logOutForm = document.querySelector('#logout-form');
     // 
-    logOutForm.addEventListener('submit', e => {
-        // Send async post request to logout.php
-        fetch(logOutForm.action, {
-                method: logOutForm.method,
-                body: new FormData(logOutForm)
-            })
-            // We turn the response into text as we expect HTML
-            .then(res => {
-                // Check if response ok
-                if (!res.ok) {
-                    // Throw an exception
-                    throw new Error('Network problem.');
-                }
-                return res.json();
-            })
-            .then(docs => {
-                // console.log(docs);
-                // Handle when resolved
-                // Fetch promise rejects only when there is network error
-                // Handle input data
-                if (docs.loggedOut) {
-                    // User successfully logged out
-                    // Redirect to index/main page
-                    setTimeout(() => {
-                        // Close options screen
-                        burger.classList.toggle('hide');
-                        times.classList.toggle('hide');
-                        optionsWrapper.classList.toggle('hidden-options');
-                        // Redirect
+    // logOutForm.addEventListener('submit', e => {
+    //     // Send async post request to logout.php
+    //     fetch(logOutForm.action, {
+    //             method: logOutForm.method,
+    //             body: new FormData(logOutForm)
+    //         })
+    //         // We turn the response into text as we expect HTML
+    //         .then(res => {
+    //             // Check if response ok
+    //             if (!res.ok) {
+    //                 // Throw an exception
+    //                 throw new Error('Network problem.');
+    //             }
+    //             return res.json();
+    //         })
+    //         .then(docs => {
+    //             // console.log(docs);
+    //             // Handle when resolved
+    //             // Fetch promise rejects only when there is network error
+    //             // Handle input data
+    //             if (docs.loggedOut) {
+    //                 // User successfully logged out
+    //                 // Redirect to index/main page
+    //                 setTimeout(() => {
+    //                     // Close options screen
+    //                     burger.classList.toggle('hide');
+    //                     times.classList.toggle('hide');
+    //                     optionsWrapper.classList.toggle('hidden-options');
+    //                     // Redirect
 
-                        // ANY TIME YOU REDIRECT -- SHOW LOADER OF STH LIKE THAT (LOGIN, LOGOUT)
+    //                     // ANY TIME YOU REDIRECT -- SHOW LOADER OF STH LIKE THAT (LOGIN, LOGOUT)
 
-                        window.location = './welcome.php';
-                    }, 1000);
-                } else {
-                    // User was not logged in
-                    // Redirect to index/main page
+    //                     window.location = './welcome.php';
+    //                 }, 1000);
+    //             } else {
+    //                 // User was not logged in
+    //                 // Redirect to index/main page
 
-                }
-            })
-            .catch(err => {
-                // here you can handle also error from php
-                // they come in a js form: JSON.parse blah blah
-                console.log(err);
-                // Handle when rejected (only network exceptions)
+    //             }
+    //         })
+    //         .catch(err => {
+    //             // here you can handle also error from php
+    //             // they come in a js form: JSON.parse blah blah
+    //             console.log(err);
+    //             // Handle when rejected (only network exceptions)
 
-                // IN CASE OF ANY ERROR IN FETCH, SHOW A POP UP WITH A MESSAGE!!!
-            });
-        // 
-        e.preventDefault();
-    });
+    //             // IN CASE OF ANY ERROR IN FETCH, SHOW A POP UP WITH A MESSAGE!!!
+    //         });
+    //     // 
+    //     e.preventDefault();
+    // });
     // 
     // we will add this content, replace for anything you want to add
     // var wrapper, content, test;
@@ -630,10 +630,10 @@
     //     console.log('scrolling');
     // });
     // 
-    const browseBtn = document.querySelector('#welcome-browse-btn');
-    const addQuizBtn = document.querySelector('#welcome-add-new-quiz-btn');
-    const browseWrapper = document.querySelector('#browse-wrapper');
-    const welcomeWrapper = document.querySelector('#welcome-wrapper');
+    // const browseBtn = document.querySelector('#welcome-browse-btn');
+    // const addQuizBtn = document.querySelector('#welcome-add-new-quiz-btn');
+    // const browseWrapper = document.querySelector('#browse-wrapper');
+    // const welcomeWrapper = document.querySelector('#welcome-wrapper');
     // 
     // let allQuizzes = [];
     // const quizWrapper = document.querySelector('.quiz');
@@ -753,16 +753,16 @@
     // }, 600);
     // });
     // 
-    const browseBackBtn = document.querySelector('#browse-back-btn');
+    // const browseBackBtn = document.querySelector('#browse-back-btn');
     // 
-    browseBackBtn.addEventListener('click', () => {
-        welcomeWrapper.classList.toggle('hidden-options');
-        browseWrapper.classList.toggle('hidden-options');
-        // 
-        setTimeout(() => {
-            welcomeWrapper.firstElementChild.classList.remove('shrink');
-        }, 600);
-    });
+    // browseBackBtn.addEventListener('click', () => {
+    //     welcomeWrapper.classList.toggle('hidden-options');
+    //     browseWrapper.classList.toggle('hidden-options');
+    //     // 
+    //     setTimeout(() => {
+    //         welcomeWrapper.firstElementChild.classList.remove('shrink');
+    //     }, 600);
+    // });
     // 
     // Here implement swiping when browsing quizzes
     // Use fetch API for that
@@ -1277,17 +1277,17 @@
         searchQuizWrapper.classList.add('scaleY');
     });
     // 
-    const addQuizWrapper = document.querySelector('#add-new-quiz-wrapper');
-    const addQuizBackBtn = document.querySelector('#add-new-quiz-back-btn');
+    // const addQuizWrapper = document.querySelector('#add-new-quiz-wrapper');
+    // const addQuizBackBtn = document.querySelector('#add-new-quiz-back-btn');
     // 
-    addQuizBtn.addEventListener('click', () => {
-        welcomeWrapper.firstElementChild.classList.add('shrink');
-        // 
-        setTimeout(() => {
-            welcomeWrapper.classList.toggle('hidden-options');
-            addQuizWrapper.classList.toggle('hidden-options');
-        }, 600);
-    });
+    // addQuizBtn.addEventListener('click', () => {
+    //     welcomeWrapper.firstElementChild.classList.add('shrink');
+    //     // 
+    //     setTimeout(() => {
+    //         welcomeWrapper.classList.toggle('hidden-options');
+    //         addQuizWrapper.classList.toggle('hidden-options');
+    //     }, 600);
+    // });
     // reset form
     // const resetForm = function(targetSelector, submitBtn) {
     //     const inputElements = document.querySelectorAll(targetSelector);
@@ -1307,53 +1307,53 @@
     //         submitBtn.classList.add('disabled');
     //     }
     // }
-    addQuizBackBtn.addEventListener('click', () => {
-        welcomeWrapper.classList.toggle('hidden-options');
-        addQuizWrapper.classList.toggle('hidden-options');
-        // 
-        // RESET FORM
-        addQuizForm["quiz-name"].value = '';
-        addQuizForm["quiz-type"].value = 'Quiz Type';
-        addQuizForm["quiz-answers"].value = 2;
-        addQuizForm["quiz-questions"].value = 4;
-        // disable submit btn
-        if (!addQuizForm["quiz-generate"].classList.contains('disabled')) {
-            addQuizForm["quiz-generate"].classList.add('disabled');
-        }
-        // Hide submit feedback
-        hideSubmitFeedback(submitGenerateFeedback);
-        // Reenable inputs & select !
-        // 
-        setTimeout(() => {
-            welcomeWrapper.firstElementChild.classList.remove('shrink');
-        }, 600);
-    });
+    // addQuizBackBtn.addEventListener('click', () => {
+    //     welcomeWrapper.classList.toggle('hidden-options');
+    //     addQuizWrapper.classList.toggle('hidden-options');
+    //     // 
+    //     // RESET FORM
+    //     addQuizForm["quiz-name"].value = '';
+    //     addQuizForm["quiz-type"].value = 'Quiz Type';
+    //     addQuizForm["quiz-answers"].value = 2;
+    //     addQuizForm["quiz-questions"].value = 4;
+    //     // disable submit btn
+    //     if (!addQuizForm["quiz-generate"].classList.contains('disabled')) {
+    //         addQuizForm["quiz-generate"].classList.add('disabled');
+    //     }
+    //     // Hide submit feedback
+    //     hideSubmitFeedback(submitGenerateFeedback);
+    //     // Reenable inputs & select !
+    //     // 
+    //     setTimeout(() => {
+    //         welcomeWrapper.firstElementChild.classList.remove('shrink');
+    //     }, 600);
+    // });
     // 
-    const increment = document.querySelectorAll('.increment');
-    const decrement = document.querySelectorAll('.decrement');
+    // const increment = document.querySelectorAll('.increment');
+    // const decrement = document.querySelectorAll('.decrement');
     // 
-    const addQuizForm = document.querySelector('#add-quiz-form');
+    // const addQuizForm = document.querySelector('#add-quiz-form');
     // 
-    addQuizForm.addEventListener('click', e => {
-        if (e.target.classList.contains('increment')) {
-            if (!(Number(e.target.previousElementSibling.value) >= Number(e.target.previousElementSibling.max))) {
-                e.target.previousElementSibling.value++;
-                console.log('jestem tutaj');
-                checkIfEmpty();
-            }
-            // 
-            e.preventDefault();
-        }
-        if (e.target.classList.contains('decrement')) {
-            if ((Number(e.target.nextElementSibling.value) > Number(e.target.nextElementSibling.min))) {
-                e.target.nextElementSibling.value--;
-                console.log('jestem tutaj tez');
-                checkIfEmpty();
-            }
-            // 
-            e.preventDefault();
-        }
-    });
+    // addQuizForm.addEventListener('click', e => {
+    //     if (e.target.classList.contains('increment')) {
+    //         if (!(Number(e.target.previousElementSibling.value) >= Number(e.target.previousElementSibling.max))) {
+    //             e.target.previousElementSibling.value++;
+    //             console.log('jestem tutaj');
+    //             checkIfEmpty();
+    //         }
+    //         // 
+    //         e.preventDefault();
+    //     }
+    //     if (e.target.classList.contains('decrement')) {
+    //         if ((Number(e.target.nextElementSibling.value) > Number(e.target.nextElementSibling.min))) {
+    //             e.target.nextElementSibling.value--;
+    //             console.log('jestem tutaj tez');
+    //             checkIfEmpty();
+    //         }
+    //         // 
+    //         e.preventDefault();
+    //     }
+    // });
 
 
 
@@ -1368,135 +1368,135 @@
 
 
 
-    const getAllWordsByPage = async function(pageNum = 1) {
-        return await fetch('https://wordsapiv1.p.rapidapi.com/words/?' + new URLSearchParams({
-                letterPattern: '^[A-z]{2,}$',
-                page: pageNum
-            }), {
-                "method": "GET",
-                "headers": {
-                    "x-rapidapi-key": "yourKey",
-                    "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
-                }
-            })
-            .then(response => response.json());
-    }
-    const getWordsByRandomPages = async function(numberOfQuestions, numOfAnswers) {
-        // Get all words
-        let pages = '',
-            data = [],
-            randomPages = [];
-        return await getAllWordsByPage()
-            .then(doc => {
-                // No errors -- proceed in a regular fashion
-                // Total number of pages
-                pages = doc.results.total;
-                console.log(pages);
-                console.log(Math.ceil(pages / 100));
-                // Generate random pages
-                while (randomPages.length < numberOfQuestions * numOfAnswers) {
-                    const r = Math.floor(Math.random() * Math.ceil(pages / 100));
-                    if (randomPages.indexOf(r) === -1) {
-                        randomPages.push(r);
-                    }
-                }
-                console.log(randomPages);
-                // Get all words by randomPages
-                let promises = [];
-                // Add promises in a loop
-                for (let i = 0; i < randomPages.length; i++) {
-                    promises.push(getAllWordsByPage(randomPages[i]));
-                }
-                return Promise.all(promises);
-            })
-            .catch(error => {
-                // Errors -- handle those in here
-                console.log(error);
-            });
-    }
-    const getRandomWordDefinitions = async function(missingWords, oldWordDefinitions) {
-        let wordsDefinitions = {};
-        console.log(missingWords);
-        // Loop till word with definition is found
-        while (true) {
-            // Fetch random word
-            const response = await fetch('https://wordsapiv1.p.rapidapi.com/words/?' + new URLSearchParams({
-                random: 'true'
-            }), {
-                "method": "GET",
-                "headers": {
-                    "x-rapidapi-key": "yourKey",
-                    "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
-                }
-            });
-            // Convert to json
-            const doc = await response.json();
-            // Get word field
-            const word = doc.word;
-            console.log(word);
-            // Check if fetched word is unique
-            if (!Object.keys(oldWordDefinitions).includes(word)) {
-                // Fetch definition for this word
-                const response = await fetch('https://wordsapiv1.p.rapidapi.com/words/' + word + '/definitions', {
-                    "method": "GET",
-                    "headers": {
-                        "x-rapidapi-key": "yourKey",
-                        "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
-                    }
-                });
-                // Convert to json
-                const doc = await response.json();
-                console.log(doc);
-                // If fetched word has definition, add it to wordDefinitions object
-                if (doc.definitions.length) {
-                    wordsDefinitions[word] = doc.definitions;
-                }
-                // If wordDefinitions has specified length, break from the loop
-                console.log(Object.keys(wordsDefinitions).length);
-                if (Object.keys(wordsDefinitions).length === missingWords) {
-                    break;
-                }
-            }
-        }
-        console.log('skonczylem drugi raz');
-        return wordsDefinitions;
-    }
-    const getSpecifiedWordDefinitions = async function(words) {
-        let i = 0,
-            wordsDefinitions = {};
-        // Loop to get all words specified in words array
-        while (i < words.length) {
-            console.log(i);
-            const word = words[i];
-            // Fetch word
-            const response = await fetch('https://wordsapiv1.p.rapidapi.com/words/' + word + '/definitions', {
-                "method": "GET",
-                "headers": {
-                    "x-rapidapi-key": "yourKey",
-                    "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
-                }
-            });
-            // Convert to json
-            const doc = await response.json();
-            // If fetched word has definition, add it to wordDefinitions object
-            if (doc.definitions.length) {
-                console.log('jestem tutaaaaaaj');
-                wordsDefinitions[word] = doc.definitions;
-            }
-            console.log(wordsDefinitions);
-            // If wordDefinitions has specified length, break from the loop
-            // console.log(Object.keys(wordsDefinitions).length);
-            // if (Object.keys(wordsDefinitions).length === 2) {
-            //     break;
-            // }
-            i++;
-        }
-        console.log('skonczylem');
-        return wordsDefinitions;
-    }
+    // const getAllWordsByPage = async function(pageNum = 1) {
+    //     return await fetch('https://wordsapiv1.p.rapidapi.com/words/?' + new URLSearchParams({
+    //             letterPattern: '^[A-z]{2,}$',
+    //             page: pageNum
+    //         }), {
+    //             "method": "GET",
+    //             "headers": {
+    //                 "x-rapidapi-key": "yourKey",
+    //                 "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
+    //             }
+    //         })
+    //         .then(response => response.json());
+    // }
+    // const getWordsByRandomPages = async function(numberOfQuestions, numOfAnswers) {
+    //     // Get all words
+    //     let pages = '',
+    //         data = [],
+    //         randomPages = [];
+    //     return await getAllWordsByPage()
+    //         .then(doc => {
+    //             // No errors -- proceed in a regular fashion
+    //             // Total number of pages
+    //             pages = doc.results.total;
+    //             console.log(pages);
+    //             console.log(Math.ceil(pages / 100));
+    //             // Generate random pages
+    //             while (randomPages.length < numberOfQuestions * numOfAnswers) {
+    //                 const r = Math.floor(Math.random() * Math.ceil(pages / 100));
+    //                 if (randomPages.indexOf(r) === -1) {
+    //                     randomPages.push(r);
+    //                 }
+    //             }
+    //             console.log(randomPages);
+    //             // Get all words by randomPages
+    //             let promises = [];
+    //             // Add promises in a loop
+    //             for (let i = 0; i < randomPages.length; i++) {
+    //                 promises.push(getAllWordsByPage(randomPages[i]));
+    //             }
+    //             return Promise.all(promises);
+    //         })
+    //         .catch(error => {
+    //             // Errors -- handle those in here
+    //             console.log(error);
+    //         });
+    // }
+    // const getRandomWordDefinitions = async function(missingWords, oldWordDefinitions) {
+    //     let wordsDefinitions = {};
+    //     console.log(missingWords);
+    //     // Loop till word with definition is found
+    //     while (true) {
+    //         // Fetch random word
+    //         const response = await fetch('https://wordsapiv1.p.rapidapi.com/words/?' + new URLSearchParams({
+    //             random: 'true'
+    //         }), {
+    //             "method": "GET",
+    //             "headers": {
+    //                 "x-rapidapi-key": "yourKey",
+    //                 "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
+    //             }
+    //         });
+    //         // Convert to json
+    //         const doc = await response.json();
+    //         // Get word field
+    //         const word = doc.word;
+    //         console.log(word);
+    //         // Check if fetched word is unique
+    //         if (!Object.keys(oldWordDefinitions).includes(word)) {
+    //             // Fetch definition for this word
+    //             const response = await fetch('https://wordsapiv1.p.rapidapi.com/words/' + word + '/definitions', {
+    //                 "method": "GET",
+    //                 "headers": {
+    //                     "x-rapidapi-key": "yourKey",
+    //                     "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
+    //                 }
+    //             });
+    //             // Convert to json
+    //             const doc = await response.json();
+    //             console.log(doc);
+    //             // If fetched word has definition, add it to wordDefinitions object
+    //             if (doc.definitions.length) {
+    //                 wordsDefinitions[word] = doc.definitions;
+    //             }
+    //             // If wordDefinitions has specified length, break from the loop
+    //             console.log(Object.keys(wordsDefinitions).length);
+    //             if (Object.keys(wordsDefinitions).length === missingWords) {
+    //                 break;
+    //             }
+    //         }
+    //     }
+    //     console.log('skonczylem drugi raz');
+    //     return wordsDefinitions;
+    // }
+    // const getSpecifiedWordDefinitions = async function(words) {
+    //     let i = 0,
+    //         wordsDefinitions = {};
+    //     // Loop to get all words specified in words array
+    //     while (i < words.length) {
+    //         console.log(i);
+    //         const word = words[i];
+    //         // Fetch word
+    //         const response = await fetch('https://wordsapiv1.p.rapidapi.com/words/' + word + '/definitions', {
+    //             "method": "GET",
+    //             "headers": {
+    //                 "x-rapidapi-key": "yourKey",
+    //                 "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
+    //             }
+    //         });
+    //         // Convert to json
+    //         const doc = await response.json();
+    //         // If fetched word has definition, add it to wordDefinitions object
+    //         if (doc.definitions.length) {
+    //             console.log('jestem tutaaaaaaj');
+    //             wordsDefinitions[word] = doc.definitions;
+    //         }
+    //         console.log(wordsDefinitions);
+    //         // If wordDefinitions has specified length, break from the loop
+    //         // console.log(Object.keys(wordsDefinitions).length);
+    //         // if (Object.keys(wordsDefinitions).length === 2) {
+    //         //     break;
+    //         // }
+    //         i++;
+    //     }
+    //     console.log('skonczylem');
+    //     return wordsDefinitions;
+    // }
     // let words = ["scandalised", "destalinize"];
-    const numOfQuestion = 2;
-    const numOfAnswers = 4;
+    // const numOfQuestion = 2;
+    // const numOfAnswers = 4;
     // getWordsByRandomPages(numOfQuestion, numOfAnswers)
     // .then(docs => {
     //     console.log(docs);
@@ -1560,493 +1560,493 @@
     //     e.preventDefault();
     // });
     // 
-    const checkIfEmpty = function() {
-        if (addQuizForm["quiz-name"].value !== '' && addQuizForm["quiz-type"].value !== 'Quiz Type' && addQuizForm["quiz-answers"].value !== '' && addQuizForm["quiz-questions"].value !== '' && (addQuizForm["quiz-answers"].value >= 2 && addQuizForm["quiz-answers"].value <= 4) && (addQuizForm["quiz-questions"].value >= 4 && addQuizForm["quiz-questions"].value <= 10)) {
-            addQuizForm["quiz-generate"].classList.remove('disabled');
-        } else {
-            addQuizForm["quiz-generate"].classList.add('disabled');
-        }
-    }
-    // Check Name
-    addQuizForm["quiz-name"].addEventListener('keyup', () => {
-        console.log('jestem w name');
-        checkIfEmpty();
-    });
-    addQuizForm["quiz-name"].addEventListener('blur', () => {
-        console.log('jestem w name');
-        checkIfEmpty();
-    });
-    // Check Type
-    addQuizForm["quiz-type"].addEventListener('change', () => {
-        console.log('jestem w type');
-        checkIfEmpty();
-    });
-    // Check Answers
-    addQuizForm["quiz-answers"].addEventListener('keyup', () => {
-        console.log('jestem w type');
-        checkIfEmpty();
-    });
-    // Check Answers
-    addQuizForm["quiz-answers"].addEventListener('blur', () => {
-        console.log('jestem w type');
-        checkIfEmpty();
-    });
-    // Check Questions
-    addQuizForm["quiz-questions"].addEventListener('keyup', () => {
-        console.log('jestem w type');
-        checkIfEmpty();
-    });
-    // Check Questions
-    addQuizForm["quiz-questions"].addEventListener('blur', () => {
-        console.log('jestem w type');
-        checkIfEmpty();
-    });
+    // const checkIfEmpty = function() {
+    //     if (addQuizForm["quiz-name"].value !== '' && addQuizForm["quiz-type"].value !== 'Quiz Type' && addQuizForm["quiz-answers"].value !== '' && addQuizForm["quiz-questions"].value !== '' && (addQuizForm["quiz-answers"].value >= 2 && addQuizForm["quiz-answers"].value <= 4) && (addQuizForm["quiz-questions"].value >= 4 && addQuizForm["quiz-questions"].value <= 10)) {
+    //         addQuizForm["quiz-generate"].classList.remove('disabled');
+    //     } else {
+    //         addQuizForm["quiz-generate"].classList.add('disabled');
+    //     }
+    // }
+    // // Check Name
+    // addQuizForm["quiz-name"].addEventListener('keyup', () => {
+    //     console.log('jestem w name');
+    //     checkIfEmpty();
+    // });
+    // addQuizForm["quiz-name"].addEventListener('blur', () => {
+    //     console.log('jestem w name');
+    //     checkIfEmpty();
+    // });
+    // // Check Type
+    // addQuizForm["quiz-type"].addEventListener('change', () => {
+    //     console.log('jestem w type');
+    //     checkIfEmpty();
+    // });
+    // // Check Answers
+    // addQuizForm["quiz-answers"].addEventListener('keyup', () => {
+    //     console.log('jestem w type');
+    //     checkIfEmpty();
+    // });
+    // // Check Answers
+    // addQuizForm["quiz-answers"].addEventListener('blur', () => {
+    //     console.log('jestem w type');
+    //     checkIfEmpty();
+    // });
+    // // Check Questions
+    // addQuizForm["quiz-questions"].addEventListener('keyup', () => {
+    //     console.log('jestem w type');
+    //     checkIfEmpty();
+    // });
+    // // Check Questions
+    // addQuizForm["quiz-questions"].addEventListener('blur', () => {
+    //     console.log('jestem w type');
+    //     checkIfEmpty();
+    // });
     // Show/hide errors
-    const showGenerateErrors = document.querySelector('#submit-generate-feedback .error-icon-wrapper');
-    const generateFeedbackWrapper = document.querySelector('#generate-feedback-wrapper');
-    const generateFeedbackBackBtn = document.querySelector('#generate-feedback-back-btn');
+    // const showGenerateErrors = document.querySelector('#submit-generate-feedback .error-icon-wrapper');
+    // const generateFeedbackWrapper = document.querySelector('#generate-feedback-wrapper');
+    // const generateFeedbackBackBtn = document.querySelector('#generate-feedback-back-btn');
+    // // 
+    // showGenerateErrors.addEventListener('click', () => {
+    //     generateFeedbackWrapper.classList.toggle('hidden-options');
+    // })
+    // // 
+    // generateFeedbackBackBtn.addEventListener('click', () => {
+    //     generateFeedbackWrapper.classList.toggle('hidden-options');
+    // })
+    // const clearFeedbackDiv = function(target) {
+    //     Array.from(target.lastElementChild.children).forEach(childDiv => {
+    //         if (!childDiv.firstElementChild.classList.contains('hide')) {
+    //             childDiv.firstElementChild.classList.add('hide');
+    //         }
+    //     });
+    // }
+    // const hideSubmitFeedback = function(target) {
+    //     if (!target.classList.contains('hide')) {
+    //         if (!target.firstElementChild.classList.contains('hide')) {
+    //             target.firstElementChild.classList.add('hide');
+    //         }
+    //         if (!target.lastElementChild.classList.contains('hide')) {
+    //             target.lastElementChild.classList.add('hide');
+    //         }
+    //         target.classList.add('hide');
+    //     }
+    // }
+    // const inputValid = function(target, feedback) {
+    //     if (!target.classList.contains('input-valid')) {
+    //         feedback.lastElementChild.classList.add('hide');
+    //         target.classList.remove('input-invalid');
+    //         target.classList.add('input-valid');
+    //     }
+    //     feedback.firstElementChild.classList.remove('hide');
+    //     target.classList.add('input-valid');
+    // }
+    // const inputInvalid = function(target, feedback) {
+    //     if (!feedback.firstElementChild.classList.contains('hide')) {
+    //         feedback.firstElementChild.classList.add('hide');
+    //         target.classList.remove('input-valid');
+    //         target.classList.add('input-invalid');
+    //     }
+    //     feedback.lastElementChild.classList.remove('hide');
+    //     target.classList.add('input-invalid');
+    // }
+    // const inputInvalidRemove = function(target, feedback) {
+    //     feedback.lastElementChild.classList.add('hide');
+    //     target.classList.remove('input-invalid');
+    // }
+    // const generateNameValidationIcons = document.querySelector('#generate-name-validation');
+    // const generateTypeValidationIcons = document.querySelector('#generate-type-validation');
+    // const generateAnswersValidationIcons = document.querySelector('#generate-answers-validation');
+    // const generateQuestionsValidationIcons = document.querySelector('#generate-questions-validation');
+    // const handleFormDataLogin = function(data) {
+    //     // Count errors
+    //     let err_count = 0;
+    //     // Check username
+    //     if (checkField(data["quiz-name"])) {
+    //         err_count++;
+    //         console.log('jestem tutaj');
+    //         inputInvalid(addQuizForm["quiz-name"], generateNameValidationIcons);
+    //         // 
+    //         setTimeout(() => {
+    //             inputInvalidRemove(addQuizForm["quiz-name"], generateNameValidationIcons);
+    //         }, 2000);
+    //         // 
+    //         return err_count;
+    //     } else {
+    //         inputValid(addQuizForm["quiz-name"], generateNameValidationIcons);
+    //     }
+    //     if (checkField(data["quiz-type"])) {
+    //         err_count++;
+    //         inputInvalid(addQuizForm["quiz-type"], generateTypeValidationIcons);
+    //         // 
+    //         setTimeout(() => {
+    //             inputInvalidRemove(addQuizForm["quiz-type"], generateTypeValidationIcons);
+    //         }, 2000);
+    //         // 
+    //         return err_count;
+    //     } else {
+    //         inputValid(addQuizForm["quiz-type"], generateTypeValidationIcons);
+    //     }
+    //     if (checkField(data["quiz-answers"])) {
+    //         err_count++;
+    //         inputInvalid(addQuizForm["quiz-answers"], generateAnswersValidationIcons);
+    //         // 
+    //         setTimeout(() => {
+    //             inputInvalidRemove(addQuizForm["quiz-answers"], generateAnswersValidationIcons);
+    //         }, 2000);
+    //         // 
+    //         return err_count;
+    //     } else {
+    //         inputValid(addQuizForm["quiz-answers"], generateAnswersValidationIcons);
+    //     }
+    //     if (checkField(data["quiz-questions"])) {
+    //         err_count++;
+    //         inputInvalid(addQuizForm["quiz-questions"], generateQuestionsValidationIcons);
+    //         // 
+    //         setTimeout(() => {
+    //             inputInvalidRemove(addQuizForm["quiz-questions"], generateQuestionsValidationIcons);
+    //         }, 2000);
+    //         // 
+    //         return err_count;
+    //     } else {
+    //         inputValid(addQuizForm["quiz-questions"], generateQuestionsValidationIcons);
+    //     }
+    //     // Check db
+    //     err_count += checkField(data.db);
+
+    //     return err_count;
+    // }
+    // const checkField = function(field) {
+    //     console.log(field);
+    //     // Check for error & adjust UI
+    //     if (field.php_error) {
+    //         const feedbacIfError = document.querySelector(`.${field.field}-wrapper-if-error`);
+    //         feedbacIfError.firstElementChild.classList.remove('hide');
+    //         const feedbackMsg = feedbacIfError.querySelector(`.${field.field}-error-text`);
+    //         feedbackMsg.textContent = field.msg;
+
+    //         return 1;
+    //     } else {
+    //         const feedbacIfOk = document.querySelector(`.${field.field}-wrapper-if-ok`);
+    //         feedbacIfOk.firstElementChild.classList.remove('hide');
+
+    //         return 0;
+    //     }
+    // }
+    // const submitGenerateFeedback = document.querySelector('#submit-generate-feedback');
+    // const generateConfirmation = document.querySelector('#generate-confirmation');
+    // const unlockInputFields = function(target) {
+    //     Array.from(target).forEach(input => {
+    //         input.removeAttribute("readonly");
+    //     });
+    // }
     // 
-    showGenerateErrors.addEventListener('click', () => {
-        generateFeedbackWrapper.classList.toggle('hidden-options');
-    })
-    // 
-    generateFeedbackBackBtn.addEventListener('click', () => {
-        generateFeedbackWrapper.classList.toggle('hidden-options');
-    })
-    const clearFeedbackDiv = function(target) {
-        Array.from(target.lastElementChild.children).forEach(childDiv => {
-            if (!childDiv.firstElementChild.classList.contains('hide')) {
-                childDiv.firstElementChild.classList.add('hide');
-            }
-        });
-    }
-    const hideSubmitFeedback = function(target) {
-        if (!target.classList.contains('hide')) {
-            if (!target.firstElementChild.classList.contains('hide')) {
-                target.firstElementChild.classList.add('hide');
-            }
-            if (!target.lastElementChild.classList.contains('hide')) {
-                target.lastElementChild.classList.add('hide');
-            }
-            target.classList.add('hide');
-        }
-    }
-    const inputValid = function(target, feedback) {
-        if (!target.classList.contains('input-valid')) {
-            feedback.lastElementChild.classList.add('hide');
-            target.classList.remove('input-invalid');
-            target.classList.add('input-valid');
-        }
-        feedback.firstElementChild.classList.remove('hide');
-        target.classList.add('input-valid');
-    }
-    const inputInvalid = function(target, feedback) {
-        if (!feedback.firstElementChild.classList.contains('hide')) {
-            feedback.firstElementChild.classList.add('hide');
-            target.classList.remove('input-valid');
-            target.classList.add('input-invalid');
-        }
-        feedback.lastElementChild.classList.remove('hide');
-        target.classList.add('input-invalid');
-    }
-    const inputInvalidRemove = function(target, feedback) {
-        feedback.lastElementChild.classList.add('hide');
-        target.classList.remove('input-invalid');
-    }
-    const generateNameValidationIcons = document.querySelector('#generate-name-validation');
-    const generateTypeValidationIcons = document.querySelector('#generate-type-validation');
-    const generateAnswersValidationIcons = document.querySelector('#generate-answers-validation');
-    const generateQuestionsValidationIcons = document.querySelector('#generate-questions-validation');
-    const handleFormDataLogin = function(data) {
-        // Count errors
-        let err_count = 0;
-        // Check username
-        if (checkField(data["quiz-name"])) {
-            err_count++;
-            console.log('jestem tutaj');
-            inputInvalid(addQuizForm["quiz-name"], generateNameValidationIcons);
-            // 
-            setTimeout(() => {
-                inputInvalidRemove(addQuizForm["quiz-name"], generateNameValidationIcons);
-            }, 2000);
-            // 
-            return err_count;
-        } else {
-            inputValid(addQuizForm["quiz-name"], generateNameValidationIcons);
-        }
-        if (checkField(data["quiz-type"])) {
-            err_count++;
-            inputInvalid(addQuizForm["quiz-type"], generateTypeValidationIcons);
-            // 
-            setTimeout(() => {
-                inputInvalidRemove(addQuizForm["quiz-type"], generateTypeValidationIcons);
-            }, 2000);
-            // 
-            return err_count;
-        } else {
-            inputValid(addQuizForm["quiz-type"], generateTypeValidationIcons);
-        }
-        if (checkField(data["quiz-answers"])) {
-            err_count++;
-            inputInvalid(addQuizForm["quiz-answers"], generateAnswersValidationIcons);
-            // 
-            setTimeout(() => {
-                inputInvalidRemove(addQuizForm["quiz-answers"], generateAnswersValidationIcons);
-            }, 2000);
-            // 
-            return err_count;
-        } else {
-            inputValid(addQuizForm["quiz-answers"], generateAnswersValidationIcons);
-        }
-        if (checkField(data["quiz-questions"])) {
-            err_count++;
-            inputInvalid(addQuizForm["quiz-questions"], generateQuestionsValidationIcons);
-            // 
-            setTimeout(() => {
-                inputInvalidRemove(addQuizForm["quiz-questions"], generateQuestionsValidationIcons);
-            }, 2000);
-            // 
-            return err_count;
-        } else {
-            inputValid(addQuizForm["quiz-questions"], generateQuestionsValidationIcons);
-        }
-        // Check db
-        err_count += checkField(data.db);
 
-        return err_count;
-    }
-    const checkField = function(field) {
-        console.log(field);
-        // Check for error & adjust UI
-        if (field.php_error) {
-            const feedbacIfError = document.querySelector(`.${field.field}-wrapper-if-error`);
-            feedbacIfError.firstElementChild.classList.remove('hide');
-            const feedbackMsg = feedbacIfError.querySelector(`.${field.field}-error-text`);
-            feedbackMsg.textContent = field.msg;
+    // const generateQuizTextFeddback = document.querySelector('#generate-quiz-text-feedback');
+    // const generateQuizLoader = document.querySelector('#generate-quiz-loader');
+    // const postData = async function(data) {
+    //     return await fetch("store.php", {
+    //         method: "POST",
+    //         mode: 'cors',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify(data)
+    //     })
+    // }
+    // // submit generate form
+    // addQuizForm.addEventListener('submit', e => {
+    //     // Assign var names
+    //     const quizName = addQuizForm["quiz-name"].value;
+    //     const quizType = addQuizForm["quiz-type"].value;
+    //     const quizAnswers = addQuizForm["quiz-answers"].value;
+    //     const quizQuestions = addQuizForm["quiz-questions"].value;
+    //     // Check if there is anything in inputs
+    //     if (addQuizForm["quiz-name"].value !== '' && addQuizForm["quiz-type"].value !== 'Quiz Type' && addQuizForm["quiz-answers"].value !== '' && addQuizForm["quiz-questions"].value !== '' && (addQuizForm["quiz-answers"].value >= 2 && addQuizForm["quiz-answers"].value <= 4) && (addQuizForm["quiz-questions"].value >= 4 && addQuizForm["quiz-questions"].value <= 10) && !addQuizForm["quiz-name"].hasAttribute('readonly') && !addQuizForm["quiz-type"].hasAttribute('disabled') && !addQuizForm["quiz-answers"].hasAttribute('readonly') && !addQuizForm["quiz-questions"].hasAttribute('readonly')) {
+    //         // Adjust UI
+    //         if (submitGenerateFeedback.classList.contains('hide')) {
+    //             submitGenerateFeedback.classList.remove('hide');
+    //             submitGenerateFeedback.lastElementChild.classList.remove('hide');
+    //         } else {
+    //             submitGenerateFeedback.firstElementChild.classList.add('hide');
+    //             submitGenerateFeedback.lastElementChild.classList.remove('hide');
+    //         }
+    //         // Lock input fields & submit btn
+    //         addQuizForm["quiz-name"].setAttribute("readonly", true);
+    //         addQuizForm["quiz-type"].setAttribute("disabled", true);
+    //         addQuizForm["quiz-select"].value = addQuizForm["quiz-type"].value;
+    //         addQuizForm["quiz-answers"].setAttribute("readonly", true);
+    //         addQuizForm["quiz-questions"].setAttribute("readonly", true);
+    //         addQuizForm["quiz-generate"].classList.add("disabled");
+    //         // Clear feedback div
+    //         clearFeedbackDiv(generateFeedbackWrapper);
+    //         // Set local var
+    //         let err_count = 0;
+    //         let wordDefinitions = [];
+    //         // Post data using the Fetch API
+    //         fetch(addQuizForm.action, {
+    //                 method: addQuizForm.method,
+    //                 body: new FormData(addQuizForm)
+    //             })
+    //             .then(res => {
+    //                 // Check if response ok
+    //                 if (!res.ok) {
+    //                     throw new Error('Network problem.');
+    //                 }
+    //                 return res.json();
+    //             })
+    //             .then(docs1 => {
+    //                 console.log(docs1);
+    //                 // Handle when resolved
+    //                 // Fetch promise rejects only when there is network error
+    //                 // Handle input data
+    //                 err_count = handleFormDataLogin(docs1);
+    //                 if (err_count) { // errors found
+    //                     setTimeout(() => {
+    //                         submitGenerateFeedback.lastElementChild.classList.add('hide');
+    //                         submitGenerateFeedback.firstElementChild.classList.remove('hide');
+    //                         // Unlock input fields & submit btn
+    //                         addQuizForm["quiz-name"].removeAttribute("readonly");
+    //                         addQuizForm["quiz-type"].removeAttribute("disabled");
+    //                         addQuizForm["quiz-answers"].removeAttribute("readonly");
+    //                         addQuizForm["quiz-questions"].removeAttribute("readonly");
+    //                         addQuizForm["quiz-generate"].classList.remove("disabled");
+    //                     }, 500);
+    //                 } else { // no errors
+    //                     setTimeout(() => {
+    //                         // Unlock input fields & submit btn
+    //                         addQuizForm["quiz-name"].removeAttribute("readonly");
+    //                         addQuizForm["quiz-type"].removeAttribute("disabled");
+    //                         addQuizForm["quiz-answers"].removeAttribute("readonly");
+    //                         addQuizForm["quiz-questions"].removeAttribute("readonly");
+    //                         addQuizForm["quiz-generate"].classList.remove("disabled");
+    //                         console.log('all good');
+    //                         // Hide submit feedback div
+    //                         submitGenerateFeedback.classList.add('hide');
+    //                         submitGenerateFeedback.firstElementChild.classList.add('hide');
+    //                         setTimeout(() => {
+    //                             // Show confirmation wrapper & loader, set text
+    //                             generateConfirmation.classList.remove('hidden-options');
+    //                             generateQuizLoader.classList.add('start-loader');
+    //                             generateQuizTextFeddback.textContent = 'Fetching words...';
+    //                             // Fetch data from WordAPI
+    //                             getWordsByRandomPages(quizQuestions, quizAnswers)
+    //                                 .then(docs2 => {
+    //                                     // Reset form
+    //                                     addQuizForm["quiz-name"].value = '';
+    //                                     addQuizForm["quiz-name"].classList.remove('input-valid');
+    //                                     addQuizForm["quiz-name"].classList.remove('input-invalid');
+    //                                     if (!addQuizForm["quiz-name"].parentElement.lastElementChild.firstElementChild.classList.contains('hide')) {
+    //                                         addQuizForm["quiz-name"].parentElement.lastElementChild.firstElementChild.classList.add('hide');
+    //                                     }
+    //                                     if (!addQuizForm["quiz-name"].parentElement.lastElementChild.lastElementChild.classList.contains('hide')) {
+    //                                         addQuizForm["quiz-name"].parentElement.lastElementChild.lastElementChild.classList.add('hide');
+    //                                     }
+    //                                     addQuizForm["quiz-type"].value = 'Quiz Type';
+    //                                     addQuizForm["quiz-type"].classList.remove('input-valid');
+    //                                     addQuizForm["quiz-type"].classList.remove('input-invalid');
+    //                                     if (!addQuizForm["quiz-type"].parentElement.lastElementChild.firstElementChild.classList.contains('hide')) {
+    //                                         addQuizForm["quiz-type"].parentElement.lastElementChild.firstElementChild.classList.add('hide');
+    //                                     }
+    //                                     if (!addQuizForm["quiz-type"].parentElement.lastElementChild.lastElementChild.classList.contains('hide')) {
+    //                                         addQuizForm["quiz-type"].parentElement.lastElementChild.lastElementChild.classList.add('hide');
+    //                                     }
+    //                                     addQuizForm["quiz-answers"].value = 2;
+    //                                     addQuizForm["quiz-answers"].classList.remove('input-valid');
+    //                                     addQuizForm["quiz-answers"].classList.remove('input-invalid');
+    //                                     if (!addQuizForm["quiz-answers"].parentElement.lastElementChild.firstElementChild.classList.contains('hide')) {
+    //                                         addQuizForm["quiz-answers"].parentElement.lastElementChild.firstElementChild.classList.add('hide');
+    //                                     }
+    //                                     if (!addQuizForm["quiz-answers"].parentElement.lastElementChild.lastElementChild.classList.contains('hide')) {
+    //                                         addQuizForm["quiz-answers"].parentElement.lastElementChild.lastElementChild.classList.add('hide');
+    //                                     }
+    //                                     addQuizForm["quiz-questions"].value = 4;
+    //                                     addQuizForm["quiz-questions"].classList.remove('input-valid');
+    //                                     addQuizForm["quiz-questions"].classList.remove('input-invalid');
+    //                                     if (!addQuizForm["quiz-questions"].parentElement.lastElementChild.firstElementChild.classList.contains('hide')) {
+    //                                         addQuizForm["quiz-questions"].parentElement.lastElementChild.firstElementChild.classList.add('hide');
+    //                                     }
+    //                                     if (!addQuizForm["quiz-questions"].parentElement.lastElementChild.lastElementChild.classList.contains('hide')) {
+    //                                         addQuizForm["quiz-questions"].parentElement.lastElementChild.lastElementChild.classList.add('hide');
+    //                                     }
+    //                                     // disable submit btn
+    //                                     if (!addQuizForm["quiz-generate"].classList.contains('disabled')) {
+    //                                         addQuizForm["quiz-generate"].classList.add('disabled');
+    //                                     }
+    //                                     // Hide submit feedback
+    //                                     hideSubmitFeedback(submitGenerateFeedback);
+    //                                     // Generate random word indexes
+    //                                     let randomIndexes = [],
+    //                                         randomWords = [];
+    //                                     while (randomIndexes.length < quizQuestions * quizAnswers) {
+    //                                         const r = Math.floor(Math.random() * 100) + 1;
+    //                                         if (randomIndexes.indexOf(r) === -1) {
+    //                                             randomIndexes.push(r);
+    //                                         }
+    //                                     }
+    //                                     // Get random words based on randomIndexes
+    //                                     docs2.forEach((doc, index) => {
+    //                                         randomWords.push(doc.results.data[randomIndexes[index]]);
+    //                                     });
+    //                                     // Update UI text
+    //                                     generateQuizTextFeddback.textContent = 'Fetching definitions...';
+    //                                     // Fetch definitions
+    //                                     return getSpecifiedWordDefinitions(randomWords);
+    //                                 })
+    //                                 .then(definitions => {
+    //                                     wordDefinitions = definitions;
+    //                                     console.log('DONE');
+    //                                     // Check if length of wordDefinitions is greater than or equal to
+    //                                     if (Object.keys(wordDefinitions).length === quizQuestions * quizAnswers) {
+    //                                         // Yes - ok
+    //                                         console.log('jest ok');
+    //                                         return undefined;
+    //                                     } else {
+    //                                         // No
+    //                                         const missingWords = quizQuestions * quizAnswers - Object.keys(wordDefinitions).length;
+    //                                         return getRandomWordDefinitions(missingWords, wordDefinitions);
+    //                                     }
+    //                                 })
+    //                                 .then(definition => {
+    //                                     if (definition === undefined) {
+    //                                         console.log('jest ok, znowu');
+    //                                     } else {
+    //                                         wordDefinitions = {
+    //                                             ...wordDefinitions,
+    //                                             ...definition
+    //                                         };
+    //                                         console.log(wordDefinitions);
+    //                                     }
+    //                                     // Here words and their definitions were fetched correctly
+    //                                     // Here generate questions
+    //                                     console.log('jestem tu - przed ostatnim fetch');
+    //                                     const questionTemplates = [
+    //                                         "What is the definition of $?",
+    //                                         "How would you define $?",
+    //                                         "How to define $?",
+    //                                         "What is the meaning of $?",
+    //                                         "What does $ mean?"
+    //                                     ];
+    //                                     let questionsToSave = {};
+    //                                     // Iterate over word definitions
+    //                                     console.log('przed for loop');
+    //                                     for (const key in wordDefinitions) {
+    //                                         console.log(key);
+    //                                         let definition, partOfSpeech = '';
+    //                                         // If word has more than one definition, choose a random one
+    //                                         if (wordDefinitions[key].length > 1) {
+    //                                             // Get random definition
+    //                                             const r = Math.floor(Math.random() * wordDefinitions[key].length);
+    //                                             definition = wordDefinitions[key][r].definition;
+    //                                             partOfSpeech = wordDefinitions[key][r].partOfSpeech;
+    //                                         } else {
+    //                                             definition = wordDefinitions[key][0].definition;
+    //                                             partOfSpeech = wordDefinitions[key][0].partOfSpeech;
+    //                                         }
+    //                                         // Add answer
+    //                                         questionsToSave[key] = {};
+    //                                         questionsToSave[key].correctAnswer = definition;
+    //                                         // Get random question template
+    //                                         const r = Math.floor(Math.random() * questionTemplates.length);
+    //                                         // Create question
+    //                                         questionsToSave[key].question = questionTemplates[r].replace("$", `${key} (${partOfSpeech})`);
+    //                                     }
+    //                                     // Here all questions & answer for each question is correctly generated
+    //                                     console.log(questionsToSave);
+    //                                     console.log('tututututu');
+    //                                     // Generate questions to save & remaining answers
+    //                                     const questionsKeys = Object.keys(questionsToSave);
+    //                                     let indexes = [];
+    //                                     while (indexes.length < quizQuestions) { // number of questions
+    //                                         const r = Math.floor(Math.random() * questionsKeys.length);
+    //                                         if (indexes.indexOf(r) === -1) {
+    //                                             indexes.push(r);
+    //                                         }
+    //                                     }
+    //                                     let questionsSaveSave = {};
+    //                                     let answersSaveSave = [];
+    //                                     questionsKeys.forEach((key, index) => {
+    //                                         if (indexes.includes(index)) {
+    //                                             questionsSaveSave[key] = questionsToSave[key];
+    //                                         } else {
+    //                                             const lolo = questionsToSave[key];
+    //                                             answersSaveSave.push(lolo.correctAnswer);
+    //                                         }
+    //                                     });
+    //                                     const data = {
+    //                                         questions: questionsSaveSave,
+    //                                         answers: answersSaveSave,
+    //                                         quizID: quizName,
+    //                                         answersTotal: quizAnswers
+    //                                     };
+    //                                     console.log(data);
+    //                                     // Save to db as a transaction
+    //                                     console.log('tutaj postData jest wywolany');
+    //                                     // Update UI text
+    //                                     generateQuizTextFeddback.textContent = 'Saving...';
+    //                                     return postData(data);
+    //                                 })
+    //                                 .then(res => {
+    //                                     // Check if response ok
+    //                                     if (!res.ok) {
+    //                                         throw new Error('Network problem.');
+    //                                     }
+    //                                     return res.json();
+    //                                 })
+    //                                 .then(docs3 => {
+    //                                     console.log(docs3);
+    //                                     console.log('jestem az tutaj');
+    //                                     allQuizzes = docs3['snapshot'];
+    //                                     console.log(allQuizzes);
+    //                                     generateQuizTextFeddback.textContent = 'Done!';
+    //                                     generateQuizLoader.classList.remove('start-loader');
+    //                                     setTimeout(() => {
+    //                                         generateConfirmation.classList.add('hidden-options');
+    //                                         addQuizWrapper.classList.add('hidden-options');
+    //                                         // Render quizzes
+    //                                         renderQuizzes(1);
+    //                                         browseWrapper.classList.toggle('hidden-options');
+    //                                         // 
+    //                                         // location.reload(true);
+    //                                         // Jest opcja, zeby nie odswiezac -- zrob fetch wszystkich quizzow, wygeneruj templates za pomoca js
 
-            return 1;
-        } else {
-            const feedbacIfOk = document.querySelector(`.${field.field}-wrapper-if-ok`);
-            feedbacIfOk.firstElementChild.classList.remove('hide');
+    //                                         // Jak to wszystko juz bedzie gotowe -- przenies uzytkownika na strone glowna quizu (tak jakby wybral ten quiz z puli quizzow)
+    //                                         // Kazde pytanie na osobnej stronie
+    //                                         // Daj mozliwosc powrotu do poprzedniego pytania
+    //                                         // Na ostatniej stronie submit form ze wszystkimi odpowiedziami
+    //                                         // Policz wynik, pokaz wynik, zapisz ostatni wynik do bazy danych
+    //                                     }, 1500);
+    //                                 })
+    //                                 .catch(error => {
+    //                                     console.log(error);
+    //                                 });
+    //                         }, 500);
+    //                     }, 1000);
+    //                 }
+    //             })
+    //             .catch(error => {
+    //                 // here you can handle also error from php
+    //                 // they come in a js form: JSON.parse blah blah
+    //                 console.log(error);
+    //                 // Handle when rejected (only network exceptions)
+    //                 if (err_count) {
+    //                     setTimeout(() => {
+    //                         submitGenerateFeedback.lastElementChild.classList.add('hide');
+    //                         submitGenerateFeedback.firstElementChild.classList.remove('hide');
+    //                         // Unlock input fields
+    //                         addQuizForm["quiz-name"].removeAttribute("readonly");
+    //                         addQuizForm["quiz-type"].removeAttribute("disabled");
+    //                         addQuizForm["quiz-answers"].removeAttribute("readonly");
+    //                         addQuizForm["quiz-questions"].removeAttribute("readonly");
 
-            return 0;
-        }
-    }
-    const submitGenerateFeedback = document.querySelector('#submit-generate-feedback');
-    const generateConfirmation = document.querySelector('#generate-confirmation');
-    const unlockInputFields = function(target) {
-        Array.from(target).forEach(input => {
-            input.removeAttribute("readonly");
-        });
-    }
-    // 
-
-    const generateQuizTextFeddback = document.querySelector('#generate-quiz-text-feedback');
-    const generateQuizLoader = document.querySelector('#generate-quiz-loader');
-    const postData = async function(data) {
-        return await fetch("store.php", {
-            method: "POST",
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-    }
-    // submit generate form
-    addQuizForm.addEventListener('submit', e => {
-        // Assign var names
-        const quizName = addQuizForm["quiz-name"].value;
-        const quizType = addQuizForm["quiz-type"].value;
-        const quizAnswers = addQuizForm["quiz-answers"].value;
-        const quizQuestions = addQuizForm["quiz-questions"].value;
-        // Check if there is anything in inputs
-        if (addQuizForm["quiz-name"].value !== '' && addQuizForm["quiz-type"].value !== 'Quiz Type' && addQuizForm["quiz-answers"].value !== '' && addQuizForm["quiz-questions"].value !== '' && (addQuizForm["quiz-answers"].value >= 2 && addQuizForm["quiz-answers"].value <= 4) && (addQuizForm["quiz-questions"].value >= 4 && addQuizForm["quiz-questions"].value <= 10) && !addQuizForm["quiz-name"].hasAttribute('readonly') && !addQuizForm["quiz-type"].hasAttribute('disabled') && !addQuizForm["quiz-answers"].hasAttribute('readonly') && !addQuizForm["quiz-questions"].hasAttribute('readonly')) {
-            // Adjust UI
-            if (submitGenerateFeedback.classList.contains('hide')) {
-                submitGenerateFeedback.classList.remove('hide');
-                submitGenerateFeedback.lastElementChild.classList.remove('hide');
-            } else {
-                submitGenerateFeedback.firstElementChild.classList.add('hide');
-                submitGenerateFeedback.lastElementChild.classList.remove('hide');
-            }
-            // Lock input fields & submit btn
-            addQuizForm["quiz-name"].setAttribute("readonly", true);
-            addQuizForm["quiz-type"].setAttribute("disabled", true);
-            addQuizForm["quiz-select"].value = addQuizForm["quiz-type"].value;
-            addQuizForm["quiz-answers"].setAttribute("readonly", true);
-            addQuizForm["quiz-questions"].setAttribute("readonly", true);
-            addQuizForm["quiz-generate"].classList.add("disabled");
-            // Clear feedback div
-            clearFeedbackDiv(generateFeedbackWrapper);
-            // Set local var
-            let err_count = 0;
-            let wordDefinitions = [];
-            // Post data using the Fetch API
-            fetch(addQuizForm.action, {
-                    method: addQuizForm.method,
-                    body: new FormData(addQuizForm)
-                })
-                .then(res => {
-                    // Check if response ok
-                    if (!res.ok) {
-                        throw new Error('Network problem.');
-                    }
-                    return res.json();
-                })
-                .then(docs1 => {
-                    console.log(docs1);
-                    // Handle when resolved
-                    // Fetch promise rejects only when there is network error
-                    // Handle input data
-                    err_count = handleFormDataLogin(docs1);
-                    if (err_count) { // errors found
-                        setTimeout(() => {
-                            submitGenerateFeedback.lastElementChild.classList.add('hide');
-                            submitGenerateFeedback.firstElementChild.classList.remove('hide');
-                            // Unlock input fields & submit btn
-                            addQuizForm["quiz-name"].removeAttribute("readonly");
-                            addQuizForm["quiz-type"].removeAttribute("disabled");
-                            addQuizForm["quiz-answers"].removeAttribute("readonly");
-                            addQuizForm["quiz-questions"].removeAttribute("readonly");
-                            addQuizForm["quiz-generate"].classList.remove("disabled");
-                        }, 500);
-                    } else { // no errors
-                        setTimeout(() => {
-                            // Unlock input fields & submit btn
-                            addQuizForm["quiz-name"].removeAttribute("readonly");
-                            addQuizForm["quiz-type"].removeAttribute("disabled");
-                            addQuizForm["quiz-answers"].removeAttribute("readonly");
-                            addQuizForm["quiz-questions"].removeAttribute("readonly");
-                            addQuizForm["quiz-generate"].classList.remove("disabled");
-                            console.log('all good');
-                            // Hide submit feedback div
-                            submitGenerateFeedback.classList.add('hide');
-                            submitGenerateFeedback.firstElementChild.classList.add('hide');
-                            setTimeout(() => {
-                                // Show confirmation wrapper & loader, set text
-                                generateConfirmation.classList.remove('hidden-options');
-                                generateQuizLoader.classList.add('start-loader');
-                                generateQuizTextFeddback.textContent = 'Fetching words...';
-                                // Fetch data from WordAPI
-                                getWordsByRandomPages(quizQuestions, quizAnswers)
-                                    .then(docs2 => {
-                                        // Reset form
-                                        addQuizForm["quiz-name"].value = '';
-                                        addQuizForm["quiz-name"].classList.remove('input-valid');
-                                        addQuizForm["quiz-name"].classList.remove('input-invalid');
-                                        if (!addQuizForm["quiz-name"].parentElement.lastElementChild.firstElementChild.classList.contains('hide')) {
-                                            addQuizForm["quiz-name"].parentElement.lastElementChild.firstElementChild.classList.add('hide');
-                                        }
-                                        if (!addQuizForm["quiz-name"].parentElement.lastElementChild.lastElementChild.classList.contains('hide')) {
-                                            addQuizForm["quiz-name"].parentElement.lastElementChild.lastElementChild.classList.add('hide');
-                                        }
-                                        addQuizForm["quiz-type"].value = 'Quiz Type';
-                                        addQuizForm["quiz-type"].classList.remove('input-valid');
-                                        addQuizForm["quiz-type"].classList.remove('input-invalid');
-                                        if (!addQuizForm["quiz-type"].parentElement.lastElementChild.firstElementChild.classList.contains('hide')) {
-                                            addQuizForm["quiz-type"].parentElement.lastElementChild.firstElementChild.classList.add('hide');
-                                        }
-                                        if (!addQuizForm["quiz-type"].parentElement.lastElementChild.lastElementChild.classList.contains('hide')) {
-                                            addQuizForm["quiz-type"].parentElement.lastElementChild.lastElementChild.classList.add('hide');
-                                        }
-                                        addQuizForm["quiz-answers"].value = 2;
-                                        addQuizForm["quiz-answers"].classList.remove('input-valid');
-                                        addQuizForm["quiz-answers"].classList.remove('input-invalid');
-                                        if (!addQuizForm["quiz-answers"].parentElement.lastElementChild.firstElementChild.classList.contains('hide')) {
-                                            addQuizForm["quiz-answers"].parentElement.lastElementChild.firstElementChild.classList.add('hide');
-                                        }
-                                        if (!addQuizForm["quiz-answers"].parentElement.lastElementChild.lastElementChild.classList.contains('hide')) {
-                                            addQuizForm["quiz-answers"].parentElement.lastElementChild.lastElementChild.classList.add('hide');
-                                        }
-                                        addQuizForm["quiz-questions"].value = 4;
-                                        addQuizForm["quiz-questions"].classList.remove('input-valid');
-                                        addQuizForm["quiz-questions"].classList.remove('input-invalid');
-                                        if (!addQuizForm["quiz-questions"].parentElement.lastElementChild.firstElementChild.classList.contains('hide')) {
-                                            addQuizForm["quiz-questions"].parentElement.lastElementChild.firstElementChild.classList.add('hide');
-                                        }
-                                        if (!addQuizForm["quiz-questions"].parentElement.lastElementChild.lastElementChild.classList.contains('hide')) {
-                                            addQuizForm["quiz-questions"].parentElement.lastElementChild.lastElementChild.classList.add('hide');
-                                        }
-                                        // disable submit btn
-                                        if (!addQuizForm["quiz-generate"].classList.contains('disabled')) {
-                                            addQuizForm["quiz-generate"].classList.add('disabled');
-                                        }
-                                        // Hide submit feedback
-                                        hideSubmitFeedback(submitGenerateFeedback);
-                                        // Generate random word indexes
-                                        let randomIndexes = [],
-                                            randomWords = [];
-                                        while (randomIndexes.length < quizQuestions * quizAnswers) {
-                                            const r = Math.floor(Math.random() * 100) + 1;
-                                            if (randomIndexes.indexOf(r) === -1) {
-                                                randomIndexes.push(r);
-                                            }
-                                        }
-                                        // Get random words based on randomIndexes
-                                        docs2.forEach((doc, index) => {
-                                            randomWords.push(doc.results.data[randomIndexes[index]]);
-                                        });
-                                        // Update UI text
-                                        generateQuizTextFeddback.textContent = 'Fetching definitions...';
-                                        // Fetch definitions
-                                        return getSpecifiedWordDefinitions(randomWords);
-                                    })
-                                    .then(definitions => {
-                                        wordDefinitions = definitions;
-                                        console.log('DONE');
-                                        // Check if length of wordDefinitions is greater than or equal to
-                                        if (Object.keys(wordDefinitions).length === quizQuestions * quizAnswers) {
-                                            // Yes - ok
-                                            console.log('jest ok');
-                                            return undefined;
-                                        } else {
-                                            // No
-                                            const missingWords = quizQuestions * quizAnswers - Object.keys(wordDefinitions).length;
-                                            return getRandomWordDefinitions(missingWords, wordDefinitions);
-                                        }
-                                    })
-                                    .then(definition => {
-                                        if (definition === undefined) {
-                                            console.log('jest ok, znowu');
-                                        } else {
-                                            wordDefinitions = {
-                                                ...wordDefinitions,
-                                                ...definition
-                                            };
-                                            console.log(wordDefinitions);
-                                        }
-                                        // Here words and their definitions were fetched correctly
-                                        // Here generate questions
-                                        console.log('jestem tu - przed ostatnim fetch');
-                                        const questionTemplates = [
-                                            "What is the definition of $?",
-                                            "How would you define $?",
-                                            "How to define $?",
-                                            "What is the meaning of $?",
-                                            "What does $ mean?"
-                                        ];
-                                        let questionsToSave = {};
-                                        // Iterate over word definitions
-                                        console.log('przed for loop');
-                                        for (const key in wordDefinitions) {
-                                            console.log(key);
-                                            let definition, partOfSpeech = '';
-                                            // If word has more than one definition, choose a random one
-                                            if (wordDefinitions[key].length > 1) {
-                                                // Get random definition
-                                                const r = Math.floor(Math.random() * wordDefinitions[key].length);
-                                                definition = wordDefinitions[key][r].definition;
-                                                partOfSpeech = wordDefinitions[key][r].partOfSpeech;
-                                            } else {
-                                                definition = wordDefinitions[key][0].definition;
-                                                partOfSpeech = wordDefinitions[key][0].partOfSpeech;
-                                            }
-                                            // Add answer
-                                            questionsToSave[key] = {};
-                                            questionsToSave[key].correctAnswer = definition;
-                                            // Get random question template
-                                            const r = Math.floor(Math.random() * questionTemplates.length);
-                                            // Create question
-                                            questionsToSave[key].question = questionTemplates[r].replace("$", `${key} (${partOfSpeech})`);
-                                        }
-                                        // Here all questions & answer for each question is correctly generated
-                                        console.log(questionsToSave);
-                                        console.log('tututututu');
-                                        // Generate questions to save & remaining answers
-                                        const questionsKeys = Object.keys(questionsToSave);
-                                        let indexes = [];
-                                        while (indexes.length < quizQuestions) { // number of questions
-                                            const r = Math.floor(Math.random() * questionsKeys.length);
-                                            if (indexes.indexOf(r) === -1) {
-                                                indexes.push(r);
-                                            }
-                                        }
-                                        let questionsSaveSave = {};
-                                        let answersSaveSave = [];
-                                        questionsKeys.forEach((key, index) => {
-                                            if (indexes.includes(index)) {
-                                                questionsSaveSave[key] = questionsToSave[key];
-                                            } else {
-                                                const lolo = questionsToSave[key];
-                                                answersSaveSave.push(lolo.correctAnswer);
-                                            }
-                                        });
-                                        const data = {
-                                            questions: questionsSaveSave,
-                                            answers: answersSaveSave,
-                                            quizID: quizName,
-                                            answersTotal: quizAnswers
-                                        };
-                                        console.log(data);
-                                        // Save to db as a transaction
-                                        console.log('tutaj postData jest wywolany');
-                                        // Update UI text
-                                        generateQuizTextFeddback.textContent = 'Saving...';
-                                        return postData(data);
-                                    })
-                                    .then(res => {
-                                        // Check if response ok
-                                        if (!res.ok) {
-                                            throw new Error('Network problem.');
-                                        }
-                                        return res.json();
-                                    })
-                                    .then(docs3 => {
-                                        console.log(docs3);
-                                        console.log('jestem az tutaj');
-                                        allQuizzes = docs3['snapshot'];
-                                        console.log(allQuizzes);
-                                        generateQuizTextFeddback.textContent = 'Done!';
-                                        generateQuizLoader.classList.remove('start-loader');
-                                        setTimeout(() => {
-                                            generateConfirmation.classList.add('hidden-options');
-                                            addQuizWrapper.classList.add('hidden-options');
-                                            // Render quizzes
-                                            renderQuizzes(1);
-                                            browseWrapper.classList.toggle('hidden-options');
-                                            // 
-                                            // location.reload(true);
-                                            // Jest opcja, zeby nie odswiezac -- zrob fetch wszystkich quizzow, wygeneruj templates za pomoca js
-
-                                            // Jak to wszystko juz bedzie gotowe -- przenies uzytkownika na strone glowna quizu (tak jakby wybral ten quiz z puli quizzow)
-                                            // Kazde pytanie na osobnej stronie
-                                            // Daj mozliwosc powrotu do poprzedniego pytania
-                                            // Na ostatniej stronie submit form ze wszystkimi odpowiedziami
-                                            // Policz wynik, pokaz wynik, zapisz ostatni wynik do bazy danych
-                                        }, 1500);
-                                    })
-                                    .catch(error => {
-                                        console.log(error);
-                                    });
-                            }, 500);
-                        }, 1000);
-                    }
-                })
-                .catch(error => {
-                    // here you can handle also error from php
-                    // they come in a js form: JSON.parse blah blah
-                    console.log(error);
-                    // Handle when rejected (only network exceptions)
-                    if (err_count) {
-                        setTimeout(() => {
-                            submitGenerateFeedback.lastElementChild.classList.add('hide');
-                            submitGenerateFeedback.firstElementChild.classList.remove('hide');
-                            // Unlock input fields
-                            addQuizForm["quiz-name"].removeAttribute("readonly");
-                            addQuizForm["quiz-type"].removeAttribute("disabled");
-                            addQuizForm["quiz-answers"].removeAttribute("readonly");
-                            addQuizForm["quiz-questions"].removeAttribute("readonly");
-
-                            addQuizForm["quiz-generate"].classList.remove("disabled");
-                        }, 500);
-                    }
-                });
-        } else {
-            // W tym miejscu, nie przechodzi przez front-end validation
-            // Pokaz error msg albo po prostu pozbadz sie else
-        }
-        // Prevent the default form submit
-        e.preventDefault();
-    });
+    //                         addQuizForm["quiz-generate"].classList.remove("disabled");
+    //                     }, 500);
+    //                 }
+    //             });
+    //     } else {
+    //         // W tym miejscu, nie przechodzi przez front-end validation
+    //         // Pokaz error msg albo po prostu pozbadz sie else
+    //     }
+    //     // Prevent the default form submit
+    //     e.preventDefault();
+    // });
 </script>

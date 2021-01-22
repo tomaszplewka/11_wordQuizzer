@@ -9,39 +9,17 @@ use WordQuizzer\Database;
 require_once(realpath("vendor/autoload.php"));
 // Initialize db
 $db = new Database();
-// 
-// Define and initialize vars
+// Initialize vars
 $quizName = $quizType = $quizAnswers = $quizQuestions = $userID = '';
 $quizName_err = $quizType_err = $quizAnswers_err = $quizQuestions_err = $db_err = '';
-$output =
-    [
-        "quiz-name" => [
-            "php_error" => false,
-            "msg" => '',
-            "field" => "generate-name"
-        ],  "quiz-type" => [
-            "php_error" => false,
-            "msg" => '',
-            "field" => "generate-type"
-        ],   "quiz-answers" => [
-            "php_error" => false,
-            "msg" => '',
-            "field" => "generate-answers"
-        ],  "quiz-questions" => [
-            "php_error" => false,
-            "msg" => '',
-            "field" => "generate-questions"
-        ],  "db" => [
-            "php_error" => false,
-            "msg" => '',
-            "field" => "generate-db"
-        ],  "session" => [
-            "loggedIn" => true,
-            "msg" => ''
-        ]
-    ];
-// 
-// session_unset();
+$output = [
+    "quiz-name" => ["php_error" => false, "msg" => '', "field" => "quiz-name"],
+    "quiz-type" => ["php_error" => false, "msg" => '', "field" => "quiz-type"],
+    "quiz-answers" => ["php_error" => false, "msg" => '', "field" => "quiz-answers"],
+    "quiz-questions" => ["php_error" => false, "msg" => '', "field" => "quiz-questions"],
+    "db" => ["php_error" => false, "msg" => '', "field" => "quiz-db"],
+    "session" => ["loggedIn" => true, "msg" => '', "field" => "session"]
+];
 // Check if user is logged in, if not redirect to login page
 if (!isset($_SESSION["user_loggedIn"]) && !($_SESSION["user_loggedIn"] === true)) {
     $output["session"]["loggedIn"] = false;

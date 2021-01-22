@@ -9,16 +9,10 @@
 </section>
 <!-- Sign Up screen -->
 <section class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 is-relative hidden-options" id="register-wrapper">
-    <!-- register back btn -->
-    <!-- data feedback div -->
     <div class="feedback-wrapper background-smoky-black p-5 hidden-options" id="register-feedback-wrapper"></div>
-    <!-- hint div -->
     <div class="background-smoky-black is-flex is-flex-direction-column is-justify-content-center has-text-centered p-5 hidden-options" id="hint-wrapper"></div>
-    <!-- register header -->
-    <!-- register form -->
     <form action="register.php" method="POST" id="register-form">
         <div class="is-relative is-clipped">
-            <!-- registration confirmation -->
             <div class="input-wrapper">
                 <input class="register-tabindex" type="text" name="username" placeholder="e.g. user666*" tabindex="-1">
                 <span class="icon-left">
@@ -60,7 +54,6 @@
                 </span>
             </div>
         </div>
-        <!-- register submit feedback -->
         <div class="submit-btn-wrapper mt-4">
             <button type="submit" name="register-submit" class="btn btn-invert disabled register-tabindex" tabindex="-1">
                 <span>submit</span>
@@ -70,14 +63,9 @@
 </section>
 <!-- Login screen -->
 <section class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 is-relative hidden-options" id="login-wrapper">
-    <!-- login back btn -->
-    <!-- data feedback div -->
     <div class="feedback-wrapper background-smoky-black p-5 hidden-options" id="login-feedback-wrapper"></div>
-    <!-- login header -->
-    <!-- login form -->
     <form action="login.php" method="POST" id="login-form">
         <div class="is-relative is-clipped">
-            <!-- login confirmation -->
             <div class="input-wrapper">
                 <input class="register-tabindex" type="email" name="email" placeholder="e.g. user666@gmail.com*" tabindex="-1">
                 <span class="icon-left">
@@ -99,7 +87,6 @@
                 </span>
             </div>
         </div>
-        <!-- login submit feedback -->
         <div class="submit-btn-wrapper mt-4">
             <button type="submit" name="login-submit" class="btn btn-invert disabled login-tabindex" tabindex="-1">
                 <span>submit</span>
@@ -109,7 +96,6 @@
 </section>
 <!-- Browse screen -->
 <section class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 is-relative hidden-options" id="browse-wrapper">
-    <!-- browse options -->
     <div id="filter-quiz-wrapper" class="scaleY background-ghost-white p-5 is-flex is-flex-direction-column is-justify-content-start">
         <!-- <div class="is-flex is-justify-content-start">
             <a id="filter-quiz-back-btn" class="control-btn">
@@ -175,6 +161,78 @@
         </div>
     </div>
 </section>
+<!-- Create quiz screen -->
+<section class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 is-relative hidden-options" id="create-quiz-wrapper">
+    <div class="generate-confirmation hidden-options background-mountain-meadow columns is-mobile m-0 p-5 has-text-centered is-vcentered is-multiline" id="generate-confirmation"></div>
+    <div class="feedback-wrapper background-smoky-black p-5 hidden-options" id="create-quiz-feedback-wrapper"></div>
+
+    <!-- CONSIDER ADDING HINT SCREEN JUST LIKE IN REGISTER !!! -->
+
+    <form action="generate.php" method="POST" id="create-quiz-form">
+        <div class="columns is-mobile m-0 is-vcentered is-multiline">
+            <div class="column is-12-mobile is-12 p-0 has-text-centered my-2 input-wrapper">
+                <input class="input py-1 create-tabindex" type="text" name="quiz-name" placeholder="Name">
+                <span class="icon-left">
+                    <i class="fas fa-pencil-alt"></i>
+                </span>
+                <span class="icon-validation" id="generate-name-validation">
+                    <i class="fas fa-check icon-valid hide"></i>
+                    <i class="fas fa-times icon-invalid hide"></i>
+                </span>
+            </div>
+            <div class="column is-12-mobile is-12 p-0 has-text-centered my-2 input-wrapper">
+                <div class="select text-ghost-white">
+                    <select class="py-1" name="quiz-type">
+                        <option selected disabled>Quiz Type</option>
+                        <option>Definitions</option>
+                    </select>
+                    <span class="icon-left">
+                        <i class="fas fa-cube"></i>
+                    </span>
+                    <span class="icon-validation" id="generate-type-validation">
+                        <i class="fas fa-check icon-valid hide"></i>
+                        <i class="fas fa-times icon-invalid hide"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="column is-12-mobile is-12 p-0 has-text-centered m-0 p-0">
+                <input class="input py-1" type="hidden" name="quiz-select">
+            </div>
+            <div class="column is-12-mobile is-12 p-0 has-text-centered m-0 p-0">
+                <input class="input py-1" type="hidden" name="user-id" value="<?php echo $_SESSION["user_id"]; ?>">
+            </div>
+            <div class="column is-12-mobile is-12 p-0 has-text-centered my-2 number-input-wrapper">
+                <div class="number-input input-wrapper">
+                    <button class="decrement create-tabindex"></button>
+                    <input id="quiz-answers" class="quantity input mx-3 create-tabindex" name="quiz-answers" min="2" max="4" step="1" value="2" type="number">
+                    <button class="increment plus create-tabindex"></button>
+                    <span class="icon-validation" id="generate-answers-validation">
+                        <i class="fas fa-check icon-valid hide"></i>
+                        <i class="fas fa-times icon-invalid hide"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="column is-12-mobile is-12 p-0 has-text-centered mt-2 mb-0 number-input-wrapper">
+                <div class="number-input input-wrapper">
+                    <button class="decrement create-tabindex"></button>
+                    <input id="quiz-questions" class="quantity input mx-3 create-tabindex" name="quiz-questions" min="4" max="10" step="1" value="4" type="number">
+                    <button class="increment plus create-tabindex"></button>
+                    <span class="icon-validation" id="generate-questions-validation">
+                        <i class="fas fa-check icon-valid hide"></i>
+                        <i class="fas fa-times icon-invalid hide"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="columns is-mobile m-0 is-vcentered is-multiline">
+            <div class="column is-12-mobile is-12 p-0 mt-4">
+                <button type="submit" name="quiz-generate" id="generate-quiz" class="btn btn-invert m-0 disabled">
+                    <span>generate</span>
+                </button>
+            </div>
+        </div>
+    </form>
+</section>
 <!-- Quiz view -->
 <section class="section background-ghost-white is-flex is-flex-direction-column is-justify-content-start p-5 hidden-options" id="quiz-view-wrapper">
     <div id="quiz-content" class="column is-12-mobile is-12 p-0">
@@ -194,31 +252,6 @@
 <!-- Options -->
 <section class="section background-ghost-white is-flex is-flex-direction-column is-justify-content-center p-5 hidden-options" id="options-wrapper">
     <ul>
-        <?php if (isset($_SESSION["user_loggedIn"]) && $_SESSION["user_loggedIn"] === true) : ?>
-            <li>
-                <p class="username-info-text">
-                    You are logged in as
-                    <span class="is-lowercase" id="username-info">
-                        <?php echo $_SESSION["user_name"]; ?>
-                    </span>
-                </p>
-            </li>
-            <li>
-                <a id="options-logout-btn" class="btn">
-                    <span>log out</span>
-                </a>
-            </li>
-            <li class="logout-confirmation-wrapper background-copper-red hidden-options">
-                <p class="logout-confirmation-text">are you sure?</p>
-                <div class="logout-confirmation-btn-wrapper is-flex is-justify-content-center mb-2">
-                    <form action="logout.php" method="POST" id="logout-form">
-                        <button type="submit" name="yes" class="btn btn-invert mx-3">
-                            <span>yes</span>
-                        </button>
-                    </form>
-                </div>
-            </li>
-        <?php endif; ?>
         <li>
             <a id="options-settings-btn" class="btn">
                 <span>settings</span>
