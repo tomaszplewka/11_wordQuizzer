@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Attempt to execute the query
             if ($db->execute()) {
                 if ($db->countRows() === 1) {
-                    $username_err = "This username is already taken.";
+                    $username_err = "{$username} is already taken.";
                     $output["username"]["php_error"] = true;
                     $output["username"]["msg"] = $username_err;
                 } else {
@@ -84,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Attempt to execute the query
             if ($db->execute()) {
                 if ($db->countRows() === 1) {
-                    $email_err = "This email is already taken.";
+                    $email_err = "{$email} is already taken.";
                     $output["email"]["php_error"] = true;
                     $output["email"]["msg"] = $email_err;
                 } else {

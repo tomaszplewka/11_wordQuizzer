@@ -2,6 +2,7 @@
 // 
 // 
 const UICtrl = (function() {
+    // Selectors
     const UISelectors = {
         startPage: '#front-page-main-content-wrapper',
         mainSectionWrapper: document.querySelector('#main-section-wrapper'),
@@ -52,6 +53,7 @@ const UICtrl = (function() {
         quizScore: '#quiz-score',
         quizFeedback: '#quiz-feedback',
         overlay: '.overlay',
+        errorOverlay: '.error-overlay',
         quizQuestion: document.querySelector('#question-text'),
         quitBtn: '#quiz-quit-btn',
         nextBtn: '#quiz-next-btn',
@@ -73,6 +75,7 @@ const UICtrl = (function() {
         decrement: '.decrement',
         generateConfirmation: document.querySelector('#generate-confirmation')
     };
+    // Global vars
     const global = {
         quizzes: [],
         quizID: null,
@@ -81,33 +84,20 @@ const UICtrl = (function() {
         answers: [],
         correctAnswers: [],
         value: [],
-        apiKey: "f8a63bbfd2mshc496f00dfd1b54cp168d18jsn749a1f9f4065"
+        apiKey: ""
     };
-    const showMainLogo = function() {
-        return `
-        <div class="perspective-box-far" id="front-page-logo">
-            <div class="face front">
-                <img src="imgs/logo-main.png" alt="">
-            </div>
-            <div class="face top">
-                <img src="imgs/logo-main.png" alt="">
-            </div>
-            <div class="face left">
-                <img src="imgs/logo-main.png" alt="">
-            </div>
-        </div>
-        `;
-    };
+    // Basic building blocks
     const createA = function(aClass, aId = '') {
         let a = document.createElement('a');
         a.className = aClass;
         a.id = aId;
         return a;
     };
-    const createSpan = function(spanClass = '', spanId = '') {
+    const createSpan = function(spanClass = '', spanId = '', spanText = '') {
         let span = document.createElement('span');
         span.className = spanClass;
         span.id = spanId;
+        span.textContent = spanText;
         return span;
     };
     const createDiv = function(divClass, divId = '') {
@@ -128,44 +118,157 @@ const UICtrl = (function() {
         h.textContent = text;
         return h;
     };
-    const createStartBtn = function() {
-        const div = createDiv('button-wrapper-primary');
-        const a = createA('btn', 'front-page-start-btn');
-        const span = createSpan();
-        span.textContent = 'start';
+    const createBtn = function(aClass, aId, spanText, divClass = '') {
+        const a = createA(aClass, aId);
+        const span = createSpan('', '', spanText);
         a.appendChild(span);
-        div.appendChild(a);
-        return div;
+        if (divClass) {
+            const div = createDiv(divClass);
+            div.appendChild(a);
+            return div;
+        }
+        return a;
     };
     const createMainBtns = function() {
-        const divMain = createDiv('button-wrapper-secondary');
-        const demo = createA('btn', 'front-page-demo-btn');
-        const demoSpan = createSpan();
-        demoSpan.textContent = 'demo';
-        demo.appendChild(demoSpan);
-        const login = createA('btn', 'front-page-login-btn');
-        const loginSpan = createSpan();
-        loginSpan.textContent = 'login';
-        login.appendChild(loginSpan);
-        divMain.appendChild(demo);
+        const divMain = createBtn('btn', 'front-page-demo-btn', 'demo', 'button-wrapper-secondary');
+        const login = createBtn('btn', 'front-page-login-btn', 'login');
         divMain.appendChild(login);
-        let divRegister = createDiv('is-flex is-justify-content-end');
-        const register = createA('side-btn', 'front-page-register-btn');
-        const registerSpan = createSpan();
-        registerSpan.textContent = 'register';
-        register.appendChild(registerSpan);
-        divRegister.appendChild(register);
+        let divRegister = createBtn('side-btn', 'front-page-register-btn', 'register', 'is-flex is-justify-content-end');
         divMain.appendChild(divRegister);
         return divMain;
     };
-    const goBackBtn = function(btnId) {
-        const div = createDiv('is-flex is-justify-content-start');
-        const a = createA('control-btn', btnId);
-        const span = createSpan();
-        span.textContent = 'go back';
-        a.appendChild(span)
-        div.appendChild(a);
-        return div;
+    const createBrowseOptions = function() {
+        const divWrapper = createBtn('control-btn', 'browse-back-btn', 'go back', 'is-flex is-justify-content-space-between is-align-items-center');
+        const divOptionsWrapper = createBtn('control-btn mx-1', 'filter-btn', '', 'is-flex is-justify-content-center');
+        const iFilter = createIcon('filter');
+        divOptionsWrapper.firstElementChild.firstElementChild.appendChild(iFilter);
+        const aSearch = createBtn('control-btn mx-1', 'search-btn', '');
+        const iSearch = createIcon('search');
+        aSearch.firstElementChild.appendChild(iSearch);
+        divOptionsWrapper.appendChild(aSearch);
+        divWrapper.appendChild(divOptionsWrapper);
+        return divWrapper;
+    };
+    const createQuizNavigation = function() {
+        const divWrapper = createBtn('control-btn', 'quiz-quit-btn', 'quit', 'is-flex is-justify-content-space-between is-align-items-center column is-12-mobile is-12 p-0')
+        const paraQuiz = createPara('quiz-view-questions', 'quiz-which-question');
+        paraQuiz.innerHTML = `
+        <span id="quiz-current-question" class="">1</span>
+        /
+        <span id="quiz-total-questions" class=""></span>
+        `;
+        divWrapper.appendChild(paraQuiz);
+        const aNext = createBtn('control-btn', 'quiz-next-btn', 'next');
+        divWrapper.appendChild(aNext);
+        UISelectors.quizContent.before(divWrapper);
+    };
+    const createDataFeedback = function(inputArr, target) {
+        const targetFeedback = document.querySelector(`#${target}-feedback-wrapper`);
+        const goBack = createBtn('control-btn', 'feedback-back-btn', 'go back', 'is-flex is-justify-content-start');
+        const feedbackHeader = createDiv('feedback-header');
+        const h = createHeader('feedback');
+        feedbackHeader.appendChild(h);
+        const feedbackBody = createDiv('feedback-body mb-5');
+        inputArr.forEach(input => {
+            feedbackBody.innerHTML += errorWrapper(input);
+            feedbackBody.innerHTML += okWrapper(input);
+        });
+        targetFeedback.appendChild(goBack);
+        targetFeedback.appendChild(feedbackHeader);
+        targetFeedback.appendChild(feedbackBody);
+    };
+    const createFormConfirmation = function(target, text = 'registered') {
+        const targetForm = document.querySelector(`#${target}-form`);
+        let div = createDiv(`${target}-confirmation is-flex is-justify-content-center is-align-items-center hidden-options background-mountain-meadow`, `${target}-confirmation`);
+        let p = createPara(`${target}-cofirmation-text text-ghost-white p-2`);
+        let html = `
+        User <span class="${target}-cofirmation-user is-lowercase text-smoky-black"></span> has been ${text}.
+        `;
+        p.innerHTML = html;
+        div.appendChild(p);
+        targetForm.firstElementChild.appendChild(div);
+    };
+    const createLoader = function(target) {
+        let div = createDiv('is-flex is-flex-direction-column is-justify-content-center is-align-items-center loader-wrapper2');
+        let loader = createDiv('loader');
+        div.appendChild(loader);
+        target.appendChild(div);
+    };
+    const removeLoader = function() {
+        const loader = document.querySelector('.loader-wrapper2');
+        loader.classList.add('shrink');
+        setTimeout(() => {
+            loader.remove();
+        }, 500);
+    };
+    const createOption = function(pText) {
+        const li = document.createElement('li');
+        if (pText.length) {
+            const p = createPara('has-text-centered username-text-info mb-5 is-uppercase');
+            p.textContent = pText;
+            li.appendChild(p);
+        } else {
+            const a = createBtn('btn', 'options-logout-btn', 'log out');
+            li.appendChild(a);
+        }
+        return li;
+    };
+    const createIcon = function(iconClass) {
+        let i = document.createElement('i');
+        i.className = `fas fa-${iconClass}`;
+        return i;
+    };
+    const createQuizQuitConfirmation = function() {
+        const divWrapper = createDiv('quiz-quit-confirmation-wrapper background-copper-red is-flex is-justify-content-center is-align-items-center column is-12-mobile is-12 p-0 hidden-options');
+        const p = createPara('quiz-quit-confirmation-text');
+        p.textContent = 'are you sure?';
+        const divBtn = createBtn('btn btn-vertical mx-2 my-0', 'quiz-quit-yes-btn', 'yes', 'quiz-quit-confirmation-btn-wrapper is-flex is-justify-content-center');
+        divWrapper.appendChild(p);
+        divWrapper.appendChild(divBtn);
+        UISelectors.quizContent.before(divWrapper);
+    };
+    const createHintIcon = function() {
+        let span = document.createElement('span');
+        span.innerHTML = `<img src="./imgs/hint.png" alt="input hints" class="input-hint">`;
+        UISelectors.registerForm.appendChild(span);
+    };
+    const removeElement = function(target) {
+        target.remove();
+    };
+    const setAttributes = function(el, attrs) {
+        for(var key in attrs) {
+            el.setAttribute(key, attrs[key]);
+        }
+    };
+    const createSubmitBtn = function() {
+        let btn = document.createElement('button');
+        setAttributes(btn, {"id": "quiz-form-submit", "class": "control-btn", "type": "submit", "form": "quiz-form", "style": "display: none; background-color: transparent;"});
+        const span = createSpan('text-smoky-black');
+        span.textContent = 'submit';
+        btn.appendChild(span);
+        return btn;
+    };
+    const createErrorDiv = function() {
+        document.querySelector('body').appendChild(createDiv('error-overlay is-flex is-justify-content-center is-align-items-center has-text-centered'));
+        const p = createPara('');
+        p.textContent = 'Internal error. Contact app provider.';
+        document.querySelector(UISelectors.errorOverlay).appendChild(p);
+    };
+    // Render UI components & HTML templates
+    const showMainLogo = function() {
+        return `
+        <div class="perspective-box-far" id="front-page-logo">
+            <div class="face front">
+                <img src="imgs/logo-main.png" alt="">
+            </div>
+            <div class="face top">
+                <img src="imgs/logo-main.png" alt="">
+            </div>
+            <div class="face left">
+                <img src="imgs/logo-main.png" alt="">
+            </div>
+        </div>
+        `;
     };
     const errorWrapper = function(target) {
         return `
@@ -197,107 +300,6 @@ const UICtrl = (function() {
             </div>
         </div>
         `;
-    };
-    const createBrowseOptions = function() {
-        const divWrapper = createDiv('is-flex is-justify-content-space-between is-align-items-center');
-        const aBtn = createA('control-btn', 'browse-back-btn');
-        const spanBtn = createSpan();
-        spanBtn.textContent = 'go back';
-        aBtn.appendChild(spanBtn);
-        divWrapper.appendChild(aBtn);
-        const divOptionsWrapper = createDiv('is-flex is-justify-content-center');
-        const aFilter = createA('control-btn mx-1', 'filter-btn');
-        const spanFilter = createSpan();
-        const iFilter = createIcon('filter');
-        spanFilter.appendChild(iFilter);
-        aFilter.appendChild(spanFilter);
-        divOptionsWrapper.appendChild(aFilter);
-        const aSearch = createA('control-btn mx-1', 'search-btn');
-        const spanSearch = createSpan();
-        const iSearch = createIcon('search');
-        spanSearch.appendChild(iSearch);
-        aSearch.appendChild(spanSearch);
-        divOptionsWrapper.appendChild(aSearch);
-        divWrapper.appendChild(divOptionsWrapper);
-        return divWrapper;
-    };
-    const createBtn = function(aClass, aID, aText) {
-        const a = createA(aClass, aID);
-        const span = createSpan('text-smoky-black');
-        span.textContent = aText;
-        a.appendChild(span);
-        return a;
-    };
-    const createQuizNavigation = function() {
-        const divWrapper = createDiv('is-flex is-justify-content-space-between is-align-items-center column is-12-mobile is-12 p-0');
-        const aQuit = createA('control-btn', 'quiz-quit-btn');
-        const spanQuit = createSpan('text-smoky-black');
-        spanQuit.textContent = 'quit';
-        aQuit.appendChild(spanQuit);
-        divWrapper.appendChild(aQuit);
-        const paraQuiz = createPara('quiz-view-questions', 'quiz-which-question');
-        paraQuiz.innerHTML = `
-        <span id="quiz-current-question" class="">1</span>
-        /
-        <span id="quiz-total-questions" class=""></span>
-        `;
-        divWrapper.appendChild(paraQuiz);
-        const aNext = createA('control-btn', 'quiz-next-btn');
-        const spanNext = createSpan('text-smoky-black');
-        spanNext.textContent = 'next';
-        aNext.appendChild(spanNext);
-        divWrapper.appendChild(aNext);
-        UISelectors.quizContent.before(divWrapper);
-        // const html = `
-        //     <button id="quiz-form-submit" class="control-btn" type="submit" form="quiz-form" style="display: none; background-color: transparent;">
-        //         <span class="text-smoky-black">Submit</span>
-        //     </button>
-        //     <a id="quiz-retry-btn" class="control-btn" style="display: none;">
-        //         <span class="text-smoky-black">Retry</span>
-        //     </a>
-        // `;
-    };
-    const createQuizQuitConfirmation = function() {
-        const divWrapper = createDiv('quiz-quit-confirmation-wrapper background-copper-red is-flex is-justify-content-center is-align-items-center column is-12-mobile is-12 p-0 hidden-options');
-        const p = createPara('quiz-quit-confirmation-text');
-        p.textContent = 'are you sure?';
-        const divBtn = createDiv('quiz-quit-confirmation-btn-wrapper is-flex is-justify-content-center');
-        const aBtn = createA('btn btn-vertical mx-2 my-0', 'quiz-quit-yes-btn');
-        const spanBtn = createSpan();
-        spanBtn.textContent = 'yes';
-        aBtn.appendChild(spanBtn);
-        divBtn.appendChild(aBtn);
-        divWrapper.appendChild(p);
-        divWrapper.appendChild(divBtn);
-        UISelectors.quizContent.before(divWrapper);
-    };
-    const createDataFeedback = function(inputArr, target) {
-        const targetFeedback = document.querySelector(`#${target}-feedback-wrapper`);
-        const goBack = goBackBtn('feedback-back-btn');
-        const feedbackHeader = createDiv('feedback-header');
-        const h = createHeader('feedback');
-        feedbackHeader.appendChild(h);
-        const feedbackBody = createDiv('feedback-body mb-5');
-        // Add error/ok wrappers in a loop based on inputArr
-        inputArr.forEach(input => {
-            feedbackBody.innerHTML += errorWrapper(input);
-            feedbackBody.innerHTML += okWrapper(input);
-        });
-        // Make it more general by passing target to the function!!!
-        targetFeedback.appendChild(goBack);
-        targetFeedback.appendChild(feedbackHeader);
-        targetFeedback.appendChild(feedbackBody);
-    };
-    const createFormConfirmation = function(target, text = 'registered') {
-        const targetForm = document.querySelector(`#${target}-form`);
-        let div = createDiv(`${target}-confirmation is-flex is-justify-content-center is-align-items-center hidden-options background-mountain-meadow`, `${target}-confirmation`);
-        let p = createPara(`${target}-cofirmation-text text-ghost-white p-2`);
-        let html = `
-        User <span class="${target}-cofirmation-user is-lowercase text-smoky-black"></span> has been ${text}.
-        `;
-        p.innerHTML = html;
-        div.appendChild(p);
-        targetForm.firstElementChild.appendChild(div);
     };
     const createSubmitFeedback = function(target) {
         const targetForm = document.querySelector(`#${target}-form`);
@@ -340,47 +342,6 @@ const UICtrl = (function() {
         `;
         UISelectors.hintWrapper.innerHTML = html;
     };
-    const createLoader = function(target) {
-        let div = document.createElement('div');
-        div.className = 'is-flex is-flex-direction-column is-justify-content-center is-align-items-center loader-wrapper2';
-        let loader = document.createElement('div');
-        // loader.className = 'loader hide';
-        loader.className = 'loader';
-        div.appendChild(loader);
-        target.appendChild(div);
-        // setTimeout(() => {
-        //     target.lastElementChild.firstElementChild.classList.remove('hide');
-        // }, 250);
-    };
-    // const createOverlay = function() {
-    //     const div = createDiv('overlay', 'overlay');
-    // };
-    const removeLoader = function() {
-        const loader = document.querySelector('.loader-wrapper2');
-        loader.classList.add('shrink');
-        setTimeout(() => {
-            loader.remove();
-        }, 500);
-    };
-    const createOption = function(pText, spanText) {
-        const li = document.createElement('li');
-        const p = createPara('has-text-centered username-text-info mb-5 is-uppercase');
-        p.textContent = pText;
-        li.appendChild(p);
-        // const span = createDiv('is-lowercase', 'username-info');
-        // span.textContent = spanText;
-        // li.appendChild(span);
-        return li;
-    };
-    const createLiOption = function() {
-        const li = document.createElement('li');
-        const a = createA('btn', 'options-logout-btn');
-        const span = createSpan();
-        span.textContent = 'log out'
-        a.appendChild(span);
-        li.appendChild(a);
-        return li;
-    };
     const createLogOutConfirmation = function() {
         const li = document.createElement('li');
         li.className = 'logout-confirmation-wrapper background-copper-red hidden-options';
@@ -396,74 +357,13 @@ const UICtrl = (function() {
         `;
         return li;
     };
-    // const createInput = function(inputType, inputName, inputPlaceholder) {
-    //     return `
-    //     <input class="register-tabindex" type="${inputType}" name="${inputName}" placeholder="${inputPlaceholder}*" tabindex="-1">
-    //     `;
-    // };
-    const createIcon = function(iconClass) {
-        let i = document.createElement('i');
-        i.className = `fas fa-${iconClass}`;
-        return i;
-    };
-    // const createInputWrapper = function(inputType, inputName, inputPlaceholder, leftIcon) {
-    //     const div = createDiv('input-wrapper');
-    //     div.innerHTML = createInput(inputType, inputName, inputPlaceholder);
-    //     const leftSpan = createSpan('icon-left');
-    //     const leftI = createIcon(leftIcon);
-    //     leftSpan.appendChild(leftI);
-    //     div.appendChild(leftSpan);
-    //     const validationSpan = createSpan('icon-validation', `${inputName}-validation`);
-    //     validationSpan.innerHTML = `
-    //     <i class="fas fa-check icon-valid hide"></i>
-    //     <i class="fas fa-times icon-invalid hide"></i>
-    //     `;
-    //     div.appendChild(validationSpan);
-    //     return div;
-    // };
-    const checkIfEmptyQuiz = function() {
-        const form = UISelectors.createQuizForm;
-        if (form["quiz-name"].value !== '' && form["quiz-type"].value !== 'Quiz Type' && form["quiz-answers"].value !== '' && form["quiz-questions"].value !== '' && (form["quiz-answers"].value >= 2 && form["quiz-answers"].value <= 4) && (form["quiz-questions"].value >= 4 && form["quiz-questions"].value <= 10)) {
-            form["quiz-generate"].classList.remove('disabled');
-        } else {
-            form["quiz-generate"].classList.add('disabled');
-        }
-    };
-    const removeTabindex = function(selector) {
-        const tabindexedElements = document.querySelectorAll(`.${selector}`);
-        Array.from(tabindexedElements).forEach(element => {
-            element.removeAttribute('tabindex');
-        });
-    };
-    const addTabindex = function(selector) {
-        const tabindexedElements = document.querySelectorAll(`.${selector}`);
-        Array.from(tabindexedElements).forEach(element => {
-            element.setAttribute('tabindex', '-1');
-        });
-    };
-    const lockInput = function(target) {
-        const inputElements = document.querySelectorAll(`#${target}-form input`);
-        Array.from(inputElements).forEach(input => {
-            input.setAttribute("readonly", true);
-        });
-    };
-    const unlockInput = function(target) { 
-        const inputElements = document.querySelectorAll(`#${target}-form input`);
-        Array.from(inputElements).forEach(input => {
-            input.removeAttribute("readonly");
-        });
-    };
-    const createInputHint = function() {
-        let span = document.createElement('span');
-        span.innerHTML = `<img src="./imgs/hint.png" alt="input hints" class="input-hint">`;
-        UISelectors.registerForm.appendChild(span);
-    };
     const renderQuizzes = function(page, data) {
         let html = '';
         const quizStart = 0 + (page - 1) * 3;
         const quizEnd = 3 + (page - 1) * 3;
+        // Get total number of pages
         const pages = Math.ceil(data.length / 3);
-        console.log(pages);
+        // Create 3 quizzes
         for (let index = quizStart; index < quizEnd; index++) {
             if (data[index] === undefined) { break; }
             // Set vars
@@ -475,6 +375,7 @@ const UICtrl = (function() {
             const quizCreatedAt = new Date(data[index]["created_at"]).toLocaleString();
             const quizUpdateddAt = new Date(data[index]["updated_at"]).toLocaleString();
             const quizScore = data[index]["score"];
+            if (quizScore === 'NULL') { quizScore = 0; }
             // Create template
             html += `
             <div id="${quizID}" class="my-2">
@@ -552,8 +453,6 @@ const UICtrl = (function() {
         }
         UISelectors.quizWrapper.firstElementChild.innerHTML = html;
         UISelectors.quizWrapper.setAttribute('data-page', page);
-        // let lastChild = UISelectors.quizWrapper.lastElementChild;
-        // UISelectors.quizWrapper.appendChild(lastChild);
     };
     const createQuizResults = function() {
         const quizResults = createDiv('column is-12-mobile is-12 p-0 hidden-options', 'quiz-results');
@@ -571,18 +470,96 @@ const UICtrl = (function() {
         `;
         return quizResults;
     };
-    const removeElement = function(target) {
-        target.remove();
+    const createBrowseLogo = function() {
+        return `
+        <div class="box-floating" id="welcome-logo-browse">
+            <div class="db-disc-top">
+                <img src="imgs/logo-browse.png" alt="browse logo">
+            </div>
+            <div class="db-disc-middle">
+                <img src="imgs/logo-browse.png" alt="browse logo">
+            </div>
+            <div class="db-disc-bottom">
+                <img src="imgs/logo-browse.png" alt="browse logo">
+            </div>
+        </div>
+        `;
+    };
+    const createCreateQuizLogo = function() {
+        return `
+        <div class="box-floating" id="welcome-logo-new-quiz">
+            <div class="new-quiz">
+                <img src="imgs/logo-create-quiz.png" alt="">
+            </div>
+        </div>
+        `;
+    };
+    const generateQuizConfirmation = function() {
+        UISelectors.generateConfirmation.innerHTML = `
+        <div class="column is-12-mobile is-12 p-0 m-0">
+            <div class="" id="generate-quiz-loader">
+                <img src="imgs/logo-main.png" alt="">
+            </div>
+        </div>
+        <div class="column is-12-mobile is-12 p-0 m-0">
+            <p class="login-confirmation-text text-ghost-white p-2">
+                Your quiz is being generated.
+            </p>
+            <p class="login-confirmation-text text-ghost-white p-2" id="generate-quiz-text-feedback">
+                Hold on! This may take a while.
+            </p>
+        </div>
+        `;
+    };
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // Form interaction
+    const removeTabindex = function(selector) {
+        const tabindexedElements = document.querySelectorAll(`.${selector}`);
+        Array.from(tabindexedElements).forEach(element => {
+            element.removeAttribute('tabindex');
+        });
+    };
+    const addTabindex = function(selector) {
+        const tabindexedElements = document.querySelectorAll(`.${selector}`);
+        Array.from(tabindexedElements).forEach(element => {
+            element.setAttribute('tabindex', '-1');
+        });
+    };
+    const lockInput = function(target) {
+        const inputElements = document.querySelectorAll(`#${target}-form input`);
+        Array.from(inputElements).forEach(input => {
+            input.setAttribute("readonly", true);
+        });
+    };
+    const unlockInput = function(target) { 
+        const inputElements = document.querySelectorAll(`#${target}-form input`);
+        Array.from(inputElements).forEach(input => {
+            input.removeAttribute("readonly");
+        });
     };
     // 
-    // This one should go to DataCtrl
+    // 
+    // 
+    // DATA CONTROLLER
+    // 
+    // 
+    // 
     const patterns = {
         usernamePattern: /^(\w+( \w+)*){6,}$/,
         emailPattern: /^([a-zA-Z]{1}[\w\.]{0,20})@([a-zA-Z]{2,})\.([a-zA-Z]{2,5})(\.[a-zA-Z]{2,5})?$/,
         // passwordPattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?!.*[\s])(?=.{8,})/,
         passwordPattern: /^[a-zA-Z]{4,}$/
     };
-    // reset form
     const resetForm = function(target) {
         const inputElements = document.querySelectorAll(`#${target}-form input`);
         const submitBtn = document.querySelector(`#${target}-form button`);
@@ -619,7 +596,6 @@ const UICtrl = (function() {
             return false;
         }
     };
-    // adjust UI on click or blur events
     const inputValid = function(target) {
         if (target.classList.contains('input-invalid')) {
             target.nextElementSibling.nextElementSibling.lastElementChild.classList.add('hide');
@@ -659,21 +635,7 @@ const UICtrl = (function() {
             hintFeedback(input, false);
         }
     };
-    const hideLoginFeedbackDiv = function(target) {
-        const inputElements = document.querySelectorAll(`#${target}-form input`);
-        let valid = 0;
-        Array.from(inputElements).forEach(input => {
-            valid += parseInt(input.classList.contains('input-valid'));
-        });
-        if (valid === inputElements.length) {
-            if (!UISelectors.submitFeedback.classList.contains('hide')) {
-                UISelectors.submitFeedback.firstElementChild.classList.add('hide');
-                UISelectors.submitFeedback.classList.add('hide');
-            }
-        }
-    };
     const checkField = function(input) {
-        // Check for error & adjust UI
         if (input.php_error) {
             const feedbacIfError = document.querySelector(`.${input.field}-wrapper-if-error`);
             feedbacIfError.firstElementChild.classList.remove('hide');
@@ -686,8 +648,7 @@ const UICtrl = (function() {
             feedbacIfOk.firstElementChild.classList.remove('hide');
             return 0;
         }
-    }
-    // Handle form feedback
+    };
     const handleFormData = function(data, target) {
         const targetForm = document.querySelector(`#${target}-form`);
         // Count errors
@@ -713,12 +674,33 @@ const UICtrl = (function() {
             UISelectors.loginForm["login-submit"].classList.add('disabled');
         }
     };
+    const checkIfEmptyQuiz = function() {
+        const form = UISelectors.createQuizForm;
+        if (form["quiz-name"].value !== '' && form["quiz-type"].value !== 'Quiz Type' && form["quiz-answers"].value !== '' && form["quiz-questions"].value !== '' && (form["quiz-answers"].value >= 2 && form["quiz-answers"].value <= 4) && (form["quiz-questions"].value >= 4 && form["quiz-questions"].value <= 10)) {
+            form["quiz-generate"].classList.remove('disabled');
+        } else {
+            form["quiz-generate"].classList.add('disabled');
+        }
+    };
+    const shuffleArray = function(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[j], array[i]] = [array[i], array[j]];
+        }
+    };
+
+
+    // 
+    // 
+    // 
+    // APP CONTROLLER
+    // 
     // 
     // 
     const loadStartScreen = function() {
         // Clear
         UISelectors.mainSectionWrapper.firstElementChild.innerHTML = '';
-        // 
+        // Render UI
         const divLogo = createDiv('column is-12-mobile is-12 pt-0 mb-3');
         const divBtns = createDiv('column is-12-mobile is-12 mt-5 px-0 pb-5 is-relative buttons-wrapper');
         UISelectors.mainSectionWrapper.firstElementChild.appendChild(divLogo);
@@ -726,38 +708,17 @@ const UICtrl = (function() {
         // Load main logo
         UISelectors.mainSectionWrapper.firstElementChild.firstElementChild.innerHTML = showMainLogo();
         // Load start btn
-        UISelectors.mainSectionWrapper.firstElementChild.lastElementChild.appendChild(createStartBtn());
+        UISelectors.mainSectionWrapper.firstElementChild.lastElementChild.appendChild(createBtn('btn', 'front-page-start-btn', 'start', 'button-wrapper-primary'));
         // Adjust UI display
         document.querySelector('#front-page-footer').classList.remove('hidden-options');
         UISelectors.mainSectionWrapper.classList.remove('welcome-wrapper');
         UISelectors.mainSectionWrapper.classList.add('background-space-cadet-gradient');
         UISelectors.mainSectionWrapper.classList.remove('background-copper-red-gradient');
     };
-    const createBrowseLogo = function() {
-        return `
-        <div class="box-floating" id="welcome-logo-browse">
-            <div class="db-disc-top">
-                <img src="imgs/logo-browse.png" alt="browse logo">
-            </div>
-            <div class="db-disc-middle">
-                <img src="imgs/logo-browse.png" alt="browse logo">
-            </div>
-            <div class="db-disc-bottom">
-                <img src="imgs/logo-browse.png" alt="browse logo">
-            </div>
-        </div>
-        `;
-    };
-    const createCreateQuizLogo = function() {
-        return `
-        <div class="box-floating" id="welcome-logo-new-quiz">
-            <div class="new-quiz">
-                <img src="imgs/logo-create-quiz.png" alt="">
-            </div>
-        </div>
-        `;
-    };
     const loadLoggedInScreen = function() {
+        // Clear
+        UISelectors.mainSectionWrapper.firstElementChild.innerHTML = '';
+        // Render UI
         const divBrowse = createDiv('column is-12-mobile is-12 py-0 mt-5');
         divBrowse.innerHTML = createBrowseLogo();
         const divBrowseBtn = createDiv('column is-12-mobile is-12 px-0 pt-0 pb-5 is-relative');
@@ -778,7 +739,7 @@ const UICtrl = (function() {
         aCreateQuiz.appendChild(spanCreateQuiz);
         createQuizWrapper.appendChild(aCreateQuiz);
         divCreateQuizBtn.appendChild(createQuizWrapper);
-        UISelectors.mainSectionWrapper.firstElementChild.innerHTML = '';
+        // Adjust UI display
         UISelectors.mainSectionWrapper.firstElementChild.appendChild(divBrowse);
         UISelectors.mainSectionWrapper.firstElementChild.appendChild(divBrowseBtn);
         UISelectors.mainSectionWrapper.firstElementChild.appendChild(divCreateQuiz);
@@ -787,216 +748,228 @@ const UICtrl = (function() {
         UISelectors.mainSectionWrapper.classList.add('background-copper-red-gradient');
         UISelectors.mainSectionWrapper.classList.remove('background-space-cadet-gradient');
     };
+
+
+
+
+
+
+
     // 
     // 
-    // Db controller
-    const fetchQuizzes = async function() {
+    // 
+    // API & DATABASE CONTROLLER
+    // 
+    // 
+    // 
+    const apiParams = {
+        "method": "GET",
+        "headers": {
+            "x-rapidapi-key": `${global.apiKey}`,
+            "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
+        }
+    };
+    const postData = async function(data, endpoint) {
         return await (
-            fetch("fetchQuizzes.php", {
+            fetch(endpoint, {
+                method: "POST",
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }));
+    };
+    const fetchQuizzes = async function(endpoint) {
+        return await (
+            fetch(endpoint, {
                 method: "GET",
                 mode: 'cors',
                 headers: {
                     'Content-Type': 'application/json'
                 }
-        }));
+            }));
     };
-    // 
-    // 
-    const shuffleArray = function(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[j], array[i]] = [array[i], array[j]];
-        }
-    };
-    const setAttributes = function(el, attrs) {
-        for(var key in attrs) {
-            el.setAttribute(key, attrs[key]);
-        }
-    }
-    const createSubmitBtn = function() {
-        let btn = document.createElement('button');
-        setAttributes(btn, {"id": "quiz-form-submit", "class": "control-btn", "type": "submit", "form": "quiz-form", "style": "display: none; background-color: transparent;"});
-        const span = createSpan('text-smoky-black');
-        span.textContent = 'submit';
-        btn.appendChild(span);
-        return btn;
-    };
-    const generateQuizConfirmation = function() {
-        UISelectors.generateConfirmation.innerHTML = `
-        <div class="column is-12-mobile is-12 p-0 m-0">
-            <div class="" id="generate-quiz-loader">
-                <img src="imgs/logo-main.png" alt="">
-            </div>
-        </div>
-        <div class="column is-12-mobile is-12 p-0 m-0">
-            <p class="login-confirmation-text text-ghost-white p-2">
-                Your quiz is being generated.
-            </p>
-            <p class="login-confirmation-text text-ghost-white p-2" id="generate-quiz-text-feedback">
-                Hold on! This may take a while.
-            </p>
-        </div>
-        `;
-    };
-    // 
-    // 
-    // API controller
-    const getAllWordsByPage = async function(pageNum = 1) {
-        return await fetch('https://wordsapiv1.p.rapidapi.com/words/?'+ new URLSearchParams({
-            letterPattern: '^[A-z]{2,}$',
-            page: pageNum
-        }), {
-            "method": "GET",
-            "headers": {
-                "x-rapidapi-key": `${global.apiKey}`,
-                "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
-            }
-        })
-        .then(response => response.json());
+    // const getRandomWord = async function() {
+    //     return await (
+    //         fetch('https://wordsapiv1.p.rapidapi.com/words/?' + new URLSearchParams({
+    //             random: 'true'
+    //         }), apiParams));
+    // };
+    const getAllWords = async function(pageNum = 1) {
+        return await (
+            fetch('https://wordsapiv1.p.rapidapi.com/words/?'+ new URLSearchParams({
+                letterPattern: '^[A-z]{2,}$',
+                page: pageNum
+            }), apiParams)
+            .then(response => {
+                // Implement error handling based on WordsAPI docs !!!
+                if (!response.ok) { throw new Error('Network problem. Please try again later'); }
+                return response.json();
+            }));
     };
     const getWordsByRandomPages = async function(numberOfQuestions, numOfAnswers) {
         // Get all words
-        let pages = '',
-            data = [],
-            randomPages = [];
-        return await getAllWordsByPage()
-        .then(doc => {
-            // No errors -- proceed in a regular fashion
-            // Total number of pages
-            pages = doc.results.total;
-            console.log(pages);
-            console.log(Math.ceil(pages / 100));
-            // Generate random pages
-            while (randomPages.length < numberOfQuestions * numOfAnswers) {
-                const r = Math.floor(Math.random() * Math.ceil(pages / 100));
-                if (randomPages.indexOf(r) === -1) {
-                    randomPages.push(r);
+        return await (
+            getAllWords()
+            .then(doc => {
+                // No errors -- proceed in a regular fashion
+                // Total number of pages
+                let pages = doc.results.total;
+                // Generate random pages
+                let randomPages = [];
+                while (randomPages.length < numberOfQuestions * numOfAnswers) {
+                    const r = Math.floor(Math.random() * Math.ceil(pages / 100));
+                    if (randomPages.indexOf(r) === -1) {
+                        randomPages.push(r);
+                    }
                 }
-            }
-            console.log(randomPages);
-            // Get all words by randomPages
-            let promises = [];
-            // Add promises in a loop
-            for (let i = 0; i < randomPages.length; i++) {
-                promises.push(getAllWordsByPage(randomPages[i]));
-            }
-            return Promise.all(promises);
-        })
-        .catch(error => {
-            // Errors -- handle those in here
-            console.log(error);
-        });
+                // Get all words by randomPages
+                let promises = [];
+                // Add promises in a loop
+                for (let i = 0; i < randomPages.length; i++) {
+                    promises.push(getAllWords(randomPages[i]));
+                }
+                return Promise.all(promises);
+            })
+            .catch(error => {
+                // Errors -- handle those in here
+                console.log(error);
+            }));
     };
-    const getSpecifiedWordDefinitions = async function(words) {
+    const getWordDefinitions = async function(words) {
         let i = 0
         let wordsDefinitions = {};
         // Loop to get all words specified in words array
         while (i < words.length) {
-            console.log(i);
             const word = words[i];
             // Fetch word
-            const response = await fetch('https://wordsapiv1.p.rapidapi.com/words/' + word + '/definitions', {
-                "method": "GET",
-                "headers": {
-                    "x-rapidapi-key": `${global.apiKey}`,
-                    "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
-                }
-            });
+            const response = await fetch('https://wordsapiv1.p.rapidapi.com/words/' + word + '/definitions', apiParams);
             // Convert to json
             const doc = await response.json();
             // If fetched word has definition, add it to wordDefinitions object
             if (doc.definitions.length) {
-                console.log('jestem tutaaaaaaj');
                 wordsDefinitions[word] = doc.definitions;
             }
-            console.log(wordsDefinitions);
-            // If wordDefinitions has specified length, break from the loop
-            // console.log(Object.keys(wordsDefinitions).length);
-            // if (Object.keys(wordsDefinitions).length === 2) {
-            //     break;
-            // }
             i++;
         }
-        console.log('skonczylem');
         return wordsDefinitions;
     }
     const getRandomWordDefinitions = async function(missingWords, oldWordDefinitions) {
         let wordsDefinitions = {};
-        console.log(missingWords);
         // Loop till word with definition is found
         while (true) {
             // Fetch random word
             const response = await fetch('https://wordsapiv1.p.rapidapi.com/words/?' + new URLSearchParams({
                 random: 'true'
-            }), {
-                "method": "GET",
-                "headers": {
-                    "x-rapidapi-key": `${global.apiKey}`,
-                    "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
-                }
-            });
-            // Convert to json
+            }), apiParams);
             const doc = await response.json();
             // Get word field
             const word = doc.word;
-            console.log(word);
             // Check if fetched word is unique
             if (!Object.keys(oldWordDefinitions).includes(word)) {
                 // Fetch definition for this word
-                const response = await fetch('https://wordsapiv1.p.rapidapi.com/words/' + word + '/definitions', {
-                    "method": "GET",
-                    "headers": {
-                        "x-rapidapi-key": `${global.apiKey}`,
-                        "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
-                    }
-                });
-                // Convert to json
+                const response = await fetch('https://wordsapiv1.p.rapidapi.com/words/' + word + '/definitions', apiParams);
                 const doc = await response.json();
-                console.log(doc);
                 // If fetched word has definition, add it to wordDefinitions object
                 if (doc.definitions.length) {
                     wordsDefinitions[word] = doc.definitions;
                 }
                 // If wordDefinitions has specified length, break from the loop
-                console.log(Object.keys(wordsDefinitions).length);
                 if (Object.keys(wordsDefinitions).length === missingWords) {
                     break;
                 }
             }
         }
-        console.log('skonczylem drugi raz');
         return wordsDefinitions;
     };
-    const postData = async function(data) {
-        return await fetch("store.php", {
-            method: "POST",
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
+    
+
+
+
+
+
+
+
+
+    const loadLogOutEvent = function() {
+        const form = document.querySelector(selector.logOutForm);
+        form.addEventListener('submit', e => {
+            // Prevent default
+            e.preventDefault();
+            // Set vars
+            const action = form.action;
+            const method = form.method;
+            // Show loader
+            selector.mainSectionWrapper.appendChild(UICtrl.createDiv(selector.overlay.slice(1)));
+            UICtrl.createLoader(grab(selector.overlay));
+            // Send async post request
+            fetch(action, {
+                method: method,
+                body: new FormData(form)
+            })
+            .then(res => {
+                if (!res.ok) { throw new Error('Network problem.'); }
+                return res.json();
+            })
+            .then(docs => {
+                // Handle input data
+                if (docs.loggedOut) {
+                    // User successfully logged out
+                    setTimeout(() => {
+                        // TUTAJ SPRAWDZ BROWSE & CREATE QUIZ SCREEN, QUIZ VIEW JEST W TYM CZASIE AKTYWNY
+                        // JESLI JEST, NAJPIERW RERENDER UI TAK JAKBYS NORMALNIE WCISNAL BACK BTN (BROWSE) ALBO QUIT BTN (QUIZ VIEW)
+                        // Close options screen
+                        UISelectors.burger.classList.toggle('hide');
+                        UISelectors.times.classList.toggle('hide');
+                        UISelectors.options.classList.toggle('hidden-options');
+                        // Rerender UI display
+                        UICtrl.loadStartScreen();
+                        // Remove UI components
+                        UISelectors.options.firstElementChild.firstElementChild.remove();
+                        UISelectors.options.firstElementChild.firstElementChild.remove();
+                        UISelectors.options.firstElementChild.firstElementChild.remove();
+                        UISelectors.options.classList.remove('options-welcome');
+                        setTimeout(() => {
+                            // Remove loader
+                            UICtrl.removeLoader();
+                            UICtrl.removeElement(grab(selector.overlay));
+                        }, 150);
+                    }, 1000);
+                } else {
+                    // User was not logged in
+                    // Redirect to index/main page
+                    // Show loader
+                    // Rerender UI display to show start page
+                }
+            })
+            .catch(error => {
+                console.log(error);
+                // Handle when rejected (only network exceptions)
+                // IN CASE OF ANY ERROR IN FETCH, SHOW A POP UP WITH A MESSAGE!!!
+            });
+        });
     };
+
     return {
         init: function() {
             const mainWrapper = UISelectors.mainSectionWrapper;
-            // Show loader
             createLoader(UISelectors.mainSectionWrapper);
+            // Guest mode
             if (`#${mainWrapper.firstElementChild.id}` === UISelectors.startPage) {
                 // Fetch demo quizzes
-                fetchQuizzes()
+                fetchQuizzes('fetchQuizzes.php')
                 .then(response => {
                     if (!response.ok) { throw new Error('Network problem. Please try again later'); }
                     return response.json();
                 })
                 .then(data => {
-                    console.log(data);
                     global.quizzes = data.data.fields;
                     setTimeout(() => {
-                        // Hide loader
                         removeLoader();
                         setTimeout(() => {
                             loadStartScreen();
+                            // Load all event listeners
                         }, 600);
                     }, 1000);
                 })
@@ -1005,87 +978,25 @@ const UICtrl = (function() {
                 });
             } else {
                 // Fetch user's quizzes
-                fetchQuizzes()
+                fetchQuizzes('fetchQuizzes.php')
                 .then(response => {
                     if (!response.ok) { throw new Error('Network problem. Please try again later'); }
                     return response.json();
                 })
                 .then(data => {
-                    console.log(data);
                     global.quizzes = data.data.fields;
                     setTimeout(() => {
-                        // Hide loader
                         removeLoader();
                         setTimeout(() => {
                             loadLoggedInScreen();
                             // Render options
                             UISelectors.settingsOption.parentElement.before(createOption('You are currently logged in'));
-                            UISelectors.settingsOption.parentElement.before(createLiOption());
+                            UISelectors.settingsOption.parentElement.before(createOption(''));
                             UISelectors.settingsOption.parentElement.before(createLogOutConfirmation());
                             UISelectors.options.classList.add('options-welcome');
-                            // Load submit event listener
-                            // // logOutForm
-                            const form = document.querySelector(selector.logOutForm);
-                            form.addEventListener('submit', e => {
-                                e.preventDefault();
-                                console.log('jestem tutaj');
-                                const action = form.action;
-                                const method = form.method;
-                                // Show loader
-                                selector.mainSectionWrapper.appendChild(UICtrl.createDiv(selector.overlay.slice(1)));
-                                UICtrl.createLoader(grab(selector.overlay));
-                                // Send async post request to logout.php
-                                fetch(action, {
-                                    method: method,
-                                    body: new FormData(form)
-                                })
-                                .then(res => {
-                                    if (!res.ok) { throw new Error('Network problem.'); }
-                                    return res.json();
-                                })
-                                .then(docs => {
-                                    console.log(docs);
-                                    // Handle input data
-                                    if (docs.loggedOut) {
-                                        // User successfully logged out
-                                        // Redirect to index/main page
-                                        setTimeout(() => {
-                                            // TUTAJ SPRAWDZ BROWSE & CREATE QUIZ SCREEN, QUIZ VIEW JEST W TYM CZASIE AKTYWNY
-                                            // JESLI JEST, NAJPIERW RERENDER UI TAK JAKBYS NORMALNIE WCISNAL BACK BTN (BROWSE) ALBO QUIT BTN (QUIZ VIEW)
-
-
-                                            // Close options screen
-                                            UISelectors.burger.classList.toggle('hide');
-                                            UISelectors.times.classList.toggle('hide');
-                                            UISelectors.options.classList.toggle('hidden-options');
-                                            // Rerender UI display
-                                            UICtrl.loadStartScreen();
-                                            // Redirect
-                                            // Remove UI components
-                                            UISelectors.options.firstElementChild.firstElementChild.remove();
-                                            UISelectors.options.firstElementChild.firstElementChild.remove();
-                                            UISelectors.options.firstElementChild.firstElementChild.remove();
-                                            UISelectors.options.classList.remove('options-welcome');
-                                            setTimeout(() => {
-                                                // Remove loader
-                                                UICtrl.removeLoader();
-                                                UICtrl.removeElement(grab(selector.overlay));
-                                                // document.querySelector('#front-page-footer').classList.add('hidden-options');
-                                            }, 150);
-                                        }, 1000);
-                                    } else {
-                                        // User was not logged in
-                                        // Redirect to index/main page
-                                        // Show loader
-                                        // Rerender UI display to show start page
-                                    }
-                                })
-                                .catch(error => {
-                                    console.log(error);
-                                    // Handle when rejected (only network exceptions)
-                                    // IN CASE OF ANY ERROR IN FETCH, SHOW A POP UP WITH A MESSAGE!!!
-                                });
-                            });
+                            // Load all event listeners
+                            // Load log out event listener separately
+                            loadLogOutEvent();
                             setTimeout(() => {
                                 document.querySelector('#front-page-footer').classList.add('hidden-options');
                             }, 150);
@@ -1103,7 +1014,6 @@ const UICtrl = (function() {
         createMainBtns,
         removeTabindex,
         addTabindex,
-        goBackBtn,
         createHeader,
         createFormConfirmation,
         createSubmitFeedback,
@@ -1115,10 +1025,9 @@ const UICtrl = (function() {
         inputInvalidRemove,
         hintFeedback,
         formFeedback,
-        hideLoginFeedbackDiv,
         lockInput,
         unlockInput,
-        createInputHint,
+        createHintIcon,
         createHintContent,
         handleFormData,
         checkIfEmpty,
@@ -1137,15 +1046,16 @@ const UICtrl = (function() {
         createBtn,
         fetchQuizzes,
         createOption,
-        createLiOption,
         createLogOutConfirmation,
         loadStartScreen,
         checkIfEmptyQuiz,
         generateQuizConfirmation,
         getWordsByRandomPages,
-        getSpecifiedWordDefinitions,
+        getWordDefinitions,
         getRandomWordDefinitions,
-        postData
+        postData,
+        loadLogOutEvent,
+        createErrorDiv
     };
 })();
 UICtrl.init();
@@ -1164,7 +1074,7 @@ document.addEventListener('click', e => {
         // Hide startBtn
         grab(selector.startBtn).classList.add('button-dissapear');
         setTimeout(() => {
-            // Swtich animating logo to static image
+            // Switch animating logo to static image
             grab(selector.mainLogoFaceFront).classList.add('strip-background-border');
             grab(selector.mainLogoFaceTop).classList.add('strip-background-border');
             grab(selector.mainLogoFaceLeft).classList.add('strip-background-border');
@@ -1184,16 +1094,16 @@ document.addEventListener('click', e => {
         // Show register section
         setTimeout(() => {
             // Render UI elements
-            selector.registerFeedback.before(UICtrl.goBackBtn('register-back-btn'));
+            selector.registerFeedback.before(UICtrl.createBtn('control-btn', 'register-back-btn', 'go back', 'is-flex is-justify-content-start'));
             selector.registerFeedback.after(UICtrl.createHeader('sign up', 'main-register-header'));
-            UICtrl.createInputHint();
+            UICtrl.createHintIcon();
             UICtrl.createHintContent();
             // Adjust UI display
             selector.mainSectionWrapper.classList.toggle('hidden-options');
             selector.registerWrapper.classList.toggle('hidden-options');
             // remove tabindex="-1"
             UICtrl.removeTabindex('register-tabindex');
-            // set focus on first input -- consider autofocus on html element
+            // set focus on first input
             setTimeout(() => {
                 selector.registerForm.username.focus();
             }, 500);
@@ -1244,7 +1154,7 @@ document.addEventListener('click', e => {
         selector.mainSectionWrapper.firstElementChild.classList.add('shrink');
         setTimeout(() => {
             // Render UI elements
-            selector.loginFeedback.before(UICtrl.goBackBtn('login-back-btn'));
+            selector.loginFeedback.before(UICtrl.createBtn('control-btn', 'login-back-btn', 'go back', 'is-flex is-justify-content-start'));
             selector.loginFeedback.after(UICtrl.createHeader('login', 'main-login-header'));
             // Adjust UI display
             selector.mainSectionWrapper.classList.toggle('hidden-options');
@@ -1289,6 +1199,18 @@ document.addEventListener('click', e => {
         selector.times.classList.toggle('hide');
         selector.options.classList.toggle('hidden-options');
     }
+
+
+
+
+
+
+
+
+
+
+
+
     // DemoBtn clicked
     if ((e.target.tagName === 'SPAN' && `#${e.target.parentElement.id}` === selector.demoBtn) || (`#${e.target.id}` === selector.demoBtn) || (e.target.tagName === 'SPAN' && `#${e.target.parentElement.id}` === selector.browseBtn) || (`#${e.target.id}` === selector.browseBtn)) {
         let id;
@@ -1667,7 +1589,7 @@ document.addEventListener('click', e => {
         selector.mainSectionWrapper.firstElementChild.classList.add('shrink');
         setTimeout(() => {
             // Render UI elements
-            selector.createQuizForm.before(UICtrl.goBackBtn('create-quiz-back-btn'));
+            selector.createQuizForm.before(UICtrl.createBtn('control-btn', 'create-quiz-back-btn', 'go back', 'is-flex is-justify-content-start'));
             selector.createQuizForm.before(UICtrl.createHeader('create quiz', 'main-create-quiz-header'));
             selector.mainSectionWrapper.classList.toggle('hidden-options');
             // Show browse section
@@ -1831,9 +1753,9 @@ selector.createQuizForm["quiz-questions"].addEventListener('blur', () => {
     UICtrl.checkIfEmptyQuiz();
 });
 // Submit events
-// submit register form
+// Register form
 selector.registerForm.addEventListener('submit', e => {
-    // Prevent the default form submit
+    // Prevent default behaviour
     e.preventDefault();
     // Add formRegisterSubmitFeedback
     if (grab(selector.formRegisterSubmitFeedback) === null) {
@@ -1850,7 +1772,9 @@ selector.registerForm.addEventListener('submit', e => {
     } else {
         submitFeedback.firstElementChild.classList.add('hide');
         submitFeedback.lastElementChild.classList.remove('hide');
-    } 
+    }
+    // Disable options
+    selector.burger.classList.add('disabled');
     if (UICtrl.checkIfAllValid('register')) {
         // Lock input fields
         UICtrl.lockInput('register');
@@ -1865,12 +1789,8 @@ selector.registerForm.addEventListener('submit', e => {
             method: selector.registerForm.method,
             body: new FormData(selector.registerForm)
         })
-        .then(response => {
-            if (!response.ok) { throw new Error('Network problem. Please try again later'); }
-            return response.json();
-        })
+        .then(response => response.json() )
         .then(docs => {
-            console.log(docs);
             // Handle input data
             err_count = UICtrl.handleFormData(docs, 'register');
             if (err_count) { // errors found
@@ -1879,6 +1799,8 @@ selector.registerForm.addEventListener('submit', e => {
                     submitFeedback.firstElementChild.classList.remove('hide');
                     // Unlock fields
                     UICtrl.unlockInput('register');
+                    // Enable options
+                    selector.burger.classList.remove('disabled');
                 }, 500);
             } else { // no errors
                 // Add confirmation div
@@ -1901,11 +1823,13 @@ selector.registerForm.addEventListener('submit', e => {
                             // set tabindex="-1"
                             UICtrl.addTabindex('register-tabindex');
                             // Render UI elements
-                            selector.loginFeedback.before(UICtrl.goBackBtn('login-back-btn'));
+                            selector.loginFeedback.before(UICtrl.createBtn('control-btn', 'login-back-btn', 'go back', 'is-flex is-justify-content-start'));
                             selector.loginFeedback.after(UICtrl.createHeader('login', 'main-login-header'));
                             // Show login screen
                             selector.mainSectionWrapper.classList.toggle('hidden-options');
                             selector.loginWrapper.classList.toggle('hidden-options');
+                            // Enable options
+                            selector.burger.classList.remove('disabled');
                             setTimeout(() => {
                                 // remove tabindex="-1"
                                 UICtrl.removeTabindex('login-tabindex');
@@ -1926,13 +1850,61 @@ selector.registerForm.addEventListener('submit', e => {
             }
         })
         .catch(error => {
-            console.log(error);
-            // Handle when rejected (only network exceptions)
-            // For network show big red screen saying 'network problem. check your internet connection'
+            // Show message overlay
+            UICtrl.createErrorDiv();
+            setTimeout(() => {
+                grab(selector.errorOverlay).remove();
+                // Adjust UI display
+                selector.mainSectionWrapper.classList.toggle('hidden-options');
+                selector.registerWrapper.classList.toggle('hidden-options');
+                setTimeout(() => {
+                    selector.mainSectionWrapper.firstElementChild.classList.remove('shrink');
+                    // Unlock fields
+                    UICtrl.unlockInput('register');
+                    // Enable options
+                    selector.burger.classList.remove('disabled');
+                    // set tabindex="-1"
+                    UICtrl.addTabindex('register-tabindex');
+                    // reset form
+                    UICtrl.resetForm('register');
+                    // Remove rendered UI components
+                    grab(selector.registerBackBtn).parentElement.remove();
+                    grab('.main-register-header').remove();
+                    if (grab(selector.formRegisterSubmitFeedback) !== null) {
+                        grab(selector.formRegisterSubmitFeedback).remove();
+                    }
+                    grab(selector.inputHint).parentElement.remove();
+                    selector.hintWrapper.innerHTML = '';
+                    selector.registerFeedback.innerHTML = '';
+                }, 600);
+            }, 2000);
         });        
     }
 });
-// submit login form
+// console.log(response);
+// switch (response.status) {
+//     case 400:
+//         throw new Error('Bad Request. Your request is invalid.');
+//     case 401:
+//         throw new Error('Unauthorized. Your API key is wrong.');
+//     case 404:
+//         throw new Error('Not Found. No matching word was found.');
+//     case 500:
+//         throw new Error('Network problem. Please try again later.');
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+// Login form
 selector.loginForm.addEventListener('submit', e => {
     // Prevent the default form submit
     e.preventDefault();
@@ -1960,19 +1932,16 @@ selector.loginForm.addEventListener('submit', e => {
         if (!selector.loginForm["login-submit"].classList.contains('disabled')) {
             selector.loginForm["login-submit"].classList.add('disabled');
         }
-        // 
-        let err_count = 0;
+        // Disable options
+        selector.burger.classList.add('disabled');
         // Post data using the Fetch API
+        let err_count = 0;
         fetch(selector.loginForm.action, {
             method: selector.loginForm.method,
             body: new FormData(selector.loginForm)
         })
-        .then(res => {
-            if (!res.ok) { throw new Error('Network problem.'); }
-            return res.json();
-        })
+        .then(response => response.json() )
         .then(docs => {
-            console.log(docs);
             // First check if user is logged in, if so redirect to welcome page !!!
             if (docs.session.loggedIn) {
                 // Do the redirect here
@@ -1985,6 +1954,8 @@ selector.loginForm.addEventListener('submit', e => {
                         submitFeedback.firstElementChild.classList.remove('hide');
                         // Unlock fields
                         UICtrl.unlockInput('login');
+                        // Enable options
+                        selector.burger.classList.remove('disabled');
                         // Reset input class
                         const inputElements = document.querySelectorAll('#login-form input')
                         Array.from(inputElements).forEach(input => {
@@ -1997,6 +1968,7 @@ selector.loginForm.addEventListener('submit', e => {
                                 input.parentElement.lastElementChild.lastElementChild.classList.add('hide');
                             }
                         });
+                        return undefined;
                     }, 500);
                 } else { // no errors
                     // Add confirmation div
@@ -2009,125 +1981,69 @@ selector.loginForm.addEventListener('submit', e => {
                     // Clear form
                     UICtrl.resetForm('login');
                     // Fetch user's quizzes
-                    return UICtrl.fetchQuizzes();
+                    return UICtrl.fetchQuizzes('fetchQuizzes.php');
                 }
             }
         })
         .then(response => {
-            if (!response.ok) { throw new Error('Network problem. Please try again later'); }
-            // Show loader
-            selector.loginWrapper.appendChild(UICtrl.createDiv(selector.overlay.slice(1)));
-            UICtrl.createLoader(grab(selector.overlay));
-            return response.json();
+            if (response !== undefined) {
+                // Show loader
+                selector.loginWrapper.appendChild(UICtrl.createDiv(selector.overlay.slice(1)));
+                UICtrl.createLoader(grab(selector.overlay));
+                return response.json();
+            } else { return undefined }
         })
         .then(data => {
-            console.log(data);
-            UICtrl.global.quizzes = data.data.fields;
-            // Unlock fields
-            UICtrl.unlockInput('login');
-            setTimeout(() => {
-                // Adjust UI display
-                selector.mainSectionWrapper.classList.toggle('hidden-options');
-                selector.loginWrapper.classList.toggle('hidden-options');
-                // set tabindex="-1"
-                UICtrl.addTabindex('login-tabindex');
-                // Show welcome screen
-                selector.mainSectionWrapper.classList.toggle('hidden-options');
-                // 
+            if (response !== undefined) {
+                UICtrl.global.quizzes = data.data.fields;
+                // Unlock fields
+                UICtrl.unlockInput('login');
                 setTimeout(() => {
-                    // Rerender UI
-                    // CONSIDER SHRINKING CONTENT AT THE BEGINNING AND THEN REMOVING THAT!!!
-                    UICtrl.loadLoggedInScreen();
-                    // rerender options too !!!
-                    // Render options
-                    selector.settingsOption.parentElement.before(UICtrl.createOption('You are currently logged in'));
-                    selector.settingsOption.parentElement.before(UICtrl.createLiOption());
-                    selector.settingsOption.parentElement.before(UICtrl.createLogOutConfirmation());
-                    selector.options.classList.add('options-welcome');
-                    // 
-                    const form = document.querySelector(selector.logOutForm);
-                    form.addEventListener('submit', e => {
-                        e.preventDefault();
-                        console.log('jestem tutaj');
-                        const action = form.action;
-                        const method = form.method;
-                        // Show loader
-                        selector.mainSectionWrapper.appendChild(UICtrl.createDiv(selector.overlay.slice(1)));
-                        UICtrl.createLoader(grab(selector.overlay));
-                        // Send async post request to logout.php
-                        fetch(action, {
-                            method: method,
-                            body: new FormData(form)
-                        })
-                        .then(res => {
-                            if (!res.ok) { throw new Error('Network problem.'); }
-                            return res.json();
-                        })
-                        .then(docs => {
-                            console.log(docs);
-                            // Handle input data
-                            if (docs.loggedOut) {
-                                // User successfully logged out
-                                // Redirect to index/main page
-                                setTimeout(() => {
-                                    // TUTAJ SPRAWDZ BROWSE & CREATE QUIZ SCREEN, QUIZ VIEW JEST W TYM CZASIE AKTYWNY
-                                    // JESLI JEST, NAJPIERW RERENDER UI TAK JAKBYS NORMALNIE WCISNAL BACK BTN (BROWSE) ALBO QUIT BTN (QUIZ VIEW)
-
-
-                                    // Close options screen
-                                    selector.burger.classList.toggle('hide');
-                                    selector.times.classList.toggle('hide');
-                                    selector.options.classList.toggle('hidden-options');
-                                    // Rerender UI display
-                                    UICtrl.loadStartScreen();
-                                    // Redirect
-                                    // Remove UI components
-                                    selector.options.firstElementChild.firstElementChild.remove();
-                                    selector.options.firstElementChild.firstElementChild.remove();
-                                    selector.options.firstElementChild.firstElementChild.remove();
-                                    selector.options.classList.remove('options-welcome');
-                                    setTimeout(() => {
-                                        // Remove loader
-                                        UICtrl.removeLoader();
-                                        UICtrl.removeElement(grab(selector.overlay));
-                                        // document.querySelector('#front-page-footer').classList.add('hidden-options');
-                                    }, 150);
-                                }, 1000);
-                            } else {
-                                // User was not logged in
-                                // Redirect to index/main page
-                                // Show loader
-                                // Rerender UI display to show start page
-                            }
-                        })
-                        .catch(error => {
-                            console.log(error);
-                            // Handle when rejected (only network exceptions)
-                            // IN CASE OF ANY ERROR IN FETCH, SHOW A POP UP WITH A MESSAGE!!!
-                        });
-                    });
-                    // 
+                    // Adjust UI display
                     selector.mainSectionWrapper.classList.toggle('hidden-options');
-                    selector.mainSectionWrapper.firstElementChild.classList.toggle('shrink');
-                    // Hide loader
-                    UICtrl.removeLoader();
-                    UICtrl.removeElement(grab(selector.overlay));
+                    selector.loginWrapper.classList.toggle('hidden-options');
+                    // set tabindex="-1"
+                    UICtrl.addTabindex('login-tabindex');
+                    // Show welcome screen
+                    selector.mainSectionWrapper.classList.toggle('hidden-options');
+                    // 
                     setTimeout(() => {
-                        // Reset register UI
-                        grab(selector.loginBackBtn).parentElement.remove();
-                        grab('.main-login-header').remove();
-                        submitFeedback.remove();
-                        selector.loginFeedback.innerHTML = '';
-                        grab(selector.loginConfirmation).remove();
-                        document.querySelector('#front-page-footer').classList.add('hidden-options');
-                    }, 500);
-                }, 350);
-            }, 1000);
+                        // Rerender UI
+                        // CONSIDER SHRINKING CONTENT AT THE BEGINNING AND THEN REMOVING THAT!!!
+                        UICtrl.loadLoggedInScreen();
+                        // rerender options too !!!
+                        // Render options
+                        selector.settingsOption.parentElement.before(UICtrl.createOption('You are currently logged in'));
+                        selector.settingsOption.parentElement.before(UICtrl.createOption(''));
+                        selector.settingsOption.parentElement.before(UICtrl.createLogOutConfirmation());
+                        selector.options.classList.add('options-welcome');
+                        // Load log out event listener
+                        UICtrl.loadLogOutEvent();
+                        // 
+                        selector.mainSectionWrapper.classList.toggle('hidden-options');
+                        selector.mainSectionWrapper.firstElementChild.classList.toggle('shrink');
+                        // Hide loader
+                        UICtrl.removeLoader();
+                        UICtrl.removeElement(grab(selector.overlay));
+                        setTimeout(() => {
+                            // Reset register UI
+                            grab(selector.loginBackBtn).parentElement.remove();
+                            grab('.main-login-header').remove();
+                            submitFeedback.remove();
+                            selector.loginFeedback.innerHTML = '';
+                            grab(selector.loginConfirmation).remove();
+                            document.querySelector('#front-page-footer').classList.add('hidden-options');
+                        }, 500);
+                    }, 350);
+                }, 1000);
+            }
         })
         .catch(error => {
             // here you can handle also error from php
             // they come in a js form: JSON.parse blah blah
             console.log(error);
+            // Enable options
+            selector.burger.classList.remove('disabled');
             // Handle when rejected (only network exceptions)
         });
     }
@@ -2373,7 +2289,7 @@ selector.createQuizForm.addEventListener('submit', e => {
                 // Update UI text
                 selector.generateConfirmation.lastElementChild.lastElementChild.textContent = 'Fetching definitions...';
                 // Fetch definitions
-                return UICtrl.getSpecifiedWordDefinitions(randomWords);
+                return UICtrl.getWordDefinitions(randomWords);
             } else {
                 throw new Error('cos poszlo nie tak');
             }
@@ -2469,7 +2385,7 @@ selector.createQuizForm.addEventListener('submit', e => {
             console.log('tutaj postData jest wywolany');
             // Update UI text
             selector.generateConfirmation.lastElementChild.lastElementChild.textContent = 'Saving...';
-            return UICtrl.postData(data);
+            return UICtrl.postData(data, 'store.php');
         })
         .then(res => {
             if (!res.ok) { throw new Error('Network problem.'); }
