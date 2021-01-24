@@ -97,14 +97,6 @@
 <!-- Browse screen -->
 <section class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 is-relative hidden-options" id="browse-wrapper">
     <div id="filter-quiz-wrapper" class="scaleY background-ghost-white p-5 is-flex is-flex-direction-column is-justify-content-start">
-        <!-- <div class="is-flex is-justify-content-start">
-            <a id="filter-quiz-back-btn" class="control-btn">
-                <span class="text-smoky-black">
-                    Go Back
-                </span>
-            </a>
-        </div>
-        <h2 class="is-size-1 form-header text-smoky-black">FILTER</h2> -->
         <form action="" id="filter-form">
             <div class="columns is-mobile m-0 is-vcentered is-multiline">
                 <div class="column is-12-mobile is-12 p-0 has-text-centered my-2">
@@ -130,14 +122,6 @@
         </form>
     </div>
     <div id="search-quiz-wrapper" class="scaleY background-ghost-white p-5 is-flex is-flex-direction-column is-justify-content-start">
-        <!-- <div class="is-flex is-justify-content-start">
-            <a id="search-quiz-back-btn" class="control-btn">
-                <span class="text-smoky-black">
-                    Go Back
-                </span>
-            </a>
-        </div>
-        <h2 class="is-size-1 form-header text-smoky-black">SEARCH</h2> -->
         <form action="" id="search-form">
             <div class="columns is-mobile m-0 is-vcentered is-multiline">
                 <div class="column is-12-mobile is-12 p-0 has-text-centered my-2">
@@ -165,13 +149,10 @@
 <section class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 is-relative hidden-options" id="create-quiz-wrapper">
     <div class="generate-confirmation hidden-options background-mountain-meadow columns is-mobile m-0 p-5 has-text-centered is-vcentered is-multiline" id="generate-confirmation"></div>
     <div class="feedback-wrapper background-smoky-black p-5 hidden-options" id="create-quiz-feedback-wrapper"></div>
-
-    <!-- CONSIDER ADDING HINT SCREEN JUST LIKE IN REGISTER !!! -->
-
     <form action="generate.php" method="POST" id="create-quiz-form">
         <div class="columns is-mobile m-0 is-vcentered is-multiline">
             <div class="column is-12-mobile is-12 p-0 has-text-centered my-2 input-wrapper">
-                <input class="input py-1 create-tabindex" type="text" name="quiz-name" placeholder="Name">
+                <input class="input py-1 create-tabindex" type="text" name="quiz-name" placeholder="NAME">
                 <span class="icon-left">
                     <i class="fas fa-pencil-alt"></i>
                 </span>
@@ -183,8 +164,8 @@
             <div class="column is-12-mobile is-12 p-0 has-text-centered my-2 input-wrapper">
                 <div class="select text-ghost-white">
                     <select class="py-1" name="quiz-type">
-                        <option selected disabled>Quiz Type</option>
-                        <option>Definitions</option>
+                        <option selected disabled>QUIZ TYPE</option>
+                        <option>DEFINITIONS</option>
                     </select>
                     <span class="icon-left">
                         <i class="fas fa-cube"></i>
@@ -199,25 +180,27 @@
                 <input class="input py-1" type="hidden" name="quiz-select">
             </div>
             <div class="column is-12-mobile is-12 p-0 has-text-centered m-0 p-0">
-                <input class="input py-1" type="hidden" name="user-id" value="<?php echo $_SESSION["user_id"]; ?>">
-            </div>
-            <div class="column is-12-mobile is-12 p-0 has-text-centered my-2 number-input-wrapper">
-                <div class="number-input input-wrapper">
-                    <button class="decrement create-tabindex"></button>
-                    <input id="quiz-answers" class="quantity input mx-3 create-tabindex" name="quiz-answers" min="2" max="4" step="1" value="2" type="number">
-                    <button class="increment plus create-tabindex"></button>
-                    <span class="icon-validation" id="generate-answers-validation">
-                        <i class="fas fa-check icon-valid hide"></i>
-                        <i class="fas fa-times icon-invalid hide"></i>
-                    </span>
-                </div>
+                <input class="input py-1" type="hidden" name="user-id" value="">
             </div>
             <div class="column is-12-mobile is-12 p-0 has-text-centered mt-2 mb-0 number-input-wrapper">
+                <label for="quiz-questions">questions</label>
                 <div class="number-input input-wrapper">
                     <button class="decrement create-tabindex"></button>
                     <input id="quiz-questions" class="quantity input mx-3 create-tabindex" name="quiz-questions" min="4" max="10" step="1" value="4" type="number">
                     <button class="increment plus create-tabindex"></button>
                     <span class="icon-validation" id="generate-questions-validation">
+                        <i class="fas fa-check icon-valid hide"></i>
+                        <i class="fas fa-times icon-invalid hide"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="column is-12-mobile is-12 p-0 has-text-centered my-2 number-input-wrapper">
+                <label for="quiz-answers">answers</label>
+                <div class="number-input input-wrapper">
+                    <button class="decrement create-tabindex"></button>
+                    <input id="quiz-answers" class="quantity input mx-3 create-tabindex" name="quiz-answers" min="2" max="4" step="1" value="2" type="number">
+                    <button class="increment plus create-tabindex"></button>
+                    <span class="icon-validation" id="generate-answers-validation">
                         <i class="fas fa-check icon-valid hide"></i>
                         <i class="fas fa-times icon-invalid hide"></i>
                     </span>

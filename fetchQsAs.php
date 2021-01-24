@@ -19,7 +19,10 @@ $output = [
     "db" => ["php_error" => false, "msg" => '', "fields" => "db"],
     "session" => ["loggedIn" => true, "msg" => '', "fields" => "session"]
 ];
-// 
+// Check if user is logged in first !!!
+// If not throw an exception
+
+
 // Process POST data
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // User fetches data
@@ -74,6 +77,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo json_encode($output);
             exit;
         }
+    } else {
+        // WRONG CONTENT TYPE
     }
 } else {
     // User not authorized

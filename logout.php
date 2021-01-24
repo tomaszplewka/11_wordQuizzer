@@ -1,4 +1,4 @@
-<?php 
+<?php
 // Start session
 session_start();
 // Load config

@@ -1256,27 +1256,27 @@
     // }, 250);
     // });
     // 
-    const filterQuizBtn = document.querySelector('#filter-back-btn');
-    const filterQuizWrapper = document.querySelector('#filter-quiz-wrapper');
-    const filterQuizBackBtn = document.querySelector('#filter-quiz-back-btn');
-    const searchQuizBtn = document.querySelector('#search-back-btn');
-    const searchQuizWrapper = document.querySelector('#search-quiz-wrapper');
-    const searchQuizBackBtn = document.querySelector('#search-quiz-back-btn');
+    // const filterQuizBtn = document.querySelector('#filter-back-btn');
+    // const filterQuizWrapper = document.querySelector('#filter-quiz-wrapper');
+    // const filterQuizBackBtn = document.querySelector('#filter-quiz-back-btn');
+    // const searchQuizBtn = document.querySelector('#search-back-btn');
+    // const searchQuizWrapper = document.querySelector('#search-quiz-wrapper');
+    // const searchQuizBackBtn = document.querySelector('#search-quiz-back-btn');
     // 
-    filterQuizBtn.addEventListener('click', () => {
-        filterQuizWrapper.classList.remove('scaleY');
-    });
-    filterQuizBackBtn.addEventListener('click', () => {
-        filterQuizWrapper.classList.add('scaleY');
-    });
-    // 
-    searchQuizBtn.addEventListener('click', () => {
-        searchQuizWrapper.classList.remove('scaleY');
-    });
-    searchQuizBackBtn.addEventListener('click', () => {
-        searchQuizWrapper.classList.add('scaleY');
-    });
-    // 
+    // filterQuizBtn.addEventListener('click', () => {
+    //     filterQuizWrapper.classList.remove('scaleY');
+    // });
+    // filterQuizBackBtn.addEventListener('click', () => {
+    //     filterQuizWrapper.classList.add('scaleY');
+    // });
+    // // 
+    // searchQuizBtn.addEventListener('click', () => {
+    //     searchQuizWrapper.classList.remove('scaleY');
+    // });
+    // searchQuizBackBtn.addEventListener('click', () => {
+    //     searchQuizWrapper.classList.add('scaleY');
+    // });
+    // // 
     // const addQuizWrapper = document.querySelector('#add-new-quiz-wrapper');
     // const addQuizBackBtn = document.querySelector('#add-new-quiz-back-btn');
     // 

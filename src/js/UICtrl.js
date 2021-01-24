@@ -39,6 +39,7 @@ const UICtrl = (function() {
         browseWrapper: document.querySelector('#browse-wrapper'),
         filterWrapper: document.querySelector('#filter-quiz-wrapper'),
         filterForm: document.querySelector('#filter-form'),
+        searchWrapper: document.querySelector('#search-quiz-wrapper'),
         searchForm: document.querySelector('#search-form'),
         browseBackBtn: '#browse-back-btn',
         quizWrapper: document.querySelector('.quiz'),
@@ -73,18 +74,23 @@ const UICtrl = (function() {
         createQuizForm: document.querySelector('#create-quiz-form'),
         increment: '.increment',
         decrement: '.decrement',
-        generateConfirmation: document.querySelector('#generate-confirmation')
+        generateConfirmation: document.querySelector('#generate-confirmation'),
+        filterBackBtn: '#filter-back-btn',
+        searchBackBtn: '#search-back-btn',
+        filterBtn: '#filter-btn',
+        searchBtn: '#search-btn',
+        browseNextQuizzes: '#browse-quizzes-next',
+        browsePreviousQuizzes: '#browse-quizzes-previous'
     };
     // Global vars
     const global = {
         quizzes: [],
-        quizID: null,
         index: 0,
         questions: [],
         answers: [],
         correctAnswers: [],
         value: [],
-        apiKey: ""
+        apiKey: "f8a63bbfd2mshc496f00dfd1b54cp168d18jsn749a1f9f4065"
     };
     // Basic building blocks
     const createA = function(aClass, aId = '') {
@@ -248,11 +254,16 @@ const UICtrl = (function() {
         btn.appendChild(span);
         return btn;
     };
-    const createErrorDiv = function() {
+    const createErrorDiv = function(content = 'Internal error. Contact app provider.') {
         document.querySelector('body').appendChild(createDiv('error-overlay is-flex is-justify-content-center is-align-items-center has-text-centered'));
         const p = createPara('');
-        p.textContent = 'Internal error. Contact app provider.';
+        p.textContent = content;
         document.querySelector(UISelectors.errorOverlay).appendChild(p);
+    };
+    const appendAnswer = function(html, target) {
+        const div = createDiv('');
+        div.innerHTML = html;
+        target.appendChild(div);
     };
     // Render UI components & HTML templates
     const showMainLogo = function() {
@@ -374,8 +385,12 @@ const UICtrl = (function() {
             const quizQuestions = data[index]["quiz_questions"];
             const quizCreatedAt = new Date(data[index]["created_at"]).toLocaleString();
             const quizUpdateddAt = new Date(data[index]["updated_at"]).toLocaleString();
-            const quizScore = data[index]["score"];
-            if (quizScore === 'NULL') { quizScore = 0; }
+            let quizScore = data[index]["score"];
+            if (quizScore === null) {
+                quizScore = 'NA';
+            } else {
+                quizScore += '%';
+            }
             // Create template
             html += `
             <div id="${quizID}" class="my-2">
@@ -429,12 +444,7 @@ const UICtrl = (function() {
                             <p class="text-smoky-black" > Attempted on: ${quizUpdateddAt}</p>
                         </div>
                         <div class="column is-12-mobile is-12 p-0 my-1">
-                            <p class="text-smoky-black" > Recent Score: ${quizScore}%</p>
-                        </div>
-                        <div class="column is-12-mobile is-12 p-0 my-1">
-                            <a id="" class="btn m-0">
-                                <span>play</span>
-                            </a>
+                            <p class="text-smoky-black" > Recent Score: ${quizScore}</p>
                         </div>
                     </div>
                 </div>
@@ -453,6 +463,36 @@ const UICtrl = (function() {
         }
         UISelectors.quizWrapper.firstElementChild.innerHTML = html;
         UISelectors.quizWrapper.setAttribute('data-page', page);
+    };
+    const createAnswer = function(answer, index) {
+        return `
+        <div class="quiz-view-answer-text has-text-centered p-2 m-0">
+            <div class="is-relative">
+                <input type="radio" name="${answer.q_ID}" value="${index}" id="${answer.a_ID}" class="btn m-0 p-0">
+                <label for="${answer.a_ID}">
+                    ${answer.answer}
+                </label>
+            </div>
+        </div>
+        `;
+    };
+    const createQuestion = function(target, content) {
+        target.innerHTML = '';
+        const question = createPara('quiz-view-header-text');
+        question.textContent = content;
+        target.appendChild(question);
+    };
+    const createQuestionFeedback = function(content, feedback) {
+        return `
+        <li class="is-flex is-justify-content-space-between is-align-items-center quiz-li-feedback input-${feedback}">
+            <p class="">
+                ${content}
+            </p>
+            <span class="icon-validation" id="">
+                <i class="fas fa-check icon-${feedback}"></i>
+            </span>
+        </li>
+        `;
     };
     const createQuizResults = function() {
         const quizResults = createDiv('column is-12-mobile is-12 p-0 hidden-options', 'quiz-results');
@@ -643,7 +683,6 @@ const UICtrl = (function() {
             feedbackMsg.textContent = input.msg;
             return 1;
         } else {
-            console.log(input);
             const feedbacIfOk = document.querySelector(`.${input.field}-wrapper-if-ok`);
             feedbacIfOk.firstElementChild.classList.remove('hide');
             return 0;
@@ -769,6 +808,17 @@ const UICtrl = (function() {
             "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
         }
     };
+    // console.log(response);
+    // switch (response.status) {
+    //     case 400:
+    //         throw new Error('Bad Request. Your request is invalid.');
+    //     case 401:
+    //         throw new Error('Unauthorized. Your API key is wrong.');
+    //     case 404:
+    //         throw new Error('Not Found. No matching word was found.');
+    //     case 500:
+    //         throw new Error('Network problem. Please try again later.');
+    // }
     const postData = async function(data, endpoint) {
         return await (
             fetch(endpoint, {
@@ -893,76 +943,247 @@ const UICtrl = (function() {
 
 
     const loadLogOutEvent = function() {
-        const form = document.querySelector(selector.logOutForm);
+        const form = grab(UISelectors.logOutForm);
         form.addEventListener('submit', e => {
             // Prevent default
             e.preventDefault();
             // Set vars
             const action = form.action;
             const method = form.method;
+            // Disable options
+            selector.burger.classList.add('disabled');
             // Show loader
-            selector.mainSectionWrapper.appendChild(UICtrl.createDiv(selector.overlay.slice(1)));
+            selector.options.appendChild(UICtrl.createDiv(selector.overlay.slice(1)));
             UICtrl.createLoader(grab(selector.overlay));
             // Send async post request
             fetch(action, {
                 method: method,
                 body: new FormData(form)
             })
-            .then(res => {
-                if (!res.ok) { throw new Error('Network problem.'); }
-                return res.json();
-            })
+            .then(response => response.json() )
             .then(docs => {
                 // Handle input data
                 if (docs.loggedOut) {
                     // User successfully logged out
-                    setTimeout(() => {
-                        // TUTAJ SPRAWDZ BROWSE & CREATE QUIZ SCREEN, QUIZ VIEW JEST W TYM CZASIE AKTYWNY
-                        // JESLI JEST, NAJPIERW RERENDER UI TAK JAKBYS NORMALNIE WCISNAL BACK BTN (BROWSE) ALBO QUIT BTN (QUIZ VIEW)
-                        // Close options screen
-                        UISelectors.burger.classList.toggle('hide');
-                        UISelectors.times.classList.toggle('hide');
-                        UISelectors.options.classList.toggle('hidden-options');
-                        // Rerender UI display
-                        UICtrl.loadStartScreen();
-                        // Remove UI components
-                        UISelectors.options.firstElementChild.firstElementChild.remove();
-                        UISelectors.options.firstElementChild.firstElementChild.remove();
-                        UISelectors.options.firstElementChild.firstElementChild.remove();
-                        UISelectors.options.classList.remove('options-welcome');
-                        setTimeout(() => {
-                            // Remove loader
-                            UICtrl.removeLoader();
-                            UICtrl.removeElement(grab(selector.overlay));
-                        }, 150);
-                    }, 1000);
+                    // Fetch demo quizzes
+                    return fetchQuizzes('fetchQuizzes.php');
                 } else {
                     // User was not logged in
-                    // Redirect to index/main page
-                    // Show loader
-                    // Rerender UI display to show start page
+                    // Hide loader
+                    UICtrl.removeLoader();
+                    UICtrl.removeElement(grab(selector.overlay));
+                    // Show message overlay
+                    UICtrl.createErrorDiv();
+                    setTimeout(() => {
+                        grab(selector.errorOverlay).remove();
+                        // Adjust UI depending on where user currently is
+                        const screen = document.querySelector('body').getAttribute('data-screen');
+                        if(screen === 'browse' || screen === 'more-info' || screen === 'filter' || screen === 'search') {
+                            // Show main section
+                            selector.browseWrapper.classList.toggle('hidden-options');
+                            selector.mainSectionWrapper.classList.toggle('hidden-options');
+                            selector.mainSectionWrapper.firstElementChild.classList.remove('shrink');
+                            // Remove UI components
+                            selector.browseWrapper.firstElementChild.remove();
+                            selector.filterWrapper.firstElementChild.remove();
+                            selector.filterWrapper.firstElementChild.remove();
+                            selector.searchWrapper.firstElementChild.remove();
+                            selector.searchWrapper.firstElementChild.remove();
+                            // Reset data screen
+                            grab('body').removeAttribute('data-screen');
+                            if (screen === 'more-info') {
+                                const infoDiv = grab('.more-info-wrapper.active');
+                                infoDiv.classList.add('scaleY');
+                            } else if (screen === 'filter') {
+                                selector.filterWrapper.classList.add('scaleY');
+                            } else if (screen === 'search') {
+                                selector.searchWrapper.classList.add('scaleY');
+                            } else if (screen === 'quiz') {
+                                // Reset global vars
+                                UICtrl.global.index = 0,
+                                UICtrl.global.questions = [],
+                                UICtrl.global.answers = [],
+                                UICtrl.global.correctAnswers = [],
+                                UICtrl.global.value = [],
+                                // Adjust UI display
+                                grab(selector.quitConfirmationWrapper).classList.toggle('hidden-options');
+                                selector.quizViewWrapper.classList.toggle('hidden-options');
+                                if (grab(selector.quizResults) !== null) {
+                                    grab(selector.quizResults).classList.add('hidden-options');
+                                }
+                                selector.quizContent.classList.remove('hidden-options');
+                                // Remove UI components
+                                grab(selector.quitBtn).parentElement.remove();
+                                grab(selector.quitConfirmationWrapper).remove();
+                                if (grab(selector.quizResults) !== null) {
+                                    grab(selector.quizResults).remove();
+                                }
+                                selector.quizForm.lastElementChild.innerHTML = '';
+                                selector.quizContent.firstElementChild.firstElementChild.innerHTML = '';
+                                // Reset data screen
+                                grab('body').removeAttribute('data-screen');
+                            }
+                        } else if(screen === 'create') {
+                            selector.mainSectionWrapper.classList.toggle('hidden-options');
+                            selector.createQuizWrapper.classList.toggle('hidden-options');
+                            selector.mainSectionWrapper.firstElementChild.classList.remove('shrink');
+                            // set tabindex="-1"
+                            UICtrl.addTabindex('create-tabindex');
+                            // reset form
+                            selector.createQuizForm.reset();
+                            selector.createQuizForm["quiz-select"].value = '';
+                            // disable submit btn
+                            if (!selector.createQuizForm["quiz-generate"].classList.contains('disabled')) {
+                                selector.createQuizForm["quiz-generate"].classList.add('disabled');
+                            }
+                            // Remove rendered UI components
+                            grab(selector.createQuizBackBtn).parentElement.remove();
+                            grab('.main-create-quiz-header').remove();
+                            if (grab(selector.formCreateQuizSubmitFeedback) !== null) {
+                                grab(selector.formCreateQuizSubmitFeedback).remove();
+                            }
+                            // Reset data screen
+                            grab('body').removeAttribute('data-screen');
+                        }
+                        setTimeout(() => {
+                            // Close options screen
+                            selector.burger.classList.toggle('hide');
+                            selector.times.classList.toggle('hide');
+                            selector.options.classList.toggle('hidden-options');
+                            // Rerender UI display
+                            UICtrl.loadStartScreen();
+                            // Remove UI components
+                            selector.options.firstElementChild.firstElementChild.remove();
+                            selector.options.firstElementChild.firstElementChild.remove();
+                            selector.options.firstElementChild.firstElementChild.remove();
+                            selector.options.classList.remove('options-welcome');
+                            setTimeout(() => {
+                                // Enable options
+                                selector.burger.classList.remove('disabled');
+                            }, 250);
+                        }, 1500);
+                    }, 2000);
                 }
             })
+            .then(response => response.json() )
+            .then(data => {
+                global.quizzes = data.data.fields;
+                // Adjust UI depending on where user currently is
+                const screen = document.querySelector('body').getAttribute('data-screen');
+                if(screen === 'browse' || screen === 'more-info' || screen === 'filter' || screen === 'search') {
+                    // Show main section
+                    selector.browseWrapper.classList.toggle('hidden-options');
+                    selector.mainSectionWrapper.classList.toggle('hidden-options');
+                    selector.mainSectionWrapper.firstElementChild.classList.remove('shrink');
+                    // Remove UI components
+                    selector.browseWrapper.firstElementChild.remove();
+                    selector.filterWrapper.firstElementChild.remove();
+                    selector.filterWrapper.firstElementChild.remove();
+                    selector.searchWrapper.firstElementChild.remove();
+                    selector.searchWrapper.firstElementChild.remove();
+                    // Reset data screen
+                    grab('body').removeAttribute('data-screen');
+                    if (screen === 'more-info') {
+                        const infoDiv = grab('.more-info-wrapper.active');
+                        infoDiv.classList.add('scaleY');
+                    } else if (screen === 'filter') {
+                        selector.filterWrapper.classList.add('scaleY');
+                    } else if (screen === 'search') {
+                        selector.searchWrapper.classList.add('scaleY');
+                    } else if (screen === 'quiz') {
+                        // Reset global vars
+                        UICtrl.global.index = 0,
+                        UICtrl.global.questions = [],
+                        UICtrl.global.answers = [],
+                        UICtrl.global.correctAnswers = [],
+                        UICtrl.global.value = [],
+                        // Adjust UI display
+                        grab(selector.quitConfirmationWrapper).classList.toggle('hidden-options');
+                        selector.quizViewWrapper.classList.toggle('hidden-options');
+                        if (grab(selector.quizResults) !== null) {
+                            grab(selector.quizResults).classList.add('hidden-options');
+                        }
+                        selector.quizContent.classList.remove('hidden-options');
+                        // Remove UI components
+                        grab(selector.quitBtn).parentElement.remove();
+                        grab(selector.quitConfirmationWrapper).remove();
+                        if (grab(selector.quizResults) !== null) {
+                            grab(selector.quizResults).remove();
+                        }
+                        selector.quizForm.lastElementChild.innerHTML = '';
+                        selector.quizContent.firstElementChild.firstElementChild.innerHTML = '';
+                        // Reset data screen
+                        grab('body').removeAttribute('data-screen');
+                    }
+                } else if(screen === 'create') {
+                    selector.mainSectionWrapper.classList.toggle('hidden-options');
+                    selector.createQuizWrapper.classList.toggle('hidden-options');
+                    selector.mainSectionWrapper.firstElementChild.classList.remove('shrink');
+                    // set tabindex="-1"
+                    UICtrl.addTabindex('create-tabindex');
+                    // reset form
+                    selector.createQuizForm.reset();
+                    selector.createQuizForm["quiz-select"].value = '';
+                    // disable submit btn
+                    if (!selector.createQuizForm["quiz-generate"].classList.contains('disabled')) {
+                        selector.createQuizForm["quiz-generate"].classList.add('disabled');
+                    }
+                    // Remove rendered UI components
+                    grab(selector.createQuizBackBtn).parentElement.remove();
+                    grab('.main-create-quiz-header').remove();
+                    if (grab(selector.formCreateQuizSubmitFeedback) !== null) {
+                        grab(selector.formCreateQuizSubmitFeedback).remove();
+                    }
+                    // Reset data screen
+                    grab('body').removeAttribute('data-screen');
+                }
+                setTimeout(() => {
+                    // Close options screen
+                    selector.burger.classList.toggle('hide');
+                    selector.times.classList.toggle('hide');
+                    selector.options.classList.toggle('hidden-options');
+                    // Rerender UI display
+                    UICtrl.loadStartScreen();
+                    // Remove UI components
+                    selector.options.firstElementChild.firstElementChild.remove();
+                    selector.options.firstElementChild.firstElementChild.remove();
+                    selector.options.firstElementChild.firstElementChild.remove();
+                    selector.options.classList.remove('options-welcome');
+                    setTimeout(() => {
+                        // Remove loader
+                        UICtrl.removeLoader();
+                        UICtrl.removeElement(grab(selector.overlay));
+                        // Enable options
+                        selector.burger.classList.remove('disabled');
+                    }, 250);
+                }, 1500);
+            })
             .catch(error => {
-                console.log(error);
-                // Handle when rejected (only network exceptions)
-                // IN CASE OF ANY ERROR IN FETCH, SHOW A POP UP WITH A MESSAGE!!!
+                // Hide loader
+                UICtrl.removeLoader();
+                UICtrl.removeElement(grab(selector.overlay));
+                // Show message overlay
+                UICtrl.createErrorDiv();
+                setTimeout(() => {
+                    grab(selector.errorOverlay).remove();
+                    selector.burger.classList.toggle('hide');
+                    selector.times.classList.toggle('hide');
+                    selector.options.classList.toggle('hidden-options');
+                    // Enable options
+                    selector.burger.classList.remove('disabled');
+                }, 2000);
             });
         });
     };
-
     return {
         init: function() {
-            const mainWrapper = UISelectors.mainSectionWrapper;
+            // Show loader
             createLoader(UISelectors.mainSectionWrapper);
             // Guest mode
-            if (`#${mainWrapper.firstElementChild.id}` === UISelectors.startPage) {
+            if (`#${UISelectors.mainSectionWrapper.firstElementChild.id}` === UISelectors.startPage) {
                 // Fetch demo quizzes
                 fetchQuizzes('fetchQuizzes.php')
-                .then(response => {
-                    if (!response.ok) { throw new Error('Network problem. Please try again later'); }
-                    return response.json();
-                })
+                .then(response => response.json() )
                 .then(data => {
                     global.quizzes = data.data.fields;
                     setTimeout(() => {
@@ -974,15 +1195,19 @@ const UICtrl = (function() {
                     }, 1000);
                 })
                 .catch(error => {
-                    console.log(error);
+                    // Hide loader
+                    removeLoader();
+                    // Show message overlay
+                    createErrorDiv();
+                    setTimeout(() => {
+                        document.querySelector(UISelectors.errorOverlay).remove();
+                        loadStartScreen();
+                    }, 2000);
                 });
             } else {
                 // Fetch user's quizzes
                 fetchQuizzes('fetchQuizzes.php')
-                .then(response => {
-                    if (!response.ok) { throw new Error('Network problem. Please try again later'); }
-                    return response.json();
-                })
+                .then(response => response.json() )
                 .then(data => {
                     global.quizzes = data.data.fields;
                     setTimeout(() => {
@@ -1004,7 +1229,14 @@ const UICtrl = (function() {
                     }, 1000);
                 })
                 .catch(error => {
-                    console.log(error);
+                    // Hide loader
+                    removeLoader();
+                    // Show message overlay
+                    createErrorDiv();
+                    setTimeout(() => {
+                        document.querySelector(UISelectors.errorOverlay).remove();
+                        loadStartScreen();
+                    }, 2000);
                 });
             }
         },
@@ -1055,7 +1287,11 @@ const UICtrl = (function() {
         getRandomWordDefinitions,
         postData,
         loadLogOutEvent,
-        createErrorDiv
+        createErrorDiv,
+        createAnswer,
+        appendAnswer,
+        createQuestion,
+        createQuestionFeedback
     };
 })();
 UICtrl.init();
@@ -1138,6 +1374,11 @@ document.addEventListener('click', e => {
     // FeedbackBackBtn clicked
     if ((e.target.tagName === 'SPAN' && `#${e.target.parentElement.id}` === selector.feedbackBackBtn) || (`#${e.target.id}` === selector.feedbackBackBtn)) {
         grab(selector.feedbackBackBtn).parentElement.parentElement.classList.toggle('hidden-options');
+        if(grab(selector.submitFeedbackError).parentElement.parentElement.id.includes('create-quiz')) {
+            selector.createQuizWrapper.classList.toggle('is-clipped');
+            // Create mode is active
+            grab('body').setAttribute('data-screen', 'create');
+        }
     }
     // submitFeedbackError clicked
     if (e.target.classList.contains(selector.submitFeedbackError.substring(1)) || e.target.parentElement.classList.contains(selector.submitFeedbackError.substring(1)) || e.target.parentElement.parentElement.classList.contains(selector.submitFeedbackError.substring(1))) {
@@ -1145,6 +1386,9 @@ document.addEventListener('click', e => {
             selector.loginFeedback.classList.toggle('hidden-options');
         } else if(grab(selector.submitFeedbackError).parentElement.parentElement.id.includes('create-quiz')) {
             selector.createQuizFeedback.classList.toggle('hidden-options');
+            selector.createQuizWrapper.classList.toggle('is-clipped');
+            // Feedback mode is active
+            grab('body').setAttribute('data-screen', 'feedback');
         } else {
             selector.registerFeedback.classList.toggle('hidden-options');
         }
@@ -1199,18 +1443,6 @@ document.addEventListener('click', e => {
         selector.times.classList.toggle('hide');
         selector.options.classList.toggle('hidden-options');
     }
-
-
-
-
-
-
-
-
-
-
-
-
     // DemoBtn clicked
     if ((e.target.tagName === 'SPAN' && `#${e.target.parentElement.id}` === selector.demoBtn) || (`#${e.target.id}` === selector.demoBtn) || (e.target.tagName === 'SPAN' && `#${e.target.parentElement.id}` === selector.browseBtn) || (`#${e.target.id}` === selector.browseBtn)) {
         let id;
@@ -1222,11 +1454,11 @@ document.addEventListener('click', e => {
         // Render UI display
         selector.filterWrapper.before(UICtrl.createBrowseOptions());
         // Include these when filter btn is clicked
-        // selector.filterForm.before(UICtrl.goBackBtn('filter-back-btn'));
-        // selector.filterForm.before(UICtrl.createHeader('filter', 'main-filter-header'));
+        selector.filterForm.before(UICtrl.createBtn('control-btn', 'filter-back-btn', 'go back', 'is-flex is-justify-content-start'));
+        selector.filterForm.before(UICtrl.createHeader('filter', 'main-filter-header'));
         // Include these when search btn is clicked
-        // selector.searchForm.before(UICtrl.goBackBtn('search-back-btn'));
-        // selector.searchForm.before(UICtrl.createHeader('search', 'main-search-header'));
+        selector.searchForm.before(UICtrl.createBtn('control-btn', 'search-back-btn', 'go back', 'is-flex is-justify-content-start'));
+        selector.searchForm.before(UICtrl.createHeader('search', 'main-search-header'));
         // Hide main section
         selector.mainSectionWrapper.firstElementChild.classList.add('shrink');
         // Render data using JS
@@ -1242,10 +1474,9 @@ document.addEventListener('click', e => {
         if (`#${id}` === selector.demoBtn) {
             // Demo mode is active
             grab('body').setAttribute('data-id', 'demo-mode');
-        } else {
-            // Full mode is active
-            grab('body').setAttribute('data-id', 'full-mode');
         }
+        // Browse mode is active
+        grab('body').setAttribute('data-screen', 'browse');
     }
     // BrowseBackBtn clicked
     if ((e.target.tagName === 'SPAN' && `#${e.target.parentElement.id}` === selector.browseBackBtn) || (`#${e.target.id}` === selector.browseBackBtn)) {
@@ -1253,21 +1484,26 @@ document.addEventListener('click', e => {
         if (dataId === 'demo-mode') {
             // Hide browse section
             document.querySelector('#front-page-footer').classList.remove('hidden-options');
-        } else {
-            
+            grab('body').setAttribute('data-id', '');
         }
         selector.browseWrapper.classList.toggle('hidden-options');
         // Show main section
-        selector.mainSectionWrapper.classList.toggle('hidden-options');
         setTimeout(() => {
-            selector.mainSectionWrapper.firstElementChild.classList.remove('shrink');
-            // Reset mode
-            grab('body').setAttribute('data-id', '');
-            // Remove UI components
-            selector.browseWrapper.firstElementChild.remove();
-        }, 500);
-        // setTimeout(() => {
-        // }, 500);
+            selector.mainSectionWrapper.classList.toggle('hidden-options');
+            setTimeout(() => {
+                selector.mainSectionWrapper.firstElementChild.classList.remove('shrink');
+                // Reset mode
+                grab('body').setAttribute('data-id', '');
+                // Remove UI components
+                selector.browseWrapper.firstElementChild.remove();
+                selector.filterWrapper.firstElementChild.remove();
+                selector.filterWrapper.firstElementChild.remove();
+                selector.searchWrapper.firstElementChild.remove();
+                selector.searchWrapper.firstElementChild.remove();
+            }, 500);
+        }, 350);
+        // Start mode is active
+        grab('body').setAttribute('data-screen', '');
     }
     // More info btn clicked
     if ((e.target.tagName === 'SPAN' && e.target.parentElement.classList.contains(selector.moreInfoBtn.slice(1))) || (e.target.classList.contains(selector.moreInfoBtn.slice(1)) && e.target.tagName === 'A')) {
@@ -1278,10 +1514,12 @@ document.addEventListener('click', e => {
         } else {
             quizID = e.target.parentElement.parentElement.parentElement.id;
         }
-        // console.log(quizID);
         // Show appropriate div with more info
         const divMoreInfo = document.querySelector(`div[data-id="${quizID}"]`);
         divMoreInfo.classList.remove('scaleY');
+        divMoreInfo.classList.add('active');
+        // More info mode is active
+        grab('body').setAttribute('data-screen', 'more-info');
     }
     // Back btn on more info wrapper clicked
     if ((e.target.tagName === 'SPAN' && e.target.parentElement.classList.contains(selector.moreInfoBackBtn.slice(1))) || (e.target.classList.contains(selector.moreInfoBackBtn.slice(1)) && e.target.tagName === 'A')) {
@@ -1292,36 +1530,75 @@ document.addEventListener('click', e => {
         } else {
             quizID = e.target.parentElement.parentElement.getAttribute('data-id');
         }
-        // console.log(quizID);
         // Hide appropriate div with more info
         const divMoreInfo = document.querySelector(`div[data-id="${quizID}"]`);
         divMoreInfo.classList.add('scaleY');
+        divMoreInfo.classList.remove('active');
+        // Browse mode is active
+        grab('body').setAttribute('data-screen', 'browse');
+    }
+    // FilterBtn clicked
+    if ((e.target.tagName === 'SPAN' && `#${e.target.parentElement.id}` === selector.filterBtn) || (`#${e.target.id}` === selector.filterBtn) || (e.target.tagName === 'svg' && `#${e.target.parentElement.parentElement.id}` === selector.filterBtn) || (e.target.tagName === 'path' && `#${e.target.parentElement.parentElement.parentElement.id}` === selector.filterBtn)) {
+        selector.filterWrapper.classList.remove('scaleY');
+        // Filter mode is active
+        grab('body').setAttribute('data-screen', 'filter');
+    }
+    // FilterBackBtn clicked
+    if ((e.target.tagName === 'SPAN' && `#${e.target.parentElement.id}` === selector.filterBackBtn) || (`#${e.target.id}` === selector.filterBackBtn)) {
+        selector.filterWrapper.classList.add('scaleY');
+        // Browse mode is active
+        grab('body').setAttribute('data-screen', 'browse');
+    }
+    // SearchBtn clicked
+    if ((e.target.tagName === 'SPAN' && `#${e.target.parentElement.id}` === selector.searchBtn) || (`#${e.target.id}` === selector.searchBtn) || (e.target.tagName === 'svg' && `#${e.target.parentElement.parentElement.id}` === selector.searchBtn) || (e.target.tagName === 'path' && `#${e.target.parentElement.parentElement.parentElement.id}` === selector.searchBtn)) {
+        selector.searchWrapper.classList.remove('scaleY');
+        // Search mode is active
+        grab('body').setAttribute('data-screen', 'search');
+    }
+    // SearchBackBtn clicked
+    if ((e.target.tagName === 'SPAN' && `#${e.target.parentElement.id}` === selector.searchBackBtn) || (`#${e.target.id}` === selector.searchBackBtn)) {
+        selector.searchWrapper.classList.add('scaleY');
+        // Browse mode is active
+        grab('body').setAttribute('data-screen', 'browse');
+    }
+    // Browse quiz next
+    if ((e.target.tagName === 'SPAN' && `#${e.target.parentElement.id}` === selector.browseNextQuizzes) || (`#${e.target.id}` === selector.browseNextQuizzes && e.target.tagName === 'A')) {
+        const page = parseInt(selector.quizWrapper.getAttribute('data-page'));
+        UICtrl.renderQuizzes(page + 1, UICtrl.global.quizzes);
+    }
+    // Browse quiz previous
+    if ((e.target.tagName === 'SPAN' && `#${e.target.parentElement.id}` === selector.browsePreviousQuizzes) || (`#${e.target.id}` === selector.browsePreviousQuizzes && e.target.tagName === 'A')) {
+        const page = parseInt(selector.quizWrapper.getAttribute('data-page'));
+        UICtrl.renderQuizzes(page - 1, UICtrl.global.quizzes);
     }
     // Play btn clicked
     if ((e.target.tagName === 'SPAN' && e.target.parentElement.classList.contains(selector.playBtn.slice(1))) || (e.target.classList.contains(selector.playBtn.slice(1)) && e.target.tagName === 'A')) {
+        // Quiz mode is active
+        grab('body').setAttribute('data-screen', 'quiz');
         // Show loader
         selector.browseWrapper.appendChild(UICtrl.createDiv(selector.overlay.slice(1)));
         UICtrl.createLoader(grab(selector.overlay));
         // Get quiz id
+        let quizID;
         if (e.target.tagName === 'SPAN') {
-            UICtrl.global.quizID = e.target.parentElement.parentElement.parentElement.parentElement.id;
+            quizID = e.target.parentElement.parentElement.parentElement.parentElement.id;
         } else {
-            UICtrl.global.quizID = e.target.parentElement.parentElement.parentElement.id;
+            quizID = e.target.parentElement.parentElement.parentElement.id;
         }
-        // not sure if need global quizID
-        console.log(UICtrl.global.quizID);
-        // Render question
-        // Fetch quiz first
-        let trueQuizId = '';
+        // Assign ID to quizForm
+        selector.quizForm.setAttribute('data-id', quizID);
+        // Get true quiz ID
+        let ID = '';
         UICtrl.global.quizzes.some(quiz => {
-            if (quiz.quiz_id === UICtrl.global.quizID) {
-                trueQuizId = quiz.quiz_name;
+            if (quiz.quiz_id === quizID) {
+                ID = quiz.quiz_name;
                 return true;
             }
         });
-        const data = {
-            ID: trueQuizId
-        };
+        const data = { ID };
+        // Disable options
+        selector.burger.classList.add('disabled');
+        // Fetch quiz
         fetch("fetchQsAs.php", {
             method: "POST",
             mode: 'cors',
@@ -1332,72 +1609,121 @@ document.addEventListener('click', e => {
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data);
-            setTimeout(() => {
-                // Adjust UI display
+            // Check if user is logged in
+            if (data.session.loggedIn) {
+                // User logged in
+                setTimeout(() => {
+                    // Adjust UI display
+                    UICtrl.removeLoader();
+                    UICtrl.removeElement(grab(selector.overlay));
+                    selector.quizViewWrapper.classList.toggle('hidden-options');
+                    // Render UI
+                    UICtrl.createQuizNavigation();
+                    UICtrl.createQuizQuitConfirmation();
+                    // Assign quizID to hidden input
+                    selector.quizForm["quiz-id"].value = quizID;
+                    // Render question
+                    const questions = data.questions.fields;
+                    const questionID = questions[UICtrl.global.index]["question_ID"];
+                    UICtrl.createQuestion(selector.quizQuestion, questions[UICtrl.global.index]["question"]);
+                    // Render answers
+                    let answers = data.answers.fields;
+                    let currAnswers = [];
+                    answers.forEach(answer => {
+                        if (answer.question_ID === questionID) {
+                            currAnswers.push({
+                                answer: answer.answer,
+                                a_ID: answer.answer_ID,
+                                q_ID: answer.question_ID,
+                                is_correct: answer.is_correct === "1"
+                            });
+                        }
+                    });
+                    UICtrl.global.index++;
+                    // Shuffle answers
+                    UICtrl.shuffleArray(currAnswers);
+                    // Assign correct answers
+                    let correctAnswers = [];
+                    let aHtml = '';
+                    currAnswers.forEach((currAnswer, index) => {
+                        if (currAnswer.is_correct) {
+                            correctAnswers.push(index);
+                        }
+                        aHtml += UICtrl.createAnswer(currAnswer, index);
+                    });
+                    // Append answer
+                    UICtrl.appendAnswer(aHtml, selector.quizForm.lastElementChild);
+                    // Update question number
+                    grab(selector.qNumber).lastElementChild.textContent = questions.length;
+                    // Enable options
+                    selector.burger.classList.remove('disabled');
+                    // Set global vars
+                    UICtrl.global.questions = questions;
+                    UICtrl.global.answers = answers;
+                    UICtrl.global.correctAnswers = correctAnswers;
+                }, 1000);
+            } else {
+                // User not logged in
+                // Hide loader
                 UICtrl.removeLoader();
                 UICtrl.removeElement(grab(selector.overlay));
-                selector.quizViewWrapper.classList.toggle('hidden-options');
-                // Render UI
-                UICtrl.createQuizNavigation();
-                UICtrl.createQuizQuitConfirmation();
-                // Assign quizID to hidden input value
-                selector.quizForm["quiz-id"].value = UICtrl.global.quizID;
-                // questions global?
-                let questions = data.questions.fields;
-                // Insert question
-                console.log(questions);
-                selector.quizQuestion.innerHTML = `
-                <p class="quiz-view-header-text">
-                    ${questions[UICtrl.global.index]["question"]}
-                </p>
-                `;
-                // Insert answers
-                const questionID = questions[UICtrl.global.index]["question_ID"];
-                // answers global?
-                let answers = data.answers.fields;
-                let currAnswers = [];
-                let correctAnswers = [];
-                answers.forEach(answer => {
-                    if (answer.question_ID === questionID) {
-                        currAnswers.push({
-                            answer: answer.answer,
-                            a_ID: answer.answer_ID,
-                            q_ID: answer.question_ID,
-                            is_correct: answer.is_correct === "1"
-                        });
-                    }
-                });
-                UICtrl.global.index++;
-                console.log(currAnswers);
-                UICtrl.shuffleArray(currAnswers);
-                let aHtml = '';
-                currAnswers.forEach((currAnswer, index) => {
-                    if (currAnswer.is_correct) {
-                        correctAnswers.push(index);
-                    }
-                    aHtml += `
-                    <div class="quiz-view-answer-text has-text-centered p-2 m-0">
-                        <div class="is-relative">
-                            <input type="radio" name="${currAnswer.q_ID}" value="${index}" id="${currAnswer.a_ID}" class="btn m-0 p-0">
-                            <label for="${currAnswer.a_ID}">
-                                ${currAnswer.answer}
-                            </label>
-                        </div>
-                    </div>
-                    `;
-                });
-                let div = document.createElement('div');
-                div.innerHTML = aHtml;
-                selector.quizForm.lastElementChild.appendChild(div);
-                console.log(correctAnswers);
-                grab(selector.qNumber).lastElementChild.textContent = questions.length;
-                // Set global vars
-                UICtrl.global.questions = questions;
-                UICtrl.global.answers = answers;
-                UICtrl.global.correctAnswers = correctAnswers;
-            }, 1000);
+                // Show message overlay
+                UICtrl.createErrorDiv('You are not authorized. Log in first.');
+                setTimeout(() => {
+                    grab(selector.errorOverlay).remove();
+                    // Adjust UI display
+                    document.querySelector('#front-page-footer').classList.remove('hidden-options');
+                    selector.browseWrapper.classList.toggle('hidden-options');
+                    setTimeout(() => {
+                        selector.mainSectionWrapper.classList.toggle('hidden-options');
+                        setTimeout(() => {
+                            selector.mainSectionWrapper.firstElementChild.classList.remove('shrink');
+                            // Enable options
+                            selector.burger.classList.remove('disabled');
+                            // Reset mode
+                            grab('body').setAttribute('data-id', '');
+                            // Remove UI components
+                            selector.browseWrapper.firstElementChild.remove();
+                            selector.filterWrapper.firstElementChild.remove();
+                            selector.filterWrapper.firstElementChild.remove();
+                            selector.searchWrapper.firstElementChild.remove();
+                            selector.searchWrapper.firstElementChild.remove();
+                        }, 500);
+                    }, 350);
+                }, 2000);
+                // Enable options
+                selector.burger.classList.remove('disabled');
+            }
         })
+        .catch(error => {
+            // Hide loader
+            UICtrl.removeLoader();
+            UICtrl.removeElement(grab(selector.overlay));
+            // Show message overlay
+            UICtrl.createErrorDiv();
+            setTimeout(() => {
+                grab(selector.errorOverlay).remove();
+                // Adjust UI display
+                document.querySelector('#front-page-footer').classList.remove('hidden-options');
+                selector.browseWrapper.classList.toggle('hidden-options');
+                setTimeout(() => {
+                    selector.mainSectionWrapper.classList.toggle('hidden-options');
+                    setTimeout(() => {
+                        selector.mainSectionWrapper.firstElementChild.classList.remove('shrink');
+                        // Enable options
+                        selector.burger.classList.remove('disabled');
+                        // Reset mode
+                        grab('body').setAttribute('data-id', '');
+                        // Remove UI components
+                        selector.browseWrapper.firstElementChild.remove();
+                        selector.filterWrapper.firstElementChild.remove();
+                        selector.filterWrapper.firstElementChild.remove();
+                        selector.searchWrapper.firstElementChild.remove();
+                        selector.searchWrapper.firstElementChild.remove();
+                    }, 500);
+                }, 350);
+            }, 2000);
+        });
     }
     // Next btn clicked
     if ((e.target.tagName === 'SPAN' && e.target.parentElement.id === selector.nextBtn.slice(1)) || (e.target.id === selector.nextBtn.slice(1) && e.target.tagName === 'A')) {
@@ -1407,26 +1733,19 @@ document.addEventListener('click', e => {
             grab(selector.quizSubmitBtn).style.display = 'flex';
         }
         // Check if radio button is checked
-        console.log('Index: ' + UICtrl.global.index);
         const currName = UICtrl.global.questions[UICtrl.global.index - 1].question_ID;
-        console.log('CurrName: ' + currName);
         const target = [...selector.quizForm[currName]].filter(r => r.checked)[0];
-        console.log(target);
         if (target !== undefined) {
+            // Update user answers
             UICtrl.global.value.push(target.value);
-            // console.log('Value: ' + UICtrl.global.value);
             // Update question number
             grab(selector.qNumber).firstElementChild.textContent = (UICtrl.global.index + 1);
-            // 
+            // Render new question
             selector.quizForm.lastElementChild.lastElementChild.classList.add('hidden-options');
-            // Insert question
-            selector.quizQuestion.innerHTML = `
-            <p class="quiz-view-header-text">
-                ${UICtrl.global.questions[UICtrl.global.index]["question"]}
-            </p>
-            `;
-            // Insert answers
-            const questionID = UICtrl.global.questions[UICtrl.global.index]["question_ID"];
+            const questions = UICtrl.global.questions;
+            const questionID = questions[UICtrl.global.index]["question_ID"];
+            UICtrl.createQuestion(selector.quizQuestion, questions[UICtrl.global.index]["question"]);
+            // Render answers
             let currAnswers = [];
             UICtrl.global.answers.forEach(answer => {
                 if (answer.question_ID === questionID) {
@@ -1439,29 +1758,24 @@ document.addEventListener('click', e => {
                 }
             });
             UICtrl.global.index++;
+            // Shuffle answers
             UICtrl.shuffleArray(currAnswers);
+            // Assign correct answer
             let aHtml = '';
-            let div = document.createElement('div');
-            selector.quizForm.lastElementChild.appendChild(div);
             currAnswers.forEach((currAnswer, index) => {
                 if (currAnswer.is_correct) {
                     UICtrl.global.correctAnswers.push(index);
                 }
-                aHtml += `
-                <div class="quiz-view-answer-text has-text-centered p-2 m-0">
-                    <div class="is-relative">
-                        <input type="radio" name="${currAnswer.q_ID}" value="${index}" id="${currAnswer.a_ID}" class="btn m-0 p-0">
-                        <label for="${currAnswer.a_ID}">
-                            ${currAnswer.answer}
-                        </label>
-                    </div>
-                </div>
-                `;
+                aHtml += UICtrl.createAnswer(currAnswer, index);
             });
-            selector.quizForm.lastElementChild.lastElementChild.innerHTML = aHtml;
-            // console.log(correctAnswers);
+            // Append answer
+            UICtrl.appendAnswer(aHtml, selector.quizForm.lastElementChild);
         } else {
-            // show message
+            // Show message overlay
+            UICtrl.createErrorDiv('You need to pick your answer!');
+            setTimeout(() => {
+                grab(selector.errorOverlay).remove();
+            }, 2000);
         }
     }
     // Quit btn clicked
@@ -1470,6 +1784,8 @@ document.addEventListener('click', e => {
         grab(selector.quitConfirmationWrapper).classList.toggle('hidden-options');
     }
     if ((e.target.tagName === 'SPAN' && e.target.parentElement.id === selector.quitYes.slice(1)) || (e.target.id === selector.quitYes.slice(1) && e.target.tagName === 'A')) {
+        // Browse mode is active
+        grab('body').setAttribute('data-screen', 'browse');
         // Reset global vars
         UICtrl.global.index = 0,
         UICtrl.global.questions = [],
@@ -1507,9 +1823,10 @@ document.addEventListener('click', e => {
         UICtrl.global.value = [],
         // Adjust UI display
         setTimeout(() => {
-            // Adjust UI display
+            // Hide loader
             UICtrl.removeLoader();
             UICtrl.removeElement(grab(selector.overlay));
+            // Adjust UI display
             grab(selector.quizResults).classList.add('hidden-options');
             selector.quizContent.classList.remove('hidden-options');
             selector.quizForm.lastElementChild.innerHTML = '';
@@ -1520,13 +1837,10 @@ document.addEventListener('click', e => {
             grab(selector.quizRetryBtn).remove();
             grab(selector.nextBtn).style.display = 'flex';
             // Output question
-            selector.quizQuestion.innerHTML = `
-            <p class="quiz-view-header-text">
-                ${UICtrl.global.questions[UICtrl.global.index]["question"]}
-            </p>
-            `;
+            const questions = UICtrl.global.questions;
+            const questionID = questions[UICtrl.global.index]["question_ID"];
+            UICtrl.createQuestion(selector.quizQuestion, questions[UICtrl.global.index]["question"]);
             // Insert answers
-            const questionID = UICtrl.global.questions[UICtrl.global.index]["question_ID"];
             let currAnswers = [];
             UICtrl.global.answers.forEach(answer => {
                 if (answer.question_ID === questionID) {
@@ -1539,52 +1853,26 @@ document.addEventListener('click', e => {
                 }
             });
             UICtrl.global.index++;
+            // Shuffle answers
             UICtrl.shuffleArray(currAnswers);
-            let aHtml = '';
             // Reset corrent answer
+            let aHtml = '';
             currAnswers.forEach((currAnswer, index) => {
                 if (currAnswer.is_correct) {
                     UICtrl.global.correctAnswers.push(index);
                 }
-                aHtml += `
-                <div class="quiz-view-answer-text has-text-centered p-2 m-0">
-                    <div class="is-relative">
-                        <input type="radio" name="${currAnswer.q_ID}" value="${index}" id="${currAnswer.a_ID}" class="btn m-0 p-0">
-                        <label for="${currAnswer.a_ID}">
-                            ${currAnswer.answer}
-                        </label>
-                    </div>
-                </div>
-                `;
+                aHtml += UICtrl.createAnswer(currAnswer, index);
             });
-            let div = document.createElement('div');
-            div.innerHTML = aHtml;
-            selector.quizForm.lastElementChild.appendChild(div);
+            // Append answer
+            UICtrl.appendAnswer(aHtml, selector.quizForm.lastElementChild);
+            // Update question number
             grab(selector.qNumber).lastElementChild.textContent = UICtrl.global.questions.length;
         }, 1000);
     }
-    // // Browse quiz next
-    // if ((e.target.tagName === 'SPAN' && e.target.parentElement.id === 'browse-quizzes-next') || (e.target.id === 'browse-quizzes-next' && e.target.tagName === 'A')) {
-    //     console.log('next clicked');
-    //     const page = parseInt(quizWrapper.getAttribute('data-page'));
-    //     console.log(page);
-    //     renderQuizzes(page + 1);
-    // }
-    // // Browse quiz previous
-    // if ((e.target.tagName === 'SPAN' && e.target.parentElement.id === 'browse-quizzes-previous') || (e.target.id === 'browse-quizzes-previous' && e.target.tagName === 'A')) {
-    //     console.log('previous clicked');
-    //     const page = parseInt(quizWrapper.getAttribute('data-page'));
-    //     console.log(page);
-    //     renderQuizzes(page - 1);
-    // }
-    // LogOutBtn clicked
-    if ((e.target.tagName === 'SPAN' && e.target.parentElement.id === selector.logOutBtn.slice(1)) || (e.target.id === selector.logOutBtn.slice(1) && e.target.tagName === 'A')) {
-        grab(selector.logOutConfirmation).classList.toggle('hidden-options');
-    }
     // CreateQuizBtn clicked
     if ((e.target.tagName === 'SPAN' && e.target.parentElement.id === selector.createQuizBtn.slice(1)) || (e.target.id === selector.createQuizBtn.slice(1) && e.target.tagName === 'A')) {
-        // Render UI display
-        // selector.filterWrapper.before(UICtrl.createBrowseOptions());
+        // Create mode is active
+        grab('body').setAttribute('data-screen', 'create');
         // Hide main section
         selector.mainSectionWrapper.firstElementChild.classList.add('shrink');
         setTimeout(() => {
@@ -1592,29 +1880,24 @@ document.addEventListener('click', e => {
             selector.createQuizForm.before(UICtrl.createBtn('control-btn', 'create-quiz-back-btn', 'go back', 'is-flex is-justify-content-start'));
             selector.createQuizForm.before(UICtrl.createHeader('create quiz', 'main-create-quiz-header'));
             selector.mainSectionWrapper.classList.toggle('hidden-options');
-            // Show browse section
+            // Show create quiz section
             selector.createQuizWrapper.classList.toggle('hidden-options');
-            // Consider remove tabindex -1 here -- do the same for all forms when you go there
-            // what about select???
         }, 600);
     }
     // CreateQuizBackBtn clicked
     if ((e.target.tagName === 'SPAN' && `#${e.target.parentElement.id}` === selector.createQuizBackBtn) || (`#${e.target.id}` === selector.createQuizBackBtn)) {
+        // Start mode is active
+        grab('body').setAttribute('data-screen', '');
+        // Adjust UI display
         selector.mainSectionWrapper.classList.toggle('hidden-options');
         selector.createQuizWrapper.classList.toggle('hidden-options');
-        // 
         setTimeout(() => {
             selector.mainSectionWrapper.firstElementChild.classList.remove('shrink');
             // set tabindex="-1"
             UICtrl.addTabindex('create-tabindex');
-            // What about select???
             // reset form
-            // UICtrl.resetForm('create-quiz');
-            // RESET FORM
-            selector.createQuizForm["quiz-name"].value = '';
-            selector.createQuizForm["quiz-type"].value = 'Quiz Type';
-            selector.createQuizForm["quiz-answers"].value = 2;
-            selector.createQuizForm["quiz-questions"].value = 4;
+            selector.createQuizForm.reset();
+            selector.createQuizForm["quiz-select"].value = '';
             // disable submit btn
             if (!selector.createQuizForm["quiz-generate"].classList.contains('disabled')) {
                 selector.createQuizForm["quiz-generate"].classList.add('disabled');
@@ -1625,31 +1908,40 @@ document.addEventListener('click', e => {
             if (grab(selector.formCreateQuizSubmitFeedback) !== null) {
                 grab(selector.formCreateQuizSubmitFeedback).remove();
             }
-            // grab(selector.inputHint).parentElement.remove();
-            // selector.hintWrapper.innerHTML = '';
-            // selector.registerFeedback.innerHTML = '';
         }, 600);
     }
     // Decrement & Increment Btns
     if (e.target.classList.contains('increment')) {
         if (!(Number(e.target.previousElementSibling.value) >= Number(e.target.previousElementSibling.max))) {
             e.target.previousElementSibling.value++;
-            console.log('jestem tutaj');
             UICtrl.checkIfEmptyQuiz();
         }
-        // 
+        // Prevent default
         e.preventDefault();
     }
     if (e.target.classList.contains('decrement')) {
         if ((Number(e.target.nextElementSibling.value) > Number(e.target.nextElementSibling.min))) {
             e.target.nextElementSibling.value--;
-            console.log('jestem tutaj tez');
             UICtrl.checkIfEmptyQuiz();
         }
-        // 
+        // Prevent default
         e.preventDefault();
     }
+    // LogOutBtn clicked
+    if ((e.target.tagName === 'SPAN' && e.target.parentElement.id === selector.logOutBtn.slice(1)) || (e.target.id === selector.logOutBtn.slice(1) && e.target.tagName === 'A')) {
+        grab(selector.logOutConfirmation).classList.toggle('hidden-options');
+    }
 });
+
+
+
+
+
+
+
+
+
+
 // Keyup & blur events
 // Check Username
 selector.registerForm.username.addEventListener('keyup', () => {
@@ -1752,6 +2044,16 @@ selector.createQuizForm["quiz-questions"].addEventListener('keyup', () => {
 selector.createQuizForm["quiz-questions"].addEventListener('blur', () => {
     UICtrl.checkIfEmptyQuiz();
 });
+
+
+
+
+
+
+
+
+
+
 // Submit events
 // Register form
 selector.registerForm.addEventListener('submit', e => {
@@ -1782,9 +2084,11 @@ selector.registerForm.addEventListener('submit', e => {
         if (!selector.registerForm["register-submit"].classList.contains('disabled')) {
             selector.registerForm["register-submit"].classList.add('disabled');
         }
-        // Check for errors
-        let err_count = 0;
+        // Show loader
+        selector.registerWrapper.appendChild(UICtrl.createDiv(selector.overlay.slice(1)));
+        UICtrl.createLoader(grab(selector.overlay));
         // Post data using the Fetch API
+        let err_count = 0;
         fetch(selector.registerForm.action, {
             method: selector.registerForm.method,
             body: new FormData(selector.registerForm)
@@ -1801,6 +2105,9 @@ selector.registerForm.addEventListener('submit', e => {
                     UICtrl.unlockInput('register');
                     // Enable options
                     selector.burger.classList.remove('disabled');
+                    // Hide loader
+                    UICtrl.removeLoader();
+                    UICtrl.removeElement(grab(selector.overlay));
                 }, 500);
             } else { // no errors
                 // Add confirmation div
@@ -1830,6 +2137,9 @@ selector.registerForm.addEventListener('submit', e => {
                             selector.loginWrapper.classList.toggle('hidden-options');
                             // Enable options
                             selector.burger.classList.remove('disabled');
+                            // Hide loader
+                            UICtrl.removeLoader();
+                            UICtrl.removeElement(grab(selector.overlay));
                             setTimeout(() => {
                                 // remove tabindex="-1"
                                 UICtrl.removeTabindex('login-tabindex');
@@ -1850,6 +2160,9 @@ selector.registerForm.addEventListener('submit', e => {
             }
         })
         .catch(error => {
+            // Hide loader
+            UICtrl.removeLoader();
+            UICtrl.removeElement(grab(selector.overlay));
             // Show message overlay
             UICtrl.createErrorDiv();
             setTimeout(() => {
@@ -1881,29 +2194,6 @@ selector.registerForm.addEventListener('submit', e => {
         });        
     }
 });
-// console.log(response);
-// switch (response.status) {
-//     case 400:
-//         throw new Error('Bad Request. Your request is invalid.');
-//     case 401:
-//         throw new Error('Unauthorized. Your API key is wrong.');
-//     case 404:
-//         throw new Error('Not Found. No matching word was found.');
-//     case 500:
-//         throw new Error('Network problem. Please try again later.');
-// }
-
-
-
-
-
-
-
-
-
-
-
-
 // Login form
 selector.loginForm.addEventListener('submit', e => {
     // Prevent the default form submit
@@ -1934,6 +2224,9 @@ selector.loginForm.addEventListener('submit', e => {
         }
         // Disable options
         selector.burger.classList.add('disabled');
+        // Show loader
+        selector.loginWrapper.appendChild(UICtrl.createDiv(selector.overlay.slice(1)));
+        UICtrl.createLoader(grab(selector.overlay));
         // Post data using the Fetch API
         let err_count = 0;
         fetch(selector.loginForm.action, {
@@ -1942,9 +2235,47 @@ selector.loginForm.addEventListener('submit', e => {
         })
         .then(response => response.json() )
         .then(docs => {
-            // First check if user is logged in, if so redirect to welcome page !!!
+            // First check if user is logged in
             if (docs.session.loggedIn) {
-                // Do the redirect here
+                // Unlock fields
+                UICtrl.unlockInput('login');
+                setTimeout(() => {
+                    // Adjust UI display
+                    selector.mainSectionWrapper.classList.toggle('hidden-options');
+                    selector.loginWrapper.classList.toggle('hidden-options');
+                    // set tabindex="-1"
+                    UICtrl.addTabindex('login-tabindex');
+                    // Show welcome screen
+                    selector.mainSectionWrapper.classList.toggle('hidden-options');
+                    setTimeout(() => {
+                        // Rerender UI
+                        UICtrl.loadLoggedInScreen();
+                        // Render options
+                        selector.settingsOption.parentElement.before(UICtrl.createOption('You are currently logged in'));
+                        selector.settingsOption.parentElement.before(UICtrl.createOption(''));
+                        selector.settingsOption.parentElement.before(UICtrl.createLogOutConfirmation());
+                        selector.options.classList.add('options-welcome');
+                        // Load log out event listener
+                        UICtrl.loadLogOutEvent();
+                        // Adjust UI display
+                        selector.mainSectionWrapper.classList.toggle('hidden-options');
+                        selector.mainSectionWrapper.firstElementChild.classList.toggle('shrink');
+                        // Hide loader
+                        UICtrl.removeLoader();
+                        UICtrl.removeElement(grab(selector.overlay));
+                        setTimeout(() => {
+                            // Enable options
+                            selector.burger.classList.remove('disabled');
+                            // Reset register UI
+                            grab(selector.loginBackBtn).parentElement.remove();
+                            grab('.main-login-header').remove();
+                            submitFeedback.remove();
+                            selector.loginFeedback.innerHTML = '';
+                            grab(selector.loginConfirmation).remove();
+                            document.querySelector('#front-page-footer').classList.add('hidden-options');
+                        }, 500);
+                    }, 350);
+                }, 1000);
             } else {
                 // Handle input data
                 err_count = UICtrl.handleFormData(docs, 'login');
@@ -1968,6 +2299,9 @@ selector.loginForm.addEventListener('submit', e => {
                                 input.parentElement.lastElementChild.lastElementChild.classList.add('hide');
                             }
                         });
+                        // Hide loader
+                        UICtrl.removeLoader();
+                        UICtrl.removeElement(grab(selector.overlay));
                         return undefined;
                     }, 500);
                 } else { // no errors
@@ -1980,21 +2314,16 @@ selector.loginForm.addEventListener('submit', e => {
                     grab(selector.loginConfirmation).classList.remove('hidden-options');
                     // Clear form
                     UICtrl.resetForm('login');
+                    // Set user id
+                    selector.createQuizForm["user-id"].value = docs.session["user_id"];
                     // Fetch user's quizzes
                     return UICtrl.fetchQuizzes('fetchQuizzes.php');
                 }
             }
         })
-        .then(response => {
-            if (response !== undefined) {
-                // Show loader
-                selector.loginWrapper.appendChild(UICtrl.createDiv(selector.overlay.slice(1)));
-                UICtrl.createLoader(grab(selector.overlay));
-                return response.json();
-            } else { return undefined }
-        })
+        .then(response => response !== undefined ? response.json() : undefined )
         .then(data => {
-            if (response !== undefined) {
+            if (data !== undefined) {
                 UICtrl.global.quizzes = data.data.fields;
                 // Unlock fields
                 UICtrl.unlockInput('login');
@@ -2006,12 +2335,9 @@ selector.loginForm.addEventListener('submit', e => {
                     UICtrl.addTabindex('login-tabindex');
                     // Show welcome screen
                     selector.mainSectionWrapper.classList.toggle('hidden-options');
-                    // 
                     setTimeout(() => {
                         // Rerender UI
-                        // CONSIDER SHRINKING CONTENT AT THE BEGINNING AND THEN REMOVING THAT!!!
                         UICtrl.loadLoggedInScreen();
-                        // rerender options too !!!
                         // Render options
                         selector.settingsOption.parentElement.before(UICtrl.createOption('You are currently logged in'));
                         selector.settingsOption.parentElement.before(UICtrl.createOption(''));
@@ -2019,13 +2345,15 @@ selector.loginForm.addEventListener('submit', e => {
                         selector.options.classList.add('options-welcome');
                         // Load log out event listener
                         UICtrl.loadLogOutEvent();
-                        // 
+                        // Adjust UI display
                         selector.mainSectionWrapper.classList.toggle('hidden-options');
                         selector.mainSectionWrapper.firstElementChild.classList.toggle('shrink');
                         // Hide loader
                         UICtrl.removeLoader();
                         UICtrl.removeElement(grab(selector.overlay));
                         setTimeout(() => {
+                            // Enable options
+                            selector.burger.classList.remove('disabled');
                             // Reset register UI
                             grab(selector.loginBackBtn).parentElement.remove();
                             grab('.main-login-header').remove();
@@ -2039,72 +2367,74 @@ selector.loginForm.addEventListener('submit', e => {
             }
         })
         .catch(error => {
-            // here you can handle also error from php
-            // they come in a js form: JSON.parse blah blah
-            console.log(error);
-            // Enable options
-            selector.burger.classList.remove('disabled');
-            // Handle when rejected (only network exceptions)
+            // Hide loader
+            UICtrl.removeLoader();
+            UICtrl.removeElement(grab(selector.overlay));
+            // Show message overlay
+            UICtrl.createErrorDiv();
+            setTimeout(() => {
+                grab(selector.errorOverlay).remove();
+                // Adjust UI display
+                selector.mainSectionWrapper.classList.toggle('hidden-options');
+                selector.loginWrapper.classList.toggle('hidden-options');
+                setTimeout(() => {
+                    selector.mainSectionWrapper.firstElementChild.classList.remove('shrink');
+                    // Unlock fields
+                    UICtrl.unlockInput('login');
+                    // Enable options
+                    selector.burger.classList.remove('disabled');
+                    // set tabindex="-1"
+                    UICtrl.addTabindex('login-tabindex');
+                    // reset form
+                    UICtrl.resetForm('login');
+                    // Remove rendered UI components
+                    grab(selector.loginBackBtn).parentElement.remove();
+                    grab('.main-login-header').remove();
+                    if (grab(selector.formLoginSubmitFeedback) !== null) {
+                        grab(selector.formLoginSubmitFeedback).remove();
+                    }
+                    selector.loginFeedback.innerHTML = '';
+                }, 600);
+            }, 2000);
         });
     }
 });
 selector.quizForm.addEventListener('submit', e => {
     // Prevent default
     e.preventDefault();
-    // 
+    // Check if radio button is checked
     const currName = UICtrl.global.questions[UICtrl.global.index - 1].question_ID;
-    console.log('CurrName: ' + currName);
     const target = [...selector.quizForm[currName]].filter(r => r.checked)[0];
-    console.log(target);
     if (target !== undefined) {
-        console.log('quiz submitted');
+        // Disable options
+        selector.burger.classList.add('disabled');
         // Show loader
         selector.browseWrapper.appendChild(UICtrl.createDiv(selector.overlay.slice(1)));
         UICtrl.createLoader(grab(selector.overlay));
+        // Adjust UI display
         selector.quizContent.classList.toggle('hidden-options');
         grab(selector.qNumber).style.opacity = 0;
         // Render retry btn
         grab(selector.quizSubmitBtn).after(UICtrl.createBtn('control-btn', 'quiz-retry-btn', 'retry'));
         grab(selector.quizSubmitBtn).remove();
         grab(selector.quizRetryBtn).style.display = 'flex';
-        let score = 0;
-        // Adjust UI & interact with db
         // Output quiz feedback
+        let score = 0;
         let uHtml = '';
         UICtrl.global.questions.forEach((question, index) => {
-            // userAnswers.push(quizForm[question.question_ID].value);
             if (selector.quizForm[question.question_ID].value == UICtrl.global.correctAnswers[index]) {
                 score++;
-                uHtml += `
-                <li class="is-flex is-justify-content-space-between is-align-items-center quiz-li-feedback input-valid">
-                    <p class="">
-                        ${question.question}
-                    </p>
-                    <span class="icon-validation" id="">
-                        <i class="fas fa-check icon-valid"></i>
-                    </span>
-                </li>
-                `;
+                uHtml += UICtrl.createQuestionFeedback(question.question, 'valid');
             } else {
-                uHtml += `
-                <li class="is-flex is-justify-content-space-between is-align-items-center quiz-li-feedback input-invalid">
-                    <p class="">
-                        ${question.question}
-                    </p>
-                    <span class="icon-validation" id="">
-                        <i class="fas fa-times icon-invalid"></i>
-                    </span>    
-                </li>
-                `;
+                uHtml += UICtrl.createQuestionFeedback(question.question, 'invalid');
             }
         });
-        console.log(UICtrl.global.quizID);
+        // Get quizID
+        const quizID = selector.quizForm.getAttribute('data-id');
+        // Calculate score
         const finalScore = (score / UICtrl.global.questions.length) * 100;
-        console.log(finalScore);
-        const data = {
-            finalScore,
-            quizID: UICtrl.global.quizID
-        };
+        // Update db
+        const data = { finalScore, quizID };
         fetch(selector.quizForm.action, {
             method: selector.quizForm.method,
             mode: 'cors',
@@ -2113,29 +2443,87 @@ selector.quizForm.addEventListener('submit', e => {
             },
             body: JSON.stringify(data)
         })
-        .then(res => {
-            if (!res.ok) {
-                throw new Error('Network problem.');
-            }
-            return res.json();
-        })
-        .then(docs1 => {
-            console.log(docs1);
+        .then(response => response.json() )
+        .then(docs => {
             setTimeout(() => {
+                // Hide loader
                 UICtrl.removeLoader();
                 UICtrl.removeElement(grab(selector.overlay));
+                // Adjust UI display
                 selector.quizContent.after(UICtrl.createQuizResults());
                 grab(selector.quizResults).classList.toggle('hidden-options');
                 // Output feedback & score
                 grab(selector.quizScore).textContent = finalScore + '%';
                 grab(selector.quizFeedback).innerHTML = uHtml;
+                // Enable options
+                selector.burger.classList.remove('disabled');
+
+                // HERE GET UPDATED VERSION OF QUIZZES - QUERY FROM DB !!! AND UPDATE MORE INFO STUFF
+
+
             }, 1000);
         })
-        .catch(error => console.log(error));
+        .catch(error => {
+            // Hide loader
+            UICtrl.removeLoader();
+            UICtrl.removeElement(grab(selector.overlay));
+            // Show message overlay
+            UICtrl.createErrorDiv();
+            setTimeout(() => {
+                grab(selector.errorOverlay).remove();
+                // Reset global vars
+                UICtrl.global.index = 0;
+                UICtrl.global.questions = [];
+                UICtrl.global.answers = [];
+                UICtrl.global.correctAnswers = [];
+                UICtrl.global.value = [];
+                // Adjust UI display
+                selector.quizViewWrapper.classList.toggle('hidden-options');
+                setTimeout(() => {
+                    if (grab(selector.quizResults) !== null) {
+                        grab(selector.quizResults).classList.add('hidden-options');
+                    }
+                    selector.quizContent.classList.remove('hidden-options');
+                    // Remove UI components
+                    grab(selector.quitBtn).parentElement.remove();
+                    grab(selector.quitConfirmationWrapper).remove();
+                    if (grab(selector.quizResults) !== null) {
+                        grab(selector.quizResults).remove();
+                    }
+                    selector.quizForm.lastElementChild.innerHTML = '';
+                    selector.quizContent.firstElementChild.firstElementChild.innerHTML = '';
+                    // Enable options
+                    selector.burger.classList.remove('disabled');
+                }, 500);
+            }, 2000);
+            
+        });
     } else {
-        // show message
+        // Show message overlay
+        UICtrl.createErrorDiv('You need to pick your answer!');
+        setTimeout(() => {
+            grab(selector.errorOverlay).remove();
+        }, 2000);
     }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // submit generate form
 selector.createQuizForm.addEventListener('submit', e => {
     // Prevent the default form submit
@@ -2405,6 +2793,8 @@ selector.createQuizForm.addEventListener('submit', e => {
                 // Render quizzes
                 UICtrl.renderQuizzes(1, UICtrl.global.quizzes)
                 selector.browseWrapper.classList.toggle('hidden-options');
+                // Browse mode is active
+                grab('body').setAttribute('data-screen', 'browse');
                 // 
                 // location.reload(true);
                 // Jest opcja, zeby nie odswiezac -- zrob fetch wszystkich quizzow, wygeneruj templates za pomoca js

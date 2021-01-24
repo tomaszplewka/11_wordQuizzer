@@ -17,6 +17,10 @@ $output = [
     "db" => ["php_error" => false, "msg" => ''],
     "session" => ["loggedIn" => true, "msg" => '']
 ];
+
+// ZAMIEN WSZYSTKO NA TRANSAKCJE !!!!
+
+
 // Process POST data
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // User fetches data

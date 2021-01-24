@@ -16,7 +16,7 @@ $output =   [
     "email" => ["php_error" => false, "msg" => '', "field" => "email"],
     "password" => ["php_error" => false, "msg" => '', "field" => "password"],
     "db" => ["php_error" => false, "msg" => '', "field" => "db"],
-    "session" => ["loggedIn" => false, "msg" => '', "field" => "session"]
+    "session" => ["loggedIn" => false, "user_id" => null, "username" => '', "msg" => '', "field" => "session"]
 ];
 // Check if user is already logged in, if so redirect to welcome screen
 if (isset($_SESSION["user_loggedIn"]) && $_SESSION["user_loggedIn"] === true) {
@@ -67,8 +67,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             // Data validated and verified, user is now logged in
                             $_SESSION["user_loggedIn"] = true;
                             $_SESSION["user_id"] = $id;
+                            $output["session"]["user_id"] = $id;
                             $_SESSION["user_email"] = $email;
                             $_SESSION["user_name"] = $username;
+                            $output["session"]["username"] = $username;
                             $output["db"]["msg"] = "User has been logged in.";
                         } else {
                             $password_err = "Incorrect password.";
