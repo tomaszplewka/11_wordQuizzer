@@ -27,7 +27,7 @@ if (!isset($_SESSION["user_loggedIn"]) && !($_SESSION["user_loggedIn"] === true)
     echo json_encode($output);
     exit;
 }
-// print_r($_POST);
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Sanitize and validate quiz name
     $quizName = filter_var($_POST["quiz-name"], FILTER_SANITIZE_STRING);
@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Attempt to execute the query
             if ($db->execute()) {
                 if ($db->countRows() === 1) {
-                    $quizName_err = "This name is already taken.";
+                    $quizName_err = "{$quizName} is already taken.";
                     $output["quiz-name"]["php_error"] = true;
                     $output["quiz-name"]["msg"] = $quizName_err;
                 } else {
@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     // Sanitize and validate quiz type
     $quizType = filter_var($_POST["quiz-select"], FILTER_SANITIZE_STRING);
-    if (empty(trim($_POST["quiz-select"])) || trim($_POST["quiz-select"]) === "Quiz Type") {
+    if (empty(trim($_POST["quiz-select"])) || trim($_POST["quiz-select"]) === "QUIZ TYPE") {
         $quizType_err = "Please select valid quiz type.";
         // Send err msg to front end
         $output["quiz-type"]["php_error"] = true;

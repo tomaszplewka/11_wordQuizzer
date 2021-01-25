@@ -15,7 +15,8 @@ $quizName_err = $quizType_err = $quizAnswers_err = $quizQuestions_err = $db_err 
 $output = [
     "data" => ["php_error" => false, "msg" => '', "fields" => []],
     "db" => ["php_error" => false, "msg" => '', "field" => "db"],
-    "session" => ["loggedIn" => true, "msg" => '', "field" => "session"]
+    "session" => ["loggedIn" => true, "msg" => '', "field" => "session"],
+    "user" => ["id" => null]
 ];
 // Fetch data based on user's status
 if (isset($_SESSION["user_loggedIn"]) && ($_SESSION["user_loggedIn"] === true)) {
@@ -28,6 +29,7 @@ if (isset($_SESSION["user_loggedIn"]) && ($_SESSION["user_loggedIn"] === true)) 
         $db->bind(":id", $id);
         $output["data"]["fields"] = $db->resultAll();
         $output["data"]["msg"] = "Data fetched for user " . $user;
+        $output["user"]["id"] = $id;
         // echo json_encode($output);
         // exit;
     } else {

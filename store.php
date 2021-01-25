@@ -13,21 +13,12 @@ $db = new Database();
 // Define and initialize vars
 $quizName = $quizType = $quizAnswers = $quizQuestions = $userID = '';
 $quizName_err = $quizType_err = $quizAnswers_err = $quizQuestions_err = $db_err = '';
-$output =
-    [
-        "data" => [
-            "php_error" => false,
-            "msg" => '',
-            "field" => "store-data"
-        ],  "db" => [
-            "php_error" => false,
-            "msg" => '',
-            "field" => "store-db"
-        ],  "session" => [
-            "loggedIn" => true,
-            "msg" => ''
-        ], "snapshot" => []
-    ];
+$output = [
+    "data" => ["php_error" => false, "msg" => '', "field" => "store-data"],
+    "db" => ["php_error" => false, "msg" => '', "field" => "store-db"],
+    "session" => ["loggedIn" => true, "msg" => ''],
+    "snapshot" => []
+];
 // 
 // session_unset();
 // Check if user is logged in, if not redirect to login page
@@ -53,7 +44,7 @@ if ($contentType === "application/json") {
             $index2 = 0;
             $sqlQ = "INSERT INTO questions (question_ID, quiz_ID, question, word) VALUES ";
             $sqlA = "INSERT INTO answers (question_ID, answer, question_order, is_correct) VALUES ";
-            $user_ID = $_SESSION["user_id"]; // normally read from $_SESSION var
+            $user_ID = $_SESSION["user_id"];
             $quiz_ID = $decoded["quizID"];
             // Number of asnwers
             $numOfQs = (int) $decoded["answersTotal"];
@@ -129,8 +120,9 @@ if ($contentType === "application/json") {
                             $db->transactionCommit();
                             // Tu wszystko powinno byc ok
                             $output["data"]["msg"] = "Questions and answers added.";
-                            $sql = "SELECT * FROM quiz ORDER BY created_at DESC";
+                            $sql = "SELECT * FROM quiz WHERE user_id = :id ORDER BY created_at DESC";
                             if ($db->queryDB($sql)) {
+                                $db->bind(":id", $user_ID);
                                 $output["snapshot"] = $db->resultAll();
                             }
                             echo json_encode($output);

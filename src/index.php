@@ -233,7 +233,7 @@
     </div>
 </section>
 <!-- Options -->
-<section class="section background-ghost-white is-flex is-flex-direction-column is-justify-content-center p-5 hidden-options" id="options-wrapper">
+<section class="section background-ghost-white-gradient is-flex is-flex-direction-column is-justify-content-center p-5 hidden-options" id="options-wrapper">
     <ul>
         <li>
             <a id="options-settings-btn" class="btn">

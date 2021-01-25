@@ -13,8 +13,7 @@
     <title><?php echo isset($title) ? $title : WEBSITE_TITLE; ?></title>
 </head>
 
-<body class="is-relative">
-    <!-- Navbar -->
+<body class="is-relative is-clipped">
     <nav class="" role="navigation" aria-label="main navigation">
         <div class="background-ghost-white has-text-white is-relative" id="navbar">
             <div class="columns is-mobile m-0 has-text-centered is-vcentered is-multiline">

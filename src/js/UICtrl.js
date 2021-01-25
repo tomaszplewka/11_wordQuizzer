@@ -79,8 +79,8 @@ const UICtrl = (function() {
         searchBackBtn: '#search-back-btn',
         filterBtn: '#filter-btn',
         searchBtn: '#search-btn',
-        browseNextQuizzes: '#browse-quizzes-next',
-        browsePreviousQuizzes: '#browse-quizzes-previous'
+        browseNextQuizzes: document.querySelector('#browse-quizzes-next'),
+        browsePreviousQuizzes: document.querySelector('#browse-quizzes-previous')
     };
     // Global vars
     const global = {
@@ -185,7 +185,7 @@ const UICtrl = (function() {
     };
     const createFormConfirmation = function(target, text = 'registered') {
         const targetForm = document.querySelector(`#${target}-form`);
-        let div = createDiv(`${target}-confirmation is-flex is-justify-content-center is-align-items-center hidden-options background-mountain-meadow`, `${target}-confirmation`);
+        let div = createDiv(`${target}-confirmation is-flex is-justify-content-center is-align-items-center hidden-options background-mountain-meadow-gradient`, `${target}-confirmation`);
         let p = createPara(`${target}-cofirmation-text text-ghost-white p-2`);
         let html = `
         User <span class="${target}-cofirmation-user is-lowercase text-smoky-black"></span> has been ${text}.
@@ -374,94 +374,106 @@ const UICtrl = (function() {
         const quizEnd = 3 + (page - 1) * 3;
         // Get total number of pages
         const pages = Math.ceil(data.length / 3);
-        // Create 3 quizzes
-        for (let index = quizStart; index < quizEnd; index++) {
-            if (data[index] === undefined) { break; }
-            // Set vars
-            const quizID = data[index]["quiz_id"];
-            const quizCategory = data[index]["quiz_type"];
-            const quizName = data[index]["quiz_name"];
-            const quizAnswers = data[index]["quiz_answers"];
-            const quizQuestions = data[index]["quiz_questions"];
-            const quizCreatedAt = new Date(data[index]["created_at"]).toLocaleString();
-            const quizUpdateddAt = new Date(data[index]["updated_at"]).toLocaleString();
-            let quizScore = data[index]["score"];
-            if (quizScore === null) {
-                quizScore = 'NA';
-            } else {
-                quizScore += '%';
-            }
-            // Create template
-            html += `
-            <div id="${quizID}" class="my-2">
-                <div class="quiz-header columns is-mobile m-0 is-vcentered has-text-centered py-2 ${quizCategory}">
-                    <div class="column is-3-mobile is-3 py-0" >
-                        <span class="quiz-header-icon text-smoky-black">
-                            ${quizCategory[0]}
-                        </span> 
+        if (pages) {
+            // Create 3 quizzes
+            for (let index = quizStart; index < quizEnd; index++) {
+                if (data[index] === undefined) { break; }
+                // Set vars
+                const quizID = data[index]["quiz_id"];
+                const quizCategory = data[index]["quiz_type"];
+                const quizName = data[index]["quiz_name"];
+                const quizAnswers = data[index]["quiz_answers"];
+                const quizQuestions = data[index]["quiz_questions"];
+                const quizCreatedAt = new Date(data[index]["created_at"]).toLocaleString();
+                let quizUpdateddAt = new Date(data[index]["updated_at"]).toLocaleString();
+                if (new Date(data[index]["created_at"]).getTime() === new Date(data[index]["updated_at"]).getTime()) {
+                    quizUpdateddAt = 'NA';
+                }
+                let quizScore = data[index]["score"];
+                if (quizScore === null) {
+                    quizScore = 'NA';
+                } else {
+                    quizScore += '%';
+                }
+                // Create template
+                html += `
+                <div id="${quizID}" class="my-2">
+                    <div class="quiz-header columns is-mobile m-0 is-vcentered has-text-centered py-2 ${quizCategory}">
+                        <div class="column is-3-mobile is-3 py-0" >
+                            <span class="quiz-header-icon text-smoky-black">
+                                ${quizCategory[0]}
+                            </span> 
+                        </div>
+                        <div class="quiz-header-name column is-9-mobile is-9 py-0" >
+                            ${quizName}
+                        </div>
                     </div>
-                    <div class="quiz-header-name column is-9-mobile is-9 py-0" >
-                        ${quizName}
+                    <div class="quiz-body columns is-mobile m-0 is-vcentered has-text-centered p-0">
+                        <div class="quiz-body-more-info column is-6-mobile is-6 p-0" >
+                            <a id="" class="btn btn-invert btn-small btn-vertical m-0 more-info-btn" >
+                                <span>more info</span>
+                            </a>
+                        </div>
+                        <div class="quiz-body-play column is-6-mobile is-6 p-0" >
+                            <a id="" class="btn btn-invert btn-small btn-vertical m-0 play-btn" >
+                                <span>play</span>
+                            </a> 
+                        </div>
                     </div>
                 </div>
-                <div class="quiz-body columns is-mobile m-0 is-vcentered has-text-centered p-0">
-                    <div class="quiz-body-more-info column is-6-mobile is-6 p-0" >
-                        <a id="" class="btn btn-invert btn-small btn-vertical m-0 more-info-btn" >
-                            <span>more info</span>
+                <div data-id="${quizID}" id ="" class="more-info-wrapper scaleY background-ghost-white columns is-mobile m-0 has-text-centered p-5 is-multiline is-flex is-flex-direction-column is-justify-content-start" >
+                    <div class="is-flex is-justify-content-start column is-12-mobile is-12 p-0" >
+                        <a id="" class="control-btn more-info-back-btn" >
+                            <span class="text-smoky-black">go back</span>
                         </a>
                     </div>
-                    <div class="quiz-body-play column is-6-mobile is-6 p-0" >
-                        <a id="" class="btn btn-invert btn-small btn-vertical m-0 play-btn" >
-                            <span>play</span>
-                        </a> 
-                    </div>
-                </div>
-            </div>
-            <div data-id="${quizID}" id ="" class="more-info-wrapper scaleY background-ghost-white columns is-mobile m-0 has-text-centered p-5 is-multiline is-flex is-flex-direction-column is-justify-content-start" >
-                <div class="is-flex is-justify-content-start column is-12-mobile is-12 p-0" >
-                    <a id="" class="control-btn more-info-back-btn" >
-                        <span class="text-smoky-black">go back</span>
-                    </a>
-                </div>
-                <div class="column is-12-mobile is-12 p-0 my-5" >
-                    <div class="more-info-quiz-info columns is-mobile m-0 is-vcentered is-multiline is-flex is-flex-direction-column is-justify-content-center" >
-                        <div class="column is-12-mobile is-12 p-0 my-1" >
-                            <p class="text-smoky-black" > Name: ${quizName}</p>
-                        </div>
-                        <div class="column is-12-mobile is-12 p-0 my-1">
-                            <p class="text-smoky-black" > Category: ${quizCategory}</p>
-                        </div>
-                        <div class="column is-12-mobile is-12 p-0 my-1">
-                            <p class="text-smoky-black" > Questions: ${quizQuestions}</p>
-                        </div>
-                        <div class="column is-12-mobile is-12 p-0 my-1">
-                            <p class="text-smoky-black" > Answers: ${quizAnswers}</p>
-                        </div>
-                        <div class="column is-12-mobile is-12 p-0 my-1">
-                            <p class="text-smoky-black" > Created at: ${quizCreatedAt}</p>
-                        </div>
-                        <div class="column is-12-mobile is-12 p-0 my-1">
-                            <p class="text-smoky-black" > Attempted on: ${quizUpdateddAt}</p>
-                        </div>
-                        <div class="column is-12-mobile is-12 p-0 my-1">
-                            <p class="text-smoky-black" > Recent Score: ${quizScore}</p>
+                    <div class="column is-12-mobile is-12 p-0 my-5" >
+                        <div class="more-info-quiz-info columns is-mobile m-0 is-vcentered is-multiline is-flex is-flex-direction-column is-justify-content-center" >
+                            <div class="column is-12-mobile is-12 p-0 my-1" >
+                                <p class="text-smoky-black" > Name: ${quizName}</p>
+                            </div>
+                            <div class="column is-12-mobile is-12 p-0 my-1">
+                                <p class="text-smoky-black" > Category: ${quizCategory}</p>
+                            </div>
+                            <div class="column is-12-mobile is-12 p-0 my-1">
+                                <p class="text-smoky-black" > Questions: ${quizQuestions}</p>
+                            </div>
+                            <div class="column is-12-mobile is-12 p-0 my-1">
+                                <p class="text-smoky-black" > Answers: ${quizAnswers}</p>
+                            </div>
+                            <div class="column is-12-mobile is-12 p-0 my-1">
+                                <p class="text-smoky-black" > Created at: ${quizCreatedAt}</p>
+                            </div>
+                            <div class="column is-12-mobile is-12 p-0 my-1">
+                                <p class="text-smoky-black" > Attempted on: ${quizUpdateddAt}</p>
+                            </div>
+                            <div class="column is-12-mobile is-12 p-0 my-1">
+                                <p class="text-smoky-black" > Recent Score: ${quizScore}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            `;
-        };
-        if (page === 1) {
-            UISelectors.quizWrapper.lastElementChild.firstElementChild.classList.add('disabled');
+                `;
+            };
+            if (page === 1) {
+                UISelectors.browsePreviousQuizzes.classList.add('disabled');
+            } else {
+                UISelectors.browsePreviousQuizzes.classList.remove('disabled');
+            }
+            if (page === pages) {
+                UISelectors.browseNextQuizzes.classList.add('disabled');
+            } else {
+                UISelectors.browseNextQuizzes.classList.remove('disabled');
+            }
+            UISelectors.quizWrapper.firstElementChild.innerHTML = html;
         } else {
-            UISelectors.quizWrapper.lastElementChild.firstElementChild.classList.remove('disabled');
+            UISelectors.browseNextQuizzes.classList.add('disabled');
+            UISelectors.browsePreviousQuizzes.classList.add('disabled');
+            html = createPara('has-text-centered');
+            html.textContent = 'No quizzes to display!';
+            UISelectors.quizWrapper.firstElementChild.innerHTML = '';
+            UISelectors.quizWrapper.firstElementChild.appendChild(html);
         }
-        if (page === pages) {
-            UISelectors.quizWrapper.lastElementChild.lastElementChild.classList.add('disabled');
-        } else {
-            UISelectors.quizWrapper.lastElementChild.lastElementChild.classList.remove('disabled');
-        }
-        UISelectors.quizWrapper.firstElementChild.innerHTML = html;
         UISelectors.quizWrapper.setAttribute('data-page', page);
     };
     const createAnswer = function(answer, index) {
@@ -479,7 +491,7 @@ const UICtrl = (function() {
     const createQuestion = function(target, content) {
         target.innerHTML = '';
         const question = createPara('quiz-view-header-text');
-        question.textContent = content;
+        question.textContent = content.toUpperCase();
         target.appendChild(question);
     };
     const createQuestionFeedback = function(content, feedback) {
@@ -715,7 +727,7 @@ const UICtrl = (function() {
     };
     const checkIfEmptyQuiz = function() {
         const form = UISelectors.createQuizForm;
-        if (form["quiz-name"].value !== '' && form["quiz-type"].value !== 'Quiz Type' && form["quiz-answers"].value !== '' && form["quiz-questions"].value !== '' && (form["quiz-answers"].value >= 2 && form["quiz-answers"].value <= 4) && (form["quiz-questions"].value >= 4 && form["quiz-questions"].value <= 10)) {
+        if (form["quiz-name"].value !== '' && form["quiz-type"].value !== 'QUIZ TYPE' && form["quiz-answers"].value !== '' && form["quiz-questions"].value !== '' && (form["quiz-answers"].value >= 2 && form["quiz-answers"].value <= 4) && (form["quiz-questions"].value >= 4 && form["quiz-questions"].value <= 10)) {
             form["quiz-generate"].classList.remove('disabled');
         } else {
             form["quiz-generate"].classList.add('disabled');
@@ -808,17 +820,13 @@ const UICtrl = (function() {
             "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
         }
     };
-    // console.log(response);
-    // switch (response.status) {
-    //     case 400:
-    //         throw new Error('Bad Request. Your request is invalid.');
-    //     case 401:
-    //         throw new Error('Unauthorized. Your API key is wrong.');
-    //     case 404:
-    //         throw new Error('Not Found. No matching word was found.');
-    //     case 500:
-    //         throw new Error('Network problem. Please try again later.');
-    // }
+    const questionsTemplate = [
+        "What is the definition of $?",
+        "How would you define $?",
+        "How to define $?",
+        "What is the meaning of $?",
+        "What does $ mean?"
+    ];
     const postData = async function(data, endpoint) {
         return await (
             fetch(endpoint, {
@@ -840,12 +848,6 @@ const UICtrl = (function() {
                 }
             }));
     };
-    // const getRandomWord = async function() {
-    //     return await (
-    //         fetch('https://wordsapiv1.p.rapidapi.com/words/?' + new URLSearchParams({
-    //             random: 'true'
-    //         }), apiParams));
-    // };
     const getAllWords = async function(pageNum = 1) {
         return await (
             fetch('https://wordsapiv1.p.rapidapi.com/words/?'+ new URLSearchParams({
@@ -853,8 +855,7 @@ const UICtrl = (function() {
                 page: pageNum
             }), apiParams)
             .then(response => {
-                // Implement error handling based on WordsAPI docs !!!
-                if (!response.ok) { throw new Error('Network problem. Please try again later'); }
+                if (!response.ok) { throw new Error(response.statusText) }
                 return response.json();
             }));
     };
@@ -863,7 +864,6 @@ const UICtrl = (function() {
         return await (
             getAllWords()
             .then(doc => {
-                // No errors -- proceed in a regular fashion
                 // Total number of pages
                 let pages = doc.results.total;
                 // Generate random pages
@@ -874,17 +874,12 @@ const UICtrl = (function() {
                         randomPages.push(r);
                     }
                 }
-                // Get all words by randomPages
-                let promises = [];
                 // Add promises in a loop
+                let promises = [];
                 for (let i = 0; i < randomPages.length; i++) {
                     promises.push(getAllWords(randomPages[i]));
                 }
                 return Promise.all(promises);
-            })
-            .catch(error => {
-                // Errors -- handle those in here
-                console.log(error);
             }));
     };
     const getWordDefinitions = async function(words) {
@@ -896,6 +891,7 @@ const UICtrl = (function() {
             // Fetch word
             const response = await fetch('https://wordsapiv1.p.rapidapi.com/words/' + word + '/definitions', apiParams);
             // Convert to json
+            if (!response.ok) { throw new Error(response.statusText) }
             const doc = await response.json();
             // If fetched word has definition, add it to wordDefinitions object
             if (doc.definitions.length) {
@@ -913,6 +909,7 @@ const UICtrl = (function() {
             const response = await fetch('https://wordsapiv1.p.rapidapi.com/words/?' + new URLSearchParams({
                 random: 'true'
             }), apiParams);
+            if (!response.ok) { throw new Error(response.statusText) }
             const doc = await response.json();
             // Get word field
             const word = doc.word;
@@ -920,6 +917,7 @@ const UICtrl = (function() {
             if (!Object.keys(oldWordDefinitions).includes(word)) {
                 // Fetch definition for this word
                 const response = await fetch('https://wordsapiv1.p.rapidapi.com/words/' + word + '/definitions', apiParams);
+                if (!response.ok) { throw new Error(response.statusText) }
                 const doc = await response.json();
                 // If fetched word has definition, add it to wordDefinitions object
                 if (doc.definitions.length) {
@@ -1214,6 +1212,8 @@ const UICtrl = (function() {
                         removeLoader();
                         setTimeout(() => {
                             loadLoggedInScreen();
+                            // Set user id
+                            selector.createQuizForm["user-id"].value = data.user.id;
                             // Render options
                             UISelectors.settingsOption.parentElement.before(createOption('You are currently logged in'));
                             UISelectors.settingsOption.parentElement.before(createOption(''));
@@ -1291,7 +1291,8 @@ const UICtrl = (function() {
         createAnswer,
         appendAnswer,
         createQuestion,
-        createQuestionFeedback
+        createQuestionFeedback,
+        questionsTemplate
     };
 })();
 UICtrl.init();
@@ -1386,6 +1387,7 @@ document.addEventListener('click', e => {
             selector.loginFeedback.classList.toggle('hidden-options');
         } else if(grab(selector.submitFeedbackError).parentElement.parentElement.id.includes('create-quiz')) {
             selector.createQuizFeedback.classList.toggle('hidden-options');
+            selector.createQuizWrapper.scrollTop = 0;
             selector.createQuizWrapper.classList.toggle('is-clipped');
             // Feedback mode is active
             grab('body').setAttribute('data-screen', 'feedback');
@@ -1538,36 +1540,36 @@ document.addEventListener('click', e => {
         grab('body').setAttribute('data-screen', 'browse');
     }
     // FilterBtn clicked
-    if ((e.target.tagName === 'SPAN' && `#${e.target.parentElement.id}` === selector.filterBtn) || (`#${e.target.id}` === selector.filterBtn) || (e.target.tagName === 'svg' && `#${e.target.parentElement.parentElement.id}` === selector.filterBtn) || (e.target.tagName === 'path' && `#${e.target.parentElement.parentElement.parentElement.id}` === selector.filterBtn)) {
-        selector.filterWrapper.classList.remove('scaleY');
-        // Filter mode is active
-        grab('body').setAttribute('data-screen', 'filter');
-    }
+    // if ((e.target.tagName === 'SPAN' && `#${e.target.parentElement.id}` === selector.filterBtn) || (`#${e.target.id}` === selector.filterBtn) || (e.target.tagName === 'svg' && `#${e.target.parentElement.parentElement.id}` === selector.filterBtn) || (e.target.tagName === 'path' && `#${e.target.parentElement.parentElement.parentElement.id}` === selector.filterBtn)) {
+    //     selector.filterWrapper.classList.remove('scaleY');
+    //     // Filter mode is active
+    //     grab('body').setAttribute('data-screen', 'filter');
+    // }
     // FilterBackBtn clicked
-    if ((e.target.tagName === 'SPAN' && `#${e.target.parentElement.id}` === selector.filterBackBtn) || (`#${e.target.id}` === selector.filterBackBtn)) {
-        selector.filterWrapper.classList.add('scaleY');
-        // Browse mode is active
-        grab('body').setAttribute('data-screen', 'browse');
-    }
+    // if ((e.target.tagName === 'SPAN' && `#${e.target.parentElement.id}` === selector.filterBackBtn) || (`#${e.target.id}` === selector.filterBackBtn)) {
+    //     selector.filterWrapper.classList.add('scaleY');
+    //     // Browse mode is active
+    //     grab('body').setAttribute('data-screen', 'browse');
+    // }
     // SearchBtn clicked
-    if ((e.target.tagName === 'SPAN' && `#${e.target.parentElement.id}` === selector.searchBtn) || (`#${e.target.id}` === selector.searchBtn) || (e.target.tagName === 'svg' && `#${e.target.parentElement.parentElement.id}` === selector.searchBtn) || (e.target.tagName === 'path' && `#${e.target.parentElement.parentElement.parentElement.id}` === selector.searchBtn)) {
-        selector.searchWrapper.classList.remove('scaleY');
-        // Search mode is active
-        grab('body').setAttribute('data-screen', 'search');
-    }
+    // if ((e.target.tagName === 'SPAN' && `#${e.target.parentElement.id}` === selector.searchBtn) || (`#${e.target.id}` === selector.searchBtn) || (e.target.tagName === 'svg' && `#${e.target.parentElement.parentElement.id}` === selector.searchBtn) || (e.target.tagName === 'path' && `#${e.target.parentElement.parentElement.parentElement.id}` === selector.searchBtn)) {
+    //     selector.searchWrapper.classList.remove('scaleY');
+    //     // Search mode is active
+    //     grab('body').setAttribute('data-screen', 'search');
+    // }
     // SearchBackBtn clicked
-    if ((e.target.tagName === 'SPAN' && `#${e.target.parentElement.id}` === selector.searchBackBtn) || (`#${e.target.id}` === selector.searchBackBtn)) {
-        selector.searchWrapper.classList.add('scaleY');
-        // Browse mode is active
-        grab('body').setAttribute('data-screen', 'browse');
-    }
+    // if ((e.target.tagName === 'SPAN' && `#${e.target.parentElement.id}` === selector.searchBackBtn) || (`#${e.target.id}` === selector.searchBackBtn)) {
+    //     selector.searchWrapper.classList.add('scaleY');
+    //     // Browse mode is active
+    //     grab('body').setAttribute('data-screen', 'browse');
+    // }
     // Browse quiz next
-    if ((e.target.tagName === 'SPAN' && `#${e.target.parentElement.id}` === selector.browseNextQuizzes) || (`#${e.target.id}` === selector.browseNextQuizzes && e.target.tagName === 'A')) {
+    if ((e.target.tagName === 'SPAN' && e.target.parentElement.id === selector.browseNextQuizzes.id) || (e.target.id === selector.browseNextQuizzes.id && e.target.tagName === 'A')) {
         const page = parseInt(selector.quizWrapper.getAttribute('data-page'));
         UICtrl.renderQuizzes(page + 1, UICtrl.global.quizzes);
     }
     // Browse quiz previous
-    if ((e.target.tagName === 'SPAN' && `#${e.target.parentElement.id}` === selector.browsePreviousQuizzes) || (`#${e.target.id}` === selector.browsePreviousQuizzes && e.target.tagName === 'A')) {
+    if ((e.target.tagName === 'SPAN' && e.target.parentElement.id === selector.browsePreviousQuizzes.id) || (e.target.id === selector.browsePreviousQuizzes.id && e.target.tagName === 'A')) {
         const page = parseInt(selector.quizWrapper.getAttribute('data-page'));
         UICtrl.renderQuizzes(page - 1, UICtrl.global.quizzes);
     }
@@ -1691,8 +1693,6 @@ document.addEventListener('click', e => {
                         }, 500);
                     }, 350);
                 }, 2000);
-                // Enable options
-                selector.burger.classList.remove('disabled');
             }
         })
         .catch(error => {
@@ -1882,6 +1882,10 @@ document.addEventListener('click', e => {
             selector.mainSectionWrapper.classList.toggle('hidden-options');
             // Show create quiz section
             selector.createQuizWrapper.classList.toggle('hidden-options');
+            setTimeout(() => {
+                // Set focus on first input
+                selector.createQuizForm['quiz-name'].focus();
+            }, 500);
         }, 600);
     }
     // CreateQuizBackBtn clicked
@@ -2285,8 +2289,6 @@ selector.loginForm.addEventListener('submit', e => {
                         submitFeedback.firstElementChild.classList.remove('hide');
                         // Unlock fields
                         UICtrl.unlockInput('login');
-                        // Enable options
-                        selector.burger.classList.remove('disabled');
                         // Reset input class
                         const inputElements = document.querySelectorAll('#login-form input')
                         Array.from(inputElements).forEach(input => {
@@ -2302,6 +2304,8 @@ selector.loginForm.addEventListener('submit', e => {
                         // Hide loader
                         UICtrl.removeLoader();
                         UICtrl.removeElement(grab(selector.overlay));
+                        // Enable options
+                        selector.burger.classList.remove('disabled');
                         return undefined;
                     }, 500);
                 } else { // no errors
@@ -2444,7 +2448,12 @@ selector.quizForm.addEventListener('submit', e => {
             body: JSON.stringify(data)
         })
         .then(response => response.json() )
-        .then(docs => {
+        .then(() => UICtrl.fetchQuizzes('fetchQuizzes.php') )
+        .then(response => response.json() )
+        .then(data => {
+            UICtrl.global.quizzes = data.data.fields;
+            // Render data using JS
+            UICtrl.renderQuizzes(1, UICtrl.global.quizzes);
             setTimeout(() => {
                 // Hide loader
                 UICtrl.removeLoader();
@@ -2457,10 +2466,6 @@ selector.quizForm.addEventListener('submit', e => {
                 grab(selector.quizFeedback).innerHTML = uHtml;
                 // Enable options
                 selector.burger.classList.remove('disabled');
-
-                // HERE GET UPDATED VERSION OF QUIZZES - QUERY FROM DB !!! AND UPDATE MORE INFO STUFF
-
-
             }, 1000);
         })
         .catch(error => {
@@ -2505,32 +2510,12 @@ selector.quizForm.addEventListener('submit', e => {
             grab(selector.errorOverlay).remove();
         }, 2000);
     }
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// submit generate form
+});// submit generate form
 selector.createQuizForm.addEventListener('submit', e => {
     // Prevent the default form submit
     e.preventDefault();
-    // 
+    // Set local vars
     const form = selector.createQuizForm;
-    // Assign var names
     const quizName = form["quiz-name"].value;
     const quizType = form["quiz-type"].value;
     const quizAnswers = form["quiz-answers"].value;
@@ -2541,10 +2526,12 @@ selector.createQuizForm.addEventListener('submit', e => {
     }
     const submitFeedback = grab(selector.formCreateQuizSubmitFeedback);
     // Add data feedback
-    selector.registerFeedback.innerHTML = '';
+    selector.createQuizFeedback.innerHTML = '';
     UICtrl.createDataFeedback(['quiz-name', 'quiz-type', 'quiz-answers', 'quiz-questions', 'quiz-db'], 'create-quiz');
+    // Adjust UI display
+    selector.createQuizWrapper.scrollTop = 0;
     // Check if there is anything in inputs
-    if (form["quiz-name"].value !== '' && form["quiz-type"].value !== 'Quiz Type' && form["quiz-answers"].value !== '' && form["quiz-questions"].value !== '' && (form["quiz-answers"].value >= 2 && form["quiz-answers"].value <= 4) && (form["quiz-questions"].value >= 4 && form["quiz-questions"].value <= 10) && !form["quiz-name"].hasAttribute('readonly') && !form["quiz-type"].hasAttribute('disabled') && !form["quiz-answers"].hasAttribute('readonly') && !form["quiz-questions"].hasAttribute('readonly')) {
+    if (form["quiz-name"].value !== '' && form["quiz-type"].value !== 'QUIZ TYPE' && form["quiz-answers"].value !== '' && form["quiz-questions"].value !== '' && (form["quiz-answers"].value >= 2 && form["quiz-answers"].value <= 4) && (form["quiz-questions"].value >= 4 && form["quiz-questions"].value <= 10) && !form["quiz-name"].hasAttribute('readonly') && !form["quiz-type"].hasAttribute('disabled') && !form["quiz-answers"].hasAttribute('readonly') && !form["quiz-questions"].hasAttribute('readonly')) {
         // Adjust UI
         if (submitFeedback.classList.contains('hide')) {
             submitFeedback.classList.remove('hide');
@@ -2560,167 +2547,119 @@ selector.createQuizForm.addEventListener('submit', e => {
         form["quiz-answers"].setAttribute("readonly", true);
         form["quiz-questions"].setAttribute("readonly", true);
         form["quiz-generate"].classList.add("disabled");
-        console.log('jestem tutaj');
-        // Set local var
+        // Disable options
+        selector.burger.classList.add('disabled');
+        // Show loader
+        selector.createQuizWrapper.appendChild(UICtrl.createDiv(selector.overlay.slice(1)));
+        UICtrl.createLoader(grab(selector.overlay));
+        // Set local vars
         let err_count = 0;
         let wordDefinitions = [];
-        // Post data using the Fetch API
+        // Post data using Fetch API
         fetch(form.action, {
             method: form.method,
             body: new FormData(form)
         })
-        .then(res => {
-            if (!res.ok) { throw new Error('Network problem.'); }
-            return res.json();
-        })
-        .then(docs1 => {
-            console.log(docs1);
+        .then(response => response.json() )
+        .then(docs => {
             // Handle input data
-            err_count = UICtrl.handleFormData(docs1, 'create-quiz');
-            if (err_count) { // errors found
-                // Unlock input fields & submit btn
-                form["quiz-name"].removeAttribute("readonly");
-                form["quiz-type"].removeAttribute("disabled");
-                form["quiz-answers"].removeAttribute("readonly");
-                form["quiz-questions"].removeAttribute("readonly");
-                setTimeout(() => {
-                    submitFeedback.lastElementChild.classList.add('hide');
-                    submitFeedback.firstElementChild.classList.remove('hide');
-                    UICtrl.inputInvalidRemove(form["quiz-name"]);
-                    form["quiz-generate"].classList.remove("disabled");
-                }, 500);
-                return undefined;
-            } else { // no errors
+            err_count = UICtrl.handleFormData(docs, 'create-quiz');
+            if (err_count) { throw true }
+            else { // no errors
+                // Hide loader
+                UICtrl.removeLoader();
+                UICtrl.removeElement(grab(selector.overlay));
+                // Adjust UI display
+                selector.createQuizWrapper.classList.toggle('is-clipped');
                 // Render UI
                 UICtrl.generateQuizConfirmation();
-                setTimeout(() => {
-                    // Unlock input fields & submit btn
-                    form["quiz-name"].removeAttribute("readonly");
-                    form["quiz-type"].removeAttribute("disabled");
-                    form["quiz-answers"].removeAttribute("readonly");
-                    form["quiz-questions"].removeAttribute("readonly");
-                    form["quiz-generate"].classList.remove("disabled");
-                    console.log('all good');
-                    // Hide submit feedback div
-                    // submitGenerateFeedback.classList.add('hide');
-                    // submitGenerateFeedback.firstElementChild.classList.add('hide');
-                    // Show confirmation wrapper & loader, set text
-                    selector.generateConfirmation.classList.remove('hidden-options');
-                    selector.generateConfirmation.firstElementChild.firstElementChild.classList.add('start-loader');
-                    selector.generateConfirmation.lastElementChild.lastElementChild.textContent = 'Fetching words...';
-                }, 500);
+                // Quiz confirmation mode is active
+                grab('body').setAttribute('data-screen', 'quiz-confirmation');
+                // Show confirmation wrapper & loader, set text
+                selector.generateConfirmation.classList.remove('hidden-options');
+                selector.generateConfirmation.firstElementChild.firstElementChild.classList.add('start-loader');
+                selector.generateConfirmation.lastElementChild.lastElementChild.textContent = 'Fetching words...';
                 // Fetch data from WordAPI
                 return UICtrl.getWordsByRandomPages(quizQuestions, quizAnswers);
             }
         })
-        .then(docs2 => {
-            if (docs2 !== undefined) {
-                // 
-                // document.forms["create-quiz-form"].reset() !!!!!!!!!!!!!!!!!
-                // 
-                // Reset form
-                form["quiz-name"].value = '';
-                form["quiz-name"].classList.remove('input-valid');
-                form["quiz-name"].classList.remove('input-invalid');
-                if (!form["quiz-name"].parentElement.lastElementChild.firstElementChild.classList.contains('hide')) {
-                    form["quiz-name"].parentElement.lastElementChild.firstElementChild.classList.add('hide');
-                }
-                if (!form["quiz-name"].parentElement.lastElementChild.lastElementChild.classList.contains('hide')) {
-                    form["quiz-name"].parentElement.lastElementChild.lastElementChild.classList.add('hide');
-                }
-                form["quiz-type"].value = 'Quiz Type';
-                form["quiz-type"].classList.remove('input-valid');
-                form["quiz-type"].classList.remove('input-invalid');
-                if (!form["quiz-type"].parentElement.lastElementChild.firstElementChild.classList.contains('hide')) {
-                    form["quiz-type"].parentElement.lastElementChild.firstElementChild.classList.add('hide');
-                }
-                if (!form["quiz-type"].parentElement.lastElementChild.lastElementChild.classList.contains('hide')) {
-                    form["quiz-type"].parentElement.lastElementChild.lastElementChild.classList.add('hide');
-                }
-                form["quiz-answers"].value = 2;
-                form["quiz-answers"].classList.remove('input-valid');
-                form["quiz-answers"].classList.remove('input-invalid');
-                if (!form["quiz-answers"].parentElement.lastElementChild.firstElementChild.classList.contains('hide')) {
-                    form["quiz-answers"].parentElement.lastElementChild.firstElementChild.classList.add('hide');
-                }
-                if (!form["quiz-answers"].parentElement.lastElementChild.lastElementChild.classList.contains('hide')) {
-                    form["quiz-answers"].parentElement.lastElementChild.lastElementChild.classList.add('hide');
-                }
-                form["quiz-questions"].value = 4;
-                form["quiz-questions"].classList.remove('input-valid');
-                form["quiz-questions"].classList.remove('input-invalid');
-                if (!form["quiz-questions"].parentElement.lastElementChild.firstElementChild.classList.contains('hide')) {
-                    form["quiz-questions"].parentElement.lastElementChild.firstElementChild.classList.add('hide');
-                }
-                if (!form["quiz-questions"].parentElement.lastElementChild.lastElementChild.classList.contains('hide')) {
-                    form["quiz-questions"].parentElement.lastElementChild.lastElementChild.classList.add('hide');
-                }
-                // disable submit btn
-                if (!form["quiz-generate"].classList.contains('disabled')) {
-                    form["quiz-generate"].classList.add('disabled');
-                }
-                // Hide submit feedback
-                // hideSubmitFeedback(submitGenerateFeedback);
-                // Generate random word indexes
-                let randomIndexes = [];
-                let randomWords = [];
-                while (randomIndexes.length < quizQuestions * quizAnswers) {
-                    const r = Math.floor(Math.random() * 100) + 1;
-                    if (randomIndexes.indexOf(r) === -1) {
-                        randomIndexes.push(r);
-                    }
-                }
-                // Get random words based on randomIndexes
-                docs2.forEach((doc, index) => {
-                    randomWords.push(doc.results.data[randomIndexes[index]]);
-                });
-                // Update UI text
-                selector.generateConfirmation.lastElementChild.lastElementChild.textContent = 'Fetching definitions...';
-                // Fetch definitions
-                return UICtrl.getWordDefinitions(randomWords);
-            } else {
-                throw new Error('cos poszlo nie tak');
+        .then(docs => {
+            // reset form
+            selector.createQuizForm.reset();
+            selector.createQuizForm["quiz-select"].value = '';
+            form["quiz-name"].classList.remove('input-valid');
+            form["quiz-name"].classList.remove('input-invalid');
+            if (!form["quiz-name"].parentElement.lastElementChild.firstElementChild.classList.contains('hide')) {
+                form["quiz-name"].parentElement.lastElementChild.firstElementChild.classList.add('hide');
             }
+            if (!form["quiz-name"].parentElement.lastElementChild.lastElementChild.classList.contains('hide')) {
+                form["quiz-name"].parentElement.lastElementChild.lastElementChild.classList.add('hide');
+            }
+            form["quiz-type"].classList.remove('input-valid');
+            form["quiz-type"].classList.remove('input-invalid');
+            if (!form["quiz-type"].parentElement.lastElementChild.firstElementChild.classList.contains('hide')) {
+                form["quiz-type"].parentElement.lastElementChild.firstElementChild.classList.add('hide');
+            }
+            if (!form["quiz-type"].parentElement.lastElementChild.lastElementChild.classList.contains('hide')) {
+                form["quiz-type"].parentElement.lastElementChild.lastElementChild.classList.add('hide');
+            }
+            form["quiz-answers"].classList.remove('input-valid');
+            form["quiz-answers"].classList.remove('input-invalid');
+            if (!form["quiz-answers"].parentElement.lastElementChild.firstElementChild.classList.contains('hide')) {
+                form["quiz-answers"].parentElement.lastElementChild.firstElementChild.classList.add('hide');
+            }
+            if (!form["quiz-answers"].parentElement.lastElementChild.lastElementChild.classList.contains('hide')) {
+                form["quiz-answers"].parentElement.lastElementChild.lastElementChild.classList.add('hide');
+            }
+            form["quiz-questions"].classList.remove('input-valid');
+            form["quiz-questions"].classList.remove('input-invalid');
+            if (!form["quiz-questions"].parentElement.lastElementChild.firstElementChild.classList.contains('hide')) {
+                form["quiz-questions"].parentElement.lastElementChild.firstElementChild.classList.add('hide');
+            }
+            if (!form["quiz-questions"].parentElement.lastElementChild.lastElementChild.classList.contains('hide')) {
+                form["quiz-questions"].parentElement.lastElementChild.lastElementChild.classList.add('hide');
+            }
+            // Disable submit button
+            if (!form["quiz-generate"].classList.contains('disabled')) {
+                form["quiz-generate"].classList.add('disabled');
+            }
+            // Generate random word indexes
+            let randomIndexes = [];
+            let randomWords = [];
+            while (randomIndexes.length < quizQuestions * quizAnswers) {
+                const r = Math.floor(Math.random() * 100) + 1;
+                if (randomIndexes.indexOf(r) === -1) {
+                    randomIndexes.push(r);
+                }
+            }
+            // Get random words based on randomIndexes
+            docs.forEach((doc, index) => {
+                randomWords.push(doc.results.data[randomIndexes[index]]);
+            });
+            // Update UI text
+            selector.generateConfirmation.lastElementChild.lastElementChild.textContent = 'Fetching definitions...';
+            // Fetch definitions
+            return UICtrl.getWordDefinitions(randomWords);
         })
         .then(definitions => {
             wordDefinitions = definitions;
-            console.log('DONE');
             // Check if length of wordDefinitions is greater than or equal to
             if (Object.keys(wordDefinitions).length === quizQuestions * quizAnswers) {
-                // Yes - ok
-                console.log('jest ok');
                 return undefined;
             } else {
-                // No
                 const missingWords = quizQuestions * quizAnswers - Object.keys(wordDefinitions).length;
                 return UICtrl.getRandomWordDefinitions(missingWords, wordDefinitions);
             }
         })
         .then(definition => {
-            if (definition === undefined) {
-                console.log('jest ok, znowu');
-            } else {
-                wordDefinitions = {
-                    ...wordDefinitions,
-                    ...definition
-                };
-                console.log(wordDefinitions);
+            if (definition !== undefined) {
+                wordDefinitions = { ...wordDefinitions, ...definition };
             }
-            // Here words and their definitions were fetched correctly
-            // Here generate questions
-            console.log('jestem tu - przed ostatnim fetch');
-            const questionTemplates = [
-                "What is the definition of $?",
-                "How would you define $?",
-                "How to define $?",
-                "What is the meaning of $?",
-                "What does $ mean?"
-            ];
-            let questionsToSave = {};
+            // Generate questions & answers
+            const questionsTemplate = UICtrl.questionsTemplate;
+            let questions = {};
             // Iterate over word definitions
-            console.log('przed for loop');
             for (const key in wordDefinitions) {
-                console.log(key);
                 let definition, partOfSpeech = '';
                 // If word has more than one definition, choose a random one
                 if (wordDefinitions[key].length > 1) {
@@ -2733,18 +2672,15 @@ selector.createQuizForm.addEventListener('submit', e => {
                     partOfSpeech = wordDefinitions[key][0].partOfSpeech;
                 }
                 // Add answer
-                questionsToSave[key] = {};
-                questionsToSave[key].correctAnswer = definition;
+                questions[key] = {};
+                questions[key].correctAnswer = definition;
                 // Get random question template
-                const r = Math.floor(Math.random() * questionTemplates.length);
+                const r = Math.floor(Math.random() * questionsTemplate.length);
                 // Create question
-                questionsToSave[key].question = questionTemplates[r].replace("$", `${key} (${partOfSpeech})`);
+                questions[key].question = questionsTemplate[r].replace("$", `${key} (${partOfSpeech})`);
             }
-            // Here all questions & answer for each question is correctly generated
-            console.log(questionsToSave);
-            console.log('tututututu');
             // Generate questions to save & remaining answers
-            const questionsKeys = Object.keys(questionsToSave);
+            const questionsKeys = Object.keys(questions);
             let indexes = [];
             while (indexes.length < quizQuestions) { // number of questions
                 const r = Math.floor(Math.random() * questionsKeys.length);
@@ -2752,80 +2688,197 @@ selector.createQuizForm.addEventListener('submit', e => {
                     indexes.push(r);
                 }
             }
-            let questionsSaveSave = {};
-            let answersSaveSave = [];
+            let questionsToSave = {};
+            let answersToSave = [];
             questionsKeys.forEach((key, index) => {
                 if (indexes.includes(index)) {
-                    questionsSaveSave[key] = questionsToSave[key];
+                    questionsToSave[key] = questions[key];
                 } else {
-                    const lolo = questionsToSave[key];
-                    answersSaveSave.push(lolo.correctAnswer);
+                    const lolo = questions[key];
+                    answersToSave.push(lolo.correctAnswer);
                 }
             });
             const data = {
-                questions: questionsSaveSave,
-                answers: answersSaveSave,
+                questions: questionsToSave,
+                answers: answersToSave,
                 quizID: quizName,
                 answersTotal: quizAnswers
             };
-            console.log(data);
-            // Save to db as a transaction
-            console.log('tutaj postData jest wywolany');
             // Update UI text
             selector.generateConfirmation.lastElementChild.lastElementChild.textContent = 'Saving...';
+            // Save questions & answers
             return UICtrl.postData(data, 'store.php');
         })
-        .then(res => {
-            if (!res.ok) { throw new Error('Network problem.'); }
-            return res.json();
-        })
-        .then(docs3 => {
-            console.log(docs3);
-            console.log('jestem az tutaj');
-            UICtrl.global.quizzes = docs3['snapshot'];
-            console.log(UICtrl.global.quizzes);
+        .then(response => response.json() )
+        .then(docs => {
+            UICtrl.global.quizzes = docs['snapshot'];
             selector.generateConfirmation.lastElementChild.lastElementChild.textContent = 'Done!';
             selector.generateConfirmation.firstElementChild.firstElementChild.classList.remove('start-loader');
             setTimeout(() => {
-                // NOT FINISHED
+                // Unlock input fields & submit btn
+                form["quiz-name"].removeAttribute("readonly");
+                form["quiz-type"].removeAttribute("disabled");
+                form["quiz-answers"].removeAttribute("readonly");
+                form["quiz-questions"].removeAttribute("readonly");
+                form["quiz-generate"].classList.remove("disabled");
+                // Enable options
+                selector.burger.classList.remove('disabled');
+                // Adjust UI display
                 selector.generateConfirmation.classList.add('hidden-options');
-                selector.createQuizWrapper.classList.add('hidden-options');
-                // Render quizzes
-                UICtrl.renderQuizzes(1, UICtrl.global.quizzes)
-                selector.browseWrapper.classList.toggle('hidden-options');
-                // Browse mode is active
-                grab('body').setAttribute('data-screen', 'browse');
-                // 
-                // location.reload(true);
-                // Jest opcja, zeby nie odswiezac -- zrob fetch wszystkich quizzow, wygeneruj templates za pomoca js
-
-                // Jak to wszystko juz bedzie gotowe -- przenies uzytkownika na strone glowna quizu (tak jakby wybral ten quiz z puli quizzow)
-                // Kazde pytanie na osobnej stronie
-                // Daj mozliwosc powrotu do poprzedniego pytania
-                // Na ostatniej stronie submit form ze wszystkimi odpowiedziami
-                // Policz wynik, pokaz wynik, zapisz ostatni wynik do bazy danych
-            }, 1500);
+                selector.createQuizWrapper.classList.toggle('is-clipped');
+                selector.mainSectionWrapper.classList.toggle('hidden-options');
+                selector.createQuizWrapper.classList.toggle('hidden-options');
+                setTimeout(() => {
+                    selector.mainSectionWrapper.firstElementChild.classList.remove('shrink');
+                    // set tabindex="-1"
+                    UICtrl.addTabindex('create-tabindex');
+                    // reset form
+                    selector.createQuizForm.reset();
+                    selector.createQuizForm["quiz-select"].value = '';
+                    // disable submit btn
+                    if (!selector.createQuizForm["quiz-generate"].classList.contains('disabled')) {
+                        selector.createQuizForm["quiz-generate"].classList.add('disabled');
+                    }
+                    // Remove rendered UI components
+                    grab(selector.createQuizBackBtn).parentElement.remove();
+                    grab('.main-create-quiz-header').remove();
+                    if (grab(selector.formCreateQuizSubmitFeedback) !== null) {
+                        grab(selector.formCreateQuizSubmitFeedback).remove();
+                    }
+                    // Render UI display
+                    selector.filterWrapper.before(UICtrl.createBrowseOptions());
+                    // Include these when filter btn is clicked
+                    selector.filterForm.before(UICtrl.createBtn('control-btn', 'filter-back-btn', 'go back', 'is-flex is-justify-content-start'));
+                    selector.filterForm.before(UICtrl.createHeader('filter', 'main-filter-header'));
+                    // Include these when search btn is clicked
+                    selector.searchForm.before(UICtrl.createBtn('control-btn', 'search-back-btn', 'go back', 'is-flex is-justify-content-start'));
+                    selector.searchForm.before(UICtrl.createHeader('search', 'main-search-header'));
+                    // Hide main section
+                    selector.mainSectionWrapper.firstElementChild.classList.add('shrink');
+                    // Render data using JS
+                    UICtrl.renderQuizzes(1, UICtrl.global.quizzes);
+                    setTimeout(() => {
+                        selector.mainSectionWrapper.classList.toggle('hidden-options');
+                        // Show browse section
+                        selector.browseWrapper.classList.toggle('hidden-options');
+                        // Browse mode is active
+                        grab('body').setAttribute('data-screen', 'browse');
+                    }, 500);
+                }, 600);
+            }, 600);
         })
         .catch(error => {
-            console.log(error + 'loool');
-            // Handle when rejected (only network exceptions)
-            // if (err_count) {
-            //     setTimeout(() => {
-            //         submitGenerateFeedback.lastElementChild.classList.add('hide');
-            //         submitGenerateFeedback.firstElementChild.classList.remove('hide');
-            //         // Unlock input fields
-            //         form["quiz-name"].removeAttribute("readonly");
-            //         form["quiz-type"].removeAttribute("disabled");
-            //         form["quiz-answers"].removeAttribute("readonly");
-            //         form["quiz-questions"].removeAttribute("readonly");
-
-            //         form["quiz-generate"].classList.remove("disabled");
-            //     }, 500);
-            // }
+            if (error === true) {
+                // Unlock input fields & submit btn
+                form["quiz-name"].removeAttribute("readonly");
+                form["quiz-type"].removeAttribute("disabled");
+                form["quiz-answers"].removeAttribute("readonly");
+                form["quiz-questions"].removeAttribute("readonly");
+                setTimeout(() => {
+                    submitFeedback.lastElementChild.classList.add('hide');
+                    submitFeedback.firstElementChild.classList.remove('hide');
+                    UICtrl.inputInvalidRemove(form["quiz-name"]);
+                    form["quiz-generate"].classList.remove("disabled");
+                    // Hide loader
+                    UICtrl.removeLoader();
+                    UICtrl.removeElement(grab(selector.overlay));
+                    // Enable options
+                    selector.burger.classList.remove('disabled');
+                }, 1000);
+            } else {
+                // Get current data-screen mode
+                const screen = grab('body').getAttribute('data-screen');
+                if (screen === 'create') {
+                    // Hide loader
+                    UICtrl.removeLoader();
+                    UICtrl.removeElement(grab(selector.overlay));
+                    // Adjust UI display
+                    selector.createQuizWrapper.classList.toggle('is-clipped');
+                    // Show error message
+                    UICtrl.createErrorDiv(`${error.message}. Please try again later or contact app provider.`);
+                    setTimeout(() => {
+                        grab(selector.errorOverlay).remove();
+                        // Start mode is active
+                        grab('body').setAttribute('data-screen', '');
+                        // Adjust UI display
+                        selector.mainSectionWrapper.classList.toggle('hidden-options');
+                        selector.createQuizWrapper.classList.toggle('hidden-options');
+                        setTimeout(() => {
+                            selector.mainSectionWrapper.firstElementChild.classList.remove('shrink');
+                            // set tabindex="-1"
+                            UICtrl.addTabindex('create-tabindex');
+                            // reset form
+                            selector.createQuizForm.reset();
+                            selector.createQuizForm["quiz-select"].value = '';
+                            // disable submit btn
+                            if (!selector.createQuizForm["quiz-generate"].classList.contains('disabled')) {
+                                selector.createQuizForm["quiz-generate"].classList.add('disabled');
+                            }
+                            // Remove rendered UI components
+                            grab(selector.createQuizBackBtn).parentElement.remove();
+                            grab('.main-create-quiz-header').remove();
+                            if (grab(selector.formCreateQuizSubmitFeedback) !== null) {
+                                grab(selector.formCreateQuizSubmitFeedback).remove();
+                            }
+                            // Enable options
+                            selector.burger.classList.remove('disabled');
+                            // Adjust UI display
+                            selector.createQuizWrapper.classList.toggle('is-clipped');
+                        }, 600);
+                    }, 2000);
+                } else if (screen === 'quiz-confirmation') {
+                    // Show message overlay
+                    UICtrl.createErrorDiv(`${error.message}. Please try again later or contact app provider.`);
+                    setTimeout(() => {
+                        grab(selector.errorOverlay).remove();
+                        // Adjust UI display
+                        selector.generateConfirmation.firstElementChild.firstElementChild.classList.remove('start-loader');
+                        setTimeout(() => {
+                            selector.generateConfirmation.classList.add('hidden-options');
+                            // Adjust UI display
+                            selector.createQuizWrapper.classList.toggle('is-clipped');
+                            // Unlock input fields & submit btn
+                            form["quiz-name"].removeAttribute("readonly");
+                            form["quiz-type"].removeAttribute("disabled");
+                            form["quiz-answers"].removeAttribute("readonly");
+                            form["quiz-questions"].removeAttribute("readonly");
+                            form["quiz-generate"].classList.remove("disabled");
+                            // Enable options
+                            selector.burger.classList.remove('disabled');
+                            // Start mode is active
+                            grab('body').setAttribute('data-screen', '');
+                            // Adjust UI display
+                            selector.mainSectionWrapper.classList.toggle('hidden-options');
+                            selector.createQuizWrapper.classList.toggle('hidden-options');
+                            setTimeout(() => {
+                                selector.mainSectionWrapper.firstElementChild.classList.remove('shrink');
+                                // set tabindex="-1"
+                                UICtrl.addTabindex('create-tabindex');
+                                // reset form
+                                selector.createQuizForm.reset();
+                                selector.createQuizForm["quiz-select"].value = '';
+                                // disable submit btn
+                                if (!selector.createQuizForm["quiz-generate"].classList.contains('disabled')) {
+                                    selector.createQuizForm["quiz-generate"].classList.add('disabled');
+                                }
+                                // Remove rendered UI components
+                                grab(selector.createQuizBackBtn).parentElement.remove();
+                                grab('.main-create-quiz-header').remove();
+                                if (grab(selector.formCreateQuizSubmitFeedback) !== null) {
+                                    grab(selector.formCreateQuizSubmitFeedback).remove();
+                                }
+                            }, 600);
+                        }, 600);
+                    }, 2000);
+                }
+            }
         });
     } else {
-        // W tym miejscu, nie przechodzi przez front-end validation
-        // Pokaz error msg albo po prostu pozbadz sie else
+        // Show message overlay
+        UICtrl.createErrorDiv('Specify quiz parameters!');
+        setTimeout(() => {
+            grab(selector.errorOverlay).remove();
+        }, 2000);
     }
 });
 // export default UICtrl;

@@ -3,15 +3,16 @@
     --color-ghost-white: rgb(247, 247, 255);
     --color-copper-red: rgb(207, 95, 58);
     --color-mountain-meadow: rgb(34, 191, 149);
-    --color-carolina-blue: #279AF1;
-    --color-black-coral: #60656F;
-    --color-smoky-black: #131112;
+    --color-carolina-blue: rgb(39, 154, 241);
+    --color-black-coral: rgb(96, 101, 111);
+    --color-smoky-black: rgb(19, 17, 18);
     --color-black-olive: rgb(52, 54, 51);
     --color-space-cadet: rgb(32, 30, 80);
-    --color-corn: #F5E960;
+    --color-corn: rgb(245, 233, 96);
     /* --color-xiketic: #1C0B19; */
-    /* --navbar-height: 55px;
-    --navbar-offset: 75px;
+    --navbar-height: 72px;
+    --footer-height: 68px;
+    /* --navbar-offset: 75px;
     --main-body-height: 75vh;
     --day-tab-width: 96px; */
 }
@@ -23,39 +24,33 @@
 }
 
 /* General styling */
-html {
-    height: 100vh;
-    overflow: hidden;
-}
-
 body {
-    height: 100%;
-    overflow: hidden;
+    height: 100vh;
 }
-
 section {
-    height: calc(100% - 72px - 68px);
+    height: calc(100% - var(--navbar-height) - var(--footer-height));
 }
 
+
+
+
+/* Text */
 footer p {
     font-family: 'chiller', Arial, Helvetica, sans-serif !important;
     font-size: 1.5rem;
 }
+.logo-text {
+    font-family: 'chiller', Arial, Helvetica, sans-serif !important;
+    font-size: 2rem;
+}
 
-/* .logo {
-    display: flex;
-} */
+
 
 .logo-img {
     height: 42px;
     object-fit: cover;
 }
 
-.logo-text {
-    font-family: 'chiller', Arial, Helvetica, sans-serif !important;
-    font-size: 2rem;
-    
-}
 
 /* Utility classes */
 .hide {
@@ -63,113 +58,90 @@ footer p {
     opacity: 0;
 }
 
-/* Backgrounds, text colors */
-/* .background-columbia-blue-gradient {
-    background: rgb(210,236,255);
-    background: linear-gradient(rgba(210,236,255,1) 0%, rgba(129,166,211,1) 100%);
-} */
-
+/* Backgrounds */
 .background-ghost-white {
     background-color: var(--color-ghost-white);
 }
-
 .background-ghost-white-gradient {
-    background:  rgb(247, 247, 255);
     background: linear-gradient(rgb(247, 247, 255) 0%,  rgb(52, 54, 51) 100%);
 }
-
 .background-copper-red {
     background-color: var(--color-copper-red);
 }
-
 .background-copper-red-gradient {
-    background: rgb(207, 95, 58);
     background: linear-gradient(rgb(207, 95, 58) 0%,  rgb(255, 166, 136) 100%);
 }
-
 .background-mountain-meadow {
     background-color: var(--color-mountain-meadow);
 }
-
+.background-mountain-meadow-gradient {
+    background: linear-gradient(rgb(34, 191, 149) 0%,  rgb(0, 90, 66) 100%);
+}
 .background-carolina-blue {
     background-color: var(--color-carolina-blue);
 }
-
-/* .background-little-boy-blue-gradient {
-    background: rgb(129,166,211);
-    background: linear-gradient(rgba(93,115,167,1) 0%, rgba(28,11,25,1) 100%);
-} */
-
+.background-carolina-blue-gradient {
+    background: linear-gradient(rgb(39, 154, 241) 0%,  rgb(0, 92, 163) 100%);
+}
 .background-black-coral {
     background-color: var(--color-black-coral);
 }
-
+.background-black-coral-gradient {
+    background: linear-gradient(rgb(96, 101, 111) 0%,  rgb(61, 62, 63) 100%);
+}
 .background-smoky-black {
     background-color: var(--color-smoky-black);
 }
-
-/* .background-dark-cornflower-blue-gradient {
-    background: rgb(57,64,123);
-    background: linear-gradient(rgba(57,64,123,1) 0%, rgba(28,11,25,1) 100%);
-} */
-
+.background-smoky-black-gradient {
+    background: linear-gradient(rgb(19, 17, 18) 0%,  rgb(105, 105, 105) 100%);
+}
 .background-black-olive {
     background-color: var(--color-black-olive);
 }
-
-
+.background-black-olive-gradient {
+    background: linear-gradient(rgb(52, 54, 51) 0%,  rgb(128, 128, 128) 100%);
+}
 .background-space-cadet {
     background-color: var(--color-space-cadet);
 }
-
 .background-space-cadet-gradient {
-    background: rgb(32, 30, 80);
-    background: linear-gradient(rgb(32, 30, 80) 0%, #8E8EFF 100%);
+    background: linear-gradient(rgb(32, 30, 80) 0%, rgb(142, 142, 255) 100%);
 }
-
 .background-corn {
     background-color: var(--color-corn);
 }
-
-.text-ghost-white {
-    color: var(--color-ghost-white) !important;
+.background-corn-gradient {
+    background: linear-gradient(rgb(245, 233, 96) 0%, rgb(170, 160, 45) 100%);
 }
-
+/* Text colors */
+.text-ghost-white {
+    color: var(--color-ghost-white);
+}
 .text-copper-red {
     color: var(--color-copper-red);
 }
-
 .text-mountain-meadow {
     color: var(--color-mountain-meadow);
 }
-
 .text-carolina-blue {
     color: var(--color-carolina-blue);
 }
-
 .text-black-coral {
     color: var(--color-black-coral);
 }
-
 .text-smoky-black {
-    color: var(--color-smoky-black) !important;
+    color: var(--color-smoky-black);
 }
-
 .text-black-olive {
     color: var(--color-black-olive);
 }
-
 .text-space-cadet {
     color: var(--color-space-cadet);
 }
-
 .text-corn {
     color: var(--color-corn);
 }
-
 /* Buttons */
-
-
 .btn {
     text-decoration: none;
     font-size: 2rem;
@@ -330,12 +302,14 @@ option {
     cursor: not-allowed;
     background-color: var(--color-black-coral);
     transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
+    pointer-events: none;
 }
 
 .btn.disabled span,
 .btn:disabled span {
     color: var(--color-ghost-white);
     transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
+    pointer-events: none;
 }
 
 .btn.disabled:active::before,
@@ -591,11 +565,11 @@ option {
 #hint-wrapper {
     position: absolute;
     z-index: 10;
-    top: 72px;
+    top: var(--navbar-height);
     left: 0;
     bottom: 0;
     right: 0;
-    height: calc(100% - 72px - 68px);
+    height: calc(100% - var(--navbar-height) - var(--footer-height));
     width: 100%;
     /* padding: 2rem; */
     background-color: var(--color-ghost-white);
@@ -729,7 +703,7 @@ hr {
 #create-quiz-wrapper,
 #front-page-footer {
     max-height: 10000px;
-    height: calc(100% - 72px - 68px);
+    height: calc(100% - var(--navbar-height) - var(--footer-height));
     transition: all 0.5s ease;
 }
 
@@ -738,7 +712,7 @@ hr {
 #browse-wrapper,
 #quiz-info-wrapper,
 #create-quiz-wrapper {
-    height: calc(100% - 72px);
+    height: calc(100% - var(--navbar-height));
 }
 
 #front-page-footer {
@@ -794,7 +768,7 @@ hr {
 #front-page-footer.hidden-options {
     overflow: hidden;
     padding: 0 !important;
-    transform: translateY(68px);
+    transform: translateY(var(--footer-height));
     transition: all 0.5s ease;
 }
 
@@ -843,7 +817,7 @@ hr {
 
 #front-page-footer {
     position: absolute;
-    top: calc(100% - 68px);
+    top: calc(100% - var(--footer-height));
     left: 0;
     right: 0;
     bottom: 0;
