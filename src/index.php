@@ -1,19 +1,19 @@
 <?php include('src/includes/header.php'); ?>
 <!-- Main screen -->
-<section class="section background-space-cadet-gradient is-flex is-flex-direction-column is-justify-content-center py-2 is-relative" id="main-section-wrapper">
+<section class="section background-space-cadet-gradient is-flex is-flex-direction-column is-justify-content-center py-2 is-clipped is-relative" id="main-section-wrapper">
     <?php if (isset($_SESSION["user_loggedIn"]) && $_SESSION["user_loggedIn"] === true) : ?>
-        <div class="columns is-mobile m-0 has-text-centered is-vcentered is-multiline has-text-centered" id="logged-in-main-content-wrapper"></div>
+        <div class="columns is-mobile m-0 has-text-centered is-vcentered is-multiline has-text-centered scale-content" id="logged-in-main-content-wrapper"></div>
     <?php else : ?>
-        <div class="columns is-mobile m-0 has-text-centered is-vcentered is-multiline has-text-centered" id="front-page-main-content-wrapper"></div>
+        <div class="columns is-mobile m-0 has-text-centered is-vcentered is-multiline has-text-centered scale-content" id="front-page-main-content-wrapper"></div>
     <?php endif; ?>
 </section>
 <!-- Sign Up screen -->
 <section class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 is-relative hidden-options" id="register-wrapper">
-    <div class="feedback-wrapper background-smoky-black p-5 hidden-options" id="register-feedback-wrapper"></div>
-    <div class="background-smoky-black is-flex is-flex-direction-column is-justify-content-center has-text-centered p-5 hidden-options" id="hint-wrapper"></div>
+    <div class="feedback-wrapper background-black-coral-gradient p-5 hidden-options" id="register-feedback-wrapper"></div>
+    <div class="background-black-coral-gradient is-flex is-flex-direction-column is-justify-content-center has-text-centered position-guest-mode p-5 hidden-options" id="hint-wrapper"></div>
     <form action="register.php" method="POST" id="register-form">
         <div class="is-relative is-clipped">
-            <div class="input-wrapper">
+            <div class="input-wrapper is-relative">
                 <input class="register-tabindex" type="text" name="username" placeholder="e.g. user666*" tabindex="-1">
                 <span class="icon-left">
                     <i class="fas fa-user"></i>
@@ -23,7 +23,7 @@
                     <i class="fas fa-times icon-invalid hide"></i>
                 </span>
             </div>
-            <div class="input-wrapper">
+            <div class="input-wrapper is-relative">
                 <input class="register-tabindex" type="email" name="email" placeholder="e.g. user666@gmail.com*" tabindex="-1">
                 <span class="icon-left">
                     <i class="fas fa-at"></i>
@@ -33,7 +33,7 @@
                     <i class="fas fa-times icon-invalid hide"></i>
                 </span>
             </div>
-            <div class="input-wrapper">
+            <div class="input-wrapper is-relative">
                 <input class="register-tabindex" type="password" name="password" placeholder="Password*" tabindex="-1">
                 <span class="icon-left">
                     <i class="fas fa-key"></i>
@@ -43,7 +43,7 @@
                     <i class="fas fa-times icon-invalid hide"></i>
                 </span>
             </div>
-            <div class="input-wrapper">
+            <div class="input-wrapper is-relative">
                 <input class="register-tabindex" type="password" name="confirm-password" placeholder="Confirm Password*" tabindex="-1">
                 <span class="icon-left">
                     <i class="fas fa-key"></i>
@@ -63,10 +63,10 @@
 </section>
 <!-- Login screen -->
 <section class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 is-relative hidden-options" id="login-wrapper">
-    <div class="feedback-wrapper background-smoky-black p-5 hidden-options" id="login-feedback-wrapper"></div>
+    <div class="feedback-wrapper background-black-coral-gradient p-5 hidden-options" id="login-feedback-wrapper"></div>
     <form action="login.php" method="POST" id="login-form">
         <div class="is-relative is-clipped">
-            <div class="input-wrapper">
+            <div class="input-wrapper is-relative">
                 <input class="register-tabindex" type="email" name="email" placeholder="e.g. user666@gmail.com*" tabindex="-1">
                 <span class="icon-left">
                     <i class="fas fa-at"></i>
@@ -76,7 +76,7 @@
                     <i class="fas fa-times icon-invalid hide"></i>
                 </span>
             </div>
-            <div class="input-wrapper">
+            <div class="input-wrapper is-relative">
                 <input class="login-tabindex" type="password" name="password" placeholder="Password" tabindex="-1">
                 <span class="icon-left">
                     <i class="fas fa-key"></i>
@@ -147,11 +147,11 @@
 </section>
 <!-- Create quiz screen -->
 <section class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 is-relative hidden-options" id="create-quiz-wrapper">
-    <div class="generate-confirmation hidden-options background-mountain-meadow columns is-mobile m-0 p-5 has-text-centered is-vcentered is-multiline" id="generate-confirmation"></div>
-    <div class="feedback-wrapper background-smoky-black p-5 hidden-options" id="create-quiz-feedback-wrapper"></div>
-    <form action="generate.php" method="POST" id="create-quiz-form">
+    <div class="generate-confirmation hidden-options background-mountain-meadow-gradient columns is-mobile m-0 p-5 has-text-centered is-vcentered is-multiline" id="generate-confirmation"></div>
+    <div class="feedback-wrapper background-black-coral-gradient p-5 hidden-options" id="create-quiz-feedback-wrapper"></div>
+    <form action="generate.php" method="POST" id="create-quiz-form" class="mb-5">
         <div class="columns is-mobile m-0 is-vcentered is-multiline">
-            <div class="column is-12-mobile is-12 p-0 has-text-centered my-2 input-wrapper">
+            <div class="column is-12-mobile is-12 p-0 has-text-centered my-2 input-wrapper is-relative">
                 <input class="input py-1 create-tabindex" type="text" name="quiz-name" placeholder="NAME">
                 <span class="icon-left">
                     <i class="fas fa-pencil-alt"></i>
@@ -161,7 +161,7 @@
                     <i class="fas fa-times icon-invalid hide"></i>
                 </span>
             </div>
-            <div class="column is-12-mobile is-12 p-0 has-text-centered my-2 input-wrapper">
+            <div class="column is-12-mobile is-12 p-0 has-text-centered my-2 input-wrapper is-relative">
                 <div class="select text-ghost-white">
                     <select class="py-1" name="quiz-type">
                         <option selected disabled>QUIZ TYPE</option>
@@ -184,7 +184,7 @@
             </div>
             <div class="column is-12-mobile is-12 p-0 has-text-centered mt-2 mb-0 number-input-wrapper">
                 <label for="quiz-questions">questions</label>
-                <div class="number-input input-wrapper">
+                <div class="number-input input-wrapper is-relative">
                     <button class="decrement create-tabindex"></button>
                     <input id="quiz-questions" class="quantity input mx-3 create-tabindex" name="quiz-questions" min="4" max="10" step="1" value="4" type="number">
                     <button class="increment plus create-tabindex"></button>
@@ -196,7 +196,7 @@
             </div>
             <div class="column is-12-mobile is-12 p-0 has-text-centered my-2 number-input-wrapper">
                 <label for="quiz-answers">answers</label>
-                <div class="number-input input-wrapper">
+                <div class="number-input input-wrapper is-relative">
                     <button class="decrement create-tabindex"></button>
                     <input id="quiz-answers" class="quantity input mx-3 create-tabindex" name="quiz-answers" min="2" max="4" step="1" value="2" type="number">
                     <button class="increment plus create-tabindex"></button>
@@ -217,10 +217,10 @@
     </form>
 </section>
 <!-- Quiz view -->
-<section class="section background-ghost-white is-flex is-flex-direction-column is-justify-content-start p-5 hidden-options" id="quiz-view-wrapper">
+<section class="section background-ghost-white-gradient is-flex is-flex-direction-column is-justify-content-start position-guest-mode p-5 hidden-options" id="quiz-view-wrapper">
     <div id="quiz-content" class="column is-12-mobile is-12 p-0">
         <div class="is-flex is-justify-content-space-between is-align-items-center my-2">
-            <div id="question-text" class="quiz-view-question-text has-text-centered p-2"></div>
+            <div id="question-text" class="quiz-view-question-wrapper has-text-centered p-2"></div>
         </div>
         <div class="is-flex is-justify-content-space-between is-align-items-center">
             <form action="quiz.php" method="POST" id="quiz-form">
@@ -233,7 +233,7 @@
     </div>
 </section>
 <!-- Options -->
-<section class="section background-ghost-white-gradient is-flex is-flex-direction-column is-justify-content-center p-5 hidden-options" id="options-wrapper">
+<section class="section background-ghost-white-gradient is-flex is-flex-direction-column is-justify-content-center position-guest-mode p-5 hidden-options" id="options-wrapper">
     <ul>
         <li>
             <a id="options-settings-btn" class="btn">

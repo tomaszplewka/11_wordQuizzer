@@ -1,92 +1,64 @@
 <?php
-// Start session
-session_start();
-// Load config
-require_once("config/config.php");
+require('core/init.php');
 // Use namespaces
 use WordQuizzer\Database;
-// Load dependencies
-require_once(realpath("vendor/autoload.php"));
-// Initialize db
-$db = new Database();
-// Initialize vars
-$quizName = $quizType = $quizAnswers = $quizQuestions = $userID = '';
-$quizName_err = $quizType_err = $quizAnswers_err = $quizQuestions_err = $db_err = '';
-$output = [
-    "data" => ["php_error" => false, "msg" => ''],
-    "db" => ["php_error" => false, "msg" => ''],
-    "session" => ["loggedIn" => true, "msg" => '']
-];
-
-// ZAMIEN WSZYSTKO NA TRANSAKCJE !!!!
-
-
 // Process POST data
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // User fetches data
+$contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
+if ($_SERVER["REQUEST_METHOD"] == "POST" && $contentType === "application/json") {
+    // Initialize db
+    $db = new Database();
+    // Initialize vars
+    $quizName = $quizType = $quizAnswers = $quizQuestions = $userID = '';
+    $quizName_err = $quizType_err = $quizAnswers_err = $quizQuestions_err = $db_err = '';
+    $output = [
+        "data" => ["php_error" => false, "msg" => '', "field" => []],
+        "db" => ["php_error" => false, "msg" => '', "field" => "db"],
+        "session" => ["loggedIn" => true, "msg" => '', "field" => "session"]
+    ];
+    // Receive the RAW post data.
+    $content = trim(file_get_contents("php://input"));
     // Decode json data
-    $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
-    if ($contentType === "application/json") {
-        //Receive the RAW post data.
-        $content = trim(file_get_contents("php://input"));
-        // Decode
-        $decoded = json_decode($content, true);
-        //If json_decode failed, the JSON is invalid.
+    $decoded = json_decode($content, true);
+    //If json_decode failed, the JSON is invalid.
+    if (is_array($decoded)) {
         try {
-            if (is_array($decoded)) {
-                // Set local var
-                $finalScore = $decoded["finalScore"];
-                $quizID = (int) $decoded["quizID"];
-                $sql = "UPDATE quiz SET score = :finalScore, updated_at = now() WHERE quiz_id = :quizID";
-                if ($db->queryDB($sql)) {
-                    // Bind
-                    $db->bind(":finalScore", $finalScore);
-                    $db->bind(":quizID", $quizID);
-                    // echo json_encode($quizID);
-                    // exit;
-                    if ($db->execute()) {
-                        // Tu wszystko powinno byc ok
-                        $output["data"]["msg"] = "Quiz has been updated.";
-                        echo json_encode($output);
-                        exit;
-                    } else {
-                        $db_err = "Database error: " . $db->errInfo() . " Please try again later.";
-                        $output["db"]["php_error"] = true;
-                        $output["db"]["msg"] = $db_err;
-                        echo json_encode($output);
-                        exit;
-                    }
+            // Begin transaction
+            $db->transactionStart();
+            // Set local var
+            $finalScore = $decoded["finalScore"];
+            $quizID = (int) $decoded["quizID"];
+            $sql = "UPDATE quiz SET score = :finalScore, updated_at = now() WHERE quiz_id = :quizID";
+            if ($db->queryDB($sql)) {
+                // Bind
+                $db->bind(":finalScore", $finalScore);
+                $db->bind(":quizID", $quizID);
+                if ($db->execute()) {
+                    $db->transactionCommit();
+                    $output["data"]["msg"] = "Quiz has been updated.";
                 } else {
-                    // Send error back to user.
-                    $output["data"]["php_error"] = true;
-                    $output["data"]["msg"] = "Data is not correctly formatted.";
-                    echo json_encode($output);
-                    exit;
+                    $db_err = "Database error: " . $db->errInfo() . " Please try again later.";
+                    $output["db"]["php_error"] = true;
+                    $output["db"]["msg"] = $db_err;
                 }
             } else {
-                // Send error back to user.
-                $output["data"]["php_error"] = true;
-                $output["data"]["msg"] = "Data is not correctly formatted.";
-                echo json_encode($output);
-                exit;
+                $db_err = "Database error: " . $db->errInfo() . " Please try again later.";
+                $output["db"]["php_error"] = true;
+                $output["db"]["msg"] = $db_err;
             }
         } catch (\Throwable $th) {
             // Set output
-            $db_err = "Database error: " . $th->getMessage() . " Please try again later.";
+            $db_err = "Database error: " . $db->errInfo() . " Please try again later.";
             $output["db"]["php_error"] = true;
             $output["db"]["msg"] = $db_err;
-            echo json_encode($output);
-            exit;
         }
+    } else {
+        $output["data"]["php_error"] = true;
+        $output["data"]["msg"] = "Data is not correctly formatted.";
     }
-} else {
-    // User not authorized
-    // Redirect
-    $output["session"]["loggedIn"] = false;
-    $output["session"]["msg"] = "This is not POST request";
+    // Close connection
+    unset($db);
+    // Send back the output to front-end
     echo json_encode($output);
-    exit;
+} else {
+    header("Location: index.php");
 }
-
-
-// W RAMACH ERROR HANDLING -- JEZELI TUTAJ JEST JAKIS BLAD -- SERVER IS DOWN -- SHOW MESSAGE TO A USER IN A FORM OF WHOLE SCREEN WRAPPER

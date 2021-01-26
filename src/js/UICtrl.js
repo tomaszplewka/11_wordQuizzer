@@ -195,13 +195,13 @@ const UICtrl = (function() {
         targetForm.firstElementChild.appendChild(div);
     };
     const createLoader = function(target) {
-        let div = createDiv('is-flex is-flex-direction-column is-justify-content-center is-align-items-center loader-wrapper2');
+        let div = createDiv('is-flex is-flex-direction-column is-justify-content-center is-align-items-center secondary-loader-wrapper');
         let loader = createDiv('loader');
         div.appendChild(loader);
         target.appendChild(div);
     };
     const removeLoader = function() {
-        const loader = document.querySelector('.loader-wrapper2');
+        const loader = document.querySelector('.secondary-loader-wrapper');
         loader.classList.add('shrink');
         setTimeout(() => {
             loader.remove();
@@ -249,7 +249,7 @@ const UICtrl = (function() {
     const createSubmitBtn = function() {
         let btn = document.createElement('button');
         setAttributes(btn, {"id": "quiz-form-submit", "class": "control-btn", "type": "submit", "form": "quiz-form", "style": "display: none; background-color: transparent;"});
-        const span = createSpan('text-smoky-black');
+        const span = createSpan();
         span.textContent = 'submit';
         btn.appendChild(span);
         return btn;
@@ -268,14 +268,14 @@ const UICtrl = (function() {
     // Render UI components & HTML templates
     const showMainLogo = function() {
         return `
-        <div class="perspective-box-far" id="front-page-logo">
-            <div class="face front">
+        <div class="perspective-box-far logo-dimensions" id="front-page-logo">
+            <div class="face logo-dimensions front">
                 <img src="imgs/logo-main.png" alt="">
             </div>
-            <div class="face top">
+            <div class="face logo-dimensions top">
                 <img src="imgs/logo-main.png" alt="">
             </div>
-            <div class="face left">
+            <div class="face logo-dimensions left">
                 <img src="imgs/logo-main.png" alt="">
             </div>
         </div>
@@ -292,7 +292,7 @@ const UICtrl = (function() {
                     <i class="fas fa-exclamation fa-2x"></i>
                 </div>
                 <div class="column is-12-mobile is-12 text-copper-red has-text-centered p-0">
-                    <p class="${target}-error-text"></p>
+                    <p class="${target}-error-text text-copper-red"></p>
                 </div>
             </div>
         </div>
@@ -421,10 +421,10 @@ const UICtrl = (function() {
                         </div>
                     </div>
                 </div>
-                <div data-id="${quizID}" id ="" class="more-info-wrapper scaleY background-ghost-white columns is-mobile m-0 has-text-centered p-5 is-multiline is-flex is-flex-direction-column is-justify-content-start" >
+                <div data-id="${quizID}" id ="" class="more-info-wrapper scaleY background-corn-gradient columns is-mobile m-0 has-text-centered p-5 is-multiline is-flex is-flex-direction-column is-justify-content-start" >
                     <div class="is-flex is-justify-content-start column is-12-mobile is-12 p-0" >
                         <a id="" class="control-btn more-info-back-btn" >
-                            <span class="text-smoky-black">go back</span>
+                            <span class="">go back</span>
                         </a>
                     </div>
                     <div class="column is-12-mobile is-12 p-0 my-5" >
@@ -478,7 +478,7 @@ const UICtrl = (function() {
     };
     const createAnswer = function(answer, index) {
         return `
-        <div class="quiz-view-answer-text has-text-centered p-2 m-0">
+        <div class="quiz-view-answer-wrapper has-text-centered p-2 m-0">
             <div class="is-relative">
                 <input type="radio" name="${answer.q_ID}" value="${index}" id="${answer.a_ID}" class="btn m-0 p-0">
                 <label for="${answer.a_ID}">
@@ -490,7 +490,7 @@ const UICtrl = (function() {
     };
     const createQuestion = function(target, content) {
         target.innerHTML = '';
-        const question = createPara('quiz-view-header-text');
+        const question = createPara('quiz-view-question');
         question.textContent = content.toUpperCase();
         target.appendChild(question);
     };
@@ -524,7 +524,7 @@ const UICtrl = (function() {
     };
     const createBrowseLogo = function() {
         return `
-        <div class="box-floating" id="welcome-logo-browse">
+        <div class="box-floating logo-dimensions" id="welcome-logo-browse">
             <div class="db-disc-top">
                 <img src="imgs/logo-browse.png" alt="browse logo">
             </div>
@@ -539,8 +539,8 @@ const UICtrl = (function() {
     };
     const createCreateQuizLogo = function() {
         return `
-        <div class="box-floating" id="welcome-logo-new-quiz">
-            <div class="new-quiz">
+        <div class="box-floating logo-dimensions" id="">
+            <div class="create-quiz-logo">
                 <img src="imgs/logo-create-quiz.png" alt="">
             </div>
         </div>
@@ -656,6 +656,10 @@ const UICtrl = (function() {
         target.nextElementSibling.nextElementSibling.firstElementChild.classList.remove('hide');
         target.classList.add('input-valid');
     };
+    const inputValidRemove = function(target) {
+        target.nextElementSibling.nextElementSibling.firstElementChild.classList.add('hide');
+        target.classList.remove('input-valid');
+    };
     const inputInvalid = function(target) {
         if (target.classList.contains('input-valid')) {
             target.nextElementSibling.nextElementSibling.firstElementChild.classList.add('hide');
@@ -667,6 +671,16 @@ const UICtrl = (function() {
     const inputInvalidRemove = function(target) {
         target.nextElementSibling.nextElementSibling.lastElementChild.classList.add('hide');
         target.classList.remove('input-invalid');
+    };
+    const stripValidation = function(inputs) {
+        const form = UISelectors.createQuizForm;
+        inputs.forEach(input => {
+            if (form[input].classList.contains('input-invalid')) {
+                inputInvalidRemove(form[input]);
+            } else {
+                inputValidRemove(form[input]);
+            }
+        });
     };
     const hintFeedback = function(input, valid = true) {
         const p = document.querySelector(`p[data-id="${input}"]`);
@@ -705,12 +719,17 @@ const UICtrl = (function() {
         // Count errors
         let err_count = 0;
         Object.keys(data).forEach(input => {
-            if ((data[input].field !== 'db') && (data[input].field !== 'session')) {
+            if ((data[input].field !== 'db') && (data[input].field !== 'quiz-db') && (data[input].field !== 'session')) {
                 if (checkField(data[input])) {
                     err_count ++;
                     inputInvalid(targetForm[data[input].field]);
                     if (target === 'register') {
                         hintFeedback(data[input].field, false);
+                    }
+                } else {
+                    inputValid(targetForm[data[input].field]);
+                    if (target === 'register') {
+                        hintFeedback(data[input].field);
                     }
                 }
             }
@@ -971,7 +990,7 @@ const UICtrl = (function() {
                     UICtrl.removeLoader();
                     UICtrl.removeElement(grab(selector.overlay));
                     // Show message overlay
-                    UICtrl.createErrorDiv();
+                    UICtrl.createErrorDiv(`${error.message}. Please try again later or contact app provider.`);
                     setTimeout(() => {
                         grab(selector.errorOverlay).remove();
                         // Adjust UI depending on where user currently is
@@ -1142,15 +1161,15 @@ const UICtrl = (function() {
                     selector.options.classList.toggle('hidden-options');
                     // Rerender UI display
                     UICtrl.loadStartScreen();
-                    // Remove UI components
-                    selector.options.firstElementChild.firstElementChild.remove();
-                    selector.options.firstElementChild.firstElementChild.remove();
-                    selector.options.firstElementChild.firstElementChild.remove();
-                    selector.options.classList.remove('options-welcome');
                     setTimeout(() => {
                         // Remove loader
                         UICtrl.removeLoader();
                         UICtrl.removeElement(grab(selector.overlay));
+                        // Remove UI components
+                        selector.options.firstElementChild.firstElementChild.remove();
+                        selector.options.firstElementChild.firstElementChild.remove();
+                        selector.options.firstElementChild.firstElementChild.remove();
+                        selector.options.classList.remove('options-welcome');
                         // Enable options
                         selector.burger.classList.remove('disabled');
                     }, 250);
@@ -1161,7 +1180,7 @@ const UICtrl = (function() {
                 UICtrl.removeLoader();
                 UICtrl.removeElement(grab(selector.overlay));
                 // Show message overlay
-                UICtrl.createErrorDiv();
+                UICtrl.createErrorDiv(`${error.message}. Please try again later or contact app provider.`);
                 setTimeout(() => {
                     grab(selector.errorOverlay).remove();
                     selector.burger.classList.toggle('hide');
@@ -1196,7 +1215,7 @@ const UICtrl = (function() {
                     // Hide loader
                     removeLoader();
                     // Show message overlay
-                    createErrorDiv();
+                    createErrorDiv(`${error.message}. Please try again later or contact app provider.`);
                     setTimeout(() => {
                         document.querySelector(UISelectors.errorOverlay).remove();
                         loadStartScreen();
@@ -1232,7 +1251,7 @@ const UICtrl = (function() {
                     // Hide loader
                     removeLoader();
                     // Show message overlay
-                    createErrorDiv();
+                    createErrorDiv(`${error.message}. Please try again later or contact app provider.`);
                     setTimeout(() => {
                         document.querySelector(UISelectors.errorOverlay).remove();
                         loadStartScreen();
@@ -1292,7 +1311,9 @@ const UICtrl = (function() {
         appendAnswer,
         createQuestion,
         createQuestionFeedback,
-        questionsTemplate
+        questionsTemplate,
+        inputValidRemove,
+        stripValidation
     };
 })();
 UICtrl.init();
@@ -1700,7 +1721,7 @@ document.addEventListener('click', e => {
             UICtrl.removeLoader();
             UICtrl.removeElement(grab(selector.overlay));
             // Show message overlay
-            UICtrl.createErrorDiv();
+            UICtrl.createErrorDiv(`${error.message}. Please try again later or contact app provider.`);
             setTimeout(() => {
                 grab(selector.errorOverlay).remove();
                 // Adjust UI display
@@ -1902,6 +1923,8 @@ document.addEventListener('click', e => {
             // reset form
             selector.createQuizForm.reset();
             selector.createQuizForm["quiz-select"].value = '';
+            // Strip validation classes
+            UICtrl.stripValidation(["quiz-name", "quiz-type", "quiz-questions", "quiz-answers"]);
             // disable submit btn
             if (!selector.createQuizForm["quiz-generate"].classList.contains('disabled')) {
                 selector.createQuizForm["quiz-generate"].classList.add('disabled');
@@ -2168,7 +2191,7 @@ selector.registerForm.addEventListener('submit', e => {
             UICtrl.removeLoader();
             UICtrl.removeElement(grab(selector.overlay));
             // Show message overlay
-            UICtrl.createErrorDiv();
+            UICtrl.createErrorDiv(`${error.message}. Please try again later or contact app provider.`);
             setTimeout(() => {
                 grab(selector.errorOverlay).remove();
                 // Adjust UI display
@@ -2375,7 +2398,7 @@ selector.loginForm.addEventListener('submit', e => {
             UICtrl.removeLoader();
             UICtrl.removeElement(grab(selector.overlay));
             // Show message overlay
-            UICtrl.createErrorDiv();
+            UICtrl.createErrorDiv(`${error.message}. Please try again later or contact app provider.`);
             setTimeout(() => {
                 grab(selector.errorOverlay).remove();
                 // Adjust UI display
@@ -2413,7 +2436,7 @@ selector.quizForm.addEventListener('submit', e => {
         // Disable options
         selector.burger.classList.add('disabled');
         // Show loader
-        selector.browseWrapper.appendChild(UICtrl.createDiv(selector.overlay.slice(1)));
+        selector.quizViewWrapper.appendChild(UICtrl.createDiv(selector.overlay.slice(1)));
         UICtrl.createLoader(grab(selector.overlay));
         // Adjust UI display
         selector.quizContent.classList.toggle('hidden-options');
@@ -2473,7 +2496,7 @@ selector.quizForm.addEventListener('submit', e => {
             UICtrl.removeLoader();
             UICtrl.removeElement(grab(selector.overlay));
             // Show message overlay
-            UICtrl.createErrorDiv();
+            UICtrl.createErrorDiv(`${error.message}. Please try again later or contact app provider.`);
             setTimeout(() => {
                 grab(selector.errorOverlay).remove();
                 // Reset global vars
@@ -2510,7 +2533,8 @@ selector.quizForm.addEventListener('submit', e => {
             grab(selector.errorOverlay).remove();
         }, 2000);
     }
-});// submit generate form
+});
+// submit generate form
 selector.createQuizForm.addEventListener('submit', e => {
     // Prevent the default form submit
     e.preventDefault();
@@ -2543,7 +2567,7 @@ selector.createQuizForm.addEventListener('submit', e => {
         // Lock input fields & submit btn
         form["quiz-name"].setAttribute("readonly", true);
         form["quiz-type"].setAttribute("disabled", true);
-        form["quiz-select"].value = form["quiz-type"].value;
+        form["quiz-select"].value = quizType;
         form["quiz-answers"].setAttribute("readonly", true);
         form["quiz-questions"].setAttribute("readonly", true);
         form["quiz-generate"].classList.add("disabled");
@@ -2570,6 +2594,7 @@ selector.createQuizForm.addEventListener('submit', e => {
                 UICtrl.removeLoader();
                 UICtrl.removeElement(grab(selector.overlay));
                 // Adjust UI display
+                selector.createQuizWrapper.scrollTop = 0;
                 selector.createQuizWrapper.classList.toggle('is-clipped');
                 // Render UI
                 UICtrl.generateQuizConfirmation();
@@ -2711,61 +2736,71 @@ selector.createQuizForm.addEventListener('submit', e => {
         })
         .then(response => response.json() )
         .then(docs => {
-            UICtrl.global.quizzes = docs['snapshot'];
-            selector.generateConfirmation.lastElementChild.lastElementChild.textContent = 'Done!';
-            selector.generateConfirmation.firstElementChild.firstElementChild.classList.remove('start-loader');
-            setTimeout(() => {
-                // Unlock input fields & submit btn
-                form["quiz-name"].removeAttribute("readonly");
-                form["quiz-type"].removeAttribute("disabled");
-                form["quiz-answers"].removeAttribute("readonly");
-                form["quiz-questions"].removeAttribute("readonly");
-                form["quiz-generate"].classList.remove("disabled");
-                // Enable options
-                selector.burger.classList.remove('disabled');
-                // Adjust UI display
-                selector.generateConfirmation.classList.add('hidden-options');
-                selector.createQuizWrapper.classList.toggle('is-clipped');
-                selector.mainSectionWrapper.classList.toggle('hidden-options');
-                selector.createQuizWrapper.classList.toggle('hidden-options');
+            // Count errors
+            let err_count = 0;
+            Object.keys(docs).forEach(input => {
+                if (docs[input].php_error) { err_count ++; }
+            });
+            if (err_count) { throw new Error(docs.db.msg); }
+            else {
+                UICtrl.global.quizzes = docs['snapshot'];
+                selector.generateConfirmation.lastElementChild.lastElementChild.textContent = 'Done!';
+                selector.generateConfirmation.firstElementChild.firstElementChild.classList.remove('start-loader');
                 setTimeout(() => {
-                    selector.mainSectionWrapper.firstElementChild.classList.remove('shrink');
-                    // set tabindex="-1"
-                    UICtrl.addTabindex('create-tabindex');
-                    // reset form
-                    selector.createQuizForm.reset();
-                    selector.createQuizForm["quiz-select"].value = '';
-                    // disable submit btn
-                    if (!selector.createQuizForm["quiz-generate"].classList.contains('disabled')) {
-                        selector.createQuizForm["quiz-generate"].classList.add('disabled');
-                    }
-                    // Remove rendered UI components
-                    grab(selector.createQuizBackBtn).parentElement.remove();
-                    grab('.main-create-quiz-header').remove();
-                    if (grab(selector.formCreateQuizSubmitFeedback) !== null) {
-                        grab(selector.formCreateQuizSubmitFeedback).remove();
-                    }
-                    // Render UI display
-                    selector.filterWrapper.before(UICtrl.createBrowseOptions());
-                    // Include these when filter btn is clicked
-                    selector.filterForm.before(UICtrl.createBtn('control-btn', 'filter-back-btn', 'go back', 'is-flex is-justify-content-start'));
-                    selector.filterForm.before(UICtrl.createHeader('filter', 'main-filter-header'));
-                    // Include these when search btn is clicked
-                    selector.searchForm.before(UICtrl.createBtn('control-btn', 'search-back-btn', 'go back', 'is-flex is-justify-content-start'));
-                    selector.searchForm.before(UICtrl.createHeader('search', 'main-search-header'));
-                    // Hide main section
-                    selector.mainSectionWrapper.firstElementChild.classList.add('shrink');
-                    // Render data using JS
-                    UICtrl.renderQuizzes(1, UICtrl.global.quizzes);
+                    // Unlock input fields & submit btn
+                    form["quiz-name"].removeAttribute("readonly");
+                    form["quiz-type"].removeAttribute("disabled");
+                    form["quiz-answers"].removeAttribute("readonly");
+                    form["quiz-questions"].removeAttribute("readonly");
+                    form["quiz-generate"].classList.remove("disabled");
+                    // Enable options
+                    selector.burger.classList.remove('disabled');
+                    // Adjust UI display
+                    selector.generateConfirmation.classList.add('hidden-options');
+                    selector.createQuizWrapper.classList.toggle('is-clipped');
+                    selector.mainSectionWrapper.classList.toggle('hidden-options');
+                    selector.createQuizWrapper.classList.toggle('hidden-options');
                     setTimeout(() => {
-                        selector.mainSectionWrapper.classList.toggle('hidden-options');
-                        // Show browse section
-                        selector.browseWrapper.classList.toggle('hidden-options');
-                        // Browse mode is active
-                        grab('body').setAttribute('data-screen', 'browse');
-                    }, 500);
+                        selector.mainSectionWrapper.firstElementChild.classList.remove('shrink');
+                        // set tabindex="-1"
+                        UICtrl.addTabindex('create-tabindex');
+                        // reset form
+                        selector.createQuizForm.reset();
+                        selector.createQuizForm["quiz-select"].value = '';
+                        // disable submit btn
+                        if (!selector.createQuizForm["quiz-generate"].classList.contains('disabled')) {
+                            selector.createQuizForm["quiz-generate"].classList.add('disabled');
+                        }
+                        // Remove rendered UI components
+                        grab(selector.createQuizBackBtn).parentElement.remove();
+                        grab('.main-create-quiz-header').remove();
+                        if (grab(selector.formCreateQuizSubmitFeedback) !== null) {
+                            grab(selector.formCreateQuizSubmitFeedback).remove();
+                        }
+                        // Render UI display
+                        selector.filterWrapper.before(UICtrl.createBrowseOptions());
+                        // Include these when filter btn is clicked
+                        selector.filterForm.before(UICtrl.createBtn('control-btn', 'filter-back-btn', 'go back', 'is-flex is-justify-content-start'));
+                        selector.filterForm.before(UICtrl.createHeader('filter', 'main-filter-header'));
+                        // Include these when search btn is clicked
+                        selector.searchForm.before(UICtrl.createBtn('control-btn', 'search-back-btn', 'go back', 'is-flex is-justify-content-start'));
+                        selector.searchForm.before(UICtrl.createHeader('search', 'main-search-header'));
+                        // Hide main section
+                        selector.mainSectionWrapper.firstElementChild.classList.add('shrink');
+                        // Render data using JS
+                        UICtrl.renderQuizzes(1, UICtrl.global.quizzes);
+                        setTimeout(() => {
+                            selector.mainSectionWrapper.classList.toggle('hidden-options');
+                            // Show browse section
+                            selector.browseWrapper.classList.toggle('hidden-options');
+                            // Browse mode is active
+                            grab('body').setAttribute('data-screen', 'browse');
+                            // Strip validation classes
+                            UICtrl.stripValidation(["quiz-name", "quiz-type", "quiz-questions", "quiz-answers"]);
+                        }, 500);
+                    }, 600);
                 }, 600);
-            }, 600);
+            }
         })
         .catch(error => {
             if (error === true) {
@@ -2777,14 +2812,15 @@ selector.createQuizForm.addEventListener('submit', e => {
                 setTimeout(() => {
                     submitFeedback.lastElementChild.classList.add('hide');
                     submitFeedback.firstElementChild.classList.remove('hide');
-                    UICtrl.inputInvalidRemove(form["quiz-name"]);
+                    // Strip validation classes
+                    UICtrl.stripValidation(["quiz-name", "quiz-type", "quiz-questions", "quiz-answers"]);
                     form["quiz-generate"].classList.remove("disabled");
                     // Hide loader
                     UICtrl.removeLoader();
                     UICtrl.removeElement(grab(selector.overlay));
                     // Enable options
                     selector.burger.classList.remove('disabled');
-                }, 1000);
+                }, 2000);
             } else {
                 // Get current data-screen mode
                 const screen = grab('body').getAttribute('data-screen');

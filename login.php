@@ -1,33 +1,27 @@
 <?php
-// Start session
-session_start();
-// Load config
-require_once("config/config.php");
+require('core/init.php');
 // Use namespaces
 use WordQuizzer\Database;
-// Load dependencies
-require_once(realpath("vendor/autoload.php"));
-// Initialize db
-$db = new Database();
-// Initialize vars
-$email = $password = $id = '';
-$email_err = $password_err = '';
-$output =   [
-    "email" => ["php_error" => false, "msg" => '', "field" => "email"],
-    "password" => ["php_error" => false, "msg" => '', "field" => "password"],
-    "db" => ["php_error" => false, "msg" => '', "field" => "db"],
-    "session" => ["loggedIn" => false, "user_id" => null, "username" => '', "msg" => '', "field" => "session"]
-];
-// Check if user is already logged in, if so redirect to welcome screen
-if (isset($_SESSION["user_loggedIn"]) && $_SESSION["user_loggedIn"] === true) {
-    $output["session"]["loggedIn"] = true;
-    $output["session"]["msg"] = "This user is already logged in";
-    echo json_encode($output);
-    // session_unset();
-    exit;
-}
 // Process POST data
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Initialize db
+    $db = new Database();
+    // Initialize vars
+    $email = $password = $id = '';
+    $email_err = $password_err = '';
+    $output =   [
+        "email" => ["php_error" => false, "msg" => '', "field" => "email"],
+        "password" => ["php_error" => false, "msg" => '', "field" => "password"],
+        "db" => ["php_error" => false, "msg" => '', "field" => "db"],
+        "session" => ["loggedIn" => false, "user_id" => null, "username" => '', "msg" => '', "field" => "session"]
+    ];
+    // Check if user is already logged in, if so redirect to welcome screen
+    if (isset($_SESSION["user_loggedIn"]) && $_SESSION["user_loggedIn"] === true) {
+        $output["session"]["loggedIn"] = true;
+        $output["session"]["msg"] = "This user is already logged in";
+        echo json_encode($output);
+        exit;
+    }
     // Sanitize and validate email - check if empty
     $email = filter_var($_POST["email"], FILTER_SANITIZE_EMAIL);
     if (empty(trim($email))) { // username invalid -- username is empty
@@ -102,6 +96,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     // Close connection
     unset($db);
+    // Send back the output to front-end
+    echo json_encode($output);
+} else {
+    header("Location: index.php");
 }
-// Send back the output to front-end
-echo json_encode($output);

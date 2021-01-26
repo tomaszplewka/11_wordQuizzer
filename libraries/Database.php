@@ -7,7 +7,6 @@ use \PDOException;
 
 class Database
 {
-
     private $host = DB_HOST;
     private $user = DB_USER;
     private $password = DB_PASSWORD;
@@ -97,10 +96,12 @@ class Database
     {
         return $this->dbhandler->beginTransaction();
     }
+
     public function transactionCommit()
     {
         return $this->dbhandler->commit();
     }
+
     public function transactionRollBack()
     {
         return $this->dbhandler->rollBack();

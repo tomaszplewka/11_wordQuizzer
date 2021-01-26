@@ -1,39 +1,33 @@
 <?php
-// Start session
-session_start();
-// Load config
-require_once("config/config.php");
+require('core/init.php');
 // Use namespaces
 use WordQuizzer\Database;
-// Load dependencies
-require_once(realpath("vendor/autoload.php"));
-// Initialize db
-$db = new Database();
-// Initialize vars
-$quizName = $quizType = $quizAnswers = $quizQuestions = $userID = '';
-$quizName_err = $quizType_err = $quizAnswers_err = $quizQuestions_err = $db_err = '';
-$output = [
-    "quiz-name" => ["php_error" => false, "msg" => '', "field" => "quiz-name"],
-    "quiz-type" => ["php_error" => false, "msg" => '', "field" => "quiz-type"],
-    "quiz-answers" => ["php_error" => false, "msg" => '', "field" => "quiz-answers"],
-    "quiz-questions" => ["php_error" => false, "msg" => '', "field" => "quiz-questions"],
-    "db" => ["php_error" => false, "msg" => '', "field" => "quiz-db"],
-    "session" => ["loggedIn" => true, "msg" => '', "field" => "session"]
-];
-// Check if user is logged in, if not redirect to login page
-if (!isset($_SESSION["user_loggedIn"]) && !($_SESSION["user_loggedIn"] === true)) {
-    $output["session"]["loggedIn"] = false;
-    $output["session"]["msg"] = "This user is not logged in";
-    echo json_encode($output);
-    exit;
-}
-
+// Handle data
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Initialize db
+    $db = new Database();
+    // Initialize vars
+    $quizName = $quizType = $quizAnswers = $quizQuestions = $userID = '';
+    $quizName_err = $quizType_err = $quizAnswers_err = $quizQuestions_err = $db_err = '';
+    $output = [
+        "quiz-name" => ["php_error" => false, "msg" => '', "field" => "quiz-name"],
+        "quiz-type" => ["php_error" => false, "msg" => '', "field" => "quiz-type"],
+        "quiz-answers" => ["php_error" => false, "msg" => '', "field" => "quiz-answers"],
+        "quiz-questions" => ["php_error" => false, "msg" => '', "field" => "quiz-questions"],
+        "db" => ["php_error" => false, "msg" => '', "field" => "quiz-db"],
+        "session" => ["loggedIn" => true, "msg" => '', "field" => "session"]
+    ];
+    // Check if user is logged in
+    if (!isset($_SESSION["user_loggedIn"]) && !($_SESSION["user_loggedIn"] === true)) {
+        $output["session"]["loggedIn"] = false;
+        $output["session"]["msg"] = "This user is not logged in";
+        echo json_encode($output);
+        exit;
+    }
     // Sanitize and validate quiz name
     $quizName = filter_var($_POST["quiz-name"], FILTER_SANITIZE_STRING);
     if (empty(trim($quizName))) {
         $quizName_err = "Please give a name to your quiz.";
-        // Send error msg to front end
         $output["quiz-name"]["php_error"] = true;
         $output["quiz-name"]["msg"] = $quizName_err;
     } else {
@@ -68,7 +62,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $quizType = filter_var($_POST["quiz-select"], FILTER_SANITIZE_STRING);
     if (empty(trim($_POST["quiz-select"])) || trim($_POST["quiz-select"]) === "QUIZ TYPE") {
         $quizType_err = "Please select valid quiz type.";
-        // Send err msg to front end
         $output["quiz-type"]["php_error"] = true;
         $output["quiz-type"]["msg"] = $quizType_err;
     } else {
@@ -78,7 +71,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $quizAnswers = filter_var($_POST["quiz-answers"], FILTER_SANITIZE_NUMBER_INT);
     if (empty(trim($_POST["quiz-answers"])) || trim($_POST["quiz-answers"]) < 2  || trim($_POST["quiz-answers"]) > 4) {
         $quizAnswers_err = "Please select valid number of quiz answers.";
-        // Send err msg to front end
         $output["quiz-answers"]["php_error"] = true;
         $output["quiz-answers"]["msg"] = $quizAnswers_err;
     } else {
@@ -88,7 +80,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $quizQuestions = filter_var($_POST["quiz-questions"], FILTER_SANITIZE_NUMBER_INT);
     if (empty(trim($_POST["quiz-questions"])) || trim($_POST["quiz-questions"]) < 4  || trim($_POST["quiz-questions"]) > 10) {
         $quizQuestions_err = "Please select valid number of quiz questions.";
-        // Send err msg to front end
         $output["quiz-questions"]["php_error"] = true;
         $output["quiz-questions"]["msg"] = $quizQuestions_err;
     } else {
@@ -122,6 +113,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     // Close connection
     unset($db);
+    // Send back the output to front-end
+    echo json_encode($output);
+} else {
+    header("Location: index.php");
 }
-// 
-echo json_encode($output);

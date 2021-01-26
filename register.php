@@ -1,26 +1,21 @@
 <?php
-// Start session
-session_start();
-// Load config
-require_once("config/config.php");
+require('core/init.php');
 // Use namespaces
 use WordQuizzer\Database;
-// Load dependencies
-require_once(realpath("vendor/autoload.php"));
-// Initialize db
-$db = new Database();
-// Initialize vars
-$username = $email = $password = $confirm_password = '';
-$username_err = $email_err = $password_err = $confirm_password_err = $db_err = '';
-$output =   [
-    "username" => ["php_error" => false, "msg" => '', "field" => "username"],
-    "email" => ["php_error" => false, "msg" => '', "field" => "email"],
-    "password" => ["php_error" => false, "msg" => '', "field" => "password"],
-    "confirm-password" => ["php_error" => false, "msg" => '', "field" => "confirm-password"],
-    "db" => ["php_error" => false, "msg" => '', "field" => "db"]
-];
 // Process POST data
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Initialize db
+    $db = new Database();
+    // Initialize vars
+    $username = $email = $password = $confirm_password = '';
+    $username_err = $email_err = $password_err = $confirm_password_err = $db_err = '';
+    $output =   [
+        "username" => ["php_error" => false, "msg" => '', "field" => "username"],
+        "email" => ["php_error" => false, "msg" => '', "field" => "email"],
+        "password" => ["php_error" => false, "msg" => '', "field" => "password"],
+        "confirm-password" => ["php_error" => false, "msg" => '', "field" => "confirm-password"],
+        "db" => ["php_error" => false, "msg" => '', "field" => "db"]
+    ];
     // Sanitize and validate username - check if empty and against regex expression
     $username = filter_var($_POST["username"], FILTER_SANITIZE_STRING);
     if (empty(trim($username))) { // username invalid -- username is empty
@@ -155,6 +150,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     // Close connection
     unset($db);
+    // Send back the output to front-end
+    echo json_encode($output);
+} else {
+    header("Location: index.php");
 }
-// Send back the output to front-end
-echo json_encode($output);

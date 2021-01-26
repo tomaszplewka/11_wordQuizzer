@@ -1,8 +1,9 @@
-<?php 
+<?php
 
 namespace WordQuizzer;
 
-class Template {
+class Template
+{
 
     protected $file;
     protected $vars = [];
@@ -35,14 +36,7 @@ class Template {
         include($this->file);
         $buffer = ob_get_contents();
         @ob_end_clean();
-        // $output = file_get_contents($this->file);
-        // foreach ($this->vars as $key => $value) {
-        //     $toReplace = "[@$key]";
-        //     $output = str_replace($toReplace, $value, $output);
-        // }
-
         // return $output;
         return $buffer;
     }
-
 }
