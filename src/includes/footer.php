@@ -8,9 +8,9 @@
 </footer>
 <!-- Scripts -->
 <!-- Switch to bundle when buidling for production -->
-<!-- <script src="src/js/UICtrl.js" type="module"></script> -->
+<script src="src/js/UICtrl.js" type="module"></script>
 <!-- <script src="src/index.js" type="module"></script> -->
-<script src="dist/assets/bundle.js"></script>
+<!-- <script src="dist/assets/bundle.js"></script> -->
 </body>
 
 </html>

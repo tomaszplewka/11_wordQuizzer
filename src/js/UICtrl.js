@@ -369,13 +369,23 @@ const UICtrl = (function() {
         return li;
     };
     const renderQuizzes = function(page, data) {
+        let howMany = 3;
+        if (window.screen.height > 1050) {
+            howMany = 7;
+        } else if (window.screen.height > 900) {
+            howMany = 6;
+        } else if (window.screen.height > 750) {
+            howMany = 5;
+        } else if (window.screen.height > 600) {
+            howMany = 4;
+        }
         let html = '';
-        const quizStart = 0 + (page - 1) * 3;
-        const quizEnd = 3 + (page - 1) * 3;
+        const quizStart = 0 + (page - 1) * howMany;
+        const quizEnd = howMany + (page - 1) * howMany;
         // Get total number of pages
-        const pages = Math.ceil(data.length / 3);
+        const pages = Math.ceil(data.length / howMany);
         if (pages) {
-            // Create 3 quizzes
+            // Create quizzes
             for (let index = quizStart; index < quizEnd; index++) {
                 if (data[index] === undefined) { break; }
                 // Set vars
@@ -421,14 +431,14 @@ const UICtrl = (function() {
                         </div>
                     </div>
                 </div>
-                <div data-id="${quizID}" id ="" class="more-info-wrapper scaleY background-corn-gradient columns is-mobile m-0 has-text-centered p-5 is-multiline is-flex is-flex-direction-column is-justify-content-start" >
+                <div data-id="${quizID}" id ="" class="more-info-wrapper scaleY background-corn-gradient columns is-mobile m-0 has-text-centered p-5 is-flex is-flex-direction-column is-justify-content-start" >
                     <div class="is-flex is-justify-content-start column is-12-mobile is-12 p-0" >
                         <a id="" class="control-btn more-info-back-btn" >
                             <span class="">go back</span>
                         </a>
                     </div>
                     <div class="column is-12-mobile is-12 p-0 my-5" >
-                        <div class="more-info-quiz-info columns is-mobile m-0 is-vcentered is-multiline is-flex is-flex-direction-column is-justify-content-center" >
+                        <div class="more-info-quiz-info columns is-mobile m-0 is-vcentered is-flex is-flex-direction-column is-justify-content-center" >
                             <div class="column is-12-mobile is-12 p-0 my-1" >
                                 <p class="text-smoky-black" > Name: ${quizName}</p>
                             </div>
@@ -758,7 +768,10 @@ const UICtrl = (function() {
             [array[j], array[i]] = [array[i], array[j]];
         }
     };
-
+    const inputFeedback = function(pattern, input, target) {
+        formFeedback(patterns[pattern], UISelectors.registerForm[input], input);
+        checkIfAllValid(target);
+    };
 
     // 
     // 
@@ -920,9 +933,42 @@ const UICtrl = (function() {
         }
         return wordsDefinitions;
     }
-    const getRandomWordDefinitions = async function(missingWords, oldWordDefinitions) {
-        let wordsDefinitions = {};
-        // Loop till word with definition is found
+    // const getRandomWordDefinitions = async function(missingWords, oldWordDefinitions) {
+    //     let wordsDefinitions = {};
+    //     // Loop till word with definition is found
+    //     while (true) {
+    //         // Fetch random word
+    //         const response = await fetch('https://wordsapiv1.p.rapidapi.com/words/?' + new URLSearchParams({
+    //             random: 'true'
+    //         }), apiParams);
+    //         if (!response.ok) { throw new Error(response.statusText) }
+    //         const doc = await response.json();
+    //         // Get word field
+    //         const word = doc.word;
+    //         // Check if fetched word is unique
+    //         if (!Object.keys(oldWordDefinitions).includes(word)) {
+    //             // Fetch definition for this word
+    //             const response = await fetch('https://wordsapiv1.p.rapidapi.com/words/' + word + '/definitions', apiParams);
+    //             if (!response.ok) { throw new Error(response.statusText) }
+    //             const doc = await response.json();
+    //             // If fetched word has definition, add it to wordDefinitions object
+    //             if (doc.definitions.length) {
+    //                 wordsDefinitions[word] = doc.definitions;
+    //             }
+    //             // If wordDefinitions has specified length, break from the loop
+    //             if (Object.keys(wordsDefinitions).length === missingWords) {
+    //                 break;
+    //             }
+    //         }
+    //     }
+    //     return wordsDefinitions;
+    // };
+    const getRandomWordDefinitions = async function(numberOfQuestions, numberOfAnswers) {
+        let words = [];
+        let questions = {};
+        let answers = [];
+        // Loop till appropriate number of words with definitions is found
+        let i = 0;
         while (true) {
             // Fetch random word
             const response = await fetch('https://wordsapiv1.p.rapidapi.com/words/?' + new URLSearchParams({
@@ -932,23 +978,61 @@ const UICtrl = (function() {
             const doc = await response.json();
             // Get word field
             const word = doc.word;
-            // Check if fetched word is unique
-            if (!Object.keys(oldWordDefinitions).includes(word)) {
-                // Fetch definition for this word
-                const response = await fetch('https://wordsapiv1.p.rapidapi.com/words/' + word + '/definitions', apiParams);
-                if (!response.ok) { throw new Error(response.statusText) }
-                const doc = await response.json();
-                // If fetched word has definition, add it to wordDefinitions object
-                if (doc.definitions.length) {
-                    wordsDefinitions[word] = doc.definitions;
-                }
-                // If wordDefinitions has specified length, break from the loop
-                if (Object.keys(wordsDefinitions).length === missingWords) {
-                    break;
+            // Check if word is at least 2-chars long
+            if (word.length > 2) {
+                // Check if fetched word is unique
+                if (!words.includes(word)) {
+                    // Check if word has definitions
+                    const definitions = doc.results;
+                    if (definitions !== undefined && definitions.length) {
+                        // Assign definition
+                        let wordDefinition;
+                        let wordPartOfSpeech;
+                        if (i % numberOfAnswers) {
+                            // There is remainder -- assign remaining answers
+                            if (definitions.length > 1) {
+                                // More than 1 definition -- choose random one
+                                const r = Math.floor(Math.random() * definitions.length);
+                                wordDefinition = definitions[r].definition;
+                            } else {
+                                // Only one definition
+                                wordDefinition = definitions[0].definition;
+                            }
+                            // Add remaining answer
+                            answers.push(wordDefinition);
+                        } else {
+                            // No remained -- assing correct answer
+                            // There are definitions
+                            if (definitions.length > 1) {
+                                // More than 1 definition -- choose random one
+                                const r = Math.floor(Math.random() * definitions.length);
+                                wordDefinition = definitions[r].definition;
+                                wordPartOfSpeech = definitions[r].partOfSpeech;
+                            } else {
+                                // Only one definition
+                                wordDefinition = definitions[0].definition;
+                                wordPartOfSpeech = definitions[0].partOfSpeech;
+                            }
+                            // Add question
+                            questions[word] = {};
+                            // Get random question template
+                            const r = Math.floor(Math.random() * questionsTemplate.length);
+                            // Create question
+                            questions[word].question = questionsTemplate[r].replace("$", `${word} (${wordPartOfSpeech})`);
+                            // Add correct answer
+                            questions[word].correctAnswer = wordDefinition;
+                            // Update words array
+                            words.push(word);
+                        }
+                        i--;
+                    }
                 }
             }
+            // If it has specified length, break from the loop
+            if (words.length === numberOfQuestions && answers.length === numberOfQuestions) { break; }
         }
-        return wordsDefinitions;
+        const results = { questions, answers};
+        return results;
     };
     
 
@@ -1062,6 +1146,8 @@ const UICtrl = (function() {
                             // Reset data screen
                             grab('body').removeAttribute('data-screen');
                         }
+                        // Adjust screen ID
+                        selector.mainSectionWrapper.firstElementChild.id = 'front-page-main-content-wrapper';
                         setTimeout(() => {
                             // Close options screen
                             selector.burger.classList.toggle('hide');
@@ -1230,8 +1316,7 @@ const UICtrl = (function() {
                     setTimeout(() => {
                         removeLoader();
                         setTimeout(() => {
-                            loadLoggedInScreen();
-                            // Set user id
+                            loadLoggedInScreen();// Set user id
                             selector.createQuizForm["user-id"].value = data.user.id;
                             // Render options
                             UISelectors.settingsOption.parentElement.before(createOption('You are currently logged in'));
@@ -1313,7 +1398,8 @@ const UICtrl = (function() {
         createQuestionFeedback,
         questionsTemplate,
         inputValidRemove,
-        stripValidation
+        stripValidation,
+        inputFeedback
     };
 })();
 UICtrl.init();
@@ -1391,28 +1477,40 @@ document.addEventListener('click', e => {
     }
     // HintBtn clicked
     if (e.target.classList.contains('input-hint')) {
+        selector.registerWrapper.scrollTop = 0;
+        // if (!selector.registerWrapper.classList.contains('is-clipped')) {
+        //     selector.registerWrapper.classList.toggle('is-clipped');
+        // };
         selector.hintWrapper.classList.toggle('hidden-options');
     }
     // FeedbackBackBtn clicked
     if ((e.target.tagName === 'SPAN' && `#${e.target.parentElement.id}` === selector.feedbackBackBtn) || (`#${e.target.id}` === selector.feedbackBackBtn)) {
         grab(selector.feedbackBackBtn).parentElement.parentElement.classList.toggle('hidden-options');
-        if(grab(selector.submitFeedbackError).parentElement.parentElement.id.includes('create-quiz')) {
+        if (grab(selector.submitFeedbackError).parentElement.parentElement.id.includes('login')) {
+            selector.loginWrapper.classList.toggle('is-clipped');
+        } else if(grab(selector.submitFeedbackError).parentElement.parentElement.id.includes('create-quiz')) {
             selector.createQuizWrapper.classList.toggle('is-clipped');
             // Create mode is active
             grab('body').setAttribute('data-screen', 'create');
+        } else {
+            selector.registerWrapper.classList.toggle('is-clipped');
         }
     }
     // submitFeedbackError clicked
     if (e.target.classList.contains(selector.submitFeedbackError.substring(1)) || e.target.parentElement.classList.contains(selector.submitFeedbackError.substring(1)) || e.target.parentElement.parentElement.classList.contains(selector.submitFeedbackError.substring(1))) {
         if (grab(selector.submitFeedbackError).parentElement.parentElement.id.includes('login')) {
+            selector.loginWrapper.scrollTop = 0;
+            selector.loginWrapper.classList.toggle('is-clipped');
             selector.loginFeedback.classList.toggle('hidden-options');
         } else if(grab(selector.submitFeedbackError).parentElement.parentElement.id.includes('create-quiz')) {
-            selector.createQuizFeedback.classList.toggle('hidden-options');
             selector.createQuizWrapper.scrollTop = 0;
             selector.createQuizWrapper.classList.toggle('is-clipped');
+            selector.createQuizFeedback.classList.toggle('hidden-options');
             // Feedback mode is active
             grab('body').setAttribute('data-screen', 'feedback');
         } else {
+            selector.registerWrapper.scrollTop = 0;
+            selector.registerWrapper.classList.toggle('is-clipped');
             selector.registerFeedback.classList.toggle('hidden-options');
         }
     }
@@ -1465,6 +1563,11 @@ document.addEventListener('click', e => {
         selector.burger.classList.toggle('hide');
         selector.times.classList.toggle('hide');
         selector.options.classList.toggle('hidden-options');
+        if (selector.options.classList.contains('options-welcome') && grab('body').getAttribute('data-id') !== 'demo-mode') {
+            if (!grab(selector.logOutConfirmation).classList.contains('hidden-options')) {
+                grab(selector.logOutConfirmation).classList.toggle('hidden-options');
+            }
+        }
     }
     // DemoBtn clicked
     if ((e.target.tagName === 'SPAN' && `#${e.target.parentElement.id}` === selector.demoBtn) || (`#${e.target.id}` === selector.demoBtn) || (e.target.tagName === 'SPAN' && `#${e.target.parentElement.id}` === selector.browseBtn) || (`#${e.target.id}` === selector.browseBtn)) {
@@ -1497,6 +1600,7 @@ document.addEventListener('click', e => {
         if (`#${id}` === selector.demoBtn) {
             // Demo mode is active
             grab('body').setAttribute('data-id', 'demo-mode');
+            selector.options.classList.add('options-welcome');
         }
         // Browse mode is active
         grab('body').setAttribute('data-screen', 'browse');
@@ -1508,6 +1612,7 @@ document.addEventListener('click', e => {
             // Hide browse section
             document.querySelector('#front-page-footer').classList.remove('hidden-options');
             grab('body').setAttribute('data-id', '');
+            selector.options.classList.remove('options-welcome');
         }
         selector.browseWrapper.classList.toggle('hidden-options');
         // Show main section
@@ -1537,6 +1642,8 @@ document.addEventListener('click', e => {
         } else {
             quizID = e.target.parentElement.parentElement.parentElement.id;
         }
+        selector.browseWrapper.scrollTop = 0;
+        selector.browseWrapper.classList.toggle('is-clipped');
         // Show appropriate div with more info
         const divMoreInfo = document.querySelector(`div[data-id="${quizID}"]`);
         divMoreInfo.classList.remove('scaleY');
@@ -1553,6 +1660,7 @@ document.addEventListener('click', e => {
         } else {
             quizID = e.target.parentElement.parentElement.getAttribute('data-id');
         }
+        selector.browseWrapper.classList.toggle('is-clipped');
         // Hide appropriate div with more info
         const divMoreInfo = document.querySelector(`div[data-id="${quizID}"]`);
         divMoreInfo.classList.add('scaleY');
@@ -1753,6 +1861,9 @@ document.addEventListener('click', e => {
             grab(selector.nextBtn).remove();
             grab(selector.quizSubmitBtn).style.display = 'flex';
         }
+        if (!grab(selector.quitConfirmationWrapper).classList.contains('hidden-options')) {
+            grab(selector.quitConfirmationWrapper).classList.toggle('hidden-options');
+        }
         // Check if radio button is checked
         const currName = UICtrl.global.questions[UICtrl.global.index - 1].question_ID;
         const target = [...selector.quizForm[currName]].filter(r => r.checked)[0];
@@ -1835,8 +1946,12 @@ document.addEventListener('click', e => {
     }
     // RetryBtn clicked
     if ((e.target.tagName === 'SPAN' && e.target.parentElement.id === selector.quizRetryBtn.slice(1)) || (e.target.id === selector.quizRetryBtn.slice(1) && e.target.tagName === 'A')) {
+        // Hide quit confirmation
+        if (!grab(selector.quitConfirmationWrapper).classList.contains('hidden-options')) {
+            grab(selector.quitConfirmationWrapper).classList.toggle('hidden-options');
+        }
         // Show loader
-        selector.browseWrapper.appendChild(UICtrl.createDiv(selector.overlay.slice(1)));
+        selector.quizViewWrapper.appendChild(UICtrl.createDiv(selector.overlay.slice(1)));
         UICtrl.createLoader(grab(selector.overlay));
         // Reset global vars
         UICtrl.global.index = 0,
@@ -1970,47 +2085,48 @@ document.addEventListener('click', e => {
 
 
 // Keyup & blur events
+window.addEventListener('keydown', e => {
+    if (e.key === "Enter") {
+        if(e.target.type !== 'submit') {
+            e.preventDefault();
+            return false;
+        }
+    }
+});
 // Check Username
 selector.registerForm.username.addEventListener('keyup', () => {
-    UICtrl.formFeedback(UICtrl.patterns.usernamePattern, selector.registerForm.username, 'username');
-    UICtrl.checkIfAllValid('register');
+    UICtrl.inputFeedback('usernamePattern', 'username', 'register');
 });
 selector.registerForm.username.addEventListener('blur', () => {
-    UICtrl.formFeedback(UICtrl.patterns.usernamePattern, selector.registerForm.username, 'username');
-    UICtrl.checkIfAllValid('register');
+    UICtrl.inputFeedback('usernamePattern', 'username', 'register');
 });
 // Check Email
 selector.registerForm.email.addEventListener('keyup', () => {
-    UICtrl.formFeedback(UICtrl.patterns.emailPattern, selector.registerForm.email, 'email');
-    UICtrl.checkIfAllValid('register');
+    UICtrl.inputFeedback('emailPattern', 'email', 'register');
 });
 selector.registerForm.email.addEventListener('blur', () => {
-    UICtrl.formFeedback(UICtrl.patterns.emailPattern, selector.registerForm.email, 'email');
-    UICtrl.checkIfAllValid('register');
+    UICtrl.inputFeedback('emailPattern', 'email', 'register');
 });
 // Check Password
 selector.registerForm.password.addEventListener('keyup', () => {
-    UICtrl.formFeedback(UICtrl.patterns.passwordPattern, selector.registerForm.password, 'password');
-    // 
+    UICtrl.inputFeedback('passwordPattern', 'password', 'register');
     if (selector.registerForm.password.classList.contains('input-valid') && selector.registerForm.password.value !== '' && (selector.registerForm['confirm-password'].value === selector.registerForm.password.value)) {
         UICtrl.inputValid(selector.registerForm['confirm-password']);
 	} else {
 		UICtrl.inputInvalid(selector.registerForm['confirm-password']);
     }
-    UICtrl.checkIfAllValid('register');
 });
 selector.registerForm.password.addEventListener('blur', () => {
-    UICtrl.formFeedback(UICtrl.patterns.passwordPattern, selector.registerForm.password, 'password');
-    // 
+    UICtrl.inputFeedback('passwordPattern', 'password', 'register');
     if (selector.registerForm.password.classList.contains('input-valid') && selector.registerForm.password.value !== '' && (selector.registerForm['confirm-password'].value === selector.registerForm.password.value)) {
         UICtrl.inputValid(selector.registerForm['confirm-password']);
 	} else {
 		UICtrl.inputInvalid(selector.registerForm['confirm-password']);
     }
-    UICtrl.checkIfAllValid('register');
 });
 // Check Confirm Password
 selector.registerForm['confirm-password'].addEventListener('keyup', () => {
+    UICtrl.checkIfAllValid('register');
 	if (selector.registerForm.password.classList.contains('input-valid') && selector.registerForm.password.value !== '' && (selector.registerForm['confirm-password'].value === selector.registerForm.password.value)) {
         UICtrl.inputValid(selector.registerForm['confirm-password']);
         UICtrl.hintFeedback('confirm-password');
@@ -2018,9 +2134,9 @@ selector.registerForm['confirm-password'].addEventListener('keyup', () => {
         UICtrl.inputInvalid(selector.registerForm['confirm-password']);
         UICtrl.hintFeedback('confirm-password', false);
 	}
-    UICtrl.checkIfAllValid('register');
 });
 selector.registerForm['confirm-password'].addEventListener('blur', () => {
+    UICtrl.checkIfAllValid('register');
 	if (selector.registerForm.password.classList.contains('input-valid') && selector.registerForm.password.value !== '' && (selector.registerForm['confirm-password'].value === selector.registerForm.password.value)) {
         UICtrl.inputValid(selector.registerForm['confirm-password']);
         UICtrl.hintFeedback('confirm-password');
@@ -2028,49 +2144,24 @@ selector.registerForm['confirm-password'].addEventListener('blur', () => {
         UICtrl.inputInvalid(selector.registerForm['confirm-password']);
         UICtrl.hintFeedback('confirm-password', false);
 	}
-    UICtrl.checkIfAllValid('register');
 });
 // Check Email
-selector.loginForm.email.addEventListener('keyup', () => {
-    UICtrl.checkIfEmpty();
-});
-selector.loginForm.email.addEventListener('blur', () => {
-    UICtrl.checkIfEmpty();
-});
+selector.loginForm.email.addEventListener('keyup', () => UICtrl.checkIfEmpty() );
+selector.loginForm.email.addEventListener('blur', () => UICtrl.checkIfEmpty() );
 // Check Password
-selector.loginForm.password.addEventListener('keyup', () => {
-    UICtrl.checkIfEmpty();
-});
-selector.loginForm.password.addEventListener('blur', () => {
-    UICtrl.checkIfEmpty();
-});
+selector.loginForm.password.addEventListener('keyup', () => UICtrl.checkIfEmpty() );
+selector.loginForm.password.addEventListener('blur', () => UICtrl.checkIfEmpty() );
 // Check Name
-selector.createQuizForm["quiz-name"].addEventListener('keyup', () => {
-    UICtrl.checkIfEmptyQuiz();
-});
-selector.createQuizForm["quiz-name"].addEventListener('blur', () => {
-    UICtrl.checkIfEmptyQuiz();
-});
+selector.createQuizForm["quiz-name"].addEventListener('keyup', () => UICtrl.checkIfEmptyQuiz() );
+selector.createQuizForm["quiz-name"].addEventListener('blur', () => UICtrl.checkIfEmptyQuiz() );
 // Check Type
-selector.createQuizForm["quiz-type"].addEventListener('change', () => {
-    UICtrl.checkIfEmptyQuiz();
-});
+selector.createQuizForm["quiz-type"].addEventListener('change', () => UICtrl.checkIfEmptyQuiz() );
 // Check Answers
-selector.createQuizForm["quiz-answers"].addEventListener('keyup', () => {
-    UICtrl.checkIfEmptyQuiz();
-});
-// Check Answers
-selector.createQuizForm["quiz-answers"].addEventListener('blur', () => {
-    UICtrl.checkIfEmptyQuiz();
-});
+selector.createQuizForm["quiz-answers"].addEventListener('keyup', () => UICtrl.checkIfEmptyQuiz() );
+selector.createQuizForm["quiz-answers"].addEventListener('blur', () => UICtrl.checkIfEmptyQuiz() );
 // Check Questions
-selector.createQuizForm["quiz-questions"].addEventListener('keyup', () => {
-    UICtrl.checkIfEmptyQuiz();
-});
-// Check Questions
-selector.createQuizForm["quiz-questions"].addEventListener('blur', () => {
-    UICtrl.checkIfEmptyQuiz();
-});
+selector.createQuizForm["quiz-questions"].addEventListener('keyup', () => UICtrl.checkIfEmptyQuiz() );
+selector.createQuizForm["quiz-questions"].addEventListener('blur', () => UICtrl.checkIfEmptyQuiz() );
 
 
 
@@ -2378,6 +2469,8 @@ selector.loginForm.addEventListener('submit', e => {
                         // Hide loader
                         UICtrl.removeLoader();
                         UICtrl.removeElement(grab(selector.overlay));
+                        // Adjust screen ID
+                        selector.mainSectionWrapper.firstElementChild.id = 'logged-in-main-content-wrapper';
                         setTimeout(() => {
                             // Enable options
                             selector.burger.classList.remove('disabled');
@@ -2429,6 +2522,10 @@ selector.loginForm.addEventListener('submit', e => {
 selector.quizForm.addEventListener('submit', e => {
     // Prevent default
     e.preventDefault();
+    // Hide quit confirmation
+    if (!grab(selector.quitConfirmationWrapper).classList.contains('hidden-options')) {
+        grab(selector.quitConfirmationWrapper).classList.toggle('hidden-options');
+    }
     // Check if radio button is checked
     const currName = UICtrl.global.questions[UICtrl.global.index - 1].question_ID;
     const target = [...selector.quizForm[currName]].filter(r => r.checked)[0];
@@ -2576,10 +2673,8 @@ selector.createQuizForm.addEventListener('submit', e => {
         // Show loader
         selector.createQuizWrapper.appendChild(UICtrl.createDiv(selector.overlay.slice(1)));
         UICtrl.createLoader(grab(selector.overlay));
-        // Set local vars
-        let err_count = 0;
-        let wordDefinitions = [];
         // Post data using Fetch API
+        let err_count = 0;
         fetch(form.action, {
             method: form.method,
             body: new FormData(form)
@@ -2605,10 +2700,10 @@ selector.createQuizForm.addEventListener('submit', e => {
                 selector.generateConfirmation.firstElementChild.firstElementChild.classList.add('start-loader');
                 selector.generateConfirmation.lastElementChild.lastElementChild.textContent = 'Fetching words...';
                 // Fetch data from WordAPI
-                return UICtrl.getWordsByRandomPages(quizQuestions, quizAnswers);
+                return UICtrl.getRandomWordDefinitions(parseInt(quizQuestions), parseInt(quizAnswers));
             }
         })
-        .then(docs => {
+        .then(results => {
             // reset form
             selector.createQuizForm.reset();
             selector.createQuizForm["quiz-select"].value = '';
@@ -2648,84 +2743,8 @@ selector.createQuizForm.addEventListener('submit', e => {
             if (!form["quiz-generate"].classList.contains('disabled')) {
                 form["quiz-generate"].classList.add('disabled');
             }
-            // Generate random word indexes
-            let randomIndexes = [];
-            let randomWords = [];
-            while (randomIndexes.length < quizQuestions * quizAnswers) {
-                const r = Math.floor(Math.random() * 100) + 1;
-                if (randomIndexes.indexOf(r) === -1) {
-                    randomIndexes.push(r);
-                }
-            }
-            // Get random words based on randomIndexes
-            docs.forEach((doc, index) => {
-                randomWords.push(doc.results.data[randomIndexes[index]]);
-            });
-            // Update UI text
-            selector.generateConfirmation.lastElementChild.lastElementChild.textContent = 'Fetching definitions...';
-            // Fetch definitions
-            return UICtrl.getWordDefinitions(randomWords);
-        })
-        .then(definitions => {
-            wordDefinitions = definitions;
-            // Check if length of wordDefinitions is greater than or equal to
-            if (Object.keys(wordDefinitions).length === quizQuestions * quizAnswers) {
-                return undefined;
-            } else {
-                const missingWords = quizQuestions * quizAnswers - Object.keys(wordDefinitions).length;
-                return UICtrl.getRandomWordDefinitions(missingWords, wordDefinitions);
-            }
-        })
-        .then(definition => {
-            if (definition !== undefined) {
-                wordDefinitions = { ...wordDefinitions, ...definition };
-            }
-            // Generate questions & answers
-            const questionsTemplate = UICtrl.questionsTemplate;
-            let questions = {};
-            // Iterate over word definitions
-            for (const key in wordDefinitions) {
-                let definition, partOfSpeech = '';
-                // If word has more than one definition, choose a random one
-                if (wordDefinitions[key].length > 1) {
-                    // Get random definition
-                    const r = Math.floor(Math.random() * wordDefinitions[key].length);
-                    definition = wordDefinitions[key][r].definition;
-                    partOfSpeech = wordDefinitions[key][r].partOfSpeech;
-                } else {
-                    definition = wordDefinitions[key][0].definition;
-                    partOfSpeech = wordDefinitions[key][0].partOfSpeech;
-                }
-                // Add answer
-                questions[key] = {};
-                questions[key].correctAnswer = definition;
-                // Get random question template
-                const r = Math.floor(Math.random() * questionsTemplate.length);
-                // Create question
-                questions[key].question = questionsTemplate[r].replace("$", `${key} (${partOfSpeech})`);
-            }
-            // Generate questions to save & remaining answers
-            const questionsKeys = Object.keys(questions);
-            let indexes = [];
-            while (indexes.length < quizQuestions) { // number of questions
-                const r = Math.floor(Math.random() * questionsKeys.length);
-                if (indexes.indexOf(r) === -1) {
-                    indexes.push(r);
-                }
-            }
-            let questionsToSave = {};
-            let answersToSave = [];
-            questionsKeys.forEach((key, index) => {
-                if (indexes.includes(index)) {
-                    questionsToSave[key] = questions[key];
-                } else {
-                    const lolo = questions[key];
-                    answersToSave.push(lolo.correctAnswer);
-                }
-            });
             const data = {
-                questions: questionsToSave,
-                answers: answersToSave,
+                ...results,
                 quizID: quizName,
                 answersTotal: quizAnswers
             };

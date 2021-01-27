@@ -17,13 +17,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $contentType === "application/json")
         "db" => ["php_error" => false, "msg" => '', "fields" => "db"],
         "session" => ["loggedIn" => true, "msg" => '', "fields" => "session"]
     ];
-    // Check if user is logged in
-    if (!isset($_SESSION["user_loggedIn"]) && !($_SESSION["user_loggedIn"] === true)) {
-        $output["session"]["loggedIn"] = false;
-        $output["session"]["msg"] = "This user is not logged in";
-        echo json_encode($output);
-        exit;
-    }
     //Receive the RAW post data.
     $content = trim(file_get_contents("php://input"));
     // Decode json data

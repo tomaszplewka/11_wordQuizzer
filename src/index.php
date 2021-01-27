@@ -14,7 +14,7 @@
     <form action="register.php" method="POST" id="register-form">
         <div class="is-relative is-clipped">
             <div class="input-wrapper is-relative">
-                <input class="register-tabindex" type="text" name="username" placeholder="e.g. user666*" tabindex="-1">
+                <input class="register-tabindex" type="text" name="username" placeholder="Username*" tabindex="-1">
                 <span class="icon-left">
                     <i class="fas fa-user"></i>
                 </span>
@@ -24,7 +24,7 @@
                 </span>
             </div>
             <div class="input-wrapper is-relative">
-                <input class="register-tabindex" type="email" name="email" placeholder="e.g. user666@gmail.com*" tabindex="-1">
+                <input class="register-tabindex" type="email" name="email" placeholder="Email*" tabindex="-1">
                 <span class="icon-left">
                     <i class="fas fa-at"></i>
                 </span>
@@ -54,7 +54,7 @@
                 </span>
             </div>
         </div>
-        <div class="submit-btn-wrapper mt-4">
+        <div class="submit-btn-wrapper my-4">
             <button type="submit" name="register-submit" class="btn btn-invert disabled register-tabindex" tabindex="-1">
                 <span>submit</span>
             </button>
@@ -67,7 +67,7 @@
     <form action="login.php" method="POST" id="login-form">
         <div class="is-relative is-clipped">
             <div class="input-wrapper is-relative">
-                <input class="register-tabindex" type="email" name="email" placeholder="e.g. user666@gmail.com*" tabindex="-1">
+                <input class="register-tabindex" type="email" name="email" placeholder="Email*" tabindex="-1">
                 <span class="icon-left">
                     <i class="fas fa-at"></i>
                 </span>
@@ -87,7 +87,7 @@
                 </span>
             </div>
         </div>
-        <div class="submit-btn-wrapper mt-4">
+        <div class="submit-btn-wrapper my-4">
             <button type="submit" name="login-submit" class="btn btn-invert disabled login-tabindex" tabindex="-1">
                 <span>submit</span>
             </button>
@@ -134,7 +134,7 @@
     <div class="quiz-display-wrapper is-flex is-flex-direction-column is-justify-content-start">
         <div class="quiz is-flex is-flex-direction-column is-justify-content-space-between text-ghost-white my-4">
             <div class="is-flex is-flex-direction-column is-justify-content-start column is-12-mobile is-12 p-0"></div>
-            <div class="is-flex is-justify-content-space-between column is-12-mobile is-12 p-0">
+            <div class="is-flex is-justify-content-space-between column is-12-mobile is-12 p-0 mb-5">
                 <a id="browse-quizzes-previous" class="control-btn">
                     <span class="">Previous</span>
                 </a>
@@ -208,7 +208,7 @@
             </div>
         </div>
         <div class="columns is-mobile m-0 is-vcentered is-multiline">
-            <div class="column is-12-mobile is-12 p-0 mt-4">
+            <div class="column is-12-mobile is-12 p-0 my-4">
                 <button type="submit" name="quiz-generate" id="generate-quiz" class="btn btn-invert m-0 disabled">
                     <span>generate</span>
                 </button>
