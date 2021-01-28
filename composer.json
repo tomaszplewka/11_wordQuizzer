@@ -3,5 +3,11 @@
         "psr-4": {
             "WordQuizzer\\": "libraries/"
         }
+    },
+    "scripts": {
+         "post-install-cmd": [
+            "php artisan clear-compiled",
+            "chmod -R 777 dist/"
+        ]
     }
 }

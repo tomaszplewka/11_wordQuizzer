@@ -965,7 +965,7 @@ const AppCtrl = (function(UICtrl, DataCtrl, ApiCtrl) {
                                 UISelectors.settingsOption.parentElement.before(UICtrl.createLogOutConfirmation());
                                 UISelectors.options.classList.add('options-welcome');
                                 // Load log out event listener
-                                AppCtrl.loadLogOutEvent();
+                                loadLogOutEvent();
                                 // Adjust UI display
                                 UISelectors.mainSectionWrapper.classList.toggle('hidden-options');
                                 UISelectors.mainSectionWrapper.firstElementChild.classList.toggle('shrink');
@@ -1053,7 +1053,7 @@ const AppCtrl = (function(UICtrl, DataCtrl, ApiCtrl) {
                                 UISelectors.settingsOption.parentElement.before(UICtrl.createLogOutConfirmation());
                                 UISelectors.options.classList.add('options-welcome');
                                 // Load log out event listener
-                                AppCtrl.loadLogOutEvent();
+                                loadLogOutEvent();
                                 // Adjust UI display
                                 UISelectors.mainSectionWrapper.classList.toggle('hidden-options');
                                 UISelectors.mainSectionWrapper.firstElementChild.classList.toggle('shrink');
