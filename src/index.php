@@ -1,4 +1,4 @@
-<?php include('src/includes/header.php'); ?>
+<?php include('../src/includes/header.php'); ?>
 <!-- Main screen -->
 <section class="section background-space-cadet-gradient is-flex is-flex-direction-column is-justify-content-center py-2 is-clipped is-relative" id="main-section-wrapper">
     <?php if (isset($_SESSION["user_loggedIn"]) && $_SESSION["user_loggedIn"] === true) : ?>
@@ -10,8 +10,8 @@
 <!-- Sign Up screen -->
 <section class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 is-relative hidden-options" id="register-wrapper">
     <div class="feedback-wrapper background-black-coral-gradient p-5 hidden-options" id="register-feedback-wrapper"></div>
-    <div class="background-black-coral-gradient is-flex is-flex-direction-column is-justify-content-center has-text-centered position-guest-mode p-5 hidden-options" id="hint-wrapper"></div>
-    <form action="register.php" method="POST" id="register-form">
+    <div class="background-black-coral-gradient is-flex is-flex-direction-column is-justify-content-start has-text-centered position-guest-mode p-5 hidden-options" id="hint-wrapper"></div>
+    <form action="./register.php" method="POST" id="register-form">
         <div class="is-relative is-clipped">
             <div class="input-wrapper is-relative">
                 <input class="register-tabindex" type="text" name="username" placeholder="Username*" tabindex="-1">
@@ -64,7 +64,7 @@
 <!-- Login screen -->
 <section class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 is-relative hidden-options" id="login-wrapper">
     <div class="feedback-wrapper background-black-coral-gradient p-5 hidden-options" id="login-feedback-wrapper"></div>
-    <form action="login.php" method="POST" id="login-form">
+    <form action="./login.php" method="POST" id="login-form">
         <div class="is-relative is-clipped">
             <div class="input-wrapper is-relative">
                 <input class="register-tabindex" type="email" name="email" placeholder="Email*" tabindex="-1">
@@ -109,12 +109,12 @@
                     </div>
                 </div>
                 <div class="column is-6-mobile is-6 p-0">
-                    <button type="submit" name="filter-clear" id="" class="btn btn-invert btn-small btn-vertical m-0">
+                    <button type="submit" name="filter-clear" class="btn btn-invert btn-small btn-vertical m-0">
                         <span>clear all</span>
                     </button>
                 </div>
                 <div class="column is-6-mobile is-6 p-0">
-                    <button type="submit" name="filter-apply" id="" class="btn btn-invert btn-small btn-vertical m-0">
+                    <button type="submit" name="filter-apply" class="btn btn-invert btn-small btn-vertical m-0">
                         <span>apply</span>
                     </button>
                 </div>
@@ -149,7 +149,7 @@
 <section class="background-smoky-black is-flex is-flex-direction-column is-justify-content-start p-5 is-relative hidden-options" id="create-quiz-wrapper">
     <div class="generate-confirmation hidden-options background-mountain-meadow-gradient columns is-mobile m-0 p-5 has-text-centered is-vcentered is-multiline" id="generate-confirmation"></div>
     <div class="feedback-wrapper background-black-coral-gradient p-5 hidden-options" id="create-quiz-feedback-wrapper"></div>
-    <form action="generate.php" method="POST" id="create-quiz-form" class="mb-5">
+    <form action="./generate.php" method="POST" id="create-quiz-form" class="mb-5">
         <div class="columns is-mobile m-0 is-vcentered is-multiline">
             <div class="column is-12-mobile is-12 p-0 has-text-centered my-2 input-wrapper is-relative">
                 <input class="input py-1 create-tabindex" type="text" name="quiz-name" placeholder="NAME">
@@ -223,7 +223,7 @@
             <div id="question-text" class="quiz-view-question-wrapper has-text-centered p-2"></div>
         </div>
         <div class="is-flex is-justify-content-space-between is-align-items-center">
-            <form action="quiz.php" method="POST" id="quiz-form">
+            <form action="./quiz.php" method="POST" id="quiz-form">
                 <div class="column is-12-mobile is-12 p-0 has-text-centered m-0 p-0">
                     <input class="py-1" type="hidden" name="quiz-id" value="">
                 </div>
@@ -252,4 +252,4 @@
         </li>
     </ul>
 </section>
-<?php include('src/includes/footer.php'); ?>
+<?php include('../src/includes/footer.php'); ?>

@@ -3,8 +3,5 @@
         "psr-4": {
             "WordQuizzer\\": "libraries/"
         }
-    },
-    "require": {
-        "guzzlehttp/guzzle": "^7.2"
     }
 }

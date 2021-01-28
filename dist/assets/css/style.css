@@ -11,7 +11,7 @@
     --color-corn: rgb(245, 233, 96);
     --font-stack: 'chiller', Arial, Helvetica, sans-serif !important;
     --navbar-height: 72px;
-    --footer-height: 68px;
+    --footer-height: 62px;
     --transition-bezier: all 0.35s cubic-bezier(.175,.885,.32,1.275);
     --transition-ease: all 0.5s ease;
     --logo-height: 125px;
@@ -23,7 +23,7 @@
 /* Fonts */
 @font-face {
   font-family: 'chiller';
-  src: url('../../fonts/CHILLER.TTF')  format('truetype');
+  src: url('../fonts/CHILLER.TTF')  format('truetype');
 }
 /* General styling */
 html {
@@ -213,6 +213,7 @@ p {
     letter-spacing: 2px;
     font-size: 1.5rem;
     color: var(--color-ghost-white);
+    text-align-last: center;
 }
 #quiz-view-wrapper label {
     font-size: 1.1rem;
@@ -842,6 +843,9 @@ input[type="password"] {
     transition: var(--transition-bezier);
     text-align: center;
 }
+input[type="number"] {
+    width: 150px !important;
+}
 input:active,
 input:focus,
 input:hover,
@@ -951,6 +955,9 @@ input[type=number]::-webkit-outer-spin-button {
 .select:not(.is-multiple) {
     height: auto;
 }
+.select select:not([multiple]) {
+    padding: 0 1.5rem !important;
+}
 #create-quiz-wrapper input::placeholder {
     color: var(--color-ghost-white) !important;
     opacity: 1 !important;
@@ -983,7 +990,6 @@ select:active,
     color: var(--color-ghost-white);
     text-align: center !important;
     height: auto !important;
-    line-height: 1.125em;
 }
 input:invalid {
     appearance: none;
@@ -1186,7 +1192,7 @@ img,
 }
 @media screen and (min-width: 576px) and (orientation: portrait) {
     :root {
-        --footer-height: 74px;
+        --footer-height: 80px;
     }
     .btn {
         font-size: 2.25rem;
@@ -1294,10 +1300,20 @@ img,
         width: auto;
     }
 }
+@media screen and (max-height: 720px) and (orientation: landscape) {
+    :root {
+        --logo-width: 125px;
+        --logo-height: 125px;
+        --loader-height: 100px;
+        --loader-width: 100px;
+        --loader-thickness: 12.5px;
+    }
+}
 @media screen and (max-height: 568px) and (orientation: landscape) {
     :root {
         --logo-width: 70px;
         --logo-height: 70px;
+        --navbar-height: 72px;
         --footer-height: 74px;
         --loader-height: 50px;
         --loader-width: 50px;
@@ -1376,19 +1392,15 @@ img,
         margin: 0 !important;
     }
 }
-@media screen and (max-height: 720px) and (orientation: landscape) {
-    :root {
-        --logo-width: 125px;
-        --logo-height: 125px;
-        --footer-height: 74px;
-        --loader-height: 100px;
-        --loader-width: 100px;
-        --loader-thickness: 12.5px;
-    }
-}
 @media screen and (min-width: 992px) {
     :root {
-        --footer-height: 74px;
+        --logo-width: 200px;
+        --logo-height: 200px;
+        --loader-height: 150px;
+        --loader-width: 150px;
+        --loader-thickness: 15px;
+        --navbar-height: 80px;
+        --footer-height: 80px;
     }
     .btn {
         font-size: 2.25rem;
@@ -1494,6 +1506,12 @@ img,
     #hint-wrapper > * {
         margin: 0.5rem 10rem !important;
     }
+    #front-page-main-content-wrapper .logo-dimensions {
+        margin-bottom: 3rem !important;
+    }
+    #register-wrapper, #login-wrapper, #register-feedback-wrapper, #register-confirmation, #login-confirmation, #generate-confirmation, #login-feedback-wrapper, #create-quiz-feedback-wrapper, #browse-wrapper, #quiz-info-wrapper, #create-quiz-wrapper, #front-page-footer, #main-section-wrapper, #hint-wrapper, #quiz-view-wrapper, #options-wrapper, #options-wrapper.options-welcome {
+        overflow: auto;
+    }
 }
 @media screen and (min-width: 1200px) {
     #quiz-content > div,
@@ -1526,6 +1544,15 @@ img,
     #options-wrapper ul,
     .feedback-body {
         margin: 1rem 15rem !important;
+    }
+    .quiz-quit-confirmation-wrapper,
+    .button-wrapper-primary,
+    .button-wrapper-secondary,
+    #quiz-results {
+        margin: 0 15rem !important;
+    }
+    #hint-wrapper > * {
+        margin: 0.5rem 15rem !important;
     }
 }
 @media screen and (min-width: 1500px) {

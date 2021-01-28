@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = {
     entry: './src/index.js',
     output: {
-        path: path.resolve(__dirname, 'dist/assets'),
+        path: path.resolve(__dirname, 'dist/assets/js'),
         filename: 'bundle.js'
     },
     devServer: {
@@ -26,7 +26,7 @@ module.exports = {
             use: ['style-loader', 'css-loader']
         },
         {
-            test: /\.ttf$/,
+            test: /\.TTF$/,
             use: {
                 loader: 'url-loader'
             }
