@@ -1394,10 +1394,10 @@ img,
 }
 @media screen and (min-width: 992px) {
     :root {
-        --logo-width: 200px;
-        --logo-height: 200px;
-        --loader-height: 150px;
-        --loader-width: 150px;
+        --logo-width: 150px;
+        --logo-height: 150px;
+        --loader-height: 125px;
+        --loader-width: 125px;
         --loader-thickness: 15px;
         --navbar-height: 80px;
         --footer-height: 80px;

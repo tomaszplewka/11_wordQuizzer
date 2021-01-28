@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Send error msg to front end
         $output["username"]["php_error"] = true;
         $output["username"]["msg"] = $username_err;
-    } elseif (preg_match("/^(\w+( \w+)*){6,20}$/", $username) === 0) {  // username invalid -- username does not pass regex match
+    } elseif (preg_match("/^(\w+( \w+)*){6,}$/", $username) === 0) {  // username invalid -- username does not pass regex match
         $username_err = "Username field must contain at least 6 characters (letters or numbers only).";
         // Send error msg to front end
         $output["username"]["php_error"] = true;
@@ -102,7 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Send err msg to front end
         $output["password"]["php_error"] = true;
         $output["password"]["msg"] = $password_err;
-    } elseif (preg_match('/^[a-zA-Z]{4,}$/', $_POST["password"]) === 0) {  // password invalid -- password does not pass regex match
+    } elseif (preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{8,}$/', $_POST["password"]) === 0) {  // password invalid -- password does not pass regex match
         $password_err = "Password must be at least 8 characters long and contain at least 1 capital letter and 1 special symbol.";
         // Send error msg to front end
         $output["password"]["php_error"] = true;
@@ -117,7 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Send err msg to front end
         $output["confirm-password"]["php_error"] = true;
         $output["confirm-password"]["msg"] = $confirm_password_err;
-    } elseif (empty($_POST["password"]) && ($_POST["confirm-password"] !== $_POST["password"])) {  // password invalid -- password does not pass regex match
+    } elseif (empty($_POST["password"]) || $output["password"]["php_error"] || ($_POST["confirm-password"] !== $_POST["password"])) {  // password invalid -- password does not pass regex match
         $confirm_password_err = "Passwords must match.";
         // Send error msg to front end
         $output["confirm-password"]["php_error"] = true;

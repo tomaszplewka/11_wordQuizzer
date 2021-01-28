@@ -4,33 +4,25 @@
 const DataCtrl = (function() {
     const removeTabindex = function(selector) {
         const tabindexedElements = document.querySelectorAll(`.${selector}`);
-        Array.from(tabindexedElements).forEach(element => {
-            element.removeAttribute('tabindex');
-        });
+        Array.from(tabindexedElements).forEach(element => element.removeAttribute('tabindex') );
     };
     const addTabindex = function(selector) {
         const tabindexedElements = document.querySelectorAll(`.${selector}`);
-        Array.from(tabindexedElements).forEach(element => {
-            element.setAttribute('tabindex', '-1');
-        });
+        Array.from(tabindexedElements).forEach(element => element.setAttribute('tabindex', '-1') );
     };
     const lockInput = function(target) {
         const inputElements = document.querySelectorAll(`#${target}-form input`);
-        Array.from(inputElements).forEach(input => {
-            input.setAttribute("readonly", true);
-        });
+        Array.from(inputElements).forEach(input => input.setAttribute("readonly", true) );
     };
     const unlockInput = function(target) { 
         const inputElements = document.querySelectorAll(`#${target}-form input`);
-        Array.from(inputElements).forEach(input => {
-            input.removeAttribute("readonly");
-        });
+        Array.from(inputElements).forEach(input => input.removeAttribute("readonly") );
     };
     const patterns = {
         usernamePattern: /^(\w+( \w+)*){6,}$/,
         emailPattern: /^([a-zA-Z]{1}[\w\.]{0,20})@([a-zA-Z]{2,})\.([a-zA-Z]{2,5})(\.[a-zA-Z]{2,5})?$/,
-        // passwordPattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?!.*[\s])(?=.{8,})/,
-        passwordPattern: /^[a-zA-Z]{4,}$/
+        passwordPattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{8,}$/,
+        // passwordPattern: /^[a-zA-Z]{4,}$/
     };
     const resetForm = function(target) {
         const inputElements = document.querySelectorAll(`#${target}-form input`);
@@ -49,17 +41,13 @@ const DataCtrl = (function() {
             }
         });
         // disable submit btn
-        if (!submitBtn.classList.contains('disabled')) {
-            submitBtn.classList.add('disabled');
-        }
+        if (!submitBtn.classList.contains('disabled')) { submitBtn.classList.add('disabled'); }
     };
     const checkIfAllValid = function(target) {
         const inputElements = document.querySelectorAll(`#${target}-form input`);
         const submitBtn = document.querySelector(`#${target}-form button`);
         let valid = 0;
-        Array.from(inputElements).forEach(input => {
-            valid += !!input.classList.contains('input-valid');
-        });
+        Array.from(inputElements).forEach(input =>  valid += !!input.classList.contains('input-valid') );
         if (valid === inputElements.length) {
             submitBtn.classList.remove('disabled');
             return true;
@@ -95,11 +83,8 @@ const DataCtrl = (function() {
     const stripValidation = function(inputs) {
         const form = document.querySelector('#create-quiz-form');
         inputs.forEach(input => {
-            if (form[input].classList.contains('input-invalid')) {
-                inputInvalidRemove(form[input]);
-            } else {
-                inputValidRemove(form[input]);
-            }
+            if (form[input].classList.contains('input-invalid')) { inputInvalidRemove(form[input]); }
+            else { inputValidRemove(form[input]); }
         });
     };
     const hintFeedback = function(input, valid = true) {
@@ -143,14 +128,10 @@ const DataCtrl = (function() {
                 if (checkField(data[input])) {
                     err_count ++;
                     inputInvalid(targetForm[data[input].field]);
-                    if (target === 'register') {
-                        hintFeedback(data[input].field, false);
-                    }
+                    if (target === 'register') { hintFeedback(data[input].field, false); }
                 } else {
                     inputValid(targetForm[data[input].field]);
-                    if (target === 'register') {
-                        hintFeedback(data[input].field);
-                    }
+                    if (target === 'register') { hintFeedback(data[input].field); }
                 }
             }
         });

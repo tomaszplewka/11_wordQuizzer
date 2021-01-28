@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 28, 2021 at 01:46 AM
+-- Generation Time: Jan 28, 2021 at 09:04 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.2.34
 
@@ -161,7 +161,7 @@ CREATE TABLE `quiz` (
   `quiz_questions` int(11) UNSIGNED DEFAULT NULL,
   `quiz_theme` varchar(255) NOT NULL DEFAULT 'default',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `score` int(3) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -171,7 +171,7 @@ CREATE TABLE `quiz` (
 --
 
 INSERT INTO `quiz` (`quiz_id`, `quiz_name`, `quiz_type`, `quiz_answers`, `quiz_questions`, `quiz_theme`, `created_at`, `updated_at`, `score`, `user_id`) VALUES
-(36, 'test1', 'definitions', 2, 4, 'default', '2021-01-10 21:42:05', '2021-01-28 00:13:16', 75, NULL),
+(36, 'test1', 'definitions', 2, 4, 'default', '2021-01-10 21:42:05', '2021-01-28 19:52:33', 25, NULL),
 (37, 'test2', 'definitions', 2, 4, 'default', '2021-01-11 02:09:54', '2021-01-25 21:36:30', 0, NULL),
 (45, 'quiz1', 'definitions', 4, 10, 'defaultf', '2021-01-13 19:37:49', '2021-01-27 16:55:24', 20, NULL),
 (46, 'quiz2', 'definitions', 2, 4, 'default', '2021-01-14 17:47:05', '2021-01-23 20:11:32', 25, NULL);
@@ -189,13 +189,6 @@ CREATE TABLE `users` (
   `user_password` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`user_id`, `user_email`, `user_name`, `user_password`, `created_at`) VALUES
-(18, 'tomoko@wp.pl', 'tomoko', '$2y$10$NwKpX8fP2zS7puSfFDQX0eOj68g6qPMtOpwZXIEEJr.x3XLLcSx22', '2021-01-04 17:34:09');
 
 --
 -- Indexes for dumped tables

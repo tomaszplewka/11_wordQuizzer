@@ -5,10 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-    <!-- Delete this two lines when building for production -->
     <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-    <!--  -->
     <link rel="stylesheet" href="src/css/style.css">
     <title><?php echo isset($title) ? $title : WEBSITE_TITLE; ?></title>
 </head>

@@ -3,12 +3,12 @@ const path = require('path');
 module.exports = {
     entry: './src/index.js',
     output: {
-        path: path.resolve(__dirname, 'dist/assets/js'),
+        path: path.resolve(__dirname, 'src/bundle/'),
         filename: 'bundle.js'
     },
     devServer: {
-        contentBase: path.resolve(__dirname, 'dist'),
-        publicPath: '/assets/'
+        contentBase: path.resolve(__dirname, 'src'),
+        publicPath: '/bundle/'
     },
     module: {
         rules: [{

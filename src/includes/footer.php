@@ -6,11 +6,8 @@
         </p>
     </div>
 </footer>
-<!-- Scripts -->
-<!-- Switch to bundle when buidling for production -->
-<!-- <script src="src/js/UICtrl_old.js" type="module"></script> -->
-<!-- <script src="src/index.js" type="module"></script> -->
-<script src="dist/assets/js/bundle.js"></script>
+<!-- Script -->
+<script src="src/bundle/bundle.js"></script>
 </body>
 
 </html>
