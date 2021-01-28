@@ -1,5 +1,5 @@
 <?php
-require('../core/init.php');
+require('core/init.php');
 // Set vars
 $output = ["loggedOut" => false];
 // Check if a user was logged in

@@ -1,4 +1,4 @@
-<?php include('../src/includes/header.php'); ?>
+<?php include('src/includes/header.php'); ?>
 <!-- Main screen -->
 <section class="section background-space-cadet-gradient is-flex is-flex-direction-column is-justify-content-center py-2 is-clipped is-relative" id="main-section-wrapper">
     <?php if (isset($_SESSION["user_loggedIn"]) && $_SESSION["user_loggedIn"] === true) : ?>
@@ -252,4 +252,4 @@
         </li>
     </ul>
 </section>
-<?php include('../src/includes/footer.php'); ?>
+<?php include('src/includes/footer.php'); ?>

@@ -9,7 +9,7 @@
     <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <!--  -->
-    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="src/css/style.css">
     <title><?php echo isset($title) ? $title : WEBSITE_TITLE; ?></title>
 </head>
 
@@ -19,7 +19,7 @@
             <div class="columns is-mobile m-0 has-text-centered is-vcentered is-multiline">
                 <div class="column is-10-mobile is-10" id="navbar-logo">
                     <span class="logo is-flex is-justify-content-flex-start is-align-items-center">
-                        <img src="./assets/imgs/logo-main.png" alt="" class="logo-img mr-1">
+                        <img src="src/imgs/logo-main.png" alt="" class="logo-img mr-1">
                         <span class="logo-text text-smoky-black">WordRiddler</span>
                     </span>
                 </div>

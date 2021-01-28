@@ -341,7 +341,7 @@ const AppCtrl = (function(UICtrl, DataCtrl, ApiCtrl) {
                 // Disable options
                 UISelectors.burger.classList.add('disabled');
                 // Fetch quiz
-                fetch("./fetchQsAs.php", {
+                fetch("fetchQsAs.php", {
                     method: "POST",
                     mode: 'cors',
                     headers: {
@@ -1026,7 +1026,7 @@ const AppCtrl = (function(UICtrl, DataCtrl, ApiCtrl) {
                             // Set user id
                             UISelectors.createQuizForm["user-id"].value = docs.session["user_id"];
                             // Fetch user's quizzes
-                            return ApiCtrl.fetchQuizzes('./fetchQuizzes.php');
+                            return ApiCtrl.fetchQuizzes('fetchQuizzes.php');
                         }
                     }
                 })
@@ -1159,7 +1159,7 @@ const AppCtrl = (function(UICtrl, DataCtrl, ApiCtrl) {
                     body: JSON.stringify(data)
                 })
                 .then(response => response.json() )
-                .then(() => ApiCtrl.fetchQuizzes('./fetchQuizzes.php') )
+                .then(() => ApiCtrl.fetchQuizzes('fetchQuizzes.php') )
                 .then(response => response.json() )
                 .then(data => {
                     global.quizzes = data.data.fields;
@@ -1342,7 +1342,7 @@ const AppCtrl = (function(UICtrl, DataCtrl, ApiCtrl) {
                     // Update UI text
                     UISelectors.generateConfirmation.lastElementChild.lastElementChild.textContent = 'Saving...';
                     // Save questions & answers
-                    return ApiCtrl.postData(data, './store.php');
+                    return ApiCtrl.postData(data, 'store.php');
                 })
                 .then(response => response.json() )
                 .then(docs => {
@@ -1552,7 +1552,7 @@ const AppCtrl = (function(UICtrl, DataCtrl, ApiCtrl) {
                 if (docs.loggedOut) {
                     // User successfully logged out
                     // Fetch demo quizzes
-                    return ApiCtrl.fetchQuizzes('./fetchQuizzes.php');
+                    return ApiCtrl.fetchQuizzes('fetchQuizzes.php');
                 } else {
                     // User was not logged in
                     // Hide loader
@@ -1772,7 +1772,7 @@ const AppCtrl = (function(UICtrl, DataCtrl, ApiCtrl) {
             // Guest mode
             if (`#${UISelectors.mainSectionWrapper.firstElementChild.id}` === UISelectors.startPage) {
                 // Fetch demo quizzes
-                ApiCtrl.fetchQuizzes('./fetchQuizzes.php')
+                ApiCtrl.fetchQuizzes('fetchQuizzes.php')
                 .then(response => response.json() )
                 .then(data => {
                     global.quizzes = data.data.fields;
@@ -1797,7 +1797,7 @@ const AppCtrl = (function(UICtrl, DataCtrl, ApiCtrl) {
                 });
             } else {
                 // Fetch user's quizzes
-                ApiCtrl.fetchQuizzes('./fetchQuizzes.php')
+                ApiCtrl.fetchQuizzes('fetchQuizzes.php')
                 .then(response => response.json() )
                 .then(data => {
                     global.quizzes = data.data.fields;

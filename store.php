@@ -1,5 +1,5 @@
 <?php
-require('../core/init.php');
+require('core/init.php');
 // Use namespaces
 use WordQuizzer\Database;
 // Decode json data

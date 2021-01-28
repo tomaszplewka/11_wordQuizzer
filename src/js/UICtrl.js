@@ -225,7 +225,7 @@ const UICtrl = (function() {
     };
     const createHintIcon = function() {
         let span = document.createElement('span');
-        span.innerHTML = `<img src="./assets/imgs/hint.png" alt="input hints" class="input-hint">`;
+        span.innerHTML = `<img src="src/imgs/hint.png" alt="input hints" class="input-hint">`;
         UISelectors.registerForm.appendChild(span);
     };
     const removeElement = function(target) {
@@ -260,13 +260,13 @@ const UICtrl = (function() {
         return `
         <div class="perspective-box-far logo-dimensions" id="front-page-logo">
             <div class="face logo-dimensions front">
-                <img src="./assets/imgs/logo-main.png" alt="">
+                <img src="src/imgs/logo-main.png" alt="">
             </div>
             <div class="face logo-dimensions top">
-                <img src="./assets/imgs/logo-main.png" alt="">
+                <img src="src/imgs/logo-main.png" alt="">
             </div>
             <div class="face logo-dimensions left">
-                <img src="./assets/imgs/logo-main.png" alt="">
+                <img src="src/imgs/logo-main.png" alt="">
             </div>
         </div>
         `;
@@ -349,7 +349,7 @@ const UICtrl = (function() {
         li.innerHTML = `
         <p class="logout-confirmation-text">are you sure?</p>
         <div class="logout-confirmation-btn-wrapper is-flex is-justify-content-center mb-2">
-            <form action="./logout.php" method="POST" id="logout-form">
+            <form action="logout.php" method="POST" id="logout-form">
                 <button type="submit" name="yes" class="btn btn-invert mx-3">
                     <span>yes</span>
                 </button>
@@ -526,13 +526,13 @@ const UICtrl = (function() {
         return `
         <div class="box-floating logo-dimensions" id="welcome-logo-browse">
             <div class="db-disc-top">
-                <img src="./assets/imgs/logo-browse.png" alt="browse logo">
+                <img src="src/imgs/logo-browse.png" alt="browse logo">
             </div>
             <div class="db-disc-middle">
-                <img src="./assets/imgs/logo-browse.png" alt="browse logo">
+                <img src="src/imgs/logo-browse.png" alt="browse logo">
             </div>
             <div class="db-disc-bottom">
-                <img src="./assets/imgs/logo-browse.png" alt="browse logo">
+                <img src="src/imgs/logo-browse.png" alt="browse logo">
             </div>
         </div>
         `;
@@ -541,7 +541,7 @@ const UICtrl = (function() {
         return `
         <div class="box-floating logo-dimensions" id="">
             <div class="create-quiz-logo">
-                <img src="./assets/imgs/logo-create-quiz.png" alt="">
+                <img src="src/imgs/logo-create-quiz.png" alt="">
             </div>
         </div>
         `;
@@ -550,7 +550,7 @@ const UICtrl = (function() {
         UISelectors.generateConfirmation.innerHTML = `
         <div class="column is-12-mobile is-12 p-0 m-0">
             <div class="" id="generate-quiz-loader">
-                <img src="./assets/imgs/logo-main.png" alt="">
+                <img src="src/imgs/logo-main.png" alt="">
             </div>
         </div>
         <div class="column is-12-mobile is-12 p-0 m-0">

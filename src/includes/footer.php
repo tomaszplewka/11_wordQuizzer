@@ -10,7 +10,7 @@
 <!-- Switch to bundle when buidling for production -->
 <!-- <script src="src/js/UICtrl_old.js" type="module"></script> -->
 <!-- <script src="src/index.js" type="module"></script> -->
-<script src="./assets/js/bundle.js"></script>
+<script src="dist/assets/js/bundle.js"></script>
 </body>
 
 </html>
